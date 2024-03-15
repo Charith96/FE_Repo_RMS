@@ -1,0 +1,87 @@
+$header-background-color: #0C4A6F;
+$strip-background-color:#072f49;
+$body-theme-color:#B5A28C;
+$form-background-color:#E1D9D1;
+$text-field-color:#D9D9D9;
+$table-body-color: #ffffff;
+$general-black-color:#000;
+$error-color: #FF0000;
+
+// new
+// Header.scss
+$header-height: 50px;
+$header-background: #f8f9fa;
+$logo-font-size: 18px;
+$logo-font-weight: bold;
+$logo-font-style: italic;
+$button-background: #007bff;
+$button-color: #fff;
+$searchBar-color: #333;
+$font-family-sans-serif: system-ui, sans-serif !default;
+$logo-font-weight: 600;
+$breadcrumb-text: #0057e7;
+
+// images
+
+
+// tab themes
+$active_tab_color: #FFFFFF;
+$tab_background_color: #CADCF7;
+$tab_d-sable_background_color: #d9e6fa;
+$tab_border_color: #00000046;
+$tab_content_background_color: #222;
+$tabs_background_color: #80808013;
+$default_white: #FFFFFF;
+$default_black: #000000;
+$light-gray: #cccccc;
+$dim-gray: #f2f2f2;
+
+//table themes
+$table_font: #5F6368;
+$brand_primary: #338CE5;
+$btn_primary_hover: #338ce5db;
+$model_label: #DA2121;
+$btn-check-status-color: #5893f1;
+$btn-uncheck-status-color: #9e12122b;
+$btn-icon-color: #0066CC;
+$table-header-color: #8b8b8b;
+$transparent-color: #ffffff00;
+$hover-color: #ebebeb;
+
+// form themes
+$border-color: #d7d7d7;
+$gray-color: #808080;
+$input-border-color: #dee2e6;
+$mandatory-field-color: #FFE4E1;
+$light-green-color: #129e3a2b;
+$light-yellow-color: #9e84122b;
+$light-red-color: #9e12122b;
+$text-success-color: #198754;
+$text-danger-color: #dc3545;
+$text-warning-color: #f0ad4e;
+$text-field-icon-color: #e5e7eb;
+
+// button themes
+$btn-hot-blue-color: #5893f1;
+$btn-hot-blue-hover-color: #006de3;
+
+$info-color: #1E92F4;
+$light-bg-color: #f8f9fa;
+$bg-primary-color: #0d6efd;
+
+// theme colors - new desgin
+$dark-theme-color: #1e2434;
+$medium-dark-theme-color: #082f49;
+$shaded-theme-color: #19354e;
+$medium-light-color: #1d496d;
+$light-them-color: #215884;
+$hover-color: #24557c;
+
+// model
+$model-header-color: #bae1ff;
+
+//box-shadow
+$light-shadow-color: rgba(100, 100, 120, 0.05) 0px 7px 29px 0px;
+$medium-light-shadow-color: rgba(100, 100, 120, 0.35) 0px 7px 29px 0px;
+$medium-shadow-color: rgba(100, 100, 120, 0.2) 0px 7px 29px 0px;
+$footer-shadow-color: rgba(100, 100, 120, 0.05) 0px -7px 29px 0px;

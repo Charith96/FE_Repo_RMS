@@ -1,0 +1,11 @@
+@import "../assets/scss/theme.scss";
+
+.title {
+  border: 1px solid $body-theme-color;
+  background-color: $body-theme-color;
+  margin-top: 2%;
+  margin-left: 5%;
+  padding: 10px;
+  margin-right: 3%;
+  border-radius: 8px;
+}
