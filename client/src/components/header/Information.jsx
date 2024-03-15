@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     CDropdown,
-    CDropdownHeader,
     CDropdownMenu,
     CDropdownToggle,
 } from '@coreui/react'

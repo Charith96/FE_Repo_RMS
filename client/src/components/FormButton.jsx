@@ -5,8 +5,7 @@ const FormButton = ({ className, type, onClick, text, disabled }) => {
   return (    
     <Button className={className} type={type} onClick={onClick} disabled={disabled}>
       {text}
-    </Button>   
-    
+    </Button>       
   );
 };
 
