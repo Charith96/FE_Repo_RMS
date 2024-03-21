@@ -8,7 +8,14 @@ import { Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 
-const CreateReservationItem = () => {
+const CreateReservationItem = ({
+  inputValues,
+  setInputValues,
+  isCustomized,
+  setIsCustomized,
+  duration,
+  setDuration,
+}) => {
   const dispatch = useDispatch();
   const fetchReservationGroupDataForTheForm = useSelector(
     (state) => state.getReservationGroup.fetchReservationGroup
@@ -21,15 +28,15 @@ const CreateReservationItem = () => {
   const [timeSlotType, setTimeSlotType] = useState("");
   const [noOfSlots, setNoOfSlots] = useState("");
   const [slotDurationType, setSlotDurationType] = useState("");
-  const [durationPerSlot, setDurationPerSlot] = useState("");
+  //const [durationPerSlot, setDurationPerSlot] = useState("");
   const [noOfReservations, setNoOfReservations] = useState("");
   const [capacity, setCapacity] = useState("");
   const [reservationGroup, setReservationGroup] = useState("");
   const [isFlexible, setIsFlexible] = useState(true);
   const [isNoOfSlots, setIsNoOfSlots] = useState(true);
-  const [isCustomized, setIsCustomized] = useState(false);
+  //const [isCustomized, setIsCustomized] = useState(false);
   const [isDurationPerSlot, setIsDurationPerSlot] = useState(true);
-  const [inputValues, setInputValues] = useState([]);
+  //const [inputValues, setInputValues] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,13 +62,14 @@ const CreateReservationItem = () => {
     }
   }, [dispatch, itemIdForTheTimeSlots]);
 
+  //after submission reset the form
   const setToInitialState = () => {
     setItemName("");
     setItemId("");
     setTimeSlotType("");
     setNoOfSlots("");
     setSlotDurationType("");
-    setDurationPerSlot("");
+    setDuration("");
     setNoOfReservations("");
     setCapacity("");
     setReservationGroup("");
@@ -93,12 +101,24 @@ const CreateReservationItem = () => {
       timeSlotType: timeSlotType,
       noOfSlots: parseInt(noOfSlots, 10),
       slotDurationType: slotDurationType,
-      durationPerSlot: parseInt(durationPerSlot, 10),
-      noOfReservations: parseInt(noOfReservations, 10),
-      capacity: parseInt(capacity, 10),
+      duration: parseInt(duration, 10),
+      noOfReservations: noOfReservations,
+      capacity: capacity,
       reservationGroup: reservationGroup,
     };
 
+    const isValidInput = inputValues.every((value) => {
+      //Check if startTime and endTime exist and are not null or empty
+      return (
+        value &&
+        value.startTime !== null &&
+        value.startTime.trim() !== "" &&
+        value.endTime !== null &&
+        value.endTime.trim() !== ""
+      );
+    });
+
+    //Check if all required fields are filled in
     try {
       if (
         itemId &&
@@ -112,11 +132,11 @@ const CreateReservationItem = () => {
           dispatch(createReservationItem(data));
           toast.success("Reservation Item created successfully");
           setToInitialState();
-        } else if (isCustomized && noOfSlots) {
+        } else if (isCustomized && noOfSlots && isValidInput) {
           dispatch(createReservationItem(data));
           toast.success("Reservation Item created successfully");
           setToInitialState();
-        } else if (durationPerSlot) {
+        } else if (duration && isValidInput) {
           dispatch(createReservationItem(data));
           toast.success("Reservation Item created successfully");
           setToInitialState();
@@ -144,7 +164,9 @@ const CreateReservationItem = () => {
               <Col md={9}>
                 <Form.Select
                   custom
-                  className={`w-100 ${!reservationGroup ? "mandatory-field" : "bg-white"}`}
+                  className={`w-100 ${
+                    !reservationGroup ? "mandatory-field" : "bg-white"
+                  }`}
                   value={reservationGroup}
                   onChange={handleSelectChange}
                 >
@@ -164,7 +186,10 @@ const CreateReservationItem = () => {
               <Col md={9}>
                 <Form.Control
                   type="text"
-                  className={`w-100 ${!itemId ? "mandatory-field" : "bg-white"}`}
+                  className={`w-100 ${
+                    !itemId ? "mandatory-field" : "bg-white"
+                  }`}
+                  maxLength={8}
                   value={itemId}
                   onChange={(e) => {
                     setItemId(e.target.value);
@@ -179,7 +204,9 @@ const CreateReservationItem = () => {
               <Col md={9}>
                 <Form.Control
                   type="text"
-                  className={`w-100 ${!itemName ? "mandatory-field" : "bg-white"}`}
+                  className={`w-100 ${
+                    !itemName ? "mandatory-field" : "bg-white"
+                  }`}
                   value={itemName}
                   onChange={(e) => {
                     setItemName(e.target.value);
@@ -216,7 +243,7 @@ const CreateReservationItem = () => {
                       setTimeSlotType(e.target.value);
                       setIsFlexible(true);
                       setNoOfSlots("");
-                      setDurationPerSlot("");
+                      setDuration("");
                     }}
                   />
                 </div>
@@ -240,9 +267,7 @@ const CreateReservationItem = () => {
                     onChange={(e) => {
                       setSlotDurationType(e.target.value);
                       setIsCustomized(true);
-                      setDurationPerSlot(
-                        e.target.checked ? "" : durationPerSlot
-                      );
+                      setDuration(e.target.checked ? "" : duration);
                     }}
                   />
                   <Form.Check
@@ -286,10 +311,10 @@ const CreateReservationItem = () => {
               <Col md={9}>
                 <Form.Control
                   type="text"
-                  className="w-100"
-                  value={durationPerSlot}
+                  value={duration}
+                  placeholder="HH:MM"
                   onChange={(e) => {
-                    setDurationPerSlot(e.target.value);
+                    setDuration(e.target.value);
                     setIsDurationPerSlot(e.target.value === "");
                   }}
                   disabled={isFlexible || isCustomized}
@@ -305,7 +330,24 @@ const CreateReservationItem = () => {
                   type="text"
                   className="w-100"
                   value={noOfReservations}
-                  onChange={(e) => setNoOfReservations(e.target.value)}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Regex pattern to match positive numbers including zero and asterisk
+                    const regex = /^[0-9*]*$/;
+
+                    // Check if the input matches the pattern
+                    if (regex.test(inputValue)) {
+                      if (inputValue === "*" || inputValue === "") {
+                        setNoOfReservations(inputValue);
+                      } else if (!isNaN(inputValue)) {
+                        setNoOfReservations(parseInt(inputValue, 10));
+                      } else {
+                        setNoOfReservations("");
+                      }
+                    } else {
+                      setNoOfReservations("");
+                    }
+                  }}
                 />
               </Col>
             </Form.Group>
@@ -318,7 +360,20 @@ const CreateReservationItem = () => {
                   type="text"
                   className="w-100"
                   onChange={(e) => {
-                    setCapacity(e.target.value);
+                    const inputValue = e.target.value;
+                    // Regex pattern to match positive numbers including zero
+                    const regex = /^(-|[0-9]+)$/;
+
+                    // Check if the input matches the pattern
+                    if (regex.test(inputValue)) {
+                      if (inputValue === "-" || inputValue === "") {
+                        setCapacity(inputValue);
+                      } else {
+                        setCapacity(parseInt(inputValue, 10));
+                      }
+                    } else {
+                      setCapacity("");
+                    }
                   }}
                   value={capacity}
                 />

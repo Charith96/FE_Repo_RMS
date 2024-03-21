@@ -64,6 +64,12 @@ const ActionTypes = {
   // get
 
   // delete
+
+  // ------- item slots ------- //
+  CREATE_TIME_SLOT_START:"CREATE_TIME_SLOT_START",
+  CREATE_TIME_SLOT_SUCCESS:"CREATE_TIME_SLOT_SUCCESS",
+  CREATE_TIME_SLOT_FAIL:"CREATE_TIME_SLOT_FAIL",
+
 };
 
 export default ActionTypes;

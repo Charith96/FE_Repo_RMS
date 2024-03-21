@@ -47,18 +47,18 @@ export const createTimeSlotReducer = (
   action
 ) => {
   switch (action.type) {
-    case ActionTypes.CREATE_RESERVATION_ITEM_START:
+    case ActionTypes.CREATE_TIME_SLOT_START:
       return {
         ...state,
         loading: !initialState.loading,
       };
-    case ActionTypes.CREATE_RESERVATION_ITEM_SUCCESS:
+    case ActionTypes.CREATE_TIME_SLOT_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
         createReservationItem: action.payload,
       };
-    case ActionTypes.CREATE_RESERVATION_ITEM_FAIL:
+    case ActionTypes.CREATE_TIME_SLOT_FAIL:
       return {
         ...state,
         loading: initialState.loading,

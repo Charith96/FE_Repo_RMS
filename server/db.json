@@ -29,6 +29,11 @@
       "id": "d082",
       "groupId": "1012",
       "groupName": "New"
+    },
+    {
+      "id": "14af",
+      "groupId": "1001",
+      "groupName": "hi"
     }
   ],
   "itemcreation": [
@@ -451,6 +456,66 @@
       "noOfReservations": 12,
       "capacity": 12,
       "reservationGroup": "3e7e"
+    },
+    {
+      "id": "f838",
+      "itemId": "1002",
+      "itemName": "jhfcsexhfi",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "0ca8"
+    },
+    {
+      "id": "9e73",
+      "itemId": "1234",
+      "itemName": "efvefv",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": 1,
+      "noOfReservations": "21",
+      "capacity": "12",
+      "reservationGroup": "0ca8"
+    },
+    {
+      "id": "bcec",
+      "itemId": "1234",
+      "itemName": "fcdsec",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": 1,
+      "noOfReservations": "12",
+      "capacity": "12",
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "6489",
+      "itemId": "1234",
+      "itemName": "fcefvx",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": 1,
+      "noOfReservations": "12",
+      "capacity": "12",
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "c280",
+      "itemId": "1234",
+      "itemName": "rfefrfxw",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": 1,
+      "noOfReservations": 122,
+      "capacity": 122,
+      "reservationGroup": "c940"
     }
   ],
   "timeslotsitem": [
@@ -477,6 +542,78 @@
       "startTime": "19:01",
       "endTime": "21:01",
       "itemId": "aeda"
+    },
+    {
+      "id": "001c",
+      "startTime": "11:59",
+      "endTime": "12:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "27e0",
+      "startTime": "01:59",
+      "endTime": "02:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "2114",
+      "startTime": "11:59",
+      "endTime": "12:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "dcbf",
+      "startTime": "01:59",
+      "endTime": "02:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "055d",
+      "startTime": "11:59",
+      "endTime": "12:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "6bc3",
+      "startTime": "01:59",
+      "endTime": "02:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "ceb0",
+      "startTime": "11:59",
+      "endTime": "12:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "e956",
+      "startTime": "01:59",
+      "endTime": "02:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "7e9d",
+      "startTime": "11:59",
+      "endTime": "12:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "5369",
+      "startTime": "01:59",
+      "endTime": "02:59",
+      "itemId": "6489"
+    },
+    {
+      "id": "91bb",
+      "startTime": "00:17",
+      "endTime": "01:17",
+      "itemId": "c280"
+    },
+    {
+      "id": "0d87",
+      "startTime": "03:17",
+      "endTime": "04:17",
+      "itemId": "c280"
     }
   ],
   "todos": [
