@@ -1,6 +1,6 @@
 const ActionTypes = {
   // ------- todos ------- //
-  // manage
+  // manage // test 
   MANAGE_TODO_START: "MANAGE_TODO_START",
   CREATE_TODO_SUCCESS: "CREATE_TODO_SUCCESS",
   UPDATE_TODO_SUCCESS: "UPDATE_TODO_SUCCESS",
