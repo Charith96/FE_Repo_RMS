@@ -1,0 +1,610 @@
+{
+  "groupcreation": [
+    {
+      "id": "3e7e",
+      "groupId": "1006",
+      "groupName": "tables"
+    },
+    {
+      "id": "4372",
+      "groupId": "1007",
+      "groupName": "cricket ground"
+    },
+    {
+      "id": "1ceb",
+      "groupId": "1011",
+      "groupName": "sports"
+    },
+    {
+      "id": "d082",
+      "groupId": "1012",
+      "groupName": "New"
+    }
+  ],
+  "itemcreation": [
+    {
+      "id": "6641",
+      "itemId": "1001",
+      "itemName": "gym",
+      "timeSlotType": "Defined",
+      "noOfSlots": "5",
+      "slotDurationType": "Customized",
+      "durationPerSlot": "1",
+      "noOfReservations": "2",
+      "capacity": "50",
+      "reservationGroup": "1ceb"
+    },
+    {
+      "id": "3f85",
+      "itemId": "1002",
+      "itemName": "table1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 5,
+      "slotDurationType": "Customized",
+      "durationPerSlot": 1,
+      "noOfReservations": 10,
+      "capacity": 50,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "6f68",
+      "itemId": "1003",
+      "itemName": "cricket",
+      "timeSlotType": "Flexible",
+      "noOfSlots": 50,
+      "slotDurationType": "Customized",
+      "durationPerSlot": 12,
+      "noOfReservations": 50,
+      "capacity": 12,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "c182",
+      "itemId": "1004",
+      "itemName": "xyz",
+      "timeSlotType": "Flexible",
+      "noOfSlots": null,
+      "slotDurationType": "",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "82a3",
+      "itemId": "1010",
+      "itemName": "car",
+      "timeSlotType": "Defined",
+      "noOfSlots": 10,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 10,
+      "capacity": 10,
+      "reservationGroup": "0ca8"
+    },
+    {
+      "id": "62ed",
+      "itemId": "1010",
+      "itemName": "car",
+      "timeSlotType": "Defined",
+      "noOfSlots": 10,
+      "slotDurationType": "Fixed",
+      "durationPerSlot": 20,
+      "noOfReservations": 10,
+      "capacity": 10,
+      "reservationGroup": "0ca8"
+    },
+    {
+      "id": "558a",
+      "itemId": "1010",
+      "itemName": "dcfsd",
+      "timeSlotType": "Flexible",
+      "noOfSlots": 10,
+      "slotDurationType": "Fixed",
+      "durationPerSlot": 20,
+      "noOfReservations": 10,
+      "capacity": 10,
+      "reservationGroup": "0ca8"
+    },
+    {
+      "id": "bdb8",
+      "itemId": "1234",
+      "itemName": "van",
+      "timeSlotType": "Defined",
+      "noOfSlots": 4,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 5,
+      "capacity": 6,
+      "reservationGroup": "0ca8"
+    },
+    {
+      "id": "e25d",
+      "itemId": "3456",
+      "itemName": "eden",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 5,
+      "capacity": 5,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "3f3c",
+      "itemId": "3456",
+      "itemName": "eden",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 5,
+      "capacity": 5,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "0588",
+      "itemId": "3457",
+      "itemName": "eden",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 5,
+      "capacity": 5,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "849b",
+      "itemId": "3457",
+      "itemName": "eden",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 5,
+      "capacity": 5,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "0ddd",
+      "itemId": "7890",
+      "itemName": "mcg",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "0262",
+      "itemId": "7890",
+      "itemName": "mcg",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "0a7d",
+      "itemId": "1001",
+      "itemName": "rps",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 20,
+      "capacity": 20,
+      "reservationGroup": "4372"
+    },
+    {
+      "id": "53f0",
+      "itemId": "1002",
+      "itemName": "table 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 20,
+      "capacity": 20,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "8621",
+      "itemId": "1008",
+      "itemName": "test 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 20,
+      "capacity": 20,
+      "reservationGroup": "c940"
+    },
+    {
+      "id": "6fa3",
+      "itemId": "1008",
+      "itemName": "test 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "c940"
+    },
+    {
+      "id": "825f",
+      "itemId": "1008",
+      "itemName": "test 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "c940"
+    },
+    {
+      "id": "4208",
+      "itemId": "1008",
+      "itemName": "table 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "fa61",
+      "itemId": "1234",
+      "itemName": "table 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "1c67",
+      "itemId": "1004",
+      "itemName": "table 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "2e79",
+      "itemId": "1008",
+      "itemName": "gym",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "1ceb"
+    },
+    {
+      "id": "03e9",
+      "itemId": "1004",
+      "itemName": "sport 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "1ceb"
+    },
+    {
+      "id": "41f7",
+      "itemId": "1008",
+      "itemName": "sport 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "1ceb"
+    },
+    {
+      "id": "537b",
+      "itemId": "1008",
+      "itemName": "test 2",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "c940"
+    },
+    {
+      "id": "d7ae",
+      "itemId": "1008",
+      "itemName": "table 2",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "afde",
+      "itemId": "1234",
+      "itemName": "tables 3",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "8bd1",
+      "itemId": "12345",
+      "itemName": "table 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "71eb",
+      "itemId": "2121",
+      "itemName": "sports 2",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "1ceb"
+    },
+    {
+      "id": "c89e",
+      "itemId": "1234",
+      "itemName": "rdrvcrf",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "1ceb"
+    },
+    {
+      "id": "1052",
+      "itemId": "2002",
+      "itemName": "test 2",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "c940"
+    },
+    {
+      "id": "4cf6",
+      "itemId": "1234",
+      "itemName": "xyz",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "aeda",
+      "itemId": "1234",
+      "itemName": "tea",
+      "timeSlotType": "Defined",
+      "noOfSlots": 4,
+      "slotDurationType": "Customized",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    },
+    {
+      "id": "375b",
+      "itemId": "1004",
+      "itemName": "tables 1",
+      "timeSlotType": "Flexible",
+      "noOfSlots": null,
+      "slotDurationType": "",
+      "durationPerSlot": null,
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "3e7e"
+    }
+  ],
+  "timeslotsitem": [
+    {
+      "id": "5fa5",
+      "startTime": "14:01",
+      "endTime": "17:00",
+      "itemId": "aeda"
+    },
+    {
+      "id": "5ff8",
+      "startTime": "18:00",
+      "endTime": "19:01",
+      "itemId": "aeda"
+    },
+    {
+      "id": "fcb2",
+      "startTime": "18:01",
+      "endTime": "19:01",
+      "itemId": "aeda"
+    },
+    {
+      "id": "632c",
+      "startTime": "19:01",
+      "endTime": "21:01",
+      "itemId": "aeda"
+    }
+  ],
+  "todos": [
+    {
+      "id": "1",
+      "title": "presentation",
+      "description": "Complete presentation prep for Aurelia presentation",
+      "completed": true
+    },
+    {
+      "id": "2",
+      "title": "React JS Session",
+      "description": "Friday React JS Session",
+      "completed": true
+    },
+    {
+      "id": "3",
+      "title": "React JS session",
+      "description": "",
+      "completed": false
+    }
+  ],
+  "users": [
+    {
+      "firstName": "Jhone",
+      "lastName": "Watsonn",
+      "defaultCompany": "ABC",
+      "designation": "Receptionist",
+      "primaryRole": "Receptionist",
+      "email": "jjjjj@gmail.com",
+      "password": "efgh@123",
+      "validFrom": "2024-03-05T09:50",
+      "validTill": "2024-04-02T09:50",
+      "companies": [
+        "0003",
+        "0002"
+      ],
+      "roles": [
+        "0002"
+      ],
+      "id": "244e"
+    },
+    {
+      "id": "5e5a",
+      "firstName": "Anne",
+      "lastName": "Watson",
+      "defaultCompany": "DEF",
+      "designation": "reservaiton officer",
+      "primaryRole": "Reservation Officer",
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwer@12345",
+      "validFrom": "2024-03-14T16:42",
+      "validTill": "2024-03-29T16:42"
+    },
+    {
+      "id": "5e53",
+      "firstName": "Sarah",
+      "lastName": "Watson",
+      "defaultCompany": "DEF",
+      "designation": "Receptionist",
+      "primaryRole": "Reservation Officer",
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwer@12345",
+      "validFrom": "2024-03-14T16:42",
+      "validTill": "2024-03-29T16:42",
+      "userID": "hasinichamodi4@gmail.com",
+      "companies": [
+        "DEF"
+      ],
+      "roles": [
+        "Reservation Officer"
+      ]
+    },
+    {
+      "id": "5e56",
+      "firstName": "Emma",
+      "lastName": "Watson",
+      "defaultCompany": "DEF",
+      "designation": "Receptionist",
+      "primaryRole": "Reservation Officer",
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwer@12345",
+      "validFrom": "2024-03-14T16:42",
+      "validTill": "2024-03-29T16:42",
+      "userID": "hasinichamodi4@gmail.com",
+      "companies": [
+        "DEF"
+      ],
+      "roles": [
+        "Reservation Officer"
+      ]
+    },
+    {
+      "id": "5e5i",
+      "firstName": "Joe",
+      "lastName": "Watson",
+      "defaultCompany": "DEF",
+      "designation": "Receptionist",
+      "primaryRole": "Reservation Officer",
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwer@12345",
+      "validFrom": "2024-03-14T16:42",
+      "validTill": "2024-03-29T16:42",
+      "userID": "hasinichamodi4@gmail.com",
+      "companies": [
+        "DEF"
+      ],
+      "roles": [
+        "Reservation Officer"
+      ]
+    }
+  ],
+  "company": [
+    {
+      "id": "0001",
+      "name": "ABC"
+    },
+    {
+      "id": "0002",
+      "name": "DEF"
+    },
+    {
+      "id": "0003",
+      "name": "ABCd"
+    },
+    {
+      "id": "0004",
+      "name": "DEFg"
+    }
+  ],
+  "roles": [
+    {
+      "id": "0001",
+      "name": "Reservation Officer"
+    },
+    {
+      "id": "0002",
+      "name": "View Officer"
+    }
+  ]
+}
