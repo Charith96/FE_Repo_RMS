@@ -1,11 +1,6 @@
 {
   "groupcreation": [
     {
-      "id": "3e7e",
-      "groupId": "1006",
-      "groupName": "tables"
-    },
-    {
       "id": "4372",
       "groupId": "1007",
       "groupName": "cricket ground"
@@ -48,18 +43,6 @@
       "noOfReservations": "2",
       "capacity": "50",
       "reservationGroup": "1ceb"
-    },
-    {
-      "id": "3f85",
-      "itemId": "1002",
-      "itemName": "table1",
-      "timeSlotType": "Defined",
-      "noOfSlots": 5,
-      "slotDurationType": "Customized",
-      "durationPerSlot": 1,
-      "noOfReservations": 10,
-      "capacity": 50,
-      "reservationGroup": "3e7e"
     },
     {
       "id": "6f68",
@@ -516,6 +499,19 @@
       "noOfReservations": 122,
       "capacity": 122,
       "reservationGroup": "c940"
+    },
+    {
+      "id": "4c86",
+      "itemId": "1111",
+      "itemName": "cric",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": 0,
+      "noOfReservations": 500,
+      "capacity": 50,
+      "reservationGroup": "4372",
+      "groupName": "4372"
     }
   ],
   "timeslotsitem": [
@@ -614,6 +610,30 @@
       "startTime": "03:17",
       "endTime": "04:17",
       "itemId": "c280"
+    },
+    {
+      "id": "ef11",
+      "startTime": "18:10",
+      "endTime": "18:40",
+      "itemId": "4c86"
+    },
+    {
+      "id": "e073",
+      "startTime": "20:10",
+      "endTime": "20:40",
+      "itemId": "4c86"
+    },
+    {
+      "id": "5ecf",
+      "startTime": "17:19",
+      "endTime": "18:19",
+      "itemId": "58fe"
+    },
+    {
+      "id": "8c32",
+      "startTime": "19:19",
+      "endTime": "20:19",
+      "itemId": "58fe"
     }
   ],
   "todos": [
