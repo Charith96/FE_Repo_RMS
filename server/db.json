@@ -1,18 +1,24 @@
 {
-  "customers":[
-
+  "customers": [
+    {
+      "id": "2323",
+      "fullName": "today test",
+      "identifier": "34324",
+      "address": "fggttyjy",
+      "email": "test@ghotmail.com",
+      "contactNo": "334789999999990"
+    }
   ],
-
-
-
-
-  
   "groupcreation": [
-    
     {
       "id": "d082",
       "groupId": "1012",
       "groupName": "New"
+    },
+    {
+      "id": "bf6f",
+      "groupId": "2222",
+      "groupName": "test"
     }
   ],
   "itemcreation": [

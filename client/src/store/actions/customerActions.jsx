@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CUSTOMER_URL } from "../../util/Constants";
+import { CUSTOMER_URL } from "../../utils/Constants";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 

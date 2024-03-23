@@ -35,7 +35,7 @@ const QuickNavigation = React.lazy(() =>
  const CustomerList = React.lazy(() =>
  import("./pages/customerManagement/CustomerList")
  );
- const UserOverview = React.lazy(() =>
+ const CustomerOverview = React.lazy(() =>
  import("./pages/customerManagement/CustomerOverview")
  );
 
@@ -78,21 +78,21 @@ const routes = [
     element: ToDoManagement,
   },
 
-    //users
+    //customers
     {
       path: "/customerManagement/CustomerCreation",
       name: "CustomerCreation",
-      element:CreateUsers,
+      element:CustomerCreation,
     },
     {
       path: "/customerManagement/Customerlist",
-      name: "Userlist",
-      element:UserList,
+      name: "CustomerList",
+      element:CustomerList,
     },
     {
       path:`/customerManagement/CustomerOverview`,
-      name: "UserOverview",
-      element:UserOverview,
+      name: "CustomerOverview",
+      element:CustomerOverview,
     },
   // card layouts
   {
@@ -108,6 +108,11 @@ const routes = [
   {
     path: "/todoManagement",
     name: "Todo Management",
+    element: QuickNavigation,
+  },
+  {
+    path: "/customerManagement",
+    name: "customer Management",
     element: QuickNavigation,
   },
 ];
