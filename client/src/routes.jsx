@@ -28,6 +28,17 @@ const QuickNavigation = React.lazy(() =>
   import("./components/QuickNavigation")
 );
 
+ //customers
+ const CustomerCreation = React.lazy(() =>
+ import("./pages/customerManagement/CustomerCreation")
+ );
+ const CustomerList = React.lazy(() =>
+ import("./pages/customerManagement/CustomerList")
+ );
+ const UserOverview = React.lazy(() =>
+ import("./pages/customerManagement/CustomerOverview")
+ );
+
 const routes = [
   // dashboard
   {
@@ -67,6 +78,22 @@ const routes = [
     element: ToDoManagement,
   },
 
+    //users
+    {
+      path: "/customerManagement/CustomerCreation",
+      name: "CustomerCreation",
+      element:CreateUsers,
+    },
+    {
+      path: "/customerManagement/Customerlist",
+      name: "Userlist",
+      element:UserList,
+    },
+    {
+      path:`/customerManagement/CustomerOverview`,
+      name: "UserOverview",
+      element:UserOverview,
+    },
   // card layouts
   {
     path: "/reservationManagement",

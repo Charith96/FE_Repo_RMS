@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { thunk } from "redux-thunk";
+import customerReducer from "./reducers/customerReducers"
 import {
   createReservationGroupReducer,
   editReservationGroupReducer,
@@ -25,6 +26,10 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
+  
+  //customer
+  customerReducer,
+
   // reservation group
   createReservationGroup: createReservationGroupReducer,
   editReservationGroup: editReservationGroupReducer,
@@ -49,3 +54,4 @@ export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middleware))
 );
+export const selectCustomer =  (state) =>state.customerData

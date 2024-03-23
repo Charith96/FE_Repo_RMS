@@ -3,6 +3,8 @@ import { CNavGroup, CNavItem } from "@coreui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
 
 const _nav = [
   {
@@ -84,6 +86,70 @@ const _nav = [
             ),
             to: "/reservationManagement/reservation/createReservationItem",
           },
+        ],
+      },
+    ],
+  },
+
+  {
+    component: CNavGroup,
+    name: "Customer Management",
+    navPath: "/customerManagement",
+    icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
+    items: [
+      {
+        component: CNavGroup,
+        name: "Customers",
+        to: "/customerManagement/",
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faUser}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        className: "mt-3 ms-2",
+        items: [
+          {
+            component: CNavItem,
+            name: "Customer Creation",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/customerManagement/CustomerCreation",
+          },
+          {
+            component: CNavItem,
+            name: "Customer List",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/customerManagement/CustomerList",
+          },
+           {
+             component: CNavItem,
+             name: "Customer Overview",
+             icon: <i className="ps-2" />,
+             quicknavicon: (
+               <FontAwesomeIcon
+                 icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: `/customerManagement/CustomerOverview`,
+           },
+          
         ],
       },
     ],
