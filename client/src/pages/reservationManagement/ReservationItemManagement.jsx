@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationItemTimeSlot from "./ReservationItemTimeSlot";
 import CreateReservationItem from "./CreateReservationItem";
@@ -123,7 +123,7 @@ const ReservationItemManagement = () => {
         }}
       />
 
-      {/* tab view */}
+      {/* tab view *//*}
       <TabStructure
         tabs={tabs}
         toggleState={toggleState}
@@ -134,3 +134,4 @@ const ReservationItemManagement = () => {
 };
 
 export default ReservationItemManagement;
+*/

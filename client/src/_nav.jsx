@@ -28,13 +28,13 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: "Reservation Management",
+    name: "Roles Management",
     navPath: "/reservationManagement",
     icon: <FontAwesomeIcon icon={faCalendarDays} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
-        name: "Reservation",
+        name: "Roles",
         to: "/reservationManagement/reservation",
         quicknavicon: (
           <FontAwesomeIcon
@@ -47,7 +47,7 @@ const _nav = [
         items: [
           {
             component: CNavItem,
-            name: "Create Group",
+            name: "Create Roles",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -60,7 +60,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Groups",
+            name: "Roles",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -73,7 +73,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Create Item",
+            name: "Roles Overview",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -82,7 +82,7 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservationManagement/reservation/createReservationItem",
+            to: "/reservationManagement/reservation/",
           },
         ],
       },

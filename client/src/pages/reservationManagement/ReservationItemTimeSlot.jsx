@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 
 const ReservationItemTimeSlot = ({
   isAdd,
@@ -35,9 +35,10 @@ const ReservationItemTimeSlot = ({
           </Form.Group>
           <br />
         </React.Fragment>
-      ))} */}
+      ))} *//*}
     </div>
   );
 };
 
 export default ReservationItemTimeSlot;
+*/
