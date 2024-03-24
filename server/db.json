@@ -1,12 +1,28 @@
 {
   "customers": [
     {
-      "id": "2323",
+      "id": "32178322",
+      "fullName": "Morgana silva",
+      "identifier": "3",
+      "address": "England",
+      "email": "morgana@hotmail.com",
+      "contactNo": "2311312"
+    },
+    {
+      "id": "87201891",
       "fullName": "today test",
-      "identifier": "34324",
+      "identifier": "423",
       "address": "fggttyjy",
       "email": "test@ghotmail.com",
-      "contactNo": "334789999999990"
+      "contactNo": "387908090217890"
+    },
+    {
+      "id": "21321313",
+      "fullName": "second test",
+      "identifier": "909800",
+      "address": "yuyiguiyu",
+      "email": "hfghgfh@gmail.com",
+      "contactNo": "787987989789"
     }
   ],
   "groupcreation": [

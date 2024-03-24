@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { createCustomer } from "../../store/actions/customerActions";
@@ -14,32 +14,29 @@ const CustomerCreation = ({ createCustomer }) => {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [contactNo, setContactNo] = useState("");
+  const [formValid, setFormValid] = useState(false);
 
-  const isValidEmail = (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return !value || emailRegex.test(value);
-  };
+  useEffect(() => {
+    const isValidEmail = (value) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return !value || emailRegex.test(value);
+    };
+
+    const mandatoryFieldsFilled =
+      id.trim() !== "" &&
+      fullName.trim() !== "" &&
+      identifier.trim() !== "" &&
+      address.trim() !== "" &&
+      contactNo.trim() !== "";
+
+    setFormValid(mandatoryFieldsFilled && isValidEmail(email));
+  }, [id, fullName, identifier, address, email, contactNo]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!id || !fullName || !identifier || !address || !contactNo) {
-      alert("All fields marked with * are mandatory");
-      return;
-    }
-
-    if (
-      id.length > 8 ||
-      fullName.length > 50 ||
-      identifier.length > 20 ||
-      address.length > 50 ||
-      contactNo.length > 15
-    ) {
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      alert("Please enter a valid email address.");
+    if (!formValid) {
+      alert("Please fill in all mandatory fields and provide a valid email.");
       return;
     }
 
@@ -135,6 +132,7 @@ const CustomerCreation = ({ createCustomer }) => {
                   type="submit"
                   text="Create"
                   className="form-btn"
+                  disabled={!formValid}
                 />
               </Col>
             </Form.Group>

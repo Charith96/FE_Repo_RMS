@@ -10,10 +10,10 @@ import {
   faEllipsisH,
   faInfoCircle,
   faTrash,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import TextField from "../../components/TextField";
-
-
+import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
+import TitleActionBar from "../../components/TitleActionsBar";
 
 function CustomerList() {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ function CustomerList() {
   const [filteredData, setFilteredData] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCustomers());
@@ -45,19 +46,55 @@ function CustomerList() {
     }
   };
 
+  const clearFilter = () => {
+    setSearchValue("");
+    setIsFiltered(false);
+    setFilteredData(customers);
+  };
+
   return (
-    <div className="App">
-      <div className="App-header">
-        <h4 className="subheaderTitle">Customers</h4>
-        <div className="search-bar">
-          <TextField
-            label="Search"
-            type="text"
-            value={searchValue}
-            onChange={handleSearchChange}
-          />
-        </div>
-      </div>
+    <div className="mb-5 mx-2">
+      <TitleActionBar
+        Title={"Customer List"}
+        plustDisabled={false}
+        editDisabled={true}
+        saveDisabled={true}
+        deleteDisabled={true}
+        PlusAction={() => {}}
+        EditAction={() => {}}
+        SaveAction={() => {}}
+        DeleteAction={() => {}}
+      />
+
+      <Row className="mb-3">
+        <Col md={6}>
+          <InputGroup>
+            <FormControl
+              type="text"
+              placeholder="Search by full name"
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+            <Button
+              variant="primary"
+              onClick={() => setIsFiltered(true)}
+              className="search-button"
+            >
+              <FontAwesomeIcon icon={faSearch} />
+            </Button>
+            {isFiltered && (
+              <Button
+                variant="light"
+                onClick={clearFilter}
+                className="clear-button"
+              >
+                Clear
+              </Button>
+            )}
+          </InputGroup>
+        </Col>
+      </Row>
+
       <div className="container">
         <table className="table">
           <thead>
@@ -84,7 +121,7 @@ function CustomerList() {
                     />
                     {showOptions && (
                       <div>
-                        <Link to={`/CustomerOverviewGeneral/${d.id}`}>
+                        <Link to={`/CustomerOverview/${d.id}`}>
                           <FontAwesomeIcon
                             icon={faInfoCircle}
                             style={{ cursor: "pointer", marginLeft: "10px" }}
