@@ -101,7 +101,7 @@ const CreateReservationItem = ({
       timeSlotType: timeSlotType,
       noOfSlots: parseInt(noOfSlots, 10),
       slotDurationType: slotDurationType,
-      duration: parseInt(duration, 10),
+      duration: duration,
       noOfReservations: noOfReservations,
       capacity: capacity,
       reservationGroup: reservationGroup,

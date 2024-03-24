@@ -18,7 +18,7 @@ const ReservationItemTabView = React.lazy(() =>
   import("./pages/reservationManagement/ReservationItemManagement")
 );
 const ReservationItemOverview = React.lazy(() =>
-  import("./pages/reservationManagement/ReservationItemOverview")
+  import("./pages/reservationManagement/ReservationItemTimeSlotManagement")
 );
 
 // todo

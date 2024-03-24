@@ -8,9 +8,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import { editTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
+import { createTimeSlots } from "../../store/actions/ReservationItemActions";
 import TabStructure from "../../components/TabStructure";
 import ManageReservationItems from "./ReservationItemOverview";
 import ReservationItemTimeSlotList from "./ReservationItemTimeSlotList";
+import { toast } from "react-toastify";
 
 const ReservationItemTimeSlotManagement = () => {
   const { state } = useLocation();
@@ -19,20 +21,24 @@ const ReservationItemTimeSlotManagement = () => {
     (state) => state.getReservationItemById.fetchReservationItemId
   );
   const fetchTimeSlotsByItemIdData = useSelector(
-    (state) => state.editTimeSlotsByItem.timeSlotsByItemId
+    (state) => state.getTimeSlotsByItem.timeSlotsByItemId
   );
   const [recordId, setRecordId] = useState("");
   const [isViewMode, setIsViewMode] = useState(false);
+
   const [isAddDisable, setIsAddDisable] = useState(false);
   const [isEditDisable, setIsEditDisable] = useState(true);
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [count, setCount] = useState(0);
+  const [toggleState, setToggleState] = useState(0);
+
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
   const mode = state ? state.mode : "edit";
+
   const [itemId, setItemId] = useState("");
   const [groupName, setGroupName] = useState("");
   const [itemName, setItemName] = useState("");
@@ -40,12 +46,22 @@ const ReservationItemTimeSlotManagement = () => {
   const [capacity, setCapacity] = useState("");
   const [isCustomized, setIsCustomized] = useState(false);
   const [inputValues, setInputValues] = useState([]);
+  const [duration, setDuration] = useState("00:00");
+  const [noOfSlots, setNoOfSlots] = useState("");
+  const [noOfAddedSlots, setNoOfAddedSlots] = useState(0);
+  const [newlyAddedSlots, setNewlyAddedSlots] = useState([]);
+
+  useEffect(() => {
+    setNoOfAddedSlots(parseInt(noOfSlots, 10) ) // Update noOfAddedSlots when noOfSlots changes
+    
+    console.log("noOfSlots", noOfAddedSlots)
+  }, [noOfSlots]);
 
   useEffect(() => {
     if (paramData && recordId) {
       dispatch(fetchReservationItemsById(recordId));
       dispatch(fetchTimeSlotsByItemId(recordId));
-      if (fetchReservationItemData.slotDurationType == "Customized") {
+      if (fetchReservationItemData.slotDurationType === "Customized") {
         setIsCustomized(true);
       } else {
         setIsCustomized(false);
@@ -67,6 +83,53 @@ const ReservationItemTimeSlotManagement = () => {
     }
   }, [mode]);
 
+  // handle tab view
+  const toggleTab = (index) => {
+    setToggleState(index);
+    //handleReset();
+  };
+
+  const fetchData = () => {
+    if (fetchReservationItemData) {
+      let filterData = fetchReservationItemData;
+      if (filterData) {
+        if (count === 0) {
+          setItemId(filterData?.itemId ?? "");
+          setGroupName(filterData?.reservationGroup ?? "");
+          setItemName(filterData?.itemName ?? "");
+          setNoOfSlots(filterData?.noOfSlots ?? "");
+          setNoOfReservations(filterData?.noOfReservations ?? "");
+          setCapacity(filterData?.capacity ?? "");
+          setDuration(filterData?.duration ?? "00:00");
+          setInputValues(fetchTimeSlotsByItemIdData);
+          if (mode) {
+            if (mode === "edit") {
+              setIsViewMode(false);
+              setIsEditDisable(true);
+              setIsSaveDisable(false);
+            } else if (mode === "view") {
+              setIsViewMode(true);
+              setIsEditDisable(false);
+              setIsSaveDisable(true);
+            }
+          }
+        }
+      } else {
+        //handleNavigate();
+      }
+      setCount(1);
+    }
+  };
+
+  useEffect(() => {
+    if (paramData && paramData.id && paramData.id !== "") {
+      setRecordId(paramData.id);
+    }
+    if (recordId) {
+      setTimeout(() => fetchData(), 100);
+    }
+  }, [isSaveDisable, recordId, fetchData]);
+  //handle save click
   const handleSave = async () => {
     try {
       if (paramData && recordId) {
@@ -74,17 +137,25 @@ const ReservationItemTimeSlotManagement = () => {
           ...fetchReservationItemData,
           id: recordId,
           itemId: itemId,
+          itemName: itemName,
+          noOfSlots: inputValues.length,
           noOfReservations: noOfReservations,
           capacity: capacity,
         };
         dispatch(editReservationItem(recordId, formData));
-
+        console.log("inputValues", inputValues);
         const data = inputValues.map((value) => ({
           ...value,
-          itemId: itemIdForTheTimeSlots,
         }));
         data.forEach((value) => {
           dispatch(editTimeSlotsByItemId(value.id, value));
+        });
+
+        const dataNew = newlyAddedSlots.map((value) => ({
+          ...value,
+        }));
+        dataNew.forEach((value) => {
+          dispatch(createTimeSlots(value));
         });
 
         toast.success("Data saved successfully");
@@ -96,12 +167,13 @@ const ReservationItemTimeSlotManagement = () => {
     }
   };
 
+  //handle delete click
   const confirmDelete = async () => {
     try {
       if (paramData && paramData.id) {
         dispatch(deleteReservationItem(paramData.id));
         toast.success("Data deleted successfully");
-        handleNavigate();
+        //handleNavigate();
       } else {
         toast.error("Cannot delete. ID is undefined.");
       }
@@ -120,13 +192,13 @@ const ReservationItemTimeSlotManagement = () => {
     setShowConfirmation(false);
   };
 
-  const navigateToCreate = () => {
+  /*const navigateToCreate = () => {
     navigate("/reservationManagement/reservation/createReservationGroup");
   };
 
   const handleNavigate = () => {
     navigate("/reservationManagement/reservation/reservationGroups");
-  };
+  };*/
 
   // tab view content
   const tabs = [
@@ -138,8 +210,6 @@ const ReservationItemTimeSlotManagement = () => {
           setInputValues={setInputValues}
           isCustomized={isCustomized}
           setIsCustomized={setIsCustomized}
-          duration={duration}
-          setDuration={setDuration}
           groupName={groupName}
           setGroupName={setGroupName}
           itemName={itemName}
@@ -150,6 +220,10 @@ const ReservationItemTimeSlotManagement = () => {
           setCapacity={setCapacity}
           itemId={itemId}
           setItemId={setItemId}
+          noOfSlots={noOfSlots}
+          setNoOfSlots={setNoOfSlots}
+          noOfAddedSlots={noOfAddedSlots}
+          setNoOfAddedSlots={setNoOfAddedSlots}
         />
       ),
     },
@@ -163,12 +237,12 @@ const ReservationItemTimeSlotManagement = () => {
           setIsCustomized={setIsCustomized}
           duration={duration}
           setDuration={setDuration}
-          isAdd={toggleState === 0 && isAdd ? isAdd : false}
-          isEdit={toggleState === 0 && isEdit ? isEdit : false}
-          isSave={toggleState === 0 && isSave ? isSave : false}
-          isDelete={toggleState === 0 && isDelete}
-          resetStates={() => handleReset()}
-          setSelectedRecords={setSelectedRecords}
+          noOfSlots={noOfSlots}
+          setNoOfSlots={setNoOfSlots}
+          uniqueId={paramData.id}
+          itemId={itemId}
+          newlyAddedSlots={newlyAddedSlots}
+          setNewlyAddedSlots={setNewlyAddedSlots}
         />
       ),
     },
@@ -177,14 +251,12 @@ const ReservationItemTimeSlotManagement = () => {
   return (
     <>
       <TitleActionBar
-        Title={"Reservation Group List"}
+        Title={"Reservation Item Overview"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
         deleteDisabled={isDeleteDisable}
-        PlusAction={() => {
-          handleCreate();
-        }}
+        PlusAction={() => {}}
         EditAction={() => {}}
         SaveAction={() => {
           handleSave();
@@ -214,3 +286,4 @@ const ReservationItemTimeSlotManagement = () => {
     </>
   );
 };
+export default ReservationItemTimeSlotManagement;

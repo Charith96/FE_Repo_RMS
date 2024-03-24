@@ -512,6 +512,30 @@
       "capacity": 50,
       "reservationGroup": "4372",
       "groupName": "4372"
+    },
+    {
+      "id": "fa76",
+      "itemId": "1111",
+      "itemName": "tester",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": 1,
+      "noOfReservations": 345,
+      "capacity": 345,
+      "reservationGroup": "c940"
+    },
+    {
+      "id": "1f6e",
+      "itemId": "4444",
+      "itemName": "badminton",
+      "timeSlotType": "Defined",
+      "noOfSlots": 3,
+      "slotDurationType": "Fixed",
+      "duration": "01:00",
+      "noOfReservations": 89,
+      "capacity": 890,
+      "reservationGroup": "1ceb"
     }
   ],
   "timeslotsitem": [
@@ -634,6 +658,48 @@
       "startTime": "19:19",
       "endTime": "20:19",
       "itemId": "58fe"
+    },
+    {
+      "id": "e021",
+      "startTime": "12:34",
+      "endTime": "13:34",
+      "itemId": "fa76"
+    },
+    {
+      "id": "8fcf",
+      "startTime": "14:34",
+      "endTime": "15:34",
+      "itemId": "fa76"
+    },
+    {
+      "id": "be02",
+      "startTime": "15:26",
+      "endTime": "16:26",
+      "itemId": "1f6e"
+    },
+    {
+      "id": "ad79",
+      "startTime": "23:26",
+      "endTime": "00:26",
+      "itemId": "1f6e"
+    },
+    {
+      "id": "4e84",
+      "startTime": "16:48",
+      "endTime": "17:48",
+      "itemId": "4444"
+    },
+    {
+      "id": "ad9f",
+      "startTime": "17:48",
+      "endTime": "18:48",
+      "itemId": "4444"
+    },
+    {
+      "id": "eee0",
+      "startTime": "08:52",
+      "endTime": "09:52",
+      "itemId": "1f6e"
     }
   ],
   "todos": [
