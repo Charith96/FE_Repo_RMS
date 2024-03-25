@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCustomers,
-  deleteCustomer,
-} from "../../store/actions/customerActions";
-import { Link } from "react-router-dom";
+import { fetchCustomers, deleteCustomer } from "../../store/actions/customerActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEllipsisH,
-  faInfoCircle,
-  faTrash,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH, faTrash, faSearch, faArrowUpRightFromSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useNavigate } from "react-router-dom";
@@ -21,21 +12,31 @@ function CustomerList() {
   const navigate = useNavigate();
   const customers = useSelector((state) => state.customerReducer.customers);
   const [filteredData, setFilteredData] = useState([]);
-  const [showOptions, setShowOptions] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [isFiltered, setIsFiltered] = useState(false);
+  const [selectedCustomers, setSelectedCustomers] = useState([]);
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   useEffect(() => {
     dispatch(fetchCustomers());
   }, [dispatch]);
 
-  const toggleOptions = () => {
+  useEffect(() => {
+    if (customers && customers.length > 0) {
+      setFilteredData(customers);
+    }
+  }, [customers]);
+
+  const toggleOptions = (customer) => {
+    setSelectedCustomer(customer);
     setShowOptions(!showOptions);
   };
 
   const handleSearchChange = (e) => {
     const inputValue = e.target.value.toLowerCase();
     setSearchValue(inputValue);
+    setIsFiltered(inputValue !== "");
 
     if (customers && customers.length > 0) {
       setFilteredData(
@@ -58,6 +59,29 @@ function CustomerList() {
     navigate("/customerManagement/CustomerCreation");
   };
 
+  const handleEditCustomer = (customerId) => {
+    navigate(`/customerManagement/CustomerOverview/${customerId}`);
+    setShowOptions(false);
+  };
+
+  const handleViewDetails = (customerId) => {
+    navigate(`/customerManagement/CustomerOverview/${customerId}`);
+    setShowOptions(false);
+  };
+
+  const handleCheckboxChange = (customerId) => {
+    const isSelected = selectedCustomers.includes(customerId);
+    if (isSelected) {
+      setSelectedCustomers(selectedCustomers.filter((id) => id !== customerId));
+    } else {
+      setSelectedCustomers([...selectedCustomers, customerId]);
+    }
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteCustomer(selectedCustomers));
+    setSelectedCustomers([]);
+  };
 
   return (
     <div className="mb-5 mx-2">
@@ -66,13 +90,11 @@ function CustomerList() {
         plustDisabled={false}
         editDisabled={true}
         saveDisabled={true}
-        deleteDisabled={true}
-        PlusAction={() => {
-          handleCreate();
-        }}
+        deleteDisabled={selectedCustomers.length === 0}
+        PlusAction={handleCreate}
         EditAction={() => {}}
         SaveAction={() => {}}
-        DeleteAction={() => {}}
+        DeleteAction={handleDelete}
       />
 
       <Row className="mb-3">
@@ -115,47 +137,44 @@ function CustomerList() {
               <th>Address</th>
               <th>Email</th>
               <th>Contact No</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {(filteredData.length > 0 ? filteredData : customers).map(
-              (d, i) => (
-                <tr key={i}>
-                  <td>
-                    <input type="checkbox" />
-                    <FontAwesomeIcon
-                      icon={faEllipsisH}
-                      onClick={toggleOptions}
-                      style={{ cursor: "pointer", marginLeft: "10px" }}
-                    />
-                    {showOptions && (
-                      <div>
-                        <Link to={`/CustomerOverview/${d.id}`}>
-                          <FontAwesomeIcon
-                            icon={faInfoCircle}
-                            style={{ cursor: "pointer", marginLeft: "10px" }}
-                          />
-                        </Link>
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          style={{ cursor: "pointer", marginLeft: "10px" }}
-                          onClick={() => {
-                            dispatch(deleteCustomer(d.id));
-                            dispatch(fetchCustomers());
-                          }}
-                        />
+            {filteredData.map((customer, index) => (
+              <tr key={index}>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={selectedCustomers.includes(customer.id)}
+                    onChange={() => handleCheckboxChange(customer.id)}
+                  />
+                  <FontAwesomeIcon
+                    icon={faEllipsisH}
+                    style={{ cursor: "pointer", marginLeft: "10px" }}
+                    onClick={() => toggleOptions(customer)}
+                  />
+                </td>
+                <td>{customer.id}</td>
+                <td>{customer.fullName}</td>
+                <td>{customer.identifier}</td>
+                <td>{customer.address}</td>
+                <td>{customer.email}</td>
+                <td>{customer.contactNo}</td>
+                <td>
+                  {showOptions && selectedCustomer && selectedCustomer.id === customer.id && (
+                    <div className="more-options">
+                      <div className="option" onClick={() => handleViewDetails(customer.id)}>
+                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
                       </div>
-                    )}
-                  </td>
-                  <td>{d.id}</td>
-                  <td>{d.fullName}</td>
-                  <td>{d.identifier}</td>
-                  <td>{d.address}</td>
-                  <td>{d.email}</td>
-                  <td>{d.contactNo}</td>
-                </tr>
-              )
-            )}
+                      <div className="option" onClick={() => handleEditCustomer(customer.id)}>
+                        <FontAwesomeIcon icon={faEdit} /> Edit 
+                      </div>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
