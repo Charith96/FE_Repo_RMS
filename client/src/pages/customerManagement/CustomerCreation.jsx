@@ -51,7 +51,7 @@ const CustomerCreation = ({ createCustomer }) => {
 
     try {
       await createCustomer(newCustomer);
-      navigate("/");
+      navigate("/customerManagement/CustomerList"); // Navigate to Customer List page
     } catch (error) {
       console.error("Error creating customer:", error);
     }

@@ -14,9 +14,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
+import { useNavigate } from "react-router-dom";
 
 function CustomerList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const customers = useSelector((state) => state.customerReducer.customers);
   const [filteredData, setFilteredData] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
@@ -52,6 +54,11 @@ function CustomerList() {
     setFilteredData(customers);
   };
 
+  const handleCreate = () => {
+    navigate("/customerManagement/CustomerCreation");
+  };
+
+
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
@@ -60,7 +67,9 @@ function CustomerList() {
         editDisabled={true}
         saveDisabled={true}
         deleteDisabled={true}
-        PlusAction={() => {}}
+        PlusAction={() => {
+          handleCreate();
+        }}
         EditAction={() => {}}
         SaveAction={() => {}}
         DeleteAction={() => {}}
