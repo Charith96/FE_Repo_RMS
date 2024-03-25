@@ -12,7 +12,7 @@ import { Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
 
-const CreateReservationGroup = () => {
+const CreateRole = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isDuplicated = useSelector(
@@ -54,20 +54,20 @@ const CreateReservationGroup = () => {
   const handleSubmit = async (e) => { 
     e.preventDefault();
 
-    if (groupId && groupName) {
+    if (roleId && roleName) {
       const data = {
-        groupId: groupId.toString(),
-        groupName: groupName,
+        roleId: roleId.toString(),
+        roleName: roleName,
       };
-      dispatch(createReservationGroup(data));
+      dispatch(CreateRole(data));
     } else {
       toast.error("please fill in all the fields");
     }
   };
 
   const clearTextFields = () => {
-    setGroupId("");
-    setGroupName("");
+    setRoleId("");
+    setRoleName("");
   };
 
   return (
@@ -84,25 +84,25 @@ const CreateReservationGroup = () => {
           className="body-content px-5 pt-4 pb-4 mb-5"
         >
           <div>
-            <h3 className="mb-5">Create Reservation Group</h3>
+            <h3 className="mb-5">Create Role</h3>
             <Form onSubmit={handleSubmit}>
               <TextField
-                label="GroupId"
+                label="Role Id"
                 className={`${
-                  groupId && isDuplicated ? "is-invalid" : "bg-white"
+                  roleId && isDuplicated ? "is-invalid" : "bg-white"
                 }`}
-                value={groupId}
+                value={roleId}
                 onChange={(e) => {
-                  setGroupId(e.target.value);
+                  setRoleId(e.target.value);
                   dispatch(checkForDuplicate(e.target.value));
                 }}
                 maxLength={8}
-                inputMessage={"Group ID already exists"}
+                inputMessage={"Role ID already exists"}
               />
               <TextField
-                value={groupName}
-                label="GroupName"
-                onChange={(e) => setGroupName(e.target.value)}
+                value={roleName}
+                label="Role Name"
+                onChange={(e) => setRoleName(e.target.value)}
               />
 
               <Form.Group as={Row} className="mb-3">
@@ -111,7 +111,7 @@ const CreateReservationGroup = () => {
                     type="submit"
                     text="Create"
                     className="form-btn"
-                    disabled={!groupId || !groupName || buttonFlag}
+                    disabled={!roleId || !roleName || buttonFlag}
                   />
                 </Col>
               </Form.Group>
@@ -124,4 +124,4 @@ const CreateReservationGroup = () => {
   );
 };
 
-export default CreateReservationGroup;
+export default CreateRole;

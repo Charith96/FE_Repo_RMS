@@ -83,6 +83,11 @@ const routes = [
     name: "Todo Management",
     element: QuickNavigation,
   },
+  {
+    path: "/RolesManagement",
+    name: "Roles Management",
+    element: QuickNavigation,
+  },
 ];
 
 export default routes;

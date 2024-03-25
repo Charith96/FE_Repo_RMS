@@ -3,6 +3,7 @@ import { CNavGroup, CNavItem } from "@coreui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const _nav = [
   {
@@ -28,13 +29,13 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: "Roles Management",
+    name: "Reservation Management",
     navPath: "/reservationManagement",
     icon: <FontAwesomeIcon icon={faCalendarDays} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
-        name: "Roles",
+        name: "Reservation",
         to: "/reservationManagement/reservation",
         quicknavicon: (
           <FontAwesomeIcon
@@ -47,7 +48,7 @@ const _nav = [
         items: [
           {
             component: CNavItem,
-            name: "Create Roles",
+            name: "Create Group",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -60,7 +61,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Roles",
+            name: "Groups",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -73,7 +74,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Roles Overview",
+            name: "Create Item",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -82,8 +83,84 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservationManagement/reservation/",
+            to: "/reservationManagement/reservation/createReservationItem",
           },
+        ],
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "Roles Management",
+    navPath: "/RolesManagement",
+    icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
+    items: [
+      {
+        component: CNavGroup,
+        name: "Roles",
+        to: "/RolesManagement/",
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faUser}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        className: "mt-3 ms-2",
+        items: [
+          {
+            component: CNavItem,
+            name: "Roles Creation",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/RolesManagement/rolesCreate",
+          },
+          {
+            component: CNavItem,
+            name: "Roles List",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/RolesManagement/rolesList",
+          },
+          {
+            component: CNavItem,
+            name: "Roles Overview",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/RolesManagement/rolesOverview",
+          },
+          // {
+          //   component: CNavItem,
+          //   name: "User Overview",
+          //   icon: <i className="ps-2" />,
+          //   quicknavicon: (
+          //     <FontAwesomeIcon
+          //       icon={faUser}
+          //       size="2x"
+          //       className="nav-icon pb-0 pt-3"
+          //     />
+          //   ),
+          //   to: `/userManagement/UserOverview`,
+          // },
+          
         ],
       },
     ],

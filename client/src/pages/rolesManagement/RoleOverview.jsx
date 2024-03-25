@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
-import ReservationItemTimeSlot from "./ReservationItemTimeSlot";
-import CreateReservationItem from "./CreateReservationItem";
+import ReservationItemTimeSlot from "../reservationManagement/ReservationItemTimeSlot";
+import CreateReservationItem from "../reservationManagement/CreateReservationItem";
 import TabStructure from "../../components/TabStructure";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchUserData,
+  fetchCompanyData,
+  fetchRoleData,
+  updateUserData,
+} from "../../store/actions/UserActions"
+import { selectUserData } from "../../store/Store";
+import { useParams } from "react-router-dom";
+import General from './General';
+import Roles from './Roles';
+import Company from './Company';
+
+
 
 const ReservationItemManagement = () => {
   const [isAdd, setIsAdd] = useState(false);
@@ -16,6 +30,8 @@ const ReservationItemManagement = () => {
   const [disableDelete, setDisableDelete] = useState(true);
   const [selectedRecords, setSelectedRecords] = useState(0);
 
+
+  
   useEffect(() => {
     if (selectedRecords === 1 && disableEdit && !isEdit) {
       setDisableEdit(false);
@@ -79,28 +95,23 @@ const ReservationItemManagement = () => {
   // tab view content
   const tabs = [
     {
-      name: "Item Basic Info",
-      content: <CreateReservationItem />,
+      name: "General",
+      content: <General />,
     },
     {
-      name: "Time Slot Settings",
-      content: (
-        <ReservationItemTimeSlot
-          isAdd={toggleState === 0 && isAdd ? isAdd : false}
-          isEdit={toggleState === 0 && isEdit ? isEdit : false}
-          isSave={toggleState === 0 && isSave ? isSave : false}
-          isDelete={toggleState === 0 && isDelete}
-          resetStates={() => handleReset()}
-          setSelectedRecords={setSelectedRecords}
-        />
-      ),
+      name: "Companies",
+      content: <Company />,
     },
+    {
+        name: "Roles",
+        content: <Roles />,
+      },
   ];
 
   return (
     <>
       <TitleActionBar
-        Title={"Create Reservation Item"}
+        Title={"User Overview"}
         isPlusHidden={true}
         isEditHidden={true}
         isSaveHidden={true}
@@ -123,7 +134,7 @@ const ReservationItemManagement = () => {
         }}
       />
 
-      {/* tab view */}
+ 
       <TabStructure
         tabs={tabs}
         toggleState={toggleState}
