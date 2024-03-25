@@ -1,127 +1,136 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  createReservationGroup,
-  resetManageReservationGroupState,
-} from "../../store/actions/ReservationGroupActions";
-import { checkForDuplicate } from "../../store/actions/ReservationGroupActions";
-import { useDispatch, useSelector } from "react-redux";
-import FormButton from "../../components/FormButton";
-import TextField from "../../components/TextField";
-import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { Form } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { SetUserAction } from '../../store/actions/RolesAction';
+import FormButton from '../../components/FormButton';
 
-const CreateRole = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isDuplicated = useSelector(
-    (state) => state.checkForDuplicates.checkDuplicate
-  );
-  const reservationGroupData = useSelector(
-    (state) => state.createReservationGroup
-  );
-  const [groupName, setGroupName] = useState("");
-  const [groupId, setGroupId] = useState("");
-  const [buttonFlag, setButtonFlag] = useState(false);
-  const isValueMounted = useRef(false);
 
-  useEffect(() => {
-    if (isDuplicated) {
-      setButtonFlag(true);
-    } else {
-      setButtonFlag(false);
-    }
-  }, [isDuplicated]);
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const ROLE_URL = '/Roles'; 
 
-  useEffect(() => {
-    if (!isValueMounted.current)
-      if (
-        reservationGroupData &&
-        reservationGroupData.createReservationGroup !== null &&
-        reservationGroupData.createError === null
-      ) {
-        isValueMounted.current = true;
-        toast.success("Reservation group created successfully");
-        setTimeout(() => {
-          dispatch(resetManageReservationGroupState());
-          navigate("/reservationManagement/reservation/reservationGroups");
-        }, 200);
-        clearTextFields();
-      }
-  }, [dispatch, navigate, reservationGroupData, isValueMounted]);
+function Createrolespage() {
+    const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => { 
-    e.preventDefault();
+    useEffect(() => {
+        dispatch(SetUserAction("grbbrtbrtrtb"));
+    }, [dispatch]);
 
-    if (roleId && roleName) {
-      const data = {
-        roleId: roleId.toString(),
-        roleName: roleName,
-      };
-      dispatch(CreateRole(data));
-    } else {
-      toast.error("please fill in all the fields");
-    }
-  };
+    const [values, setValues] = useState({
+        rolecode: '',
+        rolename: '',
+        privileges: [],
+    });
 
-  const clearTextFields = () => {
-    setRoleId("");
-    setRoleName("");
-  };
+    const [errors, setErrors] = useState({
+        rolecode: '',
+        rolename: '',
+    });
 
-  return (
-    <>
-      <Row>
-        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
-        <Col
-          xs={12}
-          sm={12}
-          md={8}
-          lg={8}
-          xl={8}
-          xxl={10}
-          className="body-content px-5 pt-4 pb-4 mb-5"
-        >
-          <div>
-            <h3 className="mb-5">Create Role</h3>
-            <Form onSubmit={handleSubmit}>
-              <TextField
-                label="Role Id"
-                className={`${
-                  roleId && isDuplicated ? "is-invalid" : "bg-white"
-                }`}
-                value={roleId}
-                onChange={(e) => {
-                  setRoleId(e.target.value);
-                  dispatch(checkForDuplicate(e.target.value));
-                }}
-                maxLength={8}
-                inputMessage={"Role ID already exists"}
-              />
-              <TextField
-                value={roleName}
-                label="Role Name"
-                onChange={(e) => setRoleName(e.target.value)}
-              />
+    const navigate = useNavigate();
 
-              <Form.Group as={Row} className="mb-3">
-                <Col className="d-flex justify-content-end">
-                  <FormButton
-                    type="submit"
-                    text="Create"
-                    className="form-btn"
-                    disabled={!roleId || !roleName || buttonFlag}
-                  />
-                </Col>
-              </Form.Group>
-            </Form>
-          </div>
-        </Col>
-        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
-      </Row>
-    </>
-  );
-};
+    const validateForm = () => {
+        let formIsValid = true;
+        let newErrors = { rolecode: '', rolename: '' };
 
-export default CreateRole;
+        if (!values.rolecode || values.rolecode.trim().length === 0 || values.rolecode.length > 8) {
+            newErrors.rolecode = 'Role ID is mandatory and must be 8 characters or less.';
+            formIsValid = false;
+        }
+
+        if (!values.rolename || values.rolename.trim().length === 0 || values.rolename.length > 20) {
+            newErrors.rolename = 'Role Name is mandatory and must be 20 characters or less.';
+            formIsValid = false;
+        }
+
+        setErrors(newErrors);
+        return formIsValid;
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'rolecode' && value.length <= 8) {
+            setValues({ ...values, rolecode: value });
+        } else if (name === 'rolename' && value.length <= 20) {
+            setValues({ ...values, rolename: value });
+        }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        axios.post(`${BASE_URL}${ROLE_URL}`, values)
+            .then(res => {
+                console.log(res);
+                navigate('/rolesManagement/RoleList', { state: { roleName: values.rolename } });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setValues({
+            ...values,
+            privileges: checked
+                ? [...values.privileges, name]
+                : values.privileges.filter(item => item !== name),
+        });
+    };
+
+    return (
+        <div className="App">
+            <div className="parts">
+                <div id="subTopic">
+                    <h4 className="subheaderTitle">Create Role</h4>
+                    <div className='content-body'>
+                        <form onSubmit={handleSubmit}>
+                            <div className='mb-3'>
+                                <label htmlFor="rolecode">Role Code:</label>
+                                <input type="text" name='rolecode' className={`form-control ${errors.rolecode ? 'is-invalid' : ''}`} placeholder='Enter Role Code'
+                                    value={values.rolecode} onChange={handleChange} />
+                                {errors.rolecode && <div className="invalid-feedback">{errors.rolecode}</div>}
+                            </div>
+                            <div className='mb-2'>
+                                <label htmlFor="rolename">Role Name:</label>
+                                <input type="text" name='rolename' className={`form-control ${errors.rolename ? 'is-invalid' : ''}`} placeholder='Enter Role Name'
+                                    value={values.rolename} onChange={handleChange} />
+                                {errors.rolename && <div className="invalid-feedback">{errors.rolename}</div>}
+                            </div>
+                            <div className="mb-3">
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Privileges</th>
+                                            <th>Grant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* Checkbox rows for privileges */}
+                                        {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
+                                            <tr key={privilege}>
+                                                <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)} Access`}</td>
+                                                <td>
+                                                    <input className="form-check-input" type="checkbox" name={privilege}
+                                                        checked={values.privileges.includes(privilege)} onChange={handleCheckboxChange} />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <FormButton type="submit" text="Create" className="btn btn-success" /> {/* Use FormButton component */}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Createrolespage;

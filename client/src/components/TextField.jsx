@@ -11,6 +11,7 @@ const TextField = ({
   onChange,
   inputMessage,
   maxLength,
+  defaultValue,
 }) => {
   return (
     <>
@@ -25,7 +26,7 @@ const TextField = ({
             className={`w-100 ${
               !value ? "mandatory-field" : "bg-white"
             } ${className}`}
-            value={value}
+            value={value || defaultValue} // Use defaultValue if value is not provided
             onChange={onChange}
             maxLength={maxLength}
           />
@@ -37,4 +38,5 @@ const TextField = ({
     </>
   );
 };
+
 export default TextField;

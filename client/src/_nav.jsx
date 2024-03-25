@@ -92,13 +92,13 @@ const _nav = [
   {
     component: CNavGroup,
     name: "Roles Management",
-    navPath: "/RolesManagement",
+    navPath: "/rolesManagement",
     icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
         name: "Roles",
-        to: "/RolesManagement/",
+        to: "/rolesManagement/",
         quicknavicon: (
           <FontAwesomeIcon
             icon={faUser}
@@ -119,7 +119,7 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/RolesManagement/rolesCreate",
+            to: "/rolesManagement/CreateRole",
           },
           {
             component: CNavItem,
@@ -132,7 +132,7 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/RolesManagement/rolesList",
+            to: "/rolesManagement/RoleList",
           },
           {
             component: CNavItem,
@@ -145,21 +145,9 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/RolesManagement/rolesOverview",
+            to: "/rolesManagement/RoleOverview",
           },
-          // {
-          //   component: CNavItem,
-          //   name: "User Overview",
-          //   icon: <i className="ps-2" />,
-          //   quicknavicon: (
-          //     <FontAwesomeIcon
-          //       icon={faUser}
-          //       size="2x"
-          //       className="nav-icon pb-0 pt-3"
-          //     />
-          //   ),
-          //   to: `/userManagement/UserOverview`,
-          // },
+
           
         ],
       },

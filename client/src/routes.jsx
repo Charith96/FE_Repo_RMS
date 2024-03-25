@@ -28,6 +28,19 @@ const QuickNavigation = React.lazy(() =>
   import("./components/QuickNavigation")
 );
 
+
+ //roles
+ const CreateRole = React.lazy(() =>
+ import("./pages/rolesManagement/CreateRole")
+ );
+ const RoleList = React.lazy(() =>
+ import("./pages/rolesManagement/RoleList")
+ );
+ const RoleOverview= React.lazy(() =>
+ import("./pages/rolesManagement/RoleOverview")
+ );
+
+
 const routes = [
   // dashboard
   {
@@ -66,6 +79,25 @@ const routes = [
     name: "Todos",
     element: ToDoManagement,
   },
+
+  
+  //roles
+  {
+    path: "/rolesManagement/CreateRole",
+    name: "CreateRole",
+    element:CreateRole,
+  },
+  {
+    path: "/rolesManagement/Rolelist",
+    name: "RoleList",
+    element:RoleList,
+  },
+  {
+    path:`/rolesManagement/RoleOverview`,
+    name: "RoleOverview",
+    element:RoleOverview,
+  },
+
 
   // card layouts
   {

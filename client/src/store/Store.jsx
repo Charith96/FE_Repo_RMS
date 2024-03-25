@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { thunk } from "redux-thunk";
+import SetUserReducer from "./reducers/SetUserReducer";
 import {
   createReservationGroupReducer,
   editReservationGroupReducer,
@@ -25,6 +26,7 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
+  SetUserReducer,
   // reservation group
   createReservationGroup: createReservationGroupReducer,
   editReservationGroup: editReservationGroupReducer,

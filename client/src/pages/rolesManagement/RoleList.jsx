@@ -1,336 +1,172 @@
-import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
-import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  fetchData,
-  deleteUser
-} from "../../store/actions/UserActions";
-import {
-  faArrowUpRightFromSquare,
-  faEdit,
-  faEllipsisH,
-  faMagnifyingGlass,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSave, faTrash, faPencilAlt, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import TitleActionBar from "../../components/TitleActionsBar";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { selectUserData } from "../../store/Store";
+import { useSelector, useDispatch } from 'react-redux';
 
-const UserList = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const userData = useSelector(selectUserData);
- 
-  const [paginatedData, setPaginatedData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-  const [contextMenuRow, setContextMenuRow] = useState(null);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [perPage, setPerPage] = useState(5);
-  const totalItems = filteredData.length;
-  const toggledClearRows = useRef(false);
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const ROLE_URL = '/Roles';
 
-  useEffect(() => {
-    dispatch(fetchData());
-    if (deleteUser) {
-      dispatch(fetchData());
-    }
-  }, [dispatch]);
+function Roleslistpage() {
+    const location = useLocation();
+    const roleName = location.state ? location.state.roleName : '';
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.SetUserReducer.user);
+    const [data, setData] = useState([]);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [selectedRoleId, setSelectedRoleId] = useState(null);
+    const [editingRow, setEditingRow] = useState(null);
+    const [editedRoleName, setEditedRoleName] = useState('');
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userData.users && userData.users.length > 0) {
-      setFilteredData(userData.users);
-    }
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    const start = currentPage * perPage;
-    const end = start + perPage;
-    const slicedData = filteredData?.slice(start, end);
-    setPaginatedData(slicedData);
+    const fetchData = () => {
+        axios.get(`${BASE_URL}${ROLE_URL}`)
+            .then((response) => {
+                setData(response.data);
+            })
+            .catch(err => console.log(err));
+    };
 
-    if (selectedRows.length === 1) {
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
-    }
-  }, [
-    userData,
-    currentPage,
-    perPage,
-    filteredData,
-    selectedRows,
-  ]);
-
-  const columns = [
-    {
-      name: "",
-      cell: (row) => (
-        <div className="cell-actions">
-          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
-            <FontAwesomeIcon icon={faEllipsisH} />
-          </span>
-        </div>
-      ),
-    },
-    {
-      name: "First Name",
-      selector: (row) => row.firstName,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Last Name",
-      selector: (row) => row.lastName,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Default Company",
-      selector: (row) => row.defaultCompany,
-      sortable: true,
-      grow: 2,
-    }, 
-  
-
-    {
-      name: "Designation",
-      selector: (row) => row.designation,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Primary Role",
-      selector: (row) => row.primaryRole,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.email,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Valid From",
-      selector: (row) => row.validFrom,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Valid Till",
-      selector: (row) => row.validTill,
-      sortable: true,
-      grow: 2,
-    },
-  ];
-
-  const handleCellClick = (e, row) => {
-    e.preventDefault();
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
-    setMenuVisible(true);
-    setContextMenuRow(row);
-  };
-
-  const handleEditNavigation = () => {
-    if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/userManagement/userOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "edit" } }
-      );
-    }
-  };
-
-  const handleDetailedNavigation = () => {
-    if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/userManagement/userOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "view" } }
-      );
-    }
-  };
-
-  const customContextMenu = menuVisible && (
-    <div
-      className="styled-menu"
-      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-    >
-      <div className="menu-item" onClick={() => handleEditNavigation()}>
-        <FontAwesomeIcon icon={faEdit} /> Edit
-      </div>
-      <div className="menu-item" onClick={() => handleDetailedNavigation()}>
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
-      </div>
-    </div>
-  );
-
-  const handleFilter = () => {
-    if (userData.users && userData.users.length > 0) {
-      if (searchTerm === "") {
-        setCurrentPage(0);
-        setFilteredData(userData.users);
-      } else {
-        const filtered = userData.users.filter((item) =>
-          item.userid
-            ?.toString()
-            .toLowerCase()
-            .includes(searchTerm?.toLowerCase())
-        );
-        setIsFiltered(true);
-        // dispatch(resetReservationGroupState(filtered));
-        setFilteredData(filtered);
-      }
-    }
-  };
-
-  const confirmDelete = () => {
-    if (selectedRows.length === 1) {
-      try {
-        dispatch(deleteUser(selectedRows[0]?.id));
-        toast.success("Record Successfully deleted!");
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-      } finally {
-        setShowConfirmation(false);
-      }
-    }
-  };
-
-  const handleCreate = () => {
-    navigate("/userManagement/createUsers");
-  };
-
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
-
-  const cancelDelete = () => {
-    setShowConfirmation(false);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const clearFilter = () => {
-    setSearchTerm("");
-    dispatch(fetchData());
-    setIsFiltered(false);
-    setCurrentPage(0);
-  };
-
-  const isSingleRecordSelected = selectedRows.length === 1 && false;
-
-  return (
-    <div className="mb-5 mx-2">
-      <TitleActionBar
-        Title={"User List"}
-        plustDisabled={isAddDisable}
-        editDisabled={isEditDisable}
-        saveDisabled={isSaveDisable}
-        deleteDisabled={isDeleteDisable}
-        PlusAction={() => {
-          handleCreate();
-        }}
-        EditAction={() => {}}
-        SaveAction={() => {}}
-        DeleteAction={() => {
-          handleDelete();
-        }}
-      />
-
-      <Row>
-        <div className="filter-box mb-5">
-          <InputGroup className="w-25">
-            <Form.Control
-              className="bg-white form-control-filter"
-              placeholder="Search by id"
-              aria-label="Search"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            {isFiltered ? (
-              <Button
-                variant="primary"
-                className="form-btn"
-                id="button-addon2"
-                onClick={clearFilter}
-              >
-                <FontAwesomeIcon icon={faXmark} size="lg" />
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                className="form-btn"
-                id="button-addon2"
-                onClick={handleFilter}
-              >
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </Button>
-            )}
-          </InputGroup>
-        </div>
-      </Row>
-
-      <ReservationGroupTable
-        selectableRows={true}
-        selectableRowsSingle={true}
-        setPerPage={setPerPage}
-        setCurrentPage={setCurrentPage}
-        setSelectedRows={setSelectedRows}
-        setMenuVisible={setMenuVisible}
-        paginatedData={paginatedData}
-        filteredData={filteredData}
-        totalItems={totalItems}
-        currentPage={currentPage}
-        perPage={perPage}
-        columns={columns}
-        menuVisible={menuVisible}
-        contextMenuPosition={contextMenuPosition}
-        toggledClearRows={toggledClearRows}
-        isSingleRecordSelected={isSingleRecordSelected}
-      />
-
-      {/* Popup menu */}
-      <div>{customContextMenu}</div>
-
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={cancelDelete}
-        title={"Warning"}
-        message={
-          "The selected Reservation Group will be deleted. Do you wish to continue?"
+    const toggleRowSelection = (rowId) => {
+        const isSelected = selectedRows.includes(rowId);
+        if (isSelected) {
+            setSelectedRows(selectedRows.filter(id => id !== rowId));
+        } else {
+            setSelectedRows([...selectedRows, rowId]);
         }
-        type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
-      />
-    </div>
-  );
-};
+    };
 
-export default UserList;
+    const deleteSelectedRows = () => {
+        const newData = data.filter((d, i) => !selectedRows.includes(i));
+        setData(newData);
+        selectedRows.forEach(rowId => {
+            axios.delete(`${BASE_URL}${ROLE_URL}/${data[rowId].id}`)
+                .then(res => {
+                    console.log("Deleted successfully.");
+                })
+                .catch(err => console.log(err));
+        });
+        setSelectedRows([]);
+    };
+
+    const handleEdit = (rowId) => {
+        setEditingRow(rowId);
+        setEditedRoleName(data[rowId].rolename);
+    };
+
+    const handleSave = () => {
+        const newData = data.map((d, i) => {
+            if (i === editingRow) {
+                return { ...d, rolename: editedRoleName };
+            }
+            return d;
+        });
+        setData(newData);
+        axios.put(`${BASE_URL}${ROLE_URL}/${data[editingRow].id}`, { rolename: editedRoleName })
+            .then(res => {
+                console.log("Data saved successfully.");
+                setEditingRow(null); // Reset editing mode after save
+            })
+            .catch(err => console.log(err));
+    };
+
+    const handleMoreOptions = () => {
+        if (selectedRows.length === 1) {
+            const selectedRole = data[selectedRows[0]];
+            navigate(`/RoleOverview/${selectedRole.id}`, { state: { roleData: selectedRole } });
+        }
+    };
+
+    return (
+        <div className="mb-5 mx-2">
+            <Row>
+                <div className="filter-box mb-5">
+                    <InputGroup className="w-25">
+                        <Form.Control
+                            className="bg-white form-control-filter"
+                            placeholder="Search by role name"
+                            aria-label="Search"
+                            value={editedRoleName}
+                            onChange={(e) => setEditedRoleName(e.target.value)}
+                        />
+                        <Button
+                            variant="primary"
+                            className="form-btn"
+                            id="button-addon2"
+                            onClick={handleSave}
+                        >
+                            <FontAwesomeIcon icon={faSave} />
+                        </Button>
+                        <Button
+                            variant="primary"
+                            className="form-btn"
+                            id="button-addon2"
+                            onClick={deleteSelectedRows}
+                        >
+                            <FontAwesomeIcon icon={faTrash} />
+                        </Button>
+                        <Button
+                            variant="primary"
+                            className="form-btn"
+                            id="button-addon2"
+                            onClick={handleEdit}
+                        >
+                            <FontAwesomeIcon icon={faPencilAlt} />
+                        </Button>
+                        <Button
+                            variant="primary"
+                            className="form-btn"
+                            id="button-addon2"
+                            onClick={handleMoreOptions}
+                        >
+                            <FontAwesomeIcon icon={faEllipsisV} />
+                        </Button>
+                    </InputGroup>
+                </div>
+            </Row>
+
+            <table className="table" border={1}>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Role name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data && data.map((item, i) => (
+                        <tr key={i}>
+                            <td>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="view"
+                                    onChange={() => toggleRowSelection(i)}
+                                    checked={selectedRows.includes(i)}
+                                />
+                            </td>
+                            <td>
+                                {editingRow === i ? (
+                                    <input
+                                        type="text"
+                                        value={editedRoleName}
+                                        onChange={(e) => setEditedRoleName(e.target.value)}
+                                    />
+                                ) : (
+                                    item.rolename
+                                )}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
+export default Roleslistpage;
