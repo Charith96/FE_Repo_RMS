@@ -1,14 +1,9 @@
 {
   "groupcreation": [
     {
-      "id": "4372",
-      "groupId": "1007",
-      "groupName": "cricket ground"
-    },
-    {
       "id": "0ca8",
       "groupId": "1009",
-      "groupName": "vehicle"
+      "groupName": "vehicle 12345"
     },
     {
       "id": "c940",
@@ -29,6 +24,11 @@
       "id": "14af",
       "groupId": "1001",
       "groupName": "hi"
+    },
+    {
+      "id": "c5f0",
+      "groupId": "10001",
+      "groupName": "test"
     }
   ],
   "itemcreation": [
@@ -501,19 +501,6 @@
       "reservationGroup": "c940"
     },
     {
-      "id": "4c86",
-      "itemId": "1111",
-      "itemName": "cric",
-      "timeSlotType": "Defined",
-      "noOfSlots": 2,
-      "slotDurationType": "Fixed",
-      "duration": 0,
-      "noOfReservations": 500,
-      "capacity": 50,
-      "reservationGroup": "4372",
-      "groupName": "4372"
-    },
-    {
       "id": "fa76",
       "itemId": "1111",
       "itemName": "tester",
@@ -526,16 +513,16 @@
       "reservationGroup": "c940"
     },
     {
-      "id": "1f6e",
-      "itemId": "4444",
-      "itemName": "badminton",
-      "timeSlotType": "Defined",
-      "noOfSlots": 3,
-      "slotDurationType": "Fixed",
-      "duration": "01:00",
-      "noOfReservations": 89,
-      "capacity": 890,
-      "reservationGroup": "1ceb"
+      "id": "d0ae",
+      "itemId": "7777",
+      "itemName": "ghjk",
+      "timeSlotType": "Flexible",
+      "noOfSlots": 0,
+      "slotDurationType": "",
+      "duration": "",
+      "noOfReservations": 120,
+      "capacity": 12,
+      "reservationGroup": "c940"
     }
   ],
   "timeslotsitem": [
@@ -636,18 +623,6 @@
       "itemId": "c280"
     },
     {
-      "id": "ef11",
-      "startTime": "18:10",
-      "endTime": "18:40",
-      "itemId": "4c86"
-    },
-    {
-      "id": "e073",
-      "startTime": "20:10",
-      "endTime": "20:40",
-      "itemId": "4c86"
-    },
-    {
       "id": "5ecf",
       "startTime": "17:19",
       "endTime": "18:19",
@@ -672,18 +647,6 @@
       "itemId": "fa76"
     },
     {
-      "id": "be02",
-      "startTime": "15:26",
-      "endTime": "16:26",
-      "itemId": "1f6e"
-    },
-    {
-      "id": "ad79",
-      "startTime": "23:26",
-      "endTime": "00:26",
-      "itemId": "1f6e"
-    },
-    {
       "id": "4e84",
       "startTime": "16:48",
       "endTime": "17:48",
@@ -694,12 +657,6 @@
       "startTime": "17:48",
       "endTime": "18:48",
       "itemId": "4444"
-    },
-    {
-      "id": "eee0",
-      "startTime": "08:52",
-      "endTime": "09:52",
-      "itemId": "1f6e"
     }
   ],
   "todos": [

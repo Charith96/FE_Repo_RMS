@@ -97,7 +97,7 @@ const ManageReservationGroups = () => {
           groupName: groupName,
         };
         console.log("formData ", recordId, formData);
-        // dispatch(editReservationGroup(recordId, formData));
+        dispatch(editReservationGroup(recordId, formData));
         handleNavigate();
         toast.success("Data saved successfully");
       } else {

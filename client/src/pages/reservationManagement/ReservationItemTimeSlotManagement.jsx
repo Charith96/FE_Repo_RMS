@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import { editTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import { createTimeSlots } from "../../store/actions/ReservationItemActions";
+import { deleteTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import TabStructure from "../../components/TabStructure";
 import ManageReservationItems from "./ReservationItemOverview";
 import ReservationItemTimeSlotList from "./ReservationItemTimeSlotList";
@@ -52,9 +53,9 @@ const ReservationItemTimeSlotManagement = () => {
   const [newlyAddedSlots, setNewlyAddedSlots] = useState([]);
 
   useEffect(() => {
-    setNoOfAddedSlots(parseInt(noOfSlots, 10) ) // Update noOfAddedSlots when noOfSlots changes
-    
-    console.log("noOfSlots", noOfAddedSlots)
+    setNoOfAddedSlots(parseInt(noOfSlots, 10)); // Update noOfAddedSlots when noOfSlots changes
+
+    console.log("noOfSlots", noOfAddedSlots);
   }, [noOfSlots]);
 
   useEffect(() => {
@@ -131,6 +132,8 @@ const ReservationItemTimeSlotManagement = () => {
   }, [isSaveDisable, recordId, fetchData]);
   //handle save click
   const handleSave = async () => {
+    var flagNew = true;
+    var flagOld = true;
     try {
       if (paramData && recordId) {
         const formData = {
@@ -142,23 +145,52 @@ const ReservationItemTimeSlotManagement = () => {
           noOfReservations: noOfReservations,
           capacity: capacity,
         };
-        dispatch(editReservationItem(recordId, formData));
-        console.log("inputValues", inputValues);
-        const data = inputValues.map((value) => ({
-          ...value,
-        }));
-        data.forEach((value) => {
-          dispatch(editTimeSlotsByItemId(value.id, value));
-        });
+        if (inputValues.length > 0) {
+          inputValues.forEach((value) => {
+            if (
+              value.startTime === "NaN:NaN" ||
+              value.endTime === "NaN:NaN" ||
+              value.startTime === "" ||
+              value.endTime === ""
+            ) {
+              flagOld = false;
+            }
+            if (newlyAddedSlots.length > 0) {
+              newlyAddedSlots.forEach((value) => {
+                if (
+                  value.startTime === "NaN:NaN" ||
+                  value.endTime === "NaN:NaN" ||
+                  value.startTime === "" ||
+                  value.endTime === ""
+                ) {
+                  flagNew = false;
+                }
+              });
+            }
+          });
+        }
+        if (itemName && noOfReservations && capacity && flagOld && flagNew) {
+          dispatch(editReservationItem(recordId, formData));
 
-        const dataNew = newlyAddedSlots.map((value) => ({
-          ...value,
-        }));
-        dataNew.forEach((value) => {
-          dispatch(createTimeSlots(value));
-        });
+          console.log("inputValues", inputValues);
+          const data = inputValues.map((value) => ({
+            ...value,
+          }));
+          data.forEach((value) => {
+            dispatch(editTimeSlotsByItemId(value.id, value));
+          });
 
-        toast.success("Data saved successfully");
+          const dataNew = newlyAddedSlots.map((value) => ({
+            ...value,
+          }));
+          dataNew.forEach((value) => {
+            dispatch(createTimeSlots(value));
+          });
+
+          toast.success("Data saved successfully");
+        } else {
+          toast.error("Please fill in all required fields.");
+        }
       } else {
         toast.error("Cannot save. ID is undefined.");
       }
@@ -172,6 +204,9 @@ const ReservationItemTimeSlotManagement = () => {
     try {
       if (paramData && paramData.id) {
         dispatch(deleteReservationItem(paramData.id));
+        fetchTimeSlotsByItemIdData.forEach((value) => {
+          dispatch(deleteTimeSlotsByItemId(value.id));
+        });
         toast.success("Data deleted successfully");
         //handleNavigate();
       } else {

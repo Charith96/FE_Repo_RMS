@@ -77,18 +77,7 @@ const handleInputChange = (value) => {
                 disabled={isViewMode}
                 onChange={(e) => setItemName(e.target.value)}
               />
-              <TextField
-                label="No of Slots"
-                type={"number"}
-                className={`${!noOfSlots ? "is-invalid" : "bg-white"}`}
-                value={noOfSlots}
-                disabled={isViewMode}
-                onChange={(e) => {
-                  handleInputChange(e.target.value);
-
-                  setNoOfSlots(e.target.value);
-                }}
-              />
+              
               <TextField
                 label="No of Reservations"
                 className={`${!noOfReservations ? "is-invalid" : "bg-white"}`}

@@ -138,7 +138,7 @@ export const deleteTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_TIME_SLOTS_BY_ITEM_ID_START });
     const response = await axios.delete(
-      `${BASE_URL}${TIME_SLOT}?itemId=${id}`
+      `${BASE_URL}${TIME_SLOT}/${id}`
     );
     if (response.status === 200) {
       dispatch({

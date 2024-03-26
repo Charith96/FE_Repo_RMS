@@ -1,6 +1,8 @@
-import React from "react";
-import { Form } from "react-bootstrap";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { deleteTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const ReservationItemTimeSlotList = ({
   inputValues,
@@ -20,6 +22,8 @@ const ReservationItemTimeSlotList = ({
   newlyAddedSlots,
   setNewlyAddedSlots,
 }) => {
+  const [selectedId, setSelectedId] = useState("");
+  const dispatch = useDispatch();
   //time slot value management
   const addDurationToStartTime = (startTime, duration) => {
     const [startHours, startMinutes] = startTime.split(":").map(Number);
@@ -45,9 +49,21 @@ const ReservationItemTimeSlotList = ({
 
   const handleAddMore = () => {
     const value = { startTime: "", endTime: "", itemId: uniqueId };
-    setNewlyAddedSlots([...newlyAddedSlots,value])
+    setNewlyAddedSlots([...newlyAddedSlots, value]);
     const newInputValues = [...inputValues, value];
     setInputValues(newInputValues);
+  };
+
+  const handleRemove = () => {
+    try {
+      dispatch(deleteTimeSlotsByItemId(selectedId));
+      toast.success("Record Successfully deleted!");
+      const newValues = inputValues.filter((value) => value.id !== selectedId);
+      setInputValues(newValues);
+      setSelectedId("");
+    } catch (error) {
+      toast.error("Error deleting row. Please try again.");
+    }
   };
 
   return (
@@ -55,35 +71,47 @@ const ReservationItemTimeSlotList = ({
       {inputValues.map((value, index) => (
         <React.Fragment key={index}>
           <Form.Group controlId={`form_${index}`} className="d-flex">
-            <Form.Control
-              type="time"
+            <input
+              type="checkbox"
               name={value.id}
-              value={inputValues[index].startTime}
+              checked={selectedId === value.id}
               onChange={(e) => {
-                const newValues = [...inputValues];
-                newValues[index].startTime = e.target.value;
-                //update endTime using addDurationToStartTime function
-                !isCustomized &&
-                  (newValues[index].endTime = addDurationToStartTime(
-                    e.target.value,
-                    duration
-                  ));
-                setInputValues(newValues);
+                e.target.checked ? setSelectedId(value.id) : setSelectedId("");
+                console.log("selectedId", selectedId);
               }}
-              className="mr-2"
             />
-            <span className="align-self-center">TO</span>
-            <Form.Control
-              type="time"
-              value={inputValues[index].endTime}
-              onChange={(e) => {
-                const newValues = [...inputValues];
-                newValues[index].endTime = e.target.value;
-                setInputValues(newValues);
-              }}
-              disabled={!isCustomized}
-              className="ml-2"
-            />
+            <div className="p-1">
+              <Form.Control
+                type="time"
+                name={value.id}
+                value={inputValues[index].startTime}
+                onChange={(e) => {
+                  const newValues = [...inputValues];
+                  newValues[index].startTime = e.target.value;
+                  //update endTime using addDurationToStartTime function
+                  !isCustomized &&
+                    (newValues[index].endTime = addDurationToStartTime(
+                      e.target.value,
+                      duration
+                    ));
+                  setInputValues(newValues);
+                  
+                }}
+                className="mr-2"
+              />
+              <span className="align-self-center">TO</span>
+              <Form.Control
+                readOnly={duration?true:false}
+                type="time"
+                value={inputValues[index].endTime}
+                onChange={(e) => {
+                  const newValues = [...inputValues];
+                  newValues[index].endTime = e.target.value;
+                  setInputValues(newValues);
+                }}
+                className="ml-2"
+              />
+            </div>
           </Form.Group>
           <br />
         </React.Fragment>
@@ -91,6 +119,10 @@ const ReservationItemTimeSlotList = ({
 
       <Button variant="primary" onClick={handleAddMore}>
         Add More
+      </Button>
+
+      <Button variant="danger" onClick={handleRemove} disabled={!selectedId} className="m-1">
+        Remove
       </Button>
     </div>
   );
