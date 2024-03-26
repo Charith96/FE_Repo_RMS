@@ -3,7 +3,9 @@ import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  fetchCompanyData
+  fetchCompanyData,
+  fetchUserData,
+  updateUserData,
 } from "../../store/actions/UserActions";
 import {
   faArrowUpRightFromSquare,
@@ -19,11 +21,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";
 
-const OverviewTable = () => {
+const OverviewTable = ({value}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector(selectUserData);
- 
+
+  const [filteredCompanies, setFilteredCompanies] = useState({});
+  const [filteredUser, setUser] = useState({});
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -45,8 +49,20 @@ const OverviewTable = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
+
   useEffect(() => {
+    
     dispatch(fetchCompanyData());
+    dispatch(fetchUserData(value));
+    if (userData.users && userData.users.companies) {
+      const userCompanies = userData.users.companies;
+      const userI=userData.users;
+      setUser(userI);
+      setFilteredCompanies(userCompanies);
+      
+    }
+    
+    
    
   }, [dispatch]);
 
@@ -54,7 +70,7 @@ const OverviewTable = () => {
     if (userData.company && userData.company.length > 0) {
       setFilteredData(userData.company);
     }
-
+  
     const start = currentPage * perPage;
     const end = start + perPage;
     const slicedData = filteredData?.slice(start, end);
@@ -62,6 +78,8 @@ const OverviewTable = () => {
 
     if (selectedRows.length === 1) {
       setIsDeleteDisable(false);
+      setIsSaveDisable(false);
+
     } else {
       setIsDeleteDisable(true);
     }
@@ -72,6 +90,9 @@ const OverviewTable = () => {
     filteredData,
     selectedRows,
   ]);
+
+  
+  
 
   const columns = [
     {
@@ -96,7 +117,22 @@ const OverviewTable = () => {
       sortable: true,
       grow: 2,
     },
+    {
+      name: "Status",
+      cell: (row) => {
+
+          const defaultStatus = userData.users.defaultCompany === row.name ? "default" : " ";
+          const status = Array.isArray(userData.users.companies) && userData.users.companies.includes(row.name) ? "granted" : defaultStatus;
+          return status;
+        },
+        
+    
+      sortable: true,
+      grow: 2,
+    }
+   
   ];
+ 
 
   const handleCellClick = (e, row) => {
   
@@ -107,45 +143,8 @@ const OverviewTable = () => {
 
   };
 
-  const handleEditNavigation = () => {
-    if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/userManagement/userOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "edit" } }
-      );
-    }
-  };
 
-  const handleDetailedNavigation = () => {
-    if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/userManagement/userOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "view" } }
-      );
-    }
-  };
-
-  const customContextMenu = menuVisible && (
-    <div
-      className="styled-menu"
-      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-    >
-      <div className="menu-item" onClick={() => handleEditNavigation()}>
-        <FontAwesomeIcon icon={faEdit} /> Edit
-      </div>
-      <div className="menu-item" onClick={() => handleDetailedNavigation()}>
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
-      </div>
-    </div>
-  );
+  
 
   const handleFilter = () => {
     if (userData.company && userData.company.length > 0) {
@@ -167,28 +166,61 @@ const OverviewTable = () => {
   };
 
   const confirmDelete = () => {
-    // if (selectedRows.length === 1) {
-    //   try {
-    //     dispatch(deleteUser(selectedRows[0]?.id));
-    //     toast.success("Record Successfully deleted!");
-    //   } catch (error) {
-    //     toast.error("Error deleting row. Please try again.");
-    //   } finally {
-    //     setShowConfirmation(false);
-    //   }
-    // }
+
   };
 
   const handleCreate = () => {
     navigate("/userManagement/createUsers");
   };
 
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
-  const handleSave = () => {
-    // setShowConfirmation(true);
-  };
+  const handleDelete = async () => {
+
+    if (selectedRows.length === 1) {
+        const companyName = selectedRows[0].name;
+        if (companyName === userData.users.defaultCompany) {
+          console.log("Cannot delete default company:", companyName);
+          return; 
+      }
+        if (userData.users.companies.includes(companyName)) {
+            const updatedCompanies = userData.users.companies.filter(company => company !== companyName);
+            const updatedUserData = {
+                ...userData.users,
+                companies: updatedCompanies,
+            };
+            await dispatch(updateUserData(value, updatedUserData));
+            console.log("Company name deleted:", companyName);
+            console.log("Updated companies:", updatedCompanies);
+        } else {
+            console.log("Company name does not exist:", companyName);
+        }
+    }
+};
+
+  const handleSave = async () => {
+ 
+    if (selectedRows.length === 1) {
+        const companyName = selectedRows[0].name;
+        if (companyName === userData.users.defaultCompany) {
+          console.log("Cannot add default company:", companyName);
+          return; 
+      }
+      
+        if (!userData.users.companies.includes(companyName)) {
+            const updatedCompanies = [...userData.users.companies, companyName];
+            const updatedUserData = {
+                ...userData.users,
+                companies: updatedCompanies,
+            };
+            await dispatch(updateUserData(value, updatedUserData));
+            console.log("Company name added:", companyName);
+            console.log("Updated companies:", updatedCompanies);
+        } else {
+            console.log("Company name already exists:", companyName);
+        }
+    }
+};
+
+  
 
   const cancelDelete = () => {
     setShowConfirmation(false);
@@ -210,7 +242,7 @@ const OverviewTable = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"User List"}
+        Title={"User Companies"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
@@ -228,7 +260,7 @@ const OverviewTable = () => {
       />
 
       <Row>
-        <div className="filter-box mb-5">
+        {/* <div className="filter-box mb-5">
           <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
@@ -257,7 +289,7 @@ const OverviewTable = () => {
               </Button>
             )}
           </InputGroup>
-        </div>
+        </div> */}
       </Row>
 
       <ReservationGroupTable
@@ -280,8 +312,7 @@ const OverviewTable = () => {
       />
 
       {/* Popup menu */}
-      <div>{customContextMenu}</div>
-
+   
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}

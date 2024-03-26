@@ -31,6 +31,8 @@ const Main = () => {
     password: "",
     validFrom: "",
     validTill: "",
+    companies: [],
+    roles: [],
   });
 
   useEffect(() => {

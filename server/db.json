@@ -491,37 +491,6 @@
   ],
   "users": [
     {
-      "firstName": "Jhone",
-      "lastName": "Watsonn",
-      "defaultCompany": "ABC",
-      "designation": "Receptionist",
-      "primaryRole": "Receptionist",
-      "email": "jjjjj@gmail.com",
-      "password": "efgh@123",
-      "validFrom": "2024-03-05T09:50",
-      "validTill": "2024-04-02T09:50",
-      "companies": [
-        "0003",
-        "0002"
-      ],
-      "roles": [
-        "0002"
-      ],
-      "id": "244e"
-    },
-    {
-      "id": "5e5a",
-      "firstName": "Anne",
-      "lastName": "Watson",
-      "defaultCompany": "DEF",
-      "designation": "reservaiton officer",
-      "primaryRole": "Reservation Officer",
-      "email": "hasinichamodi4@gmail.com",
-      "password": "qwer@12345",
-      "validFrom": "2024-03-14T16:42",
-      "validTill": "2024-03-29T16:42"
-    },
-    {
       "id": "5e53",
       "firstName": "Sarah",
       "lastName": "Watson",
@@ -534,11 +503,9 @@
       "validTill": "2024-03-29T16:42",
       "userID": "hasinichamodi4@gmail.com",
       "companies": [
-        "DEF"
+        "ABCd"
       ],
-      "roles": [
-        "Reservation Officer"
-      ]
+      "roles": []
     },
     {
       "id": "5e56",
@@ -551,13 +518,10 @@
       "password": "qwer@12345",
       "validFrom": "2024-03-14T16:42",
       "validTill": "2024-03-29T16:42",
-      "userID": "hasinichamodi4@gmail.com",
       "companies": [
-        "DEF"
+        "ABC"
       ],
-      "roles": [
-        "Reservation Officer"
-      ]
+      "roles": []
     },
     {
       "id": "5e5i",
@@ -574,9 +538,7 @@
       "companies": [
         "DEF"
       ],
-      "roles": [
-        "Reservation Officer"
-      ]
+      "roles": []
     }
   ],
   "company": [

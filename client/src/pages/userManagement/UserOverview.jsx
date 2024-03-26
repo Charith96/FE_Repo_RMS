@@ -11,7 +11,7 @@ import {
   updateUserData,
 } from "../../store/actions/UserActions"
 import { selectUserData } from "../../store/Store";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import General from './General';
 import Roles from './Roles';
 import Company from './Company';
@@ -29,10 +29,16 @@ const ReservationItemManagement = () => {
   const [disableEdit, setDisableEdit] = useState(true);
   const [disableDelete, setDisableDelete] = useState(true);
   const [selectedRecords, setSelectedRecords] = useState(0);
-
+  const { state } = useLocation();
+  const searchParams = new URLSearchParams(useLocation().search);
+  const data = searchParams.get("data");
+  const paramData = JSON.parse(data);
+  const mode = state ? state.mode : null;
 
   
   useEffect(() => {
+    
+
     if (selectedRecords === 1 && disableEdit && !isEdit) {
       setDisableEdit(false);
       setDisableDelete(false);
@@ -40,7 +46,9 @@ const ReservationItemManagement = () => {
       setDisableEdit(true);
       setDisableDelete(true);
     }
-  }, [isAdd, isEdit, isSave, isDelete, disableEdit,selectedRecords]);
+  
+
+  }, [isAdd, isEdit, isSave, isDelete, disableEdit,selectedRecords,data]);
 
   // handle tab view
   const toggleTab = (index) => {
@@ -96,15 +104,15 @@ const ReservationItemManagement = () => {
   const tabs = [
     {
       name: "General",
-      content: <General />,
+      content: <General  value={paramData.id} mode={mode}/>,
     },
     {
       name: "Companies",
-      content: <Company />,
+      content: <Company   value={paramData.id} />,
     },
     {
         name: "Roles",
-        content: <Roles />,
+        content: <Roles  value={paramData.id} />,
       },
   ];
 

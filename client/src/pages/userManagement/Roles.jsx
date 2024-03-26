@@ -5,6 +5,8 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchRoleData,
+  updateUserData,
+  fetchUserData
 } from "../../store/actions/UserActions";
 import {
   faArrowUpRightFromSquare,
@@ -20,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";
 
-const OverviewTable = () => {
+const OverviewTable = ({value}) => {
  
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,8 +51,9 @@ const OverviewTable = () => {
 
   useEffect(() => {
     dispatch(fetchRoleData());
+    dispatch(fetchUserData(value));
    
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (userData.roles && userData.roles.length > 0) {
@@ -64,8 +67,10 @@ const OverviewTable = () => {
 
     if (selectedRows.length === 1) {
       setIsDeleteDisable(false);
+      setIsSaveDisable(false);
     } else {
       setIsDeleteDisable(true);
+
     }
   }, [
     userData,
@@ -98,6 +103,19 @@ const OverviewTable = () => {
       sortable: true,
       grow: 2,
     },
+     {
+      name: "Status",
+      cell: (row) => {
+
+          const defaultStatus = userData.users.primaryRole === row.name ? "default" : " ";
+          const status = Array.isArray(userData.users.roles) && userData.users.roles.includes(row.name) ? "granted" : defaultStatus;
+          return status;
+        },
+        
+    
+      sortable: true,
+      grow: 2,
+    }
   ];
 
   const handleCellClick = (e, row) => {
@@ -118,6 +136,11 @@ const OverviewTable = () => {
         { state: { mode: "edit" } }
       );
     }
+  };
+
+
+  const handleCreate = () => {
+    navigate("/userManagement/createUsers");
   };
 
   const handleDetailedNavigation = () => {
@@ -167,26 +190,48 @@ const OverviewTable = () => {
   };
 
   const confirmDelete = () => {
-    // if (selectedRows.length === 1) {
-    //   try {
-    //     dispatch(deleteUser(selectedRows[0]?.id));
-    //     toast.success("Record Successfully deleted!");
-    //   } catch (error) {
-    //     toast.error("Error deleting row. Please try again.");
-    //   } finally {
-    //     setShowConfirmation(false);
-    //   }
-    // }
+   
   };
+  const handleSave = async () => {
 
-  const handleCreate = () => {
-    navigate("/userManagement/createUsers");
-  };
+    
+    if (selectedRows.length === 1) {
+        const roleName = selectedRows[0].name;
+        if (roleName=== userData.users.primaryRole) {
+          console.log("Cannot add default role", roleName);
+          return; // Ignore the update
+      }
+      
+        if (!userData.users.roles.includes(roleName)) {
+            const updatedRoles = [...userData.users.roles, roleName];
+            const updatedUserData = { ...userData.users, roles: updatedRoles };
+            await dispatch(updateUserData(value, updatedUserData));
+            console.log("Role name added:",roleName );
+            console.log("Updated roles:", updatedUserData);
+        } else {
+            console.log("Role name already exists:", roleName);
+        }
+    }
+};
 
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
-
+const handleDelete = async () => {
+    if (selectedRows.length === 1) {
+        const roleName = selectedRows[0].name;
+        if (roleName=== userData.users.primaryRole) {
+          console.log("Cannot delete default role", roleName);
+          return; 
+      }
+        if (userData.users.roles.includes(roleName)) {
+            const updatedRoles = userData.users.roles.filter(role => role !== roleName);
+            const updatedUserData = { ...userData.users, roles: updatedRoles };
+            await dispatch(updateUserData(value, updatedUserData));
+            console.log("Role name deleted:", roleName);
+            console.log("Updated roles:", updatedRoles);
+        } else {
+            console.log("Role name does not exist:", roleName);
+        }
+    }
+};
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
@@ -207,7 +252,7 @@ const OverviewTable = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"User List"}
+        Title={"User Roles"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
@@ -216,14 +261,16 @@ const OverviewTable = () => {
           handleCreate();
         }}
         EditAction={() => {}}
-        SaveAction={() => {}}
+        SaveAction={() => {
+          handleSave();
+        }}
         DeleteAction={() => {
           handleDelete();
         }}
       />
 
       <Row>
-        <div className="filter-box mb-5">
+        {/* <div className="filter-box mb-5">
           <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
@@ -252,7 +299,7 @@ const OverviewTable = () => {
               </Button>
             )}
           </InputGroup>
-        </div>
+        </div> */}
       </Row>
 
       <ReservationGroupTable

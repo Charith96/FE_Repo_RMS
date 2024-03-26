@@ -3,6 +3,7 @@ import { deleteReservationGroup } from "../../store/actions/ReservationGroupActi
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams } from "react-router-dom";
 import {
   fetchData,
   deleteUser
@@ -25,7 +26,8 @@ const UserList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector(selectUserData);
- 
+  let { value } = useParams();
+
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -52,7 +54,7 @@ const UserList = () => {
     if (deleteUser) {
       dispatch(fetchData());
     }
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (userData.users && userData.users.length > 0) {
@@ -187,6 +189,7 @@ const UserList = () => {
     </div>
   );
 
+ 
   const handleFilter = () => {
     if (userData.users && userData.users.length > 0) {
       if (searchTerm === "") {
@@ -194,17 +197,18 @@ const UserList = () => {
         setFilteredData(userData.users);
       } else {
         const filtered = userData.users.filter((item) =>
-          item.userid
-            ?.toString()
-            .toLowerCase()
-            .includes(searchTerm?.toLowerCase())
+          Object.values(item).some(
+            (value) =>
+              value &&
+              value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )
         );
         setIsFiltered(true);
-        // dispatch(resetReservationGroupState(filtered));
         setFilteredData(filtered);
       }
     }
   };
+
 
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
@@ -267,7 +271,7 @@ const UserList = () => {
           <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
-              placeholder="Search by id"
+              placeholder="Search..."
               aria-label="Search"
               value={searchTerm}
               onChange={handleSearchChange}

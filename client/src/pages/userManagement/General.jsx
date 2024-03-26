@@ -10,42 +10,86 @@ import Dropdown from "../../components/dropdown";
 import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";
 
-const UserDetailsPage = () => {
-  const id  = "5e5a";
+const UserDetailsPage = ({value, mode}) => {
+  const id  = value;
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const [filteredUserData, setFilteredUserData] = useState({});
+  const [filteredCompanyData, setFilteredCompanyData] = useState({});
+  const [filteredRoleData, setFilteredRoleData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
-    
+    // const fetchData = async () => {
+    //   try {
+    //     if (mode && mode !== 'edit') {
+    //       await dispatch(fetchUserData(id));
+    //       const user = userData.users;
+    //       setFilteredUserData({
+    //         userID: user.email,
+    //         firstName: user.firstName,
+    //         lastName: user.lastName,
+    //         defaultCompany: user.defaultCompany,
+    //         designation: user.designation,
+    //         primaryRole: user.primaryRole,
+    //         email: user.email,
+    //         password: user.password,
+    //         validFrom: user.validFrom,
+    //         validTill: user.validTill,
+    //       });
+    //     }  if (mode && mode !== 'view' && !editMode) {
+    //       await dispatch(fetchUserData(id));
+    //       const user = userData.users;
+    //       setFilteredUserData({
+    //         userID: user.email,
+    //         firstName: user.firstName,
+    //         lastName: user.lastName,
+    //         defaultCompany: user.defaultCompany,
+    //         designation: user.designation,
+    //         primaryRole: user.primaryRole,
+    //         email: user.email,
+    //         password: user.password,
+    //         validFrom: user.validFrom,
+    //         validTill: user.validTill,
+    //         companies: user.companies,
+    //         roles: user.roles,
+    //       });
+    //       setEditMode(true); // Set editMode to true after fetching data
+    //     }
+  
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
     const fetchData = async () => {
       try {
-        if (!editMode) {
+        if (editMode === false) {
           await dispatch(fetchUserData(id));
-          const user = userData.users;
           setFilteredUserData({
-            userID: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            defaultCompany: user.defaultCompany,
-            designation: user.designation,
-            primaryRole: user.primaryRole,
-            email: user.email,
-            password: user.password,
-            validFrom: user.validFrom,
-            validTill: user.validTill,
+            userID: userData.users.email,
+            firstName: userData.users.firstName,
+            lastName: userData.users.lastName,
+            defaultCompany: userData.users.defaultCompany,
+            designation: userData.users.designation,
+            primaryRole: userData.users.primaryRole,
+            email: userData.users.email,
+            password: userData.users.password,
+            validFrom: userData.users.validFrom,
+            validTill: userData.users.validTill,
+            companies: userData.users.companies,
+            roles: userData.users.roles,
           });
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, [dispatch, id, editMode, userData.users]);
+  }, [dispatch, id, mode, userData.users]);
+  
+  
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -105,6 +149,7 @@ const UserDetailsPage = () => {
               formData={filteredUserData}
               onChange={handleInputChange}
               editMode={editMode}
+              userData={userData}
             />
           </div>
         </Col>
@@ -113,7 +158,8 @@ const UserDetailsPage = () => {
   );
 };
 
-const UserForm = ({ formData, onChange, editMode }) => {
+const UserForm = ({ formData, onChange, editMode,userData }) => {
+
   return (
   <>
       <TextField
@@ -130,13 +176,37 @@ const UserForm = ({ formData, onChange, editMode }) => {
         onChange={onChange}
         disabled={!editMode}
       />
-      <TextField
-        id="defaultCompany"
-        label="Default Company:"
-        value={formData.defaultCompany}
-        onChange={onChange}
-        disabled={!editMode}
-      />
+      {/* {editMode &&  */}
+        <TextField
+          id="defaultCompany"
+          label="Default Company:"
+          value={formData.defaultCompany}
+          onChange={onChange}
+          disabled={!editMode}
+        />
+
+      {/* }:{ */}
+      {/* //   <Form.Group as={Row} className="mb-3">
+      //   <Form.Label column md={3}>
+      //     Default Company
+      //   </Form.Label>
+      //   <Col md={9}>
+      //     <Form.Select */}
+      {/* //       id="defaultCompany"
+      //       value={formData.defaultCompany}
+      //       onChange={onchange}
+      //     >
+      //       <option value="">Select Default Company</option>
+      //       {userData.company.map((company) => (
+      //         <option key={company.id} value={company.name}>
+      //           {company.name}
+      //         </option>
+      //       ))}
+      //     </Form.Select>
+      //   </Col>
+      // </Form.Group>
+      }  */}
+     
       <TextField
         id="designation"
         label="Designation:"
@@ -144,13 +214,35 @@ const UserForm = ({ formData, onChange, editMode }) => {
         onChange={onChange}
         disabled={!editMode}
       />
+         {/* {editMode &&   */}
       <TextField
         id="primaryRole"
         label="Primary Role:"
         value={formData.primaryRole}
         onChange={onChange}
         disabled={!editMode}
-      />
+       />
+    {/* }:{ */}
+      {/* //   <Form.Group as={Row} className="mb-3">
+      //   <Form.Label column md={3}>
+      //     Default Role
+      //   </Form.Label>
+      //   <Col md={9}>
+      //     <Form.Select */}
+      {/* //       id="primaryRole"
+      //       value={formData.primaryRole}
+      //       onChange={onChange}
+      //     >
+      //       <option value="">Select Default Company</option>
+      //       {userData.company.map((role) => ( */}
+      {/* //         <option key={role.id} value={role.name}>
+      //           {role.name}
+      //         </option>
+      //       ))}
+      //     </Form.Select> */}
+      {/* //   </Col> */}
+      {/* // </Form.Group>  */}
+      {/* // } */}
       <TextField
         id="email"
         label="Email:"
