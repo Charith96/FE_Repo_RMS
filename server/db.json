@@ -1,14 +1,6 @@
 {
   "customers": [
     {
-      "id": "87201891",
-      "fullName": "today test",
-      "identifier": "423",
-      "address": "fggttyjy",
-      "email": "test@ghotmail.com",
-      "contactNo": "387908090217890"
-    },
-    {
       "id": "21321313",
       "fullName": "second test",
       "identifier": "909800",
