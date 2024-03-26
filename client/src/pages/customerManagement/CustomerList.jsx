@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomers, deleteCustomer } from "../../store/actions/customerActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisH, faTrash, faSearch, faArrowUpRightFromSquare, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH, faArrowUpRightFromSquare, faEdit ,faSearch} from "@fortawesome/free-solid-svg-icons";
 import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,8 @@ function CustomerList() {
   const [isFiltered, setIsFiltered] = useState(false);
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [contextMenuRow, setContextMenuRow] = useState(null);
 
   useEffect(() => {
     dispatch(fetchCustomers());
@@ -28,10 +29,48 @@ function CustomerList() {
     }
   }, [customers]);
 
-  const toggleOptions = (customer) => {
-    setSelectedCustomer(customer);
-    setShowOptions(!showOptions);
+  const handleCellClick = (e, customer) => {
+    e.preventDefault();
+    setContextMenuPosition({ x: e.clientX, y: e.clientY });
+    setContextMenuRow(customer);
+    setShowOptions(true);
   };
+
+  const handleEditNavigation = () => {
+    if (selectedCustomers.length === 1) {
+      let data = { id: contextMenuRow.id };
+      let dataString = JSON.stringify(data);
+      navigate(
+        `/customerManagement/CustomerOverview/${encodeURIComponent(dataString)}`,
+        { state: { mode: "edit" } }
+      );
+    }
+  };
+
+  const handleDetailedNavigation = () => {
+    if (selectedCustomers.length === 1) {
+      let data = { id: contextMenuRow.id };
+      let dataString = JSON.stringify(data);
+      navigate(
+        `/customerManagement/CustomerOverview/${encodeURIComponent(dataString)}`,
+        { state: { mode: "view" } }
+      );
+    }
+  };
+
+  const customContextMenu = showOptions && (
+    <div
+      className="styled-menu"
+      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
+    >
+      <div className="menu-item" onClick={handleEditNavigation}>
+        <FontAwesomeIcon icon={faEdit} /> Edit
+      </div>
+      <div className="menu-item" onClick={handleDetailedNavigation}>
+        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
+      </div>
+    </div>
+  );
 
   const handleSearchChange = (e) => {
     const inputValue = e.target.value.toLowerCase();
@@ -49,24 +88,13 @@ function CustomerList() {
     }
   };
 
-  const clearFilter = () => {
-    setSearchValue("");
-    setIsFiltered(false);
-    setFilteredData(customers);
-  };
-
   const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
 
-  const handleEditCustomer = (customerId) => {
-    navigate(`/customerManagement/CustomerOverview/${customerId}`);
-    setShowOptions(false);
-  };
-
-  const handleViewDetails = (customerId) => {
-    navigate(`/customerManagement/CustomerOverview/${customerId}`);
-    setShowOptions(false);
+  const handleDelete = () => {
+    dispatch(deleteCustomer(selectedCustomers));
+    setSelectedCustomers([]);
   };
 
   const handleCheckboxChange = (customerId) => {
@@ -78,9 +106,10 @@ function CustomerList() {
     }
   };
 
-  const handleDelete = () => {
-    dispatch(deleteCustomer(selectedCustomers));
-    setSelectedCustomers([]);
+  const clearFilter = () => {
+    setSearchValue("");
+    setIsFiltered(false);
+    setFilteredData(customers);
   };
 
   return (
@@ -137,7 +166,6 @@ function CustomerList() {
               <th>Address</th>
               <th>Email</th>
               <th>Contact No</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -152,7 +180,7 @@ function CustomerList() {
                   <FontAwesomeIcon
                     icon={faEllipsisH}
                     style={{ cursor: "pointer", marginLeft: "10px" }}
-                    onClick={() => toggleOptions(customer)}
+                    onClick={(e) => handleCellClick(e, customer)}
                   />
                 </td>
                 <td>{customer.id}</td>
@@ -161,23 +189,14 @@ function CustomerList() {
                 <td>{customer.address}</td>
                 <td>{customer.email}</td>
                 <td>{customer.contactNo}</td>
-                <td>
-                  {showOptions && selectedCustomer && selectedCustomer.id === customer.id && (
-                    <div className="more-options">
-                      <div className="option" onClick={() => handleViewDetails(customer.id)}>
-                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
-                      </div>
-                      <div className="option" onClick={() => handleEditCustomer(customer.id)}>
-                        <FontAwesomeIcon icon={faEdit} /> Edit 
-                      </div>
-                    </div>
-                  )}
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Popup menu */}
+      <div>{customContextMenu}</div>
     </div>
   );
 }
