@@ -24,6 +24,42 @@
       "privileges": [
         "updateAccess"
       ]
+    },
+    {
+      "id": "9e89",
+      "rolecode": "456cd",
+      "rolename": "ghhhhhhhhhhhhhh",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "0215",
+      "rolecode": "567bg",
+      "rolename": "vggfbhnnnnnnnnnnnm",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "0a61",
+      "rolecode": "cd34cd",
+      "rolename": "kkkkkkkk",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "fa98",
+      "rolecode": "45vf",
+      "rolename": "bhas",
+      "privileges": [
+        "deleteAccess",
+        "viewAccess"
+      ]
     }
   ],
   "groupcreation": [

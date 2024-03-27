@@ -9,7 +9,7 @@ import FormButton from '../../components/FormButton';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles'; 
 
-function Createrolespage() {
+function CreateRole() {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -133,4 +133,4 @@ function Createrolespage() {
     );
 }
 
-export default Createrolespage;
+export default CreateRole;

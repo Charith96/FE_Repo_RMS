@@ -1,25 +1,25 @@
+// RoleList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSave, faTrash, faPencilAlt, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faSave, faTrash, faPencilAlt, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
 
-function Roleslistpage() {
+function RoleList() {
     const location = useLocation();
-    const roleName = location.state ? location.state.roleName : '';
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const user = useSelector((state) => state.SetUserReducer.user);
     const [data, setData] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectedRoleId, setSelectedRoleId] = useState(null);
     const [editingRow, setEditingRow] = useState(null);
     const [editedRoleName, setEditedRoleName] = useState('');
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         fetchData();
@@ -71,7 +71,7 @@ function Roleslistpage() {
         axios.put(`${BASE_URL}${ROLE_URL}/${data[editingRow].id}`, { rolename: editedRoleName })
             .then(res => {
                 console.log("Data saved successfully.");
-                setEditingRow(null); // Reset editing mode after save
+                setEditingRow(null); 
             })
             .catch(err => console.log(err));
     };
@@ -79,7 +79,7 @@ function Roleslistpage() {
     const handleMoreOptions = () => {
         if (selectedRows.length === 1) {
             const selectedRole = data[selectedRows[0]];
-            navigate(`/RoleOverview/${selectedRole.id}`, { state: { roleData: selectedRole } });
+            navigate(`/RoleOverview/${selectedRole.id}`, { state: { roleData: selectedRole } }); 
         }
     };
 
@@ -169,4 +169,4 @@ function Roleslistpage() {
     );
 }
 
-export default Roleslistpage;
+export default RoleList;

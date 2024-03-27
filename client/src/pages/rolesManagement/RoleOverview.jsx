@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 
-function RolesOverviewPage() {
+function RoleOverview() {
     const location = useLocation();
-    const { roleData } = location.state;
+    const roleData = location.state?.roleData || {};
 
     const [values, setValues] = useState({
-        rolecode: roleData?.rolecode || '',
-        rolename: roleData?.rolename || '',
-        privileges: roleData?.privileges || [],
+        rolecode: roleData.rolecode || '',
+        rolename: roleData.rolename || '',
+        privileges: roleData.privileges || [],
     });
 
     const [editingPrivileges, setEditingPrivileges] = useState([...values.privileges]);
@@ -30,18 +30,17 @@ function RolesOverviewPage() {
     };
 
     const handleSave = () => {
-        // Handle saving the edited privileges (note to me : send API request if needed)
         setValues({ ...values, privileges: editingPrivileges });
         setIsEditing(false);
     };
 
     useEffect(() => {
         setValues({
-            rolecode: roleData?.rolecode || '',
-            rolename: roleData?.rolename || '',
-            privileges: roleData?.privileges || [],
+            rolecode: roleData.rolecode || '',
+            rolename: roleData.rolename || '',
+            privileges: roleData.privileges || [],
         });
-        setEditingPrivileges([...roleData?.privileges || []]);
+        setEditingPrivileges([...roleData.privileges || []]);
         setIsEditing(false);
     }, [roleData]);
 
@@ -96,4 +95,4 @@ function RolesOverviewPage() {
     );
 }
 
-export default RolesOverviewPage;
+export default RoleOverview;
