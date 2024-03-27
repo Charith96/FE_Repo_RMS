@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
+import { deleteReservationGroup } from "../../store/actions/Action";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchReservationGroups,
   resetReservationGroupState,
-} from "../../store/actions/ReservationGroupActions";
+} from "../../store/actions/Action";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -92,14 +92,26 @@ const ReservationGroupList = () => {
       ),
     },
     {
-      name: "Group ID",
-      selector: (row) => row.groupId,
+      name: "CompanyCode",
+      selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Group Name",
-      selector: (row) => row.groupName,
+      name: "CompanyName",
+      selector: (row) => row.companyName,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Country",
+      selector: (row) => row.country,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Currency",
+      selector: (row) => row.currency,
       sortable: true,
       grow: 2,
     },
@@ -212,7 +224,7 @@ const ReservationGroupList = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Reservation Group List"}
+        Title={"Company List"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}

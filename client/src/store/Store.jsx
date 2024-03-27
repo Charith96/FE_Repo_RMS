@@ -2,18 +2,22 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { thunk } from "redux-thunk";
 import {
-  createReservationGroupReducer,
-  editReservationGroupReducer,
-  deleteReservationGroupReducer,
-  getReservationGroupReducer,
-  getReservationGroupByIdReducer,
-  editReservationGroupFlagReducer,
-  checkForDuplicatesReducer,
-} from "./reducers/ReservationGroupReducer";
-import {
-  createReservationItemReducer,
-  createTimeSlotReducer,
-} from "./reducers/ReservationItemReducer";
+  // createReservationGroupReducer,
+  // editReservationGroupReducer,
+  // deleteReservationGroupReducer,
+  // getReservationGroupReducer,
+  // getReservationGroupByIdReducer,
+  // editReservationGroupFlagReducer,
+  // checkForDuplicatesReducer,
+
+  createCompanyReducer,
+  editCompanyReducer,
+  deleteCompanyReducer,
+  getCompanyReducer,
+  getCompanyByIdReducer,
+  editCompanyFlagReducer
+
+} from "./reducers/Reducer";
 
 import {
   manageTodoReducer,
@@ -26,17 +30,20 @@ const middleware = [thunk];
 
 const rootReducer = combineReducers({
   // reservation group
-  createReservationGroup: createReservationGroupReducer,
-  editReservationGroup: editReservationGroupReducer,
-  deleteReservationGroup: deleteReservationGroupReducer,
-  getReservationGroup: getReservationGroupReducer,
-  getReservationGroupById: getReservationGroupByIdReducer,
-  editReservationGroupFlag: editReservationGroupFlagReducer,
-  checkForDuplicates: checkForDuplicatesReducer,
+  // createReservationGroup: createReservationGroupReducer,
+  // editReservationGroup: editReservationGroupReducer,
+  // deleteReservationGroup: deleteReservationGroupReducer,
+  // getReservationGroup: getReservationGroupReducer,
+  // getReservationGroupById: getReservationGroupByIdReducer,
+  // editReservationGroupFlag: editReservationGroupFlagReducer,
+  // checkForDuplicates: checkForDuplicatesReducer,
 
-  // reservation item
-  createReservationItem: createReservationItemReducer,
-  createTimeSlot: createTimeSlotReducer,
+  createCompany : createCompanyReducer,
+  editCompany : editCompanyReducer,
+  deleteCompany : deleteCompanyReducer,
+  getCompany : getCompanyReducer,
+  getCompanyById : getCompanyByIdReducer,
+  editCompanyFlag : editCompanyFlagReducer,
 
   // todos
   manageTodo: manageTodoReducer,

@@ -3,20 +3,20 @@ import React from "react";
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 // reservation group
-const ReservationList = React.lazy(() =>
-  import("./pages/reservationManagement/ReservationGroupList")
+const Companies = React.lazy(() =>
+  import("./pages/company/Companies")
 );
-const CreateReservationGroup = React.lazy(() =>
-  import("./pages/reservationManagement/CreateReservationGroup")
+const CreateCompany = React.lazy(() =>
+  import("./pages/company/CreateCompany")
 );
-const ReservationGroupOverview = React.lazy(() =>
-  import("./pages/reservationManagement/ReservationGroupOverview")
+const CompanyOverview = React.lazy(() =>
+  import("./pages/company/CompanyOverview")
 );
 
 // reservation item
-const ReservationItemTabView = React.lazy(() =>
-  import("./pages/reservationManagement/ReservationItemManagement")
-);
+// const ReservationItemTabView = React.lazy(() =>
+//   import("./pages/reservationManagement/ReservationItemManagement")
+// );
 
 // todo
 const ToDoManagement = React.lazy(() =>
@@ -37,28 +37,44 @@ const routes = [
   },
 
   // reservation group
+  // {
+  //   path: "/reservationManagement/reservation/reservationGroups",
+  //   name: "Reservations",
+  //   element: ReservationList,
+  // },
   {
-    path: "/reservationManagement/reservation/reservationGroups",
-    name: "Reservations",
-    element: ReservationList,
+    path: "/company/companies",
+    name: "Companies",
+    element: Companies,
   },
   {
-    path: "/reservationManagement/reservation/createReservationGroup",
-    name: "Create Reservation Group",
-    element: CreateReservationGroup,
+    path: "/company/createCompany",
+    name: "Create Company",
+    element: CreateCompany,
   },
   {
-    path: "/reservationManagement/reservation/reservationGroups/reservationGroupOverview",
-    name: "Manage Reservation",
-    element: ReservationGroupOverview,
+    path: "/company/companyOverview",
+    name: "Company Overview",
+    element: CompanyOverview,
   },
 
+  // {
+  //   path: "/reservationManagement/reservation/createReservationGroup",
+  //   name: "Create Reservation Group",
+  //   element: CreateReservationGroup,
+  // },
+  // {
+  //   path: "/reservationManagement/reservation/reservationGroups/reservationGroupOverview",
+  //   name: "Manage Reservation",
+  //   element: ReservationGroupOverview,
+  // },
+
   // reservation item
-  {
-    path: "/reservationManagement/reservation/createReservationItem",
-    name: "Create Reservation Item",
-    element: ReservationItemTabView,
-  },
+  // {
+  //   path: "/reservationManagement/reservation/createReservationItem",
+  //   name: "Create Reservation Item",
+  //   element: ReservationItemTabView,
+  // },
 
   // todo
   {
@@ -69,15 +85,20 @@ const routes = [
 
   // card layouts
   {
-    path: "/reservationManagement",
-    name: "Reservations Management",
+    path: "/company",
+    name: "Company",
     element: QuickNavigation,
   },
-  {
-    path: "/reservationManagement/reservation",
-    name: "Reservation",
-    element: QuickNavigation,
-  },
+  // {
+  //   path: "/reservationManagement",
+  //   name: "Reservations Management",
+  //   element: QuickNavigation,
+  // },
+  // {
+  //   path: "/reservationManagement/reservation",
+  //   name: "Reservation",
+  //   element: QuickNavigation,
+  // },
   {
     path: "/todoManagement",
     name: "Todo Management",
