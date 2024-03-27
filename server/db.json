@@ -1,65 +1,69 @@
 {
   "Roles": [
     {
-      "id": "73a0",
-      "rolecode": "78787777",
-      "rolename": "mmmmmmmmmmmmmmmmmmmm",
+      "rolename": "view ",
+      "id": "99a0"
+    },
+    {
+      "id": "21c4",
+      "rolecode": "8989",
+      "rolename": "bhjkjl",
       "privileges": [
-        "createAccess",
-        "updateAccess"
+        "createAccess"
       ]
     },
     {
-      "id": "5b8d",
-      "rolecode": "kokoko",
-      "rolename": "hjjj",
-      "privileges": [
-        "viewAccess"
-      ]
-    },
-    {
-      "id": "b82a",
-      "rolecode": "....jkjk",
-      "rolename": "klkl",
-      "privileges": [
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "9e89",
-      "rolecode": "456cd",
-      "rolename": "ghhhhhhhhhhhhhh",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "0215",
-      "rolecode": "567bg",
-      "rolename": "vggfbhnnnnnnnnnnnm",
+      "id": "4245",
+      "rolecode": "8976",
+      "rolename": "rtewqas",
       "privileges": [
         "updateAccess",
         "viewAccess"
       ]
     },
     {
-      "id": "0a61",
-      "rolecode": "cd34cd",
-      "rolename": "kkkkkkkk",
+      "id": "e2cf",
+      "rolecode": "89775cdf",
+      "rolename": "tygvbbcxds",
       "privileges": [
         "updateAccess",
         "viewAccess"
       ]
     },
     {
-      "id": "fa98",
-      "rolecode": "45vf",
+      "id": "f502",
+      "rolecode": "7890ju",
       "rolename": "bhas",
+      "privileges": []
+    },
+    {
+      "id": "73d5",
+      "rolecode": "76tyvf",
+      "rolename": "kljui",
       "privileges": [
-        "deleteAccess",
+        "updateAccess",
         "viewAccess"
       ]
+    },
+    {
+      "id": "1dd0",
+      "rolecode": "kio989",
+      "rolename": "kkkkkkkkkk",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "7b5c",
+      "rolecode": "9088",
+      "rolename": "vgcg",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "rolename": "view offffff",
+      "id": "e516"
     }
   ],
   "groupcreation": [

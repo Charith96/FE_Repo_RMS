@@ -5,9 +5,8 @@ import { useDispatch } from 'react-redux';
 import { SetUserAction } from '../../store/actions/RolesAction';
 import FormButton from '../../components/FormButton';
 
-
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-const ROLE_URL = '/Roles'; 
+const ROLE_URL = '/Roles';
 
 function CreateRole() {
     const dispatch = useDispatch();
@@ -66,7 +65,7 @@ function CreateRole() {
         axios.post(`${BASE_URL}${ROLE_URL}`, values)
             .then(res => {
                 console.log(res);
-                navigate('/rolesManagement/RoleList', { state: { roleName: values.rolename } });
+                navigate('/rolesManagement/RoleList', { state: { roleData: values } }); // Navigate to RoleList with roleData
             })
             .catch(err => {
                 console.log(err);

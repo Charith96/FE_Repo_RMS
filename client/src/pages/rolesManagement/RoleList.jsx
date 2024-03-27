@@ -1,7 +1,6 @@
-// RoleList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash, faPencilAlt, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
@@ -11,12 +10,9 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
 
 function RoleList() {
-    const location = useLocation();
-    //const dispatch = useDispatch();
     const user = useSelector((state) => state.SetUserReducer.user);
     const [data, setData] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [selectedRoleId, setSelectedRoleId] = useState(null);
     const [editingRow, setEditingRow] = useState(null);
     const [editedRoleName, setEditedRoleName] = useState('');
     const navigate = useNavigate(); 
@@ -79,7 +75,7 @@ function RoleList() {
     const handleMoreOptions = () => {
         if (selectedRows.length === 1) {
             const selectedRole = data[selectedRows[0]];
-            navigate(`/RoleOverview/${selectedRole.id}`, { state: { roleData: selectedRole } }); 
+            navigate(`/rolesManagement/RoleOverview`, { state: { roleData: selectedRole } }); 
         }
     };
 
@@ -115,7 +111,7 @@ function RoleList() {
                             variant="primary"
                             className="form-btn"
                             id="button-addon2"
-                            onClick={handleEdit}
+                            onClick={() => handleEdit(selectedRows[0])} // Pass selected row ID to handleEdit
                         >
                             <FontAwesomeIcon icon={faPencilAlt} />
                         </Button>
