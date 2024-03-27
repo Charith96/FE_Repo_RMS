@@ -2,8 +2,8 @@
   "users": [
     {
       "id": "51e7",
-      "companycode": "1",
-      "companyname": "ABC1",
+      "companyCode": "1",
+      "companyName": "ABC1",
       "description": "This is a CRUD_1",
       "country": "Sri Lanka",
       "currency": "GBP",
@@ -13,8 +13,8 @@
     },
     {
       "id": "fefa",
-      "companycode": "55",
-      "companyname": "ABC2",
+      "companyCode": "55",
+      "companyName": "ABC2",
       "description": "This is a CRUD_2",
       "country": "Russia",
       "currency": "USD",
@@ -24,8 +24,8 @@
     },
     {
       "id": "ac59",
-      "companycode": "16",
-      "companyname": "AFF1",
+      "companyCode": "16",
+      "companyName": "AFF1",
       "description": "This is a CRUD_8",
       "country": "China",
       "currency": "USD",
@@ -35,8 +35,8 @@
     },
     {
       "id": "0440",
-      "companycode": "dfd",
-      "companyname": "21",
+      "companyCode": "dfd",
+      "companyName": "21",
       "description": "fg",
       "country": "China",
       "currency": "JPY",
@@ -45,106 +45,15 @@
       "defaultCompany": false
     },
     {
-      "id": "07e9",
-      "companycode": "43_in_qa45",
-      "companyname": "awedsf",
-      "description": "fbIn",
-      "country": "Sri Lanka",
-      "currency": "AUD",
-      "address01": "asew",
-      "address02": "foo",
-      "defaultCompany": false
-    },
-    {
       "id": "2a9c",
-      "companycode": "1245",
-      "companyname": "qw",
+      "companyCode": "1245",
+      "companyName": "qw",
       "description": "fg",
       "country": "Russia",
       "currency": "AUD",
       "address01": "fg",
       "address02": "rgt",
       "defaultCompany": false
-    },
-    {
-      "id": "4e5d",
-      "companyCode": "45"
-    },
-    {
-      "id": "0440",
-      "companyName": "awd"
-    },
-    {
-      "id": "e1a3",
-      "country": []
-    },
-    {
-      "id": "b55c",
-      "currency": []
-    },
-    {
-      "id": "972c",
-      "address01": "qw"
-    },
-    {
-      "id": "4860",
-      "companyCode": "1"
-    },
-    {
-      "id": "c0fd",
-      "companyName": "hj"
-    },
-    {
-      "id": "cdb9",
-      "country": []
-    },
-    {
-      "id": "011f",
-      "currency": []
-    },
-    {
-      "id": "9d95",
-      "address01": "c"
-    },
-    {
-      "id": "fafb",
-      "companyCode": "5gsdfb"
-    },
-    {
-      "id": "79fe",
-      "companyName": "sfb"
-    },
-    {
-      "id": "3ecf",
-      "currency": []
-    },
-    {
-      "id": "19cd",
-      "country": []
-    },
-    {
-      "id": "7b8a",
-      "address01": "d"
-    },
-    {
-      "id": "eb81",
-      "companyCode": "12"
-    },
-    {
-      "id": "075b",
-      "companyName": "fd"
-    },
-    {
-      "id": "8ff2",
-      "country": []
-    },
-    {
-      "id": "d38e",
-      "currency": []
-    },
-    {
-      "id": "d796",
-      "address01": "vx"
     }
   ],
   "countries": [

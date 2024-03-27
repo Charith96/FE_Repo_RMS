@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup, deleteCompany } from "../../store/actions/Action";
+import { deleteCompany } from "../../store/actions/Action";
 import CompanyTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  fetchReservationGroups,
-  resetReservationGroupState,
+
   fetchCompanies,
   resetCompanyState,
 } from "../../store/actions/Action";
