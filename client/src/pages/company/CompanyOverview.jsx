@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchReservationGroupsById, fetchCompaniesById } from "../../store/actions/Action";
-import { deleteReservationGroup, deleteCompany } from "../../store/actions/Action";
-import { editReservationGroup, editCompany } from "../../store/actions/Action";
+import { fetchCompaniesById,
+  fetchCountries,
+  fetchCurrencies,
+} from "../../store/actions/Action";
+import { deleteCompany } from "../../store/actions/Action";
+//import { editReservationGroup, editCompany } from "../../store/actions/Action";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,15 +20,7 @@ const CompanyOverview = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const fetchReservationGroupData = useSelector(
-  //   (state) => state.getReservationGroupById.fetchReservationGroupId
-  // );
-  // const editFlagData = useSelector(
-  //   (state) => state.editReservationGroupFlag.editReservationGroupFlag
-  // );
-  // const dataForSearch = useSelector(
-  //   (state) => state.getReservationGroup.fetchReservationGroup
-  // );
+
   const fetchCompanyData = useSelector(
     (state) => state.getCompanyById.fetchCompanyId
   );
@@ -37,8 +32,10 @@ const CompanyOverview = () => {
   );
   const [recordId, setRecordId] = useState("");
 
-  // const [groupId, setGroupId] = useState("");
-  // const [groupName, setGroupName] = useState("");
+  const countries = useSelector((state) => state.countries.countries);
+    const currencies = useSelector((state) => state.currencies.currencies);
+
+
   const [companyCode, setCompanyCode] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
@@ -60,49 +57,17 @@ const CompanyOverview = () => {
   const paramData = JSON.parse(data);
   const mode = state ? state.mode : null;
 
-  // useEffect(() => {
-  //   if (paramData && recordId) {
-  //     dispatch(fetchReservationGroupsById(recordId));
-  //   }
-  // }, [dispatch, recordId]);
-
   useEffect(() => {
     if (paramData && recordId) {
       dispatch(fetchCompaniesById(recordId));
     }
   }, [dispatch, recordId]);
 
-  // const fetchData = () => {
-  //   if (fetchReservationGroupData) {
-  //     let filterData = fetchReservationGroupData;
-  //     if (filterData) {
-  //       if (count === 0) {
-  //         setCompanyCode(filterData?.companyCode ?? "");
-  //         setCompanyName(filterData?.companyName ?? "");
-  //         setDescription(filterData?.description ?? "");
-  //         setCountry(filterData?.country ?? "");
-  //         setCurrency(filterData?.currency ?? "");
-  //         setAddress01(filterData?.address01 ?? "");
-  //         setAddress02(filterData?.address02 ?? "");
-  //         setDefaultCompany(filterData?.defaultCompany ?? "");
-  //         if (mode) {
-  //           if (mode === "edit") {
-  //             setIsViewMode(false);
-  //             setIsEditDisable(true);
-  //             setIsSaveDisable(false);
-  //           } else if (mode === "view") {
-  //             setIsViewMode(true);
-  //             setIsEditDisable(false);
-  //             setIsSaveDisable(true);
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       handleNavigate();
-  //     }
-  //     setCount(1);
-  //   }
-  // };
+  useEffect(() => {
+    dispatch(fetchCountries());
+    dispatch(fetchCurrencies());
+  }, [dispatch]);
+
 
   const fetchData = () => {
     if (fetchCompanyData) {
@@ -179,21 +144,6 @@ const CompanyOverview = () => {
     }
   };
 
-  // const confirmDelete = async () => {
-  //   try {
-  //     if (paramData && paramData.id) {
-  //       dispatch(deleteReservationGroup(paramData.id));
-  //       toast.success("Data deleted successfully");
-  //       handleNavigate();
-  //     } else {
-  //       toast.error("Cannot delete. ID is undefined.");
-  //     }
-  //   } catch (error) {
-  //     toast.error("Error deleting data. Please try again.");
-  //   } finally {
-  //     setShowConfirmation(false);
-  //   }
-  // };
 
   const confirmDelete = async () => {
     try {
@@ -292,10 +242,11 @@ const CompanyOverview = () => {
                 onChange={(e) => setCountry(e.target.value)}
                 //options={countries}
                 options={[
-                  { label: "Select Country", value: "USA" },
-                  { label: "Canada", value: "Canada" },
-                  { label: "United Kingdom", value: "UK" },
-                  // Add more options as needed
+                  { label: "Select Country", value: "" }, // Add an empty option as the default
+                  ...countries.map((country) => ({
+                    label: country.Cname,
+                    value: country.id,
+                  })),
                 ]}
               />
               <DropdownField
@@ -306,10 +257,11 @@ const CompanyOverview = () => {
                 onChange={(e) => setCurrency(e.target.value)}
                 //options={countries}
                 options={[
-                  { label: "Select Currency", value: "USA" },
-                  { label: "Canada", value: "Canada" },
-                  { label: "United Kingdom", value: "UK" },
-                  // Add more options as needed
+                  { label: "Select Currency", value: "" }, // Add an empty option as the default
+                  ...currencies.map((currency) => ({
+                    label: currency.C_name,
+                    value: currency.id,
+                  })),
                 ]}
               />
               <TextField

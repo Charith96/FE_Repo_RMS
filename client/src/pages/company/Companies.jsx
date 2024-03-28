@@ -4,7 +4,6 @@ import CompanyTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-
   fetchCompanies,
   resetCompanyState,
 } from "../../store/actions/Action";
@@ -24,12 +23,7 @@ import { toast } from "react-toastify";
 const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const fetchReservationGroupData = useSelector(
-  //   (state) => state.getReservationGroup.fetchReservationGroup
-  // );
-  // const deleteReservationGroupData = useSelector(
-  //   (state) => state.deleteReservationGroup.deleteReservationGroup
-  // );
+
   //new
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
@@ -59,12 +53,6 @@ const Companies = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-  // useEffect(() => {
-  //   dispatch(fetchReservationGroups());
-  //   if (deleteReservationGroupData) {
-  //     dispatch(fetchReservationGroups());
-  //   }
-  // }, [dispatch, deleteReservationGroupData]);
 
   //new
   useEffect(() => {
@@ -74,29 +62,6 @@ const Companies = () => {
     }
   }, [dispatch, deleteCompanyData]);
   //new
-
-  // useEffect(() => {
-  //   if (fetchReservationGroupData && fetchReservationGroupData.length > 0) {
-  //     setFilteredData(fetchReservationGroupData);
-  //   }
-
-  //   const start = currentPage * perPage;
-  //   const end = start + perPage;
-  //   const slicedData = filteredData?.slice(start, end);
-  //   setPaginatedData(slicedData);
-
-  //   if (selectedRows.length === 1) {
-  //     setIsDeleteDisable(false);
-  //   } else {
-  //     setIsDeleteDisable(true);
-  //   }
-  // }, [
-  //   fetchReservationGroupData,
-  //   currentPage,
-  //   perPage,
-  //   filteredData,
-  //   selectedRows,
-  // ]);
 
   //new
   useEffect(() => {
@@ -207,25 +172,6 @@ const Companies = () => {
     </div>
   );
 
-  // const handleFilter = () => {
-  //   if (fetchReservationGroupData && fetchReservationGroupData.length > 0) {
-  //     if (searchTerm === "") {
-  //       setCurrentPage(0);
-  //       setFilteredData(fetchReservationGroupData);
-  //     } else {
-  //       const filtered = fetchReservationGroupData.filter((item) =>
-  //         item.companyCode
-  //           ?.toString()
-  //           .toLowerCase()
-  //           .includes(searchTerm?.toLowerCase())
-  //       );
-  //       setIsFiltered(true);
-  //       dispatch(resetReservationGroupState(filtered));
-  //       setFilteredData(filtered);
-  //     }
-  //   }
-  // };
-
   //new
   const handleFilter = () => {
     if (fetchCompanyData && fetchCompanyData.length > 0) {
@@ -246,19 +192,6 @@ const Companies = () => {
     }
   };
   //new
-
-  // const confirmDelete = () => {
-  //   if (selectedRows.length === 1) {
-  //     try {
-  //       dispatch(deleteReservationGroup(selectedRows[0]?.id));
-  //       toast.success("Record Successfully deleted!");
-  //     } catch (error) {
-  //       toast.error("Error deleting row. Please try again.");
-  //     } finally {
-  //       setShowConfirmation(false);
-  //     }
-  //   }
-  // };
 
   //new
   const confirmDelete = () => {
@@ -290,13 +223,6 @@ const Companies = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
-  // const clearFilter = () => {
-  //   setSearchTerm("");
-  //   dispatch(fetchReservationGroups());
-  //   setIsFiltered(false);
-  //   setCurrentPage(0);
-  // };
 
   //new
   const clearFilter = () => {

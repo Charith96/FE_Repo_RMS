@@ -1,22 +1,17 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import { thunk } from "redux-thunk";
-import {
-  // createReservationGroupReducer,
-  // editReservationGroupReducer,
-  // deleteReservationGroupReducer,
-  // getReservationGroupReducer,
-  // getReservationGroupByIdReducer,
-  // editReservationGroupFlagReducer,
-  // checkForDuplicatesReducer,
+//import thunk from "redux-thunk";
+ import {thunk} from "redux-thunk";
 
+import {
   createCompanyReducer,
   editCompanyReducer,
   deleteCompanyReducer,
   getCompanyReducer,
   getCompanyByIdReducer,
-  editCompanyFlagReducer
-
+  editCompanyFlagReducer,
+  countriesReducer,
+  currenciesReducer,
 } from "./reducers/Reducer";
 
 import {
@@ -29,14 +24,6 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
-  // reservation group
-  // createReservationGroup: createReservationGroupReducer,
-  // editReservationGroup: editReservationGroupReducer,
-  // deleteReservationGroup: deleteReservationGroupReducer,
-  // getReservationGroup: getReservationGroupReducer,
-  // getReservationGroupById: getReservationGroupByIdReducer,
-  // editReservationGroupFlag: editReservationGroupFlagReducer,
-  // checkForDuplicates: checkForDuplicatesReducer,
 
   createCompany : createCompanyReducer,
   editCompany : editCompanyReducer,
@@ -44,6 +31,9 @@ const rootReducer = combineReducers({
   getCompany : getCompanyReducer,
   getCompanyById : getCompanyByIdReducer,
   editCompanyFlag : editCompanyFlagReducer,
+  countries : countriesReducer,
+  currencies : currenciesReducer,
+
 
   // todos
   manageTodo: manageTodoReducer,

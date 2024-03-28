@@ -1,9 +1,8 @@
 import axios from "axios";
-import { COMPANY_DETAILS } from "../../utils/Constants.jsx";
+import { COMPANY_DETAILS, COUNTRY_URL, CURRENCY_URL } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-//new 
 export const createCompany = (data) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.CREATE_COMPANY_START });
@@ -109,25 +108,6 @@ export const fetchCompaniesById = (id) => async (dispatch) => {
   }
 };
 
-// export const checkForDuplicate = (id) => async (dispatch) => {
-//   try {
-//     const response = await axios.get(
-//       `${BASE_URL}${RESERVATION_GROUP}?groupId=${id}`
-//     );
-//     if (response.status === 200) {
-//       dispatch({
-//         type: ActionTypes.CHECK_DUPLICATE_RESERVATION_GROUP_ID,
-//         payload: response.data.length > 0,
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({
-//       type: ActionTypes.CHECK_DUPLICATE_RESERVATION_GROUP_ID_FAIL,
-//       payload: error.message,
-//     });
-//   }
-// };resetReservationGroupState resetManageReservationGroupState
-
 export const resetCompanyState = (data) => (dispatch) => {
   dispatch({
     type: ActionTypes.GET_COMPANY_SUCCESS,
@@ -146,142 +126,131 @@ export const resetManageCompanyState = () => (dispatch) => {
 
 //new
 
-// export const createReservationGroup = (data) => async (dispatch) => {
+// Action.jsx
+
+
+
+// export const fetchCountries = () => async (dispatch) => {
 //   try {
-//     dispatch({ type: ActionTypes.CREATE_RESERVATION_GROUP_START });
-
-//     const response = await axios.post(`${BASE_URL}${RESERVATION_GROUP}`, data, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-
-//     if (response.status === 201) {
-//       dispatch({
-//         type: ActionTypes.CREATE_RESERVATION_GROUP_SUCCESS,
-//         payload: response.data,
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({
-//       type: ActionTypes.CREATE_RESERVATION_GROUP_FAIL,
-//       payload: error.message,
-//     });
-//   }
-// };
-
-// export const editReservationGroup = (id, data) => async (dispatch) => {
-//   try {
-//     dispatch({ type: ActionTypes.EDIT_RESERVATION_GROUP_START });
-//     const url = `${BASE_URL}${RESERVATION_GROUP}/${id}`;
-
-//     const response = await axios.put(url, data, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     if (response.status === 200) {
-//       dispatch({
-//         type: ActionTypes.EDIT_RESERVATION_GROUP_SUCCESS,
-//         payload: response.data,
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({ type: ActionTypes.EDIT_RESERVATION_GROUP_FAIL, payload: error });
-//   }
-// };
-
-// export const deleteReservationGroup = (id) => async (dispatch) => {
-//   try {
-//     dispatch({ type: ActionTypes.DELETE_RESERVATION_GROUP_START });
-//     const response = await axios.delete(
-//       `${BASE_URL}${RESERVATION_GROUP}/${id}`
-//     );
-//     if (response.status === 200) {
-//       dispatch({
-//         type: ActionTypes.DELETE_RESERVATION_GROUP_SUCCESS,
-//         payload: response.data,
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({
-//       type: ActionTypes.DELETE_RESERVATION_GROUP_FAIL,
-//       payload: error,
-//     });
-//   }
-// };
-
-// export const fetchReservationGroups = () => async (dispatch) => {
-//   try {
-//     dispatch({ type: ActionTypes.GET_RESERVATION_GROUP_START });
-//     const response = await axios.get(`${BASE_URL}${RESERVATION_GROUP}`, {
+//    // dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
+//     const response = await axios.get(`${BASE_URL}${COUNTRY_URL}`, {
 //       headers: { "Content-Type": "application/json" },
 //     });
-//     if (response.status === 200) {
-//       dispatch({
-//         type: ActionTypes.GET_RESERVATION_GROUP_SUCCESS,
-//         payload: response.data,
-//       });
-//     }
+//     dispatch({
+//       type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
+//       payload: response.data.countries, // Assuming your JSON structure has a 'countries' array
+//     });
 //   } catch (error) {
 //     dispatch({
-//       type: ActionTypes.GET_RESERVATION_GROUP_FAIL,
+//       type: ActionTypes.FETCH_COUNTRIES_FAIL,
 //       payload: error.message,
 //     });
 //   }
 // };
 
-// export const fetchReservationGroupsById = (id) => async (dispatch) => {
+// export const fetchCountriesSuccess = (countries) => ({
+//   type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
+//   payload: countries,
+// });
+
+// export const fetchFailure = (error) => ({
+//   type: ActionTypes.FETCH_COUNTRIES_FAIL,
+//   payload: error,
+// });
+
+// export const fetchCountries = () => {
+//   return function (dispatch) {
+//     axios
+//       .get(`${BASE_URL}${COUNTRY_URL}`)
+//       .then((response) => {
+//         dispatch(fetchCountriesSuccess(response.data));
+//       })
+//       .catch((error) => {dispatch(fetchFailure(error));
+//       });
+//   };
+// };
+
+
+
+
+// export const fetchCurrencies = () => async (dispatch) => {
 //   try {
-//     dispatch({ type: ActionTypes.GET_RESERVATION_GROUP_START_BY_ID });
-//     const response = await axios.get(`${BASE_URL}${RESERVATION_GROUP}/${id}`, {
+//   dispatch({type: ActionTypes.FETCH_CURRENCIES_START});
+//   const response = await axios.get(`${BASE_URL}${CURRENCY_URL}`, {
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   if (response.status === 200) {
+//     dispatch({
+//       type: ActionTypes.FETCH_CURRENCIES_SUCCESS,
+//       payload: response.data,
+//     });
+//   }
+// }  catch (error) {
+//   dispatch({
+//     type: ActionTypes.FETCH_CURRENCIES_FAIL,
+//     payload: error.message,
+//   });
+// }
+// };
+
+// export const fetchCountries = () => async (dispatch) => {
+//   try {
+//     dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
+//     const response = await axios.get(`${BASE_URL}${COUNTRY_URL}`, {
 //       headers: { "Content-Type": "application/json" },
 //     });
-//     if (response.status === 200) {
-//       dispatch({
-//         type: ActionTypes.GET_RESERVATION_GROUP_SUCCESS_BY_ID,
-//         payload: response.data,
-//       });
-//     }
+//     dispatch({
+//       type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
+//       payload: response.data,
+//     });
 //   } catch (error) {
 //     dispatch({
-//       type: ActionTypes.GET_RESERVATION_GROUP_FAIL_BY_ID,
+//       type: ActionTypes.FETCH_COUNTRIES_FAIL,
 //       payload: error.message,
 //     });
 //   }
 // };
 
-// export const checkForDuplicate = (id) => async (dispatch) => {
+// export const fetchCurrencies = () => async (dispatch) => {
 //   try {
-//     const response = await axios.get(
-//       `${BASE_URL}${RESERVATION_GROUP}?groupId=${id}`
-//     );
-//     if (response.status === 200) {
-//       dispatch({
-//         type: ActionTypes.CHECK_DUPLICATE_RESERVATION_GROUP_ID,
-//         payload: response.data.length > 0,
-//       });
-//     }
+//     dispatch({ type: ActionTypes.FETCH_CURRENCIES_START });
+//     const response = await axios.get(`${BASE_URL}${CURRENCY_URL}`, {
+//       headers: { "Content-Type": "application/json" },
+//     });
+//     dispatch({
+//       type: ActionTypes.FETCH_CURRENCIES_SUCCESS,
+//       payload: response.data,
+//     });
 //   } catch (error) {
 //     dispatch({
-//       type: ActionTypes.CHECK_DUPLICATE_RESERVATION_GROUP_ID_FAIL,
+//       type: ActionTypes.FETCH_CURRENCIES_FAIL,
 //       payload: error.message,
 //     });
 //   }
 // };
 
-// export const resetReservationGroupState = (data) => (dispatch) => {
-//   dispatch({
-//     type: ActionTypes.GET_RESERVATION_GROUP_SUCCESS,
-//     payload: data || [],
-//   });
-//   dispatch({ type: ActionTypes.GET_RESERVATION_GROUP_FAIL, payload: null });
-// };
+export const fetchCountries = () => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
+    try {
+      const response = await fetch('http://localhost:3005/countries'); // Assuming db.json is served at this URL
+      const data = await response.json();
+      dispatch({ type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: ActionTypes.FETCH_COUNTRIES_FAIL, error: error.message });
+    }
+  };
+};
 
-// export const resetManageReservationGroupState = () => (dispatch) => {
-//   dispatch({
-//     type: ActionTypes.CREATE_RESERVATION_GROUP_SUCCESS,
-//     payload: null,
-//   });
-//   dispatch({ type: ActionTypes.GET_RESERVATION_GROUP_FAIL, payload: null });
-// };
+export const fetchCurrencies = () => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.FETCH_CURRENCIES_START });
+    try {
+      const response = await fetch('http://localhost:3005/currencies'); // Assuming db.json is served at this URL
+      const data = await response.json();
+      dispatch({ type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: ActionTypes.FETCH_CURRENCIES_FAIL, error: error.message });
+    }
+  };
+};

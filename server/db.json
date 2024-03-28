@@ -1,17 +1,6 @@
 {
   "users": [
     {
-      "id": "51e7",
-      "companyCode": "1",
-      "companyName": "ABC1",
-      "description": "This is a CRUD_1",
-      "country": "Sri Lanka",
-      "currency": "GBP",
-      "address01": "No1",
-      "address02": "No2",
-      "defaultCompany": true
-    },
-    {
       "id": "fefa",
       "companyCode": "55",
       "companyName": "ABC2",
@@ -47,6 +36,39 @@
     {
       "id": "2a9c",
       "companyCode": "1245",
+      "companyName": "qw",
+      "description": "fg",
+      "country": "Russia",
+      "currency": "AUD",
+      "address01": "fg",
+      "address02": "rgt",
+      "defaultCompany": false
+    },
+    {
+      "id": "2a9c",
+      "companyCode": "127",
+      "companyName": "qw",
+      "description": "fg",
+      "country": "Russia",
+      "currency": "AUD",
+      "address01": "fg",
+      "address02": "rgt",
+      "defaultCompany": false
+    },
+    {
+      "id": "2a9c",
+      "companyCode": "1485",
+      "companyName": "qw",
+      "description": "fg",
+      "country": "Russia",
+      "currency": "AUD",
+      "address01": "fg",
+      "address02": "rgt",
+      "defaultCompany": false
+    },
+    {
+      "id": "2a9c",
+      "companyCode": "72",
       "companyName": "qw",
       "description": "fg",
       "country": "Russia",
