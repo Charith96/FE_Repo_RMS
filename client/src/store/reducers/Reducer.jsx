@@ -2,14 +2,6 @@ import ActionTypes from "../../data/ReduxActionTypes";
 const initialState = {
   loading: false,
 
-  // fetchReservationGroup: [],
-  // fetchReservationGroupId: [],
-  // createReservationGroup: null,
-  // editReservationGroup: null,
-  // deleteReservationGroup: null,
-  // editReservationGroupFlag: false,
-
-  // checkDuplicate: false,
   createError: null,
   editError: null,
   deleteError: null,
@@ -238,121 +230,6 @@ export const getCompanyByIdReducer = (
 //       return state;
 //     }
 //   };
-
-//   export const currenciesReducer = (
-//     state = {
-//          loading: initialState.loading,
-//          currencies: initialState.currencies,
-//     },
-//     action
-//   ) => {
-//     switch (action.type) {
-//       case ActionTypes.FETCH_CURRENCIES_START:
-//       return {
-//         ...state,
-//         loading: !initialState.loading,
-//       };
-//       case ActionTypes.FETCH_COUNTRIES_SUCCESS:
-//         return {
-//           ...state,
-//         loading: initialState.loading,
-//         countries: action.payload,
-//         }
-//       case ActionTypes.FETCH_COUNTRIES_FAIL:
-//         return {
-//           ...state,
-//           loading: initialState.loading,
-//           editError: action.payload,
-//         }; 
-//       default:
-//       return state;
-//     }
-//   };
-
-// export const countriesReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     // case ActionTypes.FETCH_COUNTRIES_START:
-//     //   return {
-//     //     ...state,
-//     //     loading: true,
-//     //   };
-//     case ActionTypes.FETCH_COUNTRIES_SUCCESS:
-//       return {
-//         ...state,
-//         loading: false,
-//         countries: action.payload,
-//         error: null,
-//       };
-//     case ActionTypes.FETCH_COUNTRIES_FAIL:
-//       return {
-//         ...state,
-//         loading: false,
-//         error: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const countriesReducer = (state = { loading: false, countries: [] }, action) => {
-//   switch (action.type) {
-//     case ActionTypes.FETCH_COUNTRIES_SUCCESS:
-//       return {
-//         ...state,
-//         countries: action.payload,
-//       };
-//     case ActionTypes.FETCH_COUNTRIES_FAIL:
-//       return {
-//         ...state,
-//         loading: false,
-//         error: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const currenciesReducer = (state = { loading: false, currencies: [] }, action) => {
-//   switch (action.type) {
-//     case ActionTypes.FETCH_CURRENCIES_SUCCESS:
-//       return {
-//         ...state,
-//         currencies: action.payload,
-//       };
-//     case ActionTypes.FETCH_CURRENCIES_FAIL:
-//       return {
-//         ...state,
-//         loading: false,
-//         error: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const countriesReducer = (state = initialState.countries, action) => {
-//   switch (action.type) {
-//     case ActionTypes.FETCH_COUNTRIES_START:
-//       return {
-//         ...state,
-//         loading: true,
-//       };
-//     case ActionTypes.FETCH_COUNTRIES_SUCCESS:
-//       return {
-//         ...state,
-//         loading: false,
-//         countries: action.payload,
-//       };
-//     case ActionTypes.FETCH_COUNTRIES_FAIL:
-//       return {
-//         ...state,
-//         loading: false,
-//         error: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
 
 export const countriesReducer = (state = initialState, action) => {
   switch (action.type) {

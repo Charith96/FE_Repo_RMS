@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchCompaniesById,
   fetchCountries,
   fetchCurrencies,
+  editCompany,
 } from "../../store/actions/Action";
 import { deleteCompany } from "../../store/actions/Action";
 //import { editReservationGroup, editCompany } from "../../store/actions/Action";
@@ -20,6 +21,9 @@ const CompanyOverview = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //const [companyData, setCompanyData] = useState([]);
+  //const [showConfirmation, setShowConfirmation] = useState(false);
 
   const fetchCompanyData = useSelector(
     (state) => state.getCompanyById.fetchCompanyId
@@ -67,6 +71,15 @@ const CompanyOverview = () => {
     dispatch(fetchCountries());
     dispatch(fetchCurrencies());
   }, [dispatch]);
+
+  // const updateCompanyData = (updatedCompany) => {
+  //   const index = companyData.findIndex(company => company.id === updatedCompany.id);
+  //   if (index !== -1) {
+  //     const updatedData = [...companyData];
+  //     updatedData[index] = updatedCompany;
+  //     setCompanyData(updatedData);
+  //   }
+  // };
 
 
   const fetchData = () => {
@@ -132,13 +145,19 @@ const CompanyOverview = () => {
           address02: address02,
           defaultCompany: defaultCompany,
         };
-        console.log("formData ", recordId, formData);
-        // dispatch(editReservationGroup(recordId, formData));
-        handleNavigate();
-        toast.success("Data saved successfully");
-      } else {
-        toast.error("Cannot save. ID is undefined.");
-      }
+        //console.log("formData ", recordId, formData);
+         dispatch(editCompany(recordId, formData));
+        //const response = await saveCompanyChanges(formData);
+        // handleNavigate();
+        // if (response.success) {
+          // After successfully saving changes
+         // updateCompanyData(formData); // Pass the updated company data here
+          handleNavigate();
+          toast.success("Data saved successfully");
+        } else {
+          // Handle the case where saving failed
+          toast.error("Failed to save changes. Please try again.");
+        }
     } catch (error) {
       toast.error("Error saving data. Please try again.");
     }
@@ -245,7 +264,7 @@ const CompanyOverview = () => {
                   { label: "Select Country", value: "" }, // Add an empty option as the default
                   ...countries.map((country) => ({
                     label: country.Cname,
-                    value: country.id,
+                    value: country.Cname,
                   })),
                 ]}
               />
@@ -260,7 +279,7 @@ const CompanyOverview = () => {
                   { label: "Select Currency", value: "" }, // Add an empty option as the default
                   ...currencies.map((currency) => ({
                     label: currency.C_name,
-                    value: currency.id,
+                    value: currency.C_name,
                   })),
                 ]}
               />
@@ -311,3 +330,4 @@ const CompanyOverview = () => {
   );
 };
 export default CompanyOverview;
+
