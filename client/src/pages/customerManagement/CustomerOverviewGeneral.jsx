@@ -1,27 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import TextField from "../../components/TextField";
-
 import { fetchCustomer } from "../../store/actions/customerActions";
 
-function CustomerOverviewGeneral({ customer, fetchCustomer }) {
-  const dispatch = useDispatch();
+function CustomerOverviewGeneral({ customer, fetchCustomer, selectedCustomerData, editOrDetailsClicked }) {
   const { id } = useParams();
   const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const customerData = await dispatch(fetchCustomer(id));
-        setEditedData(customerData || {});
-      } catch (error) {
-        console.error("Error fetching customer:", error);
-      }
-    };
+    if (editOrDetailsClicked && selectedCustomerData) {
+      setEditedData(selectedCustomerData);
+    } else {
+      fetchData();
+    }
+  }, [id, editOrDetailsClicked, selectedCustomerData]);
 
-    fetchData();
-  }, [id, dispatch]);
+  const fetchData = async () => {
+    try {
+      const customerData = await fetchCustomer(id);
+      setEditedData(customerData || {});
+    } catch (error) {
+      console.error("Error fetching customer:", error);
+    }
+  };
 
   return (
     <div className="App">
@@ -33,7 +35,7 @@ function CustomerOverviewGeneral({ customer, fetchCustomer }) {
           <TextField
             id="fullName"
             type="text"
-            value={customer ? customer.fullName : ""}
+            value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.fullName : customer ? customer.fullName : ""}
             disabled={true}
           />
           <div>
@@ -41,7 +43,7 @@ function CustomerOverviewGeneral({ customer, fetchCustomer }) {
             <TextField
               id="identifier"
               type="text"
-              value={customer ? customer.identifier : ""}
+              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.identifier : customer ? customer.identifier : ""}
               disabled={true}
             />
           </div>
@@ -50,7 +52,7 @@ function CustomerOverviewGeneral({ customer, fetchCustomer }) {
             <TextField
               id="address"
               type="text"
-              value={customer ? customer.address : ""}
+              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.address : customer ? customer.address : ""}
               disabled={true}
             />
           </div>
@@ -59,7 +61,7 @@ function CustomerOverviewGeneral({ customer, fetchCustomer }) {
             <TextField
               id="email"
               type="text"
-              value={customer ? customer.email : ""}
+              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.email : customer ? customer.email : ""}
               disabled={true}
             />
           </div>
@@ -68,7 +70,7 @@ function CustomerOverviewGeneral({ customer, fetchCustomer }) {
             <TextField
               id="contactNo"
               type="text"
-              value={customer ? customer.contactNo : ""}
+              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.contactNo : customer ? customer.contactNo : ""}
               disabled={true}
             />
           </div>

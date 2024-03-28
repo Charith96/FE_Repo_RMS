@@ -7,11 +7,13 @@ import CustomerOverviewHistory from "./CustomerOverviewHistory";
 
 const CustomerOverview = () => {
   const [toggleState, setToggleState] = useState(0);
+  const [editOrDetailsClicked, setEditOrDetailsClicked] = useState(false);
+  const [selectedCustomerData, setSelectedCustomerData] = useState(null);
 
   const tabs = [
     {
       name: "General",
-      content: <CustomerOverviewGeneral />,
+      content: <CustomerOverviewGeneral selectedCustomerData={selectedCustomerData} editOrDetailsClicked={editOrDetailsClicked} />,
     },
     {
       name: "Current Reservations",
@@ -25,6 +27,10 @@ const CustomerOverview = () => {
 
   const toggleTab = (index) => {
     setToggleState(index);
+  };
+
+  const handleResetEditOrDetailsClicked = () => {
+    setEditOrDetailsClicked(false);
   };
 
   return (
@@ -45,6 +51,7 @@ const CustomerOverview = () => {
         tabs={tabs}
         toggleState={toggleState}
         toggleTab={toggleTab}
+        onTabChange={handleResetEditOrDetailsClicked}
       />
     </>
   );

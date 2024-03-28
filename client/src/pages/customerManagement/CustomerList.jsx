@@ -18,6 +18,8 @@ function CustomerList() {
   const [showOptions, setShowOptions] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [contextMenuRow, setContextMenuRow] = useState(null);
+  const [editOrDetailsClicked, setEditOrDetailsClicked] = useState(false);
+  const [selectedCustomerData, setSelectedCustomerData] = useState(null);
 
   useEffect(() => {
     dispatch(fetchCustomers());
@@ -38,10 +40,11 @@ function CustomerList() {
 
   const handleEditNavigation = () => {
     if (selectedCustomers.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
+      const data = { ...contextMenuRow };
+      setSelectedCustomerData(data);
+      setEditOrDetailsClicked(true);
       navigate(
-        `/customerManagement/CustomerOverview/${encodeURIComponent(dataString)}`,
+        `/customerManagement/CustomerOverview/${encodeURIComponent(JSON.stringify(data))}`,
         { state: { mode: "edit" } }
       );
     }
@@ -49,28 +52,15 @@ function CustomerList() {
 
   const handleDetailedNavigation = () => {
     if (selectedCustomers.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
+      const data = { ...contextMenuRow };
+      setSelectedCustomerData(data);
+      setEditOrDetailsClicked(true);
       navigate(
-        `/customerManagement/CustomerOverview/${encodeURIComponent(dataString)}`,
+        `/customerManagement/CustomerOverview/${encodeURIComponent(JSON.stringify(data))}`,
         { state: { mode: "view" } }
       );
     }
   };
-
-  const customContextMenu = showOptions && (
-    <div
-      className="styled-menu"
-      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-    >
-      <div className="menu-item" onClick={handleEditNavigation}>
-        <FontAwesomeIcon icon={faEdit} /> Edit
-      </div>
-      <div className="menu-item" onClick={handleDetailedNavigation}>
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
-      </div>
-    </div>
-  );
 
   const handleSearchChange = (e) => {
     const inputValue = e.target.value.toLowerCase();
@@ -196,7 +186,19 @@ function CustomerList() {
       </div>
 
       {/* Popup menu */}
-      <div>{customContextMenu}</div>
+      {showOptions && (
+        <div
+          className="styled-menu"
+          style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
+        >
+          <div className="menu-item" onClick={handleEditNavigation}>
+            <FontAwesomeIcon icon={faEdit} /> Edit
+          </div>
+          <div className="menu-item" onClick={handleDetailedNavigation}>
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
+          </div>
+        </div>
+      )}
     </div>
   );
 }
