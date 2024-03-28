@@ -1,20 +1,23 @@
+// CustomerOverviewGeneral.js
+
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import TextField from "../../components/TextField";
 import { fetchCustomer } from "../../store/actions/customerActions";
 
-function CustomerOverviewGeneral({ customer, fetchCustomer, selectedCustomerData, editOrDetailsClicked }) {
+function CustomerOverviewGeneral({ customer, fetchCustomer }) {
   const { id } = useParams();
+  const location = useLocation();
   const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
-    if (editOrDetailsClicked && selectedCustomerData) {
-      setEditedData(selectedCustomerData);
+    if (location.state && location.state.customerData) {
+      setEditedData(location.state.customerData);
     } else {
       fetchData();
     }
-  }, [id, editOrDetailsClicked, selectedCustomerData]);
+  }, [id, location.state]);
 
   const fetchData = async () => {
     try {
@@ -30,49 +33,24 @@ function CustomerOverviewGeneral({ customer, fetchCustomer, selectedCustomerData
       <div className="body-part">
         <div>
           <label htmlFor="customerId">Customer ID</label>
-          <TextField id="customerId" type="text" value={id} disabled={true} />
+          <TextField id="customerId" type="text" value={editedData.id || ""} disabled={true} />
           <label htmlFor="fullName">Full Name</label>
-          <TextField
-            id="fullName"
-            type="text"
-            value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.fullName : customer ? customer.fullName : ""}
-            disabled={true}
-          />
+          <TextField id="fullName" type="text" value={editedData.fullName || ""} disabled={true} />
           <div>
             <label htmlFor="identifier">Identifier</label>
-            <TextField
-              id="identifier"
-              type="text"
-              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.identifier : customer ? customer.identifier : ""}
-              disabled={true}
-            />
+            <TextField id="identifier" type="text" value={editedData.identifier || ""} disabled={true} />
           </div>
           <div>
             <label htmlFor="address">Address</label>
-            <TextField
-              id="address"
-              type="text"
-              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.address : customer ? customer.address : ""}
-              disabled={true}
-            />
+            <TextField id="address" type="text" value={editedData.address || ""} disabled={true} />
           </div>
           <div>
             <label htmlFor="email">Email</label>
-            <TextField
-              id="email"
-              type="text"
-              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.email : customer ? customer.email : ""}
-              disabled={true}
-            />
+            <TextField id="email" type="text" value={editedData.email || ""} disabled={true} />
           </div>
           <div>
             <label htmlFor="contactNo">Contact No</label>
-            <TextField
-              id="contactNo"
-              type="text"
-              value={editOrDetailsClicked && selectedCustomerData ? selectedCustomerData.contactNo : customer ? customer.contactNo : ""}
-              disabled={true}
-            />
+            <TextField id="contactNo" type="text" value={editedData.contactNo || ""} disabled={true} />
           </div>
         </div>
       </div>

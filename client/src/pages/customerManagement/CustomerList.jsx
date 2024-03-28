@@ -43,22 +43,16 @@ function CustomerList() {
       const data = { ...contextMenuRow };
       setSelectedCustomerData(data);
       setEditOrDetailsClicked(true);
-      navigate(
-        `/customerManagement/CustomerOverview/${encodeURIComponent(JSON.stringify(data))}`,
-        { state: { mode: "edit" } }
-      );
+      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "edit", customerData: data } });
     }
   };
-
+  
   const handleDetailedNavigation = () => {
     if (selectedCustomers.length === 1) {
       const data = { ...contextMenuRow };
       setSelectedCustomerData(data);
       setEditOrDetailsClicked(true);
-      navigate(
-        `/customerManagement/CustomerOverview/${encodeURIComponent(JSON.stringify(data))}`,
-        { state: { mode: "view" } }
-      );
+      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "view", customerData: data } });
     }
   };
 

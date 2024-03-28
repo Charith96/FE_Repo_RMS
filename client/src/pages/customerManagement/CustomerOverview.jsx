@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+// CustomerOverview.js
+
+import React, { useState, useEffect } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
 import CustomerOverviewGeneral from "./CustomerOverviewGeneral";
 import CustomerOverviewSecondTab from "./CustomerOverviewSecondTab";
 import CustomerOverviewHistory from "./CustomerOverviewHistory";
+import { useLocation } from "react-router-dom";
 
 const CustomerOverview = () => {
+  const location = useLocation();
   const [toggleState, setToggleState] = useState(0);
   const [editOrDetailsClicked, setEditOrDetailsClicked] = useState(false);
   const [selectedCustomerData, setSelectedCustomerData] = useState(null);
+
+  useEffect(() => {
+    if (location.state && location.state.customerData) {
+      setSelectedCustomerData(location.state.customerData);
+      setEditOrDetailsClicked(true);
+    }
+  }, [location.state]);
 
   const tabs = [
     {
