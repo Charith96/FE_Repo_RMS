@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
+import { Row, Col } from 'antd'; // Assuming you're using Ant Design
+import TitleActionBar from '../../components/TitleActionsBar';
+
+
 
 function RoleOverview() {
     const location = useLocation();
@@ -16,13 +20,14 @@ function RoleOverview() {
     const [editingPrivileges, setEditingPrivileges] = useState([...values.privileges]);
     const [isEditing, setIsEditing] = useState(false);
 
-    const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
-        setEditingPrivileges((prevPrivileges) =>
-            checked
-                ? [...prevPrivileges, name]
-                : prevPrivileges.filter((item) => item !== name)
-        );
+    // Define variables/functions or import them from the appropriate location
+    const isAddDisable = false; // Example value, replace with your logic
+    const isEditDisable = false; // Example value, replace with your logic
+    const isSaveDisable = false; // Example value, replace with your logic
+    const isDeleteDisable = false; // Example value, replace with your logic
+
+    const navigateToCreate = () => {
+        // Implementation of navigateToCreate function
     };
 
     const handleEdit = () => {
@@ -32,6 +37,19 @@ function RoleOverview() {
     const handleSave = () => {
         setValues({ ...values, privileges: editingPrivileges });
         setIsEditing(false);
+    };
+
+    const handleDelete = () => {
+        // Implementation of handleDelete function
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setEditingPrivileges((prevPrivileges) =>
+            checked
+                ? [...prevPrivileges, name]
+                : prevPrivileges.filter((item) => item !== name)
+        );
     };
 
     useEffect(() => {
@@ -45,43 +63,56 @@ function RoleOverview() {
     }, [roleData]);
 
     return (
-        <div className="App">
-            <div className="parts" style={{ height: '830px', marginLeft: '350px', marginRight: '250px', padding: "17px", paddingBottom: "100px", marginTop: "15px", borderRadius: 10, border: '3px solid #B5A28C' }}>
-                <div id="subTopic" style={{ backgroundColor: '#B5A28C', marginBottom: "30px", height: '60px', width: '100%', borderRadius: 15, justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px' }}>
-                    <h4 className="subheaderTitle" style={{ fontSize: '30px', padding: '13px', display: 'flex', alignItems: 'center' }}>
-                        Role Overview
-                        {isEditing ? (
-                            <FontAwesomeIcon icon={faSave} style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={handleSave} />
-                        ) : (
-                            <FontAwesomeIcon icon={faEdit} style={{ marginLeft: '10px', cursor: 'pointer' }} onClick={handleEdit} />
-                        )}
-                    </h4>
-                    <div className='content-body' style={{ paddingTop: '50px', paddingLeft: "50px" }}>
-                        <div className='mb-3'>
-                            <label htmlFor="rolecode" style={{ padding: '3px', fontSize: '26px' }}>Role Code:</label>
-                            <input type="text" name='rolecode' className='form-control' placeholder='Enter Role Code' style={{ borderRadius: '13px', width: '700px', marginLeft: '16px', paddingTop: '10px', paddingBottom: '10px', fontSize: '21px' }}
-                                value={values.rolecode} readOnly />
+        <Row>
+            <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+            <Col
+                xs={12}
+                sm={12}
+                md={8}
+                lg={8}
+                xl={8}
+                xxl={10}
+                className="body-content px-5 pt-4 pb-4 mb-5"
+            >
+                {/* TitleActionBar component */}
+                <TitleActionBar
+                    Title={"Reservation Group Overview"}
+                    plustDisabled={isAddDisable}
+                    editDisabled={isEditDisable}
+                    saveDisabled={isSaveDisable}
+                    deleteDisabled={isDeleteDisable}
+                    PlusAction={navigateToCreate}
+                    EditAction={handleEdit}
+                    SaveAction={handleSave}
+                    DeleteAction={handleDelete}
+                />
+                <div>
+           
+             
+                    <div>
+                        <div>
+                            <label htmlFor="rolecode">Role Code:</label>
+                            <input type="text" name='rolecode' value={values.rolecode} readOnly />
                         </div>
-                        <div className='mb-2'>
-                            <label htmlFor="rolename" style={{ padding: '3px', fontSize: '26px' }}>Role Name:</label>
-                            <input type="text" name='rolename' className='form-control' placeholder='Enter Role Name' style={{ borderRadius: '13px', width: '700px', marginLeft: '16px', paddingTop: '10px', paddingBottom: '10px', fontSize: '21px' }}
-                                value={values.rolename} readOnly />
+                        <div>
+                            <label htmlFor="rolename">Role Name:</label>
+                            <input type="text" name='rolename' value={values.rolename} readOnly />
                         </div>
-                        <div className="mb-3">
-                            <table className="table" style={{ width: '70%', marginLeft: '200px', borderCollapse: 'collapse', textAlign: "center" }}>
+                        <div>
+                            <table>
                                 <thead>
                                     <tr>
-                                        <th style={{ fontSize: '1.2em', backgroundColor: '#B5A28C', height: '50px' }}>Privileges</th>
-                                        <th style={{ fontSize: '1.2em', backgroundColor: '#B5A28C', height: '50px' }}>Grant</th>
+                                        <th>Privileges</th>
+                                        <th>Grant</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
-                                        <tr key={privilege} style={{ verticalAlign: 'middle' }}>
-                                            <td style={{ fontSize: '24px', paddingTop: '20px' }}>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)} Access`}</td>
+                                        <tr key={privilege}>
+                                            <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)} Access`}</td>
                                             <td>
-                                                <input className="form-check-input" type="checkbox" name={privilege}
-                                                    checked={isEditing ? editingPrivileges.includes(privilege) : values.privileges.includes(privilege)} onChange={handleCheckboxChange} style={{ width: '20px', height: '20px', border: '2px solid black' }} />
+                                                <input type="checkbox" name={privilege}
+                                                    checked={isEditing ? editingPrivileges.includes(privilege) : values.privileges.includes(privilege)} onChange={handleCheckboxChange} />
                                             </td>
                                         </tr>
                                     ))}
@@ -90,8 +121,8 @@ function RoleOverview() {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 }
 
