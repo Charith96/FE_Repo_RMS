@@ -1,38 +1,6 @@
 {
   "customers": [
     {
-      "id": "21",
-      "fullName": "asdddasdefdgd",
-      "identifier": "2321",
-      "address": "Sri Lanka",
-      "email": "dsfgf@gmail.com",
-      "contactNo": "2121"
-    },
-    {
-      "id": "98791270",
-      "fullName": "jdffkjgkgkr",
-      "identifier": "78989",
-      "address": "uyjuyj",
-      "email": "gfgh@gmail.com",
-      "contactNo": "98989897"
-    },
-    {
-      "id": "23242498",
-      "fullName": "Ema",
-      "identifier": "89",
-      "address": "USA",
-      "email": "ema@gmail.com",
-      "contactNo": "098887"
-    },
-    {
-      "id": "3434",
-      "fullName": "Ema",
-      "identifier": "89",
-      "address": "USA",
-      "email": "ema@gmail.com",
-      "contactNo": "098887"
-    },
-    {
       "id": "787",
       "fullName": "harry potter",
       "identifier": "8887",
@@ -55,6 +23,30 @@
       "address": "gfhfgh",
       "email": "fgd@rty.hfg",
       "contactNo": "07877"
+    },
+    {
+      "id": "234",
+      "fullName": "wee",
+      "identifier": "123323",
+      "address": "USA",
+      "email": "ema@gmail.com",
+      "contactNo": "0897"
+    },
+    {
+      "id": "43",
+      "fullName": "Ema",
+      "identifier": "9890",
+      "address": "America",
+      "email": "ema@gmail.com",
+      "contactNo": "89078324"
+    },
+    {
+      "id": "7287",
+      "fullName": "harry potter",
+      "identifier": "8978",
+      "address": "dfhgh",
+      "email": "gfgh@gmail.com",
+      "contactNo": "089877"
     }
   ],
   "groupcreation": [
