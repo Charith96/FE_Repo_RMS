@@ -15,14 +15,11 @@ import { Form } from "react-bootstrap";
 import CheckboxField from "../../components/CheckboxField";
 import DropdownField from "../../components/DropdownField";
 
-//import { fetchCountries } from "../../store/actions/Action";
-
 const CreateCompany = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const companyData = useSelector((state) => state.createCompany);
-
   const countries = useSelector((state) => state.countries.countries);
   const currencies = useSelector((state) => state.currencies.currencies);
 
@@ -36,7 +33,6 @@ const CreateCompany = () => {
   const [defaultCompany, setDefaultCompany] = useState(false);
   const [buttonFlag, setButtonFlag] = useState(false);
   const isValueMounted = useRef(false);
-
 
   useEffect(() => {
     if (!isValueMounted.current)
@@ -55,48 +51,65 @@ const CreateCompany = () => {
       }
   }, [dispatch, navigate, companyData, isValueMounted]);
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (companyCode) {
+  //     const data = {
+  //       companyCode: companyCode.toString(),
+  //     };
+  //     dispatch(createCompany(data));
+  //   } else {
+  //     toast.error("Please fill out the Company Code fields.");
+  //   }
+  //   if (companyName) {
+  //     const data = {
+  //       companyName: companyName,
+  //     };
+  //     dispatch(createCompany(data));
+  //   } else {
+  //     toast.error("Please fill out the Company Name fields.");
+  //   }
+  //   if (country) {
+  //     const data = {
+  //       country: country,
+  //     };
+  //     dispatch(createCompany(data));
+  //   } else {
+  //     toast.error("Please fill out the Country fields.");
+  //   }
+  //   if (currency) {
+  //     const data = {
+  //       currency: currency,
+  //     };
+  //     dispatch(createCompany(data));
+  //   } else {
+  //     toast.error("Please fill out the Currency fields.");
+  //   }
+  //   if (address01) {
+  //     const data = {
+  //       address01: address01,
+  //     };
+  //     dispatch(createCompany(data));
+  //   } else {
+  //     toast.error("Please fill out the Addreess01 fields.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (companyCode) {
+    if (companyCode && companyName && country && currency && address01) {
       const data = {
         companyCode: companyCode.toString(),
-      };
-      dispatch(createCompany(data));
-    } else {
-      toast.error("Please fill out the Company Code fields.");
-    }
-    if (companyName) {
-      const data = {
         companyName: companyName,
-      };
-      dispatch(createCompany(data));
-    } else {
-      toast.error("Please fill out the Company Name fields.");
-    }
-    if (country) {
-      const data = {
         country: country,
-      };
-      dispatch(createCompany(data));
-    } else {
-      toast.error("Please fill out the Country fields.");
-    }
-    if (currency) {
-      const data = {
         currency: currency,
-      };
-      dispatch(createCompany(data));
-    } else {
-      toast.error("Please fill out the Currency fields.");
-    }
-    if (address01) {
-      const data = {
         address01: address01,
       };
       dispatch(createCompany(data));
     } else {
-      toast.error("Please fill out the Addreess01 fields.");
+      toast.error("Please fill out all required fields.");
     }
   };
 
@@ -136,7 +149,7 @@ const CreateCompany = () => {
             <Form onSubmit={handleSubmit}>
               <TextField
                 label="CompanyCode"
-                className={`${companyCode ? "is-invalid" : "bg-white"}`}
+                // className={`${companyCode ? "is-invalid" : "bg-white"}`}
                 value={companyCode}
                 onChange={(e) => {
                   setCompanyCode(e.target.value);
