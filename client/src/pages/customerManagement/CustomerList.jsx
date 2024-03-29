@@ -43,7 +43,7 @@ function CustomerList() {
       const data = { ...contextMenuRow };
       setSelectedCustomerData(data);
       setEditOrDetailsClicked(true);
-      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "edit", customerData: data } });
+      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "edit", customerData: data, editOrDetailsClicked: true } });
     }
   };
   
@@ -51,8 +51,8 @@ function CustomerList() {
     if (selectedCustomers.length === 1) {
       const data = { ...contextMenuRow };
       setSelectedCustomerData(data);
-      setEditOrDetailsClicked(true);
-      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "view", customerData: data } });
+      setEditOrDetailsClicked(false);
+      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "view", customerData: data, editOrDetailsClicked: false } });
     }
   };
 

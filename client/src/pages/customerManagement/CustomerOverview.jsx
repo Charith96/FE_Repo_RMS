@@ -1,5 +1,3 @@
-// CustomerOverview.js
-
 import React, { useState, useEffect } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
@@ -17,7 +15,7 @@ const CustomerOverview = () => {
   useEffect(() => {
     if (location.state && location.state.customerData) {
       setSelectedCustomerData(location.state.customerData);
-      setEditOrDetailsClicked(true);
+      setEditOrDetailsClicked(location.state.editOrDetailsClicked);
     }
   }, [location.state]);
 
@@ -40,10 +38,6 @@ const CustomerOverview = () => {
     setToggleState(index);
   };
 
-  const handleResetEditOrDetailsClicked = () => {
-    setEditOrDetailsClicked(false);
-  };
-
   return (
     <>
       <TitleActionBar
@@ -62,7 +56,6 @@ const CustomerOverview = () => {
         tabs={tabs}
         toggleState={toggleState}
         toggleTab={toggleTab}
-        onTabChange={handleResetEditOrDetailsClicked}
       />
     </>
   );

@@ -1,14 +1,6 @@
 {
   "customers": [
     {
-      "id": "21321313",
-      "fullName": "second test",
-      "identifier": "909800",
-      "address": "yuyiguiyu",
-      "email": "hfghgfh@gmail.com",
-      "contactNo": "787987989789"
-    },
-    {
       "id": "21",
       "fullName": "asdddasdefdgd",
       "identifier": "2321",
@@ -41,28 +33,28 @@
       "contactNo": "098887"
     },
     {
-      "id": "12323121",
-      "fullName": "fgfgf",
-      "identifier": "213",
+      "id": "787",
+      "fullName": "harry potter",
+      "identifier": "8887",
       "address": "dfhgh",
       "email": "gfgh@gmail.com",
-      "contactNo": "90879790"
+      "contactNo": "0979787"
     },
     {
-      "id": "879",
-      "fullName": "uuiuiu",
-      "identifier": "879789",
-      "address": "Sri Lanka",
-      "email": "dsfgf@gmail.com",
-      "contactNo": "09087"
+      "id": "31321",
+      "fullName": "fdgfg",
+      "identifier": "4334",
+      "address": "fegtrh",
+      "email": "regtg@gh.gdgh",
+      "contactNo": "1212"
     },
     {
-      "id": "474744",
-      "fullName": "jkhjk",
-      "identifier": "090989089",
-      "address": "USA",
-      "email": "ema@gmail.com",
-      "contactNo": "098979878"
+      "id": "2324324",
+      "fullName": "kjhkhj",
+      "identifier": "gggfh",
+      "address": "gfhfgh",
+      "email": "fgd@rty.hfg",
+      "contactNo": "07877"
     }
   ],
   "groupcreation": [
