@@ -38,6 +38,11 @@ const UserList = React.lazy(() =>
 const UserOverview = React.lazy(() =>
   import("./pages/userManagement/UserOverview")
 );
+const ReservationCreation=React.lazy(()=>
+ import("./pages/reservation/reservationCreation")
+ );
+ const ResevationTImeSlots=React.lazy(()=>
+ import("./pages/reservation/reservationTImeslots"));
 const routes = [
   // dashboard
   {
@@ -92,6 +97,21 @@ const routes = [
     name: "UserOverview",
     element:UserOverview,
   },
+  //reservation
+  {
+    path:"/reservation",
+    name:"createResevation",
+    element:QuickNavigation,
+  },
+  {
+    path:"/reservation/createReservation",
+    name:"createResevation",
+    element:ReservationCreation,
+  },
+   {path:"/reservation/timeSlots",
+  name:"reservationTimeSlots",
+    element:ResevationTImeSlots,
+},
   // card layouts
   {
     path: "/reservationManagement",
@@ -113,6 +133,7 @@ const routes = [
     name: "Todo Management",
     element: QuickNavigation,
   },
+  
 ];
 
 export default routes;

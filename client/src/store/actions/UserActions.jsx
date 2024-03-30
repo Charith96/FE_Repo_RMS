@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toastFunction } from "../../components/ToastComponent";
-import { USER_URL, BASE_URL, ROLE_URL, COMPANY_URL } from "../../utils/Constants";
+import { USER_URL, BASE_URL, ROLE_URL, COMPANY_URL, RESERVATION_ITEM } from "../../utils/Constants";
 import ActionTypes from '../../data/ReduxActionTypes';
 
 export const fetchUserData = (id) => async (dispatch) => {
@@ -52,6 +52,16 @@ export const fetchRoleData = () => async (dispatch) => {
     dispatch({ type: ActionTypes.GET_ROLES_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: ActionTypes.GET_ROLES_FAIL, payload: error.message || "An error occurred" }); 
+  }
+};
+export const fetchItemData = () => async (dispatch) => {
+  try {
+    dispatch({ type: ActionTypes.GET_ITEM_REQUEST }); 
+    const response = await axios.get(`${BASE_URL}${RESERVATION_ITEM}`);
+
+    dispatch({ type: ActionTypes.GET_ITEM_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: ActionTypes.GET_ITEM_FAIL, payload: error.message || "An error occurred" }); 
   }
 };
 

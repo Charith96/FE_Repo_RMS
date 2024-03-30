@@ -137,21 +137,30 @@ const _nav = [
             ),
             to: "/userManagement/Userlist",
           },
-          // {
-          //   component: CNavItem,
-          //   name: "User Overview",
-          //   icon: <i className="ps-2" />,
-          //   quicknavicon: (
-          //     <FontAwesomeIcon
-          //       icon={faUser}
-          //       size="2x"
-          //       className="nav-icon pb-0 pt-3"
-          //     />
-          //   ),
-          //   to: `/userManagement/UserOverview`,
-          // },
+        
           
         ],
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "Reservation",
+    navPath: "/reservation",
+    icon: <FontAwesomeIcon icon={faTasks} className="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "Create Reservations",
+        icon: <i className="ps-2" />,
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faTasks}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        to: "/reservation/createReservation",
       },
     ],
   },

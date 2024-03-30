@@ -12,7 +12,7 @@ import TextField from "../../components/TextField";
 import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { createUser } from "../../store/actions/UserActions";
+import { createUser ,fetchData} from "../../store/actions/UserActions";
 
 
 const Main = () => {
@@ -21,6 +21,7 @@ const Main = () => {
   const navigate = useNavigate();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [viewBtn,setViewBtn]=useState(false);
+  const [checkUser,setCheckUser]=useState(false);
   
 
   const [formData, setFormData] = useState({
@@ -70,7 +71,8 @@ const Main = () => {
   useEffect(() => {
     dispatch(fetchCompanyData());
     dispatch(fetchRoleData());
-  }, []);
+    dispatch(fetchData());
+  }, [dispatch]);
   const validateForm = () => {
     const {
       // userId,
@@ -135,12 +137,19 @@ const Main = () => {
       }));
     } else  if (id === "email") {
 
-      // If it's the email field, update both email and userID with the same value
-      setFormData((prevState) => ({
-        ...prevState,
-        email: value,
-        userID: value,
-      }));
+      const Checkusers=userData.users.find(user=>user.email===value);
+      if(!Checkusers){
+        setCheckUser(false);
+        setFormData((prevState) => ({
+          ...prevState,
+          email: value,
+          userID: value,
+        }));
+      }else{
+        setCheckUser(true);
+
+      }
+      
     } else {
    
       setFormData((prevState) => ({
@@ -279,7 +288,9 @@ const Main = () => {
   label="Email:"
   onChange={handleInputChange}
   maxlength={50} 
-/>
+/>{checkUser &&
+             <><span id="message">There is a user under this email</span><br></br></>
+              }
 
                 <TextField
                   id="password"

@@ -6,6 +6,7 @@ const initialState = {
   users: [],
   roles: [],
   company: [],
+  itemcreation:[],
   error: null,
 };
 
@@ -14,9 +15,13 @@ export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.GET_USERS_REQUEST:
       return { ...state, loading: true, error: null };
+   case ActionTypes.GET_ITEM_REQUEST:
+      return { ...state, loading: true, error: null };
     case ActionTypes.GET_USERS_SUCCESS:
       return { ...state, loading: false, users: action.payload, error: null };
     case ActionTypes.GET_USERS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    case ActionTypes.GET_ITEM_FAIL:
       return { ...state, loading: false, error: action.payload };
     case ActionTypes.GET_USERS_REQUESTID:
       return { ...state, loading: true, error: null };
@@ -64,6 +69,13 @@ export const userReducer = (state = initialState, action) => {
         users: [action.payload],
         error: null,
       };
+    case ActionTypes.GET_ITEM_SUCCESS:
+      return{
+        ...state,
+        loadiing:false,
+        itemcreation:action.payload,
+        error:null,
+      }
     default:
       return state;
   }

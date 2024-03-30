@@ -57,7 +57,7 @@ const UserList = () => {
   }, []);
 
   useEffect(() => {
-    if (userData.users && userData.users.length > 0) {
+    if (userData.users && userData.users.length > 0 && !isFiltered) {
       setFilteredData(userData.users);
     }
 
@@ -77,6 +77,7 @@ const UserList = () => {
     perPage,
     filteredData,
     selectedRows,
+    isFiltered
   ]);
 
   const columns = [
@@ -191,11 +192,9 @@ const UserList = () => {
 
  
   const handleFilter = () => {
-  
-    if (userData.users && userData.users.length > 0) {
+ 
         console.log(searchTerm);
       if (searchTerm === "") {
-        setCurrentPage(0);
         setFilteredData(userData.users);
       } else {
         const filtered = userData.users.filter((item) =>
@@ -205,12 +204,12 @@ const UserList = () => {
             .includes(searchTerm?.toLowerCase())
           
         );
-       
+        
         setIsFiltered(true);
 
         setFilteredData(filtered);
       }
-    }
+    
   };
 
 

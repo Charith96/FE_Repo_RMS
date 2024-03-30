@@ -23,6 +23,7 @@ const UserDetailsPage = ({value, mode}) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
   const [modea,setMode]=useState(mode);
+  const [checkUser,setCheckUser]=useState(false);
   useEffect(() => {
     
     setTimeout(() => fetchData(), 100);
@@ -69,7 +70,30 @@ const UserDetailsPage = ({value, mode}) => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
+    if (id === "email") {
+
+      const Checkusers=userData.users.find(user=>user.email===value);
+      if(!Checkusers){
+        setCheckUser(false);
+        setFilteredUserData({
+          ...filteredUserData,
+          email: value,
+          userID: value,
+        });
+       
+      }else{
+        setCheckUser(true);
+        
+        setFilteredUserData({
+      
+          ...filteredUserData,
+          [id]: value,
+        });
+      }
+      
+    } 
     setFilteredUserData({
+      
       ...filteredUserData,
       [id]: value,
     });
@@ -107,7 +131,7 @@ const UserDetailsPage = ({value, mode}) => {
         const updatedUserData = {
           id: id,
           ...filteredUserData,
-          userID: userData.email,
+         
         };
         await dispatch(updateUserData(id, updatedUserData));
     
