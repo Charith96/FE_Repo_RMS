@@ -14,11 +14,14 @@ import { Row, Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { createUser } from "../../store/actions/UserActions";
 
+
 const Main = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const navigate = useNavigate();
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [viewBtn,setViewBtn]=useState(false);
+  
 
   const [formData, setFormData] = useState({
     // userID: "",
@@ -34,7 +37,36 @@ const Main = () => {
     companies: [],
     roles: [],
   });
+  useEffect(() => {
+    const {
+      firstName,
+      lastName,
+      defaultCompany,
+      designation,
+      primaryRole,
+      email,
+      password,
+      validFrom,
+      validTill,
+    } = formData;
 
+    // Check if all fields are filled
+    if (
+      firstName &&
+      lastName &&
+      defaultCompany &&
+      designation &&
+      primaryRole &&
+      email &&
+      password &&
+      validFrom &&
+      validTill
+    ) {
+      setViewBtn(true);
+    } else {
+      setViewBtn(false);
+    }
+  }, [formData]);
   useEffect(() => {
     dispatch(fetchCompanyData());
     dispatch(fetchRoleData());
@@ -53,20 +85,7 @@ const Main = () => {
       validTill,
     } = formData;
 
-    // Field validation
-    if (
-      !firstName ||
-      !lastName ||
-      !designation ||
-      !email ||
-      !validFrom ||
-      !validTill
-    ) {
-      toastFunction("All fields are required", true);
-      console.log(formData);
-      return false;
-    }
-
+    
     // User ID validation
     // if (userId.length < 8) {
     //   toastFunction("User ID must be at least 8 characters long", true);
@@ -105,14 +124,14 @@ const Main = () => {
       setFormData((prevState) => ({
         ...prevState,
         [id]: value,
-        companies: prevState.companies ? [...prevState.companies, value] : [value]
+      
       }));
     } else if (id === "primaryRole") {
 
       setFormData((prevState) => ({
         ...prevState,
         [id]: value,
-        roles: prevState.roles ? [...prevState.roles, value] : [value]
+     
       }));
     } else  if (id === "email") {
 
@@ -129,6 +148,32 @@ const Main = () => {
         [id]: value,
       }));
     }
+    const {
+      firstName,
+      lastName,
+      defaultCompany,
+      designation,
+      primaryRole,
+      email,
+      password,
+      validFrom,
+      validTill,
+  } = formData;
+    if (
+      firstName &&
+      lastName &&
+      defaultCompany &&
+      designation &&
+      primaryRole &&
+      email &&
+      password &&
+      validFrom &&
+      validTill
+  ) {
+      setViewBtn(true);
+  } else {
+      setViewBtn(false);
+  }
   };
   
 
@@ -255,6 +300,7 @@ const Main = () => {
                   onChange={handleInputChange}
            
                 />
+               { viewBtn &&
               <Form.Group as={Row} className="mb-3">
                 <Col className="d-flex justify-content-end">
                   <FormButton
@@ -263,8 +309,8 @@ const Main = () => {
                     className="form-btn"
                   />
                 </Col>
-              </Form.Group>
-            </Form>
+              </Form.Group>}
+            </Form>  
           </div>
         </Col>
         <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />

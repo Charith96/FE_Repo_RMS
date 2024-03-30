@@ -57,6 +57,7 @@ const OverviewTable = ({value}) => {
 
   useEffect(() => {
     if (userData.roles && userData.roles.length > 0) {
+
       setFilteredData(userData.roles);
     }
 
@@ -126,16 +127,16 @@ const OverviewTable = ({value}) => {
   };
 
   const handleEditNavigation = () => {
-    if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/userManagement/reservationGroupOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "edit" } }
-      );
-    }
+    // if (selectedRows.length === 1) {
+    //   let data = { id: contextMenuRow.id };
+    //   let dataString = JSON.stringify(data);
+    //   navigate(
+    //     `/userManagement/reservationGroupOverview?data=${encodeURIComponent(
+    //       dataString
+    //     )}`,
+    //     { state: { mode: "edit" } }
+    //   );
+    // }
   };
 
 
@@ -144,16 +145,16 @@ const OverviewTable = ({value}) => {
   };
 
   const handleDetailedNavigation = () => {
-    if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/userManagement/reservationGroupOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "view" } }
-      );
-    }
+    // if (selectedRows.length === 1) {
+    //   let data = { id: contextMenuRow.id };
+    //   let dataString = JSON.stringify(data);
+    //   navigate(
+    //     `/userManagement/reservationGroupOverview?data=${encodeURIComponent(
+    //       dataString
+    //     )}`,
+    //     { state: { mode: "view" } }
+    //   );
+    // }
   };
 
   const customContextMenu = menuVisible && (
@@ -199,7 +200,7 @@ const OverviewTable = ({value}) => {
         const roleName = selectedRows[0].name;
         if (roleName=== userData.users.primaryRole) {
           console.log("Cannot add default role", roleName);
-          return; // Ignore the update
+          return; 
       }
       
         if (!userData.users.roles.includes(roleName)) {

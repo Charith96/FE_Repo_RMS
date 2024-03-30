@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { fetchUserData,  updateUserData, } from "../../store/actions/UserActions";
+import { fetchUserData,  updateUserData,deleteUser } from "../../store/actions/UserActions";
 import TitleActionBar from "../../components/TitleActionsBar";
 import FormButton from "../../components/FormButton";
 import TextField from "../../components/TextField";
 import Dropdown from "../../components/dropdown";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";
 
@@ -18,78 +19,53 @@ const UserDetailsPage = ({value, mode}) => {
   const [filteredCompanyData, setFilteredCompanyData] = useState({});
   const [filteredRoleData, setFilteredRoleData] = useState({});
   const [editMode, setEditMode] = useState(false);
+  const [isViewMode, setIsViewMode]=useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
+  const [modea,setMode]=useState(mode);
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     if (mode && mode !== 'edit') {
-    //       await dispatch(fetchUserData(id));
-    //       const user = userData.users;
-    //       setFilteredUserData({
-    //         userID: user.email,
-    //         firstName: user.firstName,
-    //         lastName: user.lastName,
-    //         defaultCompany: user.defaultCompany,
-    //         designation: user.designation,
-    //         primaryRole: user.primaryRole,
-    //         email: user.email,
-    //         password: user.password,
-    //         validFrom: user.validFrom,
-    //         validTill: user.validTill,
-    //       });
-    //     }  if (mode && mode !== 'view' && !editMode) {
-    //       await dispatch(fetchUserData(id));
-    //       const user = userData.users;
-    //       setFilteredUserData({
-    //         userID: user.email,
-    //         firstName: user.firstName,
-    //         lastName: user.lastName,
-    //         defaultCompany: user.defaultCompany,
-    //         designation: user.designation,
-    //         primaryRole: user.primaryRole,
-    //         email: user.email,
-    //         password: user.password,
-    //         validFrom: user.validFrom,
-    //         validTill: user.validTill,
-    //         companies: user.companies,
-    //         roles: user.roles,
-    //       });
-    //       setEditMode(true); // Set editMode to true after fetching data
-    //     }
+    
+    setTimeout(() => fetchData(), 100);
+  }, [dispatch, id, userData.users,editMode]);
   
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-    const fetchData = async () => {
-      try {
-        if (editMode === false) {
-          await dispatch(fetchUserData(id));
-          setFilteredUserData({
-            userID: userData.users.email,
-            firstName: userData.users.firstName,
-            lastName: userData.users.lastName,
-            defaultCompany: userData.users.defaultCompany,
-            designation: userData.users.designation,
-            primaryRole: userData.users.primaryRole,
-            email: userData.users.email,
-            password: userData.users.password,
-            validFrom: userData.users.validFrom,
-            validTill: userData.users.validTill,
-            companies: userData.users.companies,
-            roles: userData.users.roles,
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const fetchData = async () => {
+    try {
+      if(editMode===false){
+        await dispatch(fetchUserData(id));
+        const user = userData.users;
+        setFilteredUserData({
+          userID: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          defaultCompany: user.defaultCompany,
+          designation: user.designation,
+          primaryRole: user.primaryRole,
+          email: user.email,
+          password: user.password,
+          validFrom: user.validFrom,
+          validTill: user.validTill,
+          companies: user.companies,
+          roles: user.roles,
+        });
       }
-    };
-  
-    fetchData();
-  }, [dispatch, id, mode, userData.users]);
-  
-  
+      if (modea) {
+        if (modea === "edit") {
+          setEditMode(true);
+          // setEd(true);
+          // setIsSaveDisable(false);
+        } else if (modea === "view") {
+          setIsViewMode(true);
+
+          // setIsEditDisable(false);
+          // setIsSaveDisable(true);
+        }
+      }
+    
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -102,15 +78,31 @@ const UserDetailsPage = ({value, mode}) => {
   const handleCreate = () => {
     navigate("/userManagement/createUsers");
   };
+  const cancelDelete = () => {
+    setShowConfirmation(false);
+  };
 
   const handleDelete = () => {
     setShowConfirmation(true);
   };
 
-
-
-  const handleSubmit = async () => {
+  const confirmDelete = (id) => {
   
+      try {
+        dispatch(deleteUser(id));
+        toast.success("Record Successfully deleted!");
+ 
+      } catch (error) {
+        toast.error("Error deleting row. Please try again.");
+      } finally {
+        setShowConfirmation(false);
+      }
+  navigate("/userManagement/Userlist")
+
+    };
+
+
+    const handleSubmit = async () => {
       try {
         const updatedUserData = {
           id: id,
@@ -118,13 +110,15 @@ const UserDetailsPage = ({value, mode}) => {
           userID: userData.email,
         };
         await dispatch(updateUserData(id, updatedUserData));
-
-        setEditMode(false);
+    
+        setIsViewMode(true);
+        setEditMode(false); // Turn off edit mode after successfully saving
+        setMode("view");
       } catch (error) {
         console.error("Error saving data:", error);
-      
-    } 
-  };
+      }
+    };
+    
 
   return (
     <>
@@ -154,126 +148,151 @@ const UserDetailsPage = ({value, mode}) => {
           </div>
         </Col>
       </Row>
+      <DeleteConfirmModel
+        show={showConfirmation}
+        close={cancelDelete}
+        title={"Warning"}
+        message={
+          "The selected Reservation Group will be deleted. Do you wish to continue?"
+        }
+        type={"Yes"}
+        action={() => {
+          confirmDelete(id);
+        }}
+      />
     </>
   );
 };
 
-const UserForm = ({ formData, onChange, editMode,userData }) => {
+const UserForm = ({ formData, onChange, editMode,userData ,isViewMode}) => {
 
   return (
-  <>
-      <TextField
-        id="firstName"
-        label="First Name:"
-        value={formData.firstName}
-        onChange={onChange}
-        disabled={!editMode}
-      />
-      <TextField
-        id="lastName"
-        label="Last Name:"
-        value={formData.lastName}
-        onChange={onChange}
-        disabled={!editMode}
-      />
-      {/* {editMode &&  */}
-        <TextField
-          id="defaultCompany"
-          label="Default Company:"
-          value={formData.defaultCompany}
-          onChange={onChange}
-          disabled={!editMode}
-        />
-
-      {/* }:{ */}
-      {/* //   <Form.Group as={Row} className="mb-3">
-      //   <Form.Label column md={3}>
-      //     Default Company
-      //   </Form.Label>
-      //   <Col md={9}>
-      //     <Form.Select */}
-      {/* //       id="defaultCompany"
-      //       value={formData.defaultCompany}
-      //       onChange={onchange}
-      //     >
-      //       <option value="">Select Default Company</option>
-      //       {userData.company.map((company) => (
-      //         <option key={company.id} value={company.name}>
-      //           {company.name}
-      //         </option>
-      //       ))}
-      //     </Form.Select>
-      //   </Col>
-      // </Form.Group>
-      }  */}
-     
-      <TextField
-        id="designation"
-        label="Designation:"
-        value={formData.designation}
-        onChange={onChange}
-        disabled={!editMode}
-      />
-         {/* {editMode &&   */}
-      <TextField
-        id="primaryRole"
-        label="Primary Role:"
-        value={formData.primaryRole}
-        onChange={onChange}
-        disabled={!editMode}
-       />
-    {/* }:{ */}
-      {/* //   <Form.Group as={Row} className="mb-3">
-      //   <Form.Label column md={3}>
-      //     Default Role
-      //   </Form.Label>
-      //   <Col md={9}>
-      //     <Form.Select */}
-      {/* //       id="primaryRole"
-      //       value={formData.primaryRole}
-      //       onChange={onChange}
-      //     >
-      //       <option value="">Select Default Company</option>
-      //       {userData.company.map((role) => ( */}
-      {/* //         <option key={role.id} value={role.name}>
-      //           {role.name}
-      //         </option>
-      //       ))}
-      //     </Form.Select> */}
-      {/* //   </Col> */}
-      {/* // </Form.Group>  */}
-      {/* // } */}
-      <TextField
-        id="email"
-        label="Email:"
-        value={formData.email}
-        onChange={onChange}
-        disabled={!editMode}
-      />
-      <TextField
-        id="validFrom"
-        label="Valid From:"
-        type="datetime-local"
-        value={formData.validFrom}
-        onChange={onChange}
-        disabled={!editMode}
-      />
-      <TextField
-        id="validTill"
-        label="Valid Till:"
-        type="datetime-local"
-        value={formData.validTill}
-        onChange={onChange}
-        disabled={!editMode}
-      />
-      {editMode && (
-        <Form.Group as={Row} className="mb-3">
-          <Col className="d-flex justify-content-end">
-            <FormButton type="submit" text="Save" className="form-btn" />
-          </Col>
-        </Form.Group>
+    <>
+      {editMode ? (
+        <>
+          <TextField
+            id="firstName"
+            label="First Name:"
+            value={formData.firstName}
+            onChange={onChange}
+            disabled={isViewMode}
+          />
+          <TextField
+            id="lastName"
+            label="Last Name:"
+            value={formData.lastName}
+            onChange={onChange}
+            disabled={false}
+          />
+          <TextField
+            id="defaultCompany"
+            label="Default Company:"
+            value={formData.defaultCompany}
+            onChange={onChange}
+            disabled={false}
+          />
+          <TextField
+            id="designation"
+            label="Designation:"
+            value={formData.designation}
+            onChange={onChange}
+            disabled={false}
+          />
+          <TextField
+            id="primaryRole"
+            label="Primary Role:"
+            value={formData.primaryRole}
+            onChange={onChange}
+            disabled={false}
+          />
+          <TextField
+            id="email"
+            label="Email:"
+            value={formData.email}
+            onChange={onChange}
+            disabled={false}
+          />
+          <TextField
+            id="validFrom"
+            label="Valid From:"
+            type="datetime-local"
+            value={formData.validFrom}
+            onChange={onChange}
+            disabled={false}
+          />
+          <TextField
+            id="validTill"
+            label="Valid Till:"
+            type="datetime-local"
+            value={formData.validTill}
+            onChange={onChange}
+            disabled={false}
+          />
+        </>
+      ) : (
+        <>
+          <TextField
+            id="firstName"
+            label="First Name:"
+            value={formData.firstName}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="lastName"
+            label="Last Name:"
+            value={formData.lastName}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="defaultCompany"
+            label="Default Company:"
+            value={formData.defaultCompany}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="designation"
+            label="Designation:"
+            value={formData.designation}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="primaryRole"
+            label="Primary Role:"
+            value={formData.primaryRole}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="email"
+            label="Email:"
+            value={formData.email}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="validFrom"
+            label="Valid From:"
+            type="datetime-local"
+            value={formData.validFrom}
+            onChange={onChange}
+            disabled={true}
+          />
+          <TextField
+            id="validTill"
+            label="Valid Till:"
+            type="datetime-local"
+            value={formData.validTill}
+            onChange={onChange}
+            disabled={true}
+          />
+        </>
       )}
-</>
+      
+    </>
   );
 };
 

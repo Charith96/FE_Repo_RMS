@@ -191,23 +191,28 @@ const UserList = () => {
 
  
   const handleFilter = () => {
+  
     if (userData.users && userData.users.length > 0) {
+        console.log(searchTerm);
       if (searchTerm === "") {
         setCurrentPage(0);
         setFilteredData(userData.users);
       } else {
         const filtered = userData.users.filter((item) =>
-          Object.values(item).some(
-            (value) =>
-              value &&
-              value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-          )
+          item.firstName
+            ?.toString()
+            .toLowerCase()
+            .includes(searchTerm?.toLowerCase())
+          
         );
+       
         setIsFiltered(true);
+
         setFilteredData(filtered);
       }
     }
   };
+
 
 
   const confirmDelete = () => {
