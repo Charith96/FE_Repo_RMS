@@ -27,11 +27,13 @@ function CustomerOverviewGeneral({ customer, fetchCustomer, editOrDetailsClicked
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
+    if (editOrDetailsClicked) {
+      const { name, value } = e.target;
+      setEditedData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    }
   };
 
   return (
@@ -41,22 +43,52 @@ function CustomerOverviewGeneral({ customer, fetchCustomer, editOrDetailsClicked
           <label htmlFor="customerId">Customer ID</label>
           <TextField id="customerId" type="text" value={editedData.id || ""} disabled />
           <label htmlFor="fullName">Full Name</label>
-          <TextField id="fullName" type="text" value={editedData.fullName || ""} disabled={!editOrDetailsClicked} onChange={handleChange} />
+          <TextField
+            id="fullName"
+            type="text"
+            value={editedData.fullName || ""}
+            disabled={!editOrDetailsClicked}
+            onChange={handleChange}
+          />
           <div>
             <label htmlFor="identifier">Identifier</label>
-            <TextField id="identifier" type="text" value={editedData.identifier || ""} disabled={!editOrDetailsClicked} onChange={handleChange} />
+            <TextField
+              id="identifier"
+              type="text"
+              value={editedData.identifier || ""}
+              disabled={!editOrDetailsClicked}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label htmlFor="address">Address</label>
-            <TextField id="address" type="text" value={editedData.address || ""} disabled={!editOrDetailsClicked} onChange={handleChange} />
+            <TextField
+              id="address"
+              type="text"
+              value={editedData.address || ""}
+              disabled={!editOrDetailsClicked}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label htmlFor="email">Email</label>
-            <TextField id="email" type="text" value={editedData.email || ""} disabled={!editOrDetailsClicked} onChange={handleChange} />
+            <TextField
+              id="email"
+              type="text"
+              value={editedData.email || ""}
+              disabled={!editOrDetailsClicked}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label htmlFor="contactNo">Contact No</label>
-            <TextField id="contactNo" type="text" value={editedData.contactNo || ""} disabled={!editOrDetailsClicked} onChange={handleChange} />
+            <TextField
+              id="contactNo"
+              type="text"
+              value={editedData.contactNo || ""}
+              disabled={!editOrDetailsClicked}
+              onChange={handleChange}
+            />
           </div>
         </div>
       </div>
