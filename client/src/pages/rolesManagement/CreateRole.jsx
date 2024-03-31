@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { SetUserAction } from '../../store/actions/RolesAction';
 import { Form, Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField'; 
 import FormButton from '../../components/FormButton';
@@ -11,12 +9,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
 
 function CreateRole() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        dispatch(SetUserAction("grbbrtbrtrtb"));
-    }, [dispatch]);
 
     const [values, setValues] = useState({
         rolecode: '',
@@ -143,7 +136,7 @@ function CreateRole() {
                                 type="submit"
                                 text="Create"
                                 className="form-btn"
-                                disabled={!formValid}
+                               // disabled={!formValid}
                             />
                         </Col>
                     </Form.Group>
