@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SetUserAction } from '../../store/actions/RolesAction';
 import FormButton from '../../components/FormButton';
@@ -13,26 +13,43 @@ const ROLE_URL = '/Roles';
 
 function CreateRole() {
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // Initialize useNavigate hook
+    const navigate = useNavigate();
 
     const [values, setValues] = useState({
         rolecode: '',
         rolename: '',
         privileges: [],
+        error: '' // Add error field to hold validation error message
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setValues({ ...values, [name]: value });
+        let error = '';
+
+        // Add validation logic based on your requirements
+        if (name === 'rolecode' && value.trim() === '') {
+            error = 'Role code is required';
+        } else if (name === 'rolename' && value.trim() === '') {
+            error = 'Role name is required';
+        }
+
+        // Set the error message based on validation
+        setValues({ ...values, [name]: value, error });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        // Check if there are any validation errors before submitting
+        if (values.error.trim() !== '') {
+            return; // Don't submit if there are validation errors
+        }
+
         axios.post(`${BASE_URL}${ROLE_URL}`, values)
             .then(res => {
                 console.log(res);
-                navigate('/rolesManagement/RoleList', { state: { roleData: res.data } }); // Navigate to RoleList with roleData
+                navigate('/rolesManagement/RoleList', { state: { roleData: { ...values, id: res.data.id } } });
+                // Pass the roleData object containing rolecode, rolename, and other values
             })
             .catch(err => {
                 console.log(err);
@@ -71,6 +88,8 @@ function CreateRole() {
                             onChange={handleChange}
                             className="form-control"
                         />
+                        {values.error && <div className="text-danger">{values.error}</div>}
+
                         <TextField
                             label="Role Name:"
                             name="rolename"
@@ -78,6 +97,7 @@ function CreateRole() {
                             onChange={handleChange}
                             className="form-control"
                         />
+                        {values.error && <div className="text-danger">{values.error}</div>}
 
                         <div className="mb-3">
                             <table className="table">

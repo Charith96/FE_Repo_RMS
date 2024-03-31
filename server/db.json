@@ -46,14 +46,6 @@
       ]
     },
     {
-      "id": "1dd0",
-      "rolecode": "kio989",
-      "rolename": "kkkkkkkkkk",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
       "id": "7b5c",
       "rolecode": "9088",
       "rolename": "vgcg",
@@ -64,6 +56,26 @@
     {
       "rolename": "view offffff",
       "id": "e516"
+    },
+    {
+      "id": "6331",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "updateAccess"
+      ],
+      "error": "",
+      "": "njkk"
+    },
+    {
+      "id": "41f4",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess"
+      ],
+      "error": "",
+      "": "nnnn"
     }
   ],
   "groupcreation": [
