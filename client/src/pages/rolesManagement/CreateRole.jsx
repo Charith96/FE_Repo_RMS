@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SetUserAction } from '../../store/actions/RolesAction';
+import { Form, Row, Col } from 'react-bootstrap';
+import TextField from '../../components/TextField'; 
 import FormButton from '../../components/FormButton';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -82,53 +84,75 @@ function CreateRole() {
         });
     };
 
+    const formValid = !errors.rolecode && !errors.rolename;
+
     return (
-        <div className="App">
-            <div className="parts">
-                <div id="subTopic">
-                    <h4 className="subheaderTitle">Create Role</h4>
-                    <div className='content-body'>
-                        <form onSubmit={handleSubmit}>
-                            <div className='mb-3'>
-                                <label htmlFor="rolecode">Role Code:</label>
-                                <input type="text" name='rolecode' className={`form-control ${errors.rolecode ? 'is-invalid' : ''}`} placeholder='Enter Role Code'
-                                    value={values.rolecode} onChange={handleChange} />
-                                {errors.rolecode && <div className="invalid-feedback">{errors.rolecode}</div>}
-                            </div>
-                            <div className='mb-2'>
-                                <label htmlFor="rolename">Role Name:</label>
-                                <input type="text" name='rolename' className={`form-control ${errors.rolename ? 'is-invalid' : ''}`} placeholder='Enter Role Name'
-                                    value={values.rolename} onChange={handleChange} />
-                                {errors.rolename && <div className="invalid-feedback">{errors.rolename}</div>}
-                            </div>
-                            <div className="mb-3">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Privileges</th>
-                                            <th>Grant</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {/* Checkbox rows for privileges */}
-                                        {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
-                                            <tr key={privilege}>
-                                                <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)} Access`}</td>
-                                                <td>
-                                                    <input className="form-check-input" type="checkbox" name={privilege}
-                                                        checked={values.privileges.includes(privilege)} onChange={handleCheckboxChange} />
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <FormButton type="submit" text="Create" className="btn btn-success" /> {/* Use FormButton component */}
-                        </form>
-                    </div>
+        <Row>
+            <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+            <Col
+                xs={12}
+                sm={12}
+                md={8}
+                lg={8}
+                xl={8}
+                xxl={10}
+                className="body-content px-5 pt-4 pb-4 mb-5"
+            >
+                <div>
+                    <h3>Create Role</h3>
                 </div>
-            </div>
-        </div>
+                <Form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Role Code:"
+                        name="rolecode"
+                        value={values.rolecode}
+                        onChange={handleChange}
+                        inputMessage={errors.rolecode}
+                        maxLength={8}
+                    />
+                    <TextField
+                        label="Role Name:"
+                        name="rolename"
+                        value={values.rolename}
+                        onChange={handleChange}
+                        inputMessage={errors.rolename}
+                        maxLength={20}
+                    />
+                    <div className="mb-3">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Privileges</th>
+                                    <th>Grant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* Checkbox rows for privileges */}
+                                {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
+                                    <tr key={privilege}>
+                                        <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
+                                        <td>
+                                            <input className="form-check-input" type="checkbox" name={privilege}
+                                                checked={values.privileges.includes(privilege)} onChange={handleCheckboxChange} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <Form.Group as={Row} className="mb-3">
+                        <Col className="d-flex justify-content-end">
+                            <FormButton
+                                type="submit"
+                                text="Create"
+                                className="form-btn"
+                               // disabled={!validateForm}
+                            />
+                        </Col>
+                    </Form.Group>
+                </Form>
+            </Col>
+        </Row>
     );
 }
 

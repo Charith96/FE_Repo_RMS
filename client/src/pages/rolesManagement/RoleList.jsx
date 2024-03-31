@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash, faPencilAlt, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import { useSelector } from 'react-redux';
+import TitleActionBar from "../../components/TitleActionsBar";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
@@ -79,53 +79,26 @@ function RoleList() {
         }
     };
 
+    const handleCreate = () => {
+        navigate("/rolesManagement/CreateRole");
+    };
+
+    const handleEditIconClick = () => {
+        if (selectedRows.length === 1) {
+            handleEdit(selectedRows[0]);
+        }
+    };
+
     return (
         <div className="mb-5 mx-2">
-            <Row>
-                <div className="filter-box mb-5">
-                    <InputGroup className="w-25">
-                        <Form.Control
-                            className="bg-white form-control-filter"
-                            placeholder="Search by role name"
-                            aria-label="Search"
-                            value={editedRoleName}
-                            onChange={(e) => setEditedRoleName(e.target.value)}
-                        />
-                        <Button
-                            variant="primary"
-                            className="form-btn"
-                            id="button-addon2"
-                            onClick={handleSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </Button>
-                        <Button
-                            variant="primary"
-                            className="form-btn"
-                            id="button-addon2"
-                            onClick={deleteSelectedRows}
-                        >
-                            <FontAwesomeIcon icon={faTrash} />
-                        </Button>
-                        <Button
-                            variant="primary"
-                            className="form-btn"
-                            id="button-addon2"
-                            onClick={() => handleEdit(selectedRows[0])} // Pass selected row ID to handleEdit
-                        >
-                            <FontAwesomeIcon icon={faPencilAlt} />
-                        </Button>
-                        <Button
-                            variant="primary"
-                            className="form-btn"
-                            id="button-addon2"
-                            onClick={handleMoreOptions}
-                        >
-                            <FontAwesomeIcon icon={faEllipsisV} />
-                        </Button>
-                    </InputGroup>
-                </div>
-            </Row>
+            <TitleActionBar
+                Title={"Roles List"}
+                PlusIcon={<FontAwesomeIcon icon={faSave} onClick={handleCreate} />}
+                SaveIcon={<FontAwesomeIcon icon={faSave} onClick={handleSave} />}
+                DeleteIcon={<FontAwesomeIcon icon={faTrash} onClick={deleteSelectedRows} />}
+                MoreOptionsIcon={<FontAwesomeIcon icon={faEllipsisV} onClick={handleMoreOptions} />}
+                EditIcon={<FontAwesomeIcon icon={faPencilAlt} onClick={handleEditIconClick} />}
+            />
 
             <table className="table" border={1}>
                 <thead>
