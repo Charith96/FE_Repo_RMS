@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { deleteTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const ReservationItemTimeSlotList = ({
@@ -18,10 +18,48 @@ const ReservationItemTimeSlotList = ({
   resetStates,
   setSelectedRecords,
   uniqueId,
-  itemId,
+  
   newlyAddedSlots,
   setNewlyAddedSlots,
+  
+  setIsOverlapping,
+  
+  setIsValuesEqual,
 }) => {
+  useEffect(() => {
+    const timeSlots = [...inputValues];
+    let isOverlapping = false;
+
+    for (let i = 0; i < timeSlots.length && !isOverlapping; i++) {
+      for (let j = i + 1; j < timeSlots.length; j++) {
+        const slot1 = timeSlots[i];
+        const slot2 = timeSlots[j];
+
+        const start1 = new Date(`2000-01-01T${slot1.startTime}`);
+        const end1 = new Date(`2000-01-01T${slot1.endTime}`);
+        const start2 = new Date(`2000-01-01T${slot2.startTime}`);
+        let end2 = new Date(`2000-01-01T${slot2.endTime}`);
+
+        // Check if end time is before start time, indicating it's on the next day
+        if (end2 < start2) {
+          end2 = new Date(`2000-01-02T${slot2.endTime}`); // Update end time for next day
+        }
+
+        // Check for overlap
+        if (start1 < end2 && end1 > start2) {
+          isOverlapping = true; // Overlapping time slots found
+          break; // Exit the loop once overlap is found
+        }
+      }
+    }
+
+    setIsOverlapping(isOverlapping);
+
+    setIsValuesEqual(
+      timeSlots.some((value) => value.startTime === value.endTime)
+    );
+  }, [inputValues]);
+
   const [selectedId, setSelectedId] = useState("");
   const dispatch = useDispatch();
   //time slot value management
@@ -95,13 +133,12 @@ const ReservationItemTimeSlotList = ({
                       duration
                     ));
                   setInputValues(newValues);
-                  
                 }}
                 className="mr-2"
               />
               <span className="align-self-center">TO</span>
               <Form.Control
-                readOnly={duration?true:false}
+                readOnly={duration ? true : false}
                 type="time"
                 value={inputValues[index].endTime}
                 onChange={(e) => {
@@ -121,7 +158,12 @@ const ReservationItemTimeSlotList = ({
         Add More
       </Button>
 
-      <Button variant="danger" onClick={handleRemove} disabled={!selectedId} className="m-1">
+      <Button
+        variant="danger"
+        onClick={handleRemove}
+        disabled={!selectedId}
+        className="m-1"
+      >
         Remove
       </Button>
     </div>

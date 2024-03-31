@@ -18,12 +18,7 @@ const ManageReservationGroups = () => {
   const fetchReservationGroupData = useSelector(
     (state) => state.getReservationGroupById.fetchReservationGroupId
   );
-  const editFlagData = useSelector(
-    (state) => state.editReservationGroupFlag.editReservationGroupFlag
-  );
-  const dataForSearch = useSelector(
-    (state) => state.getReservationGroup.fetchReservationGroup
-  );
+  
   const [recordId, setRecordId] = useState("");
   const [groupId, setGroupId] = useState("");
   const [groupName, setGroupName] = useState("");
@@ -96,7 +91,7 @@ const ManageReservationGroups = () => {
           groupId: groupId,
           groupName: groupName,
         };
-        console.log("formData ", recordId, formData);
+        
         dispatch(editReservationGroup(recordId, formData));
         handleNavigate();
         toast.success("Data saved successfully");

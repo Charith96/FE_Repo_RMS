@@ -2,7 +2,6 @@ import React from "react";
 import TextField from "../../components/TextField";
 import { Row, Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { useState, useEffect, useRef } from "react";
 
 const ManageReservationItems = ({
   itemId,
@@ -16,31 +15,7 @@ const ManageReservationItems = ({
   capacity,
   setCapacity,
   isViewMode,
-  noOfSlots,
-  setNoOfSlots,
-  setInputValues,
-  inputValues,
-  noOfAddedSlots,
-  setNoOfAddedSlots,
 }) => {
-  
-
-const handleInputChange = (value) => {
-  const parsedValue = parseInt(value, 10); // Parse value as integer
-  console.log("xyz",noOfAddedSlots )
-  const numberOfObjects = parsedValue - parseInt(noOfAddedSlots,10);
-
-  console.log("noofobj", numberOfObjects);
-  const newArray = Array.from({ length: numberOfObjects }, () => ({
-    startTime: "",
-    endTime: "",
-    itemId: itemId, // Make sure itemId is defined in your component
-  }));
-  setNoOfAddedSlots(0); // Resetting the value after usage
-  setInputValues([...inputValues, ...newArray]);
-};
-
-
   return (
     <>
       <Row>
@@ -77,7 +52,7 @@ const handleInputChange = (value) => {
                 disabled={isViewMode}
                 onChange={(e) => setItemName(e.target.value)}
               />
-              
+
               <TextField
                 label="No of Reservations"
                 className={`${!noOfReservations ? "is-invalid" : "bg-white"}`}

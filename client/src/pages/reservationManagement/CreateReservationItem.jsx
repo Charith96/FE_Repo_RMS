@@ -15,6 +15,8 @@ const CreateReservationItem = ({
   setIsCustomized,
   duration,
   setDuration,
+  isOverlapping,
+  isValuesEqual
 }) => {
   const dispatch = useDispatch();
   const fetchReservationGroupDataForTheForm = useSelector(
@@ -28,15 +30,16 @@ const CreateReservationItem = ({
   const [timeSlotType, setTimeSlotType] = useState("");
   const [noOfSlots, setNoOfSlots] = useState("");
   const [slotDurationType, setSlotDurationType] = useState("");
-  //const [durationPerSlot, setDurationPerSlot] = useState("");
+  
   const [noOfReservations, setNoOfReservations] = useState("");
   const [capacity, setCapacity] = useState("");
   const [reservationGroup, setReservationGroup] = useState("");
   const [isFlexible, setIsFlexible] = useState(true);
   const [isNoOfSlots, setIsNoOfSlots] = useState(true);
-  //const [isCustomized, setIsCustomized] = useState(false);
+  
   const [isDurationPerSlot, setIsDurationPerSlot] = useState(true);
-  //const [inputValues, setInputValues] = useState([]);
+  
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,8 +120,7 @@ const CreateReservationItem = ({
         value.endTime.trim() !== ""
       );
     });
-
-    //Check if all required fields are filled in
+    
     try {
       if (
         itemId &&
@@ -132,16 +134,33 @@ const CreateReservationItem = ({
           dispatch(createReservationItem(data));
           toast.success("Reservation Item created successfully");
           setToInitialState();
-        } else if (isCustomized && noOfSlots && isValidInput) {
+        } else if (
+          isCustomized &&
+          noOfSlots &&
+          isValidInput &&
+          !isOverlapping &&
+          !isValuesEqual
+        ) {
           dispatch(createReservationItem(data));
           toast.success("Reservation Item created successfully");
           setToInitialState();
-        } else if (duration && isValidInput) {
+        } else if (
+          duration &&
+          isValidInput &&
+          !isOverlapping &&
+          !isValuesEqual
+        ) {
           dispatch(createReservationItem(data));
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else {
-          toast.error("Please fill in the required fields");
+          if (isOverlapping) {
+            toast.error("Time slots are overlapping");
+          } else if (isValuesEqual) {
+            toast.error("start time and end time cannot be the same");
+          } else {
+            toast.error("Please fill in the required fields");
+          }
         }
       } else {
         toast.error("Please fill in the required fields");

@@ -18,6 +18,9 @@ const ReservationItemManagement = () => {
   const [inputValues, setInputValues] = useState([]);
   const [isCustomized, setIsCustomized] = useState(false);
   const [duration, setDuration] = useState("");
+  const [isOverlapping, setIsOverlapping] = useState(false);
+  const [isValuesEqual, setIsValuesEqual] = useState(false);
+
 
   useEffect(() => {
     if (selectedRecords === 1 && disableEdit && !isEdit) {
@@ -91,6 +94,9 @@ const ReservationItemManagement = () => {
           setIsCustomized={setIsCustomized}
           duration={duration}
           setDuration={setDuration}
+          isOverlapping={isOverlapping}
+          isValuesEqual={isValuesEqual}
+          
         />
       ),
     },
@@ -110,6 +116,10 @@ const ReservationItemManagement = () => {
           isDelete={toggleState === 0 && isDelete}
           resetStates={() => handleReset()}
           setSelectedRecords={setSelectedRecords}
+          isOverlapping={isOverlapping}
+          setIsOverlapping={setIsOverlapping}
+          isValuesEqual={isValuesEqual}
+          setIsValuesEqual={setIsValuesEqual}
         />
       ),
     },

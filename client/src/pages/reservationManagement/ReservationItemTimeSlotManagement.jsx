@@ -4,7 +4,7 @@ import { deleteReservationItem } from "../../store/actions/ReservationItemAction
 import { fetchReservationItemsById } from "../../store/actions/ReservationItemActions";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import { editTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
@@ -51,11 +51,13 @@ const ReservationItemTimeSlotManagement = () => {
   const [noOfSlots, setNoOfSlots] = useState("");
   const [noOfAddedSlots, setNoOfAddedSlots] = useState(0);
   const [newlyAddedSlots, setNewlyAddedSlots] = useState([]);
+  const [isOverlapping, setIsOverlapping] = useState(false);
+  const [isValuesEqual, setIsValuesEqual] = useState(false);
 
   useEffect(() => {
     setNoOfAddedSlots(parseInt(noOfSlots, 10)); // Update noOfAddedSlots when noOfSlots changes
 
-    console.log("noOfSlots", noOfAddedSlots);
+    
   }, [noOfSlots]);
 
   useEffect(() => {
@@ -130,7 +132,7 @@ const ReservationItemTimeSlotManagement = () => {
       setTimeout(() => fetchData(), 100);
     }
   }, [isSaveDisable, recordId, fetchData]);
-  //handle save click
+
   const handleSave = async () => {
     var flagNew = true;
     var flagOld = true;
@@ -169,10 +171,19 @@ const ReservationItemTimeSlotManagement = () => {
             }
           });
         }
-        if (itemName && noOfReservations && capacity && flagOld && flagNew) {
+
+        if (
+          itemName &&
+          noOfReservations &&
+          capacity &&
+          flagOld &&
+          flagNew &&
+          !isOverlapping &&
+          !isValuesEqual
+        ) {
           dispatch(editReservationItem(recordId, formData));
 
-          console.log("inputValues", inputValues);
+          
           const data = inputValues.map((value) => ({
             ...value,
           }));
@@ -189,7 +200,13 @@ const ReservationItemTimeSlotManagement = () => {
 
           toast.success("Data saved successfully");
         } else {
-          toast.error("Please fill in all required fields.");
+          if (isOverlapping) {
+            toast.error("Time slots are overlapping");
+          } else if (isValuesEqual) {
+            toast.error("Start time and end time cannot be equal");
+          } else {
+            toast.error("Please fill all the required fields");
+          }
         }
       } else {
         toast.error("Cannot save. ID is undefined.");
@@ -278,6 +295,10 @@ const ReservationItemTimeSlotManagement = () => {
           itemId={itemId}
           newlyAddedSlots={newlyAddedSlots}
           setNewlyAddedSlots={setNewlyAddedSlots}
+          isOverlapping={isOverlapping}
+          setIsOverlapping={setIsOverlapping}
+          isValuesEqual={isValuesEqual}
+          setIsValuesEqual={setIsValuesEqual}
         />
       ),
     },
