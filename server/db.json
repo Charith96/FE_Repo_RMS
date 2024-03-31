@@ -1,22 +1,6 @@
 {
   "customers": [
     {
-      "id": "787",
-      "fullName": "harry potter",
-      "identifier": "8887",
-      "address": "dfhgh",
-      "email": "gfgh@gmail.com",
-      "contactNo": "0979787"
-    },
-    {
-      "id": "31321",
-      "fullName": "fdgfg",
-      "identifier": "4334",
-      "address": "fegtrh",
-      "email": "regtg@gh.gdgh",
-      "contactNo": "1212"
-    },
-    {
       "id": "2324324",
       "fullName": "kjhkhj",
       "identifier": "gggfh",
@@ -63,6 +47,22 @@
       "address": "Sri Lanka",
       "email": "dsfgf@gmail.com",
       "contactNo": "09900"
+    },
+    {
+      "id": "78",
+      "fullName": "henry",
+      "identifier": "7887",
+      "address": "Sri Lanka",
+      "email": "dsfgf@gmail.com",
+      "contactNo": "09900"
+    },
+    {
+      "id": "23",
+      "fullName": "fref",
+      "identifier": "gf",
+      "address": "gre",
+      "email": "erer@gdfd.gfg",
+      "contactNo": "9089"
     }
   ],
   "groupcreation": [

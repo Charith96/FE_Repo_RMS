@@ -42,10 +42,12 @@ const CustomerOverview = () => {
     <>
       <TitleActionBar
         Title={"Customer Overview"}
-        plustDisabled={true}
-        isEditHidden={false}
-        isSaveHidden={false}
-        isDeleteHidden={false}
+       // plustDisabled={true}
+
+       isPlusHidden={true}
+        isEditHidden={true}
+        isSaveHidden={true}
+        isDeleteHidden={true}
         PlusAction={() => {}}
         EditAction={() => {}}
         SaveAction={() => {}}
