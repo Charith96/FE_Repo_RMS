@@ -12,6 +12,7 @@ const ROLE_URL = '/Roles';
 
 function CreateRole() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(SetUserAction("grbbrtbrtrtb"));
@@ -28,7 +29,23 @@ function CreateRole() {
         rolename: '',
     });
 
-    const navigate = useNavigate();
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues(prevValues => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setValues(prevValues => ({
+            ...prevValues,
+            privileges: checked
+                ? [...prevValues.privileges, name]
+                : prevValues.privileges.filter(item => item !== name),
+        }));
+    };
 
     const validateForm = () => {
         let formIsValid = true;
@@ -48,40 +65,20 @@ function CreateRole() {
         return formIsValid;
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'rolecode' && value.length <= 8) {
-            setValues({ ...values, rolecode: value });
-        } else if (name === 'rolename' && value.length <= 20) {
-            setValues({ ...values, rolename: value });
-        }
-    };
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (!validateForm()) {
             return;
         }
 
-        axios.post(`${BASE_URL}${ROLE_URL}`, values)
-            .then(res => {
-                console.log(res);
-                navigate('/rolesManagement/RoleList', { state: { roleData: values } }); // Navigate to RoleList with roleData
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
-
-    const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
-        setValues({
-            ...values,
-            privileges: checked
-                ? [...values.privileges, name]
-                : values.privileges.filter(item => item !== name),
-        });
+        try {
+            const response = await axios.post(`${BASE_URL}${ROLE_URL}`, values);
+            console.log('Role created successfully:', response.data);
+            navigate('/rolesManagement/RoleList');
+        } catch (error) {
+            console.error('Error creating role:', error);
+        }
     };
 
     const formValid = !errors.rolecode && !errors.rolename;
@@ -146,7 +143,7 @@ function CreateRole() {
                                 type="submit"
                                 text="Create"
                                 className="form-btn"
-                               // disabled={!validateForm}
+                                disabled={!formValid}
                             />
                         </Col>
                     </Form.Group>
