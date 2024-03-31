@@ -1,87 +1,213 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { fetchReservationGroupsById } from "../../store/actions/ReservationGroupActions";
+import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
+import { editReservationGroup } from "../../store/actions/ReservationGroupActions";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import TitleActionBar from "../../components/TitleActionsBar";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import TextField from "../../components/TextField";
-import { fetchCustomer, updateCustomer } from "../../store/actions/customerActions";
+import { Row, Col } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { Form } from "react-bootstrap";
 
-function CustomerOverviewGeneral({ customer, fetchCustomer, updateCustomer }) {
-  const { id } = useParams();
-  const location = useLocation();
-  const [editedData, setEditedData] = useState({});
-  const [isEditMode, setIsEditMode] = useState(false);
+const ManageReservationGroups = () => {
+  const { state } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const fetchReservationGroupData = useSelector(
+    (state) => state.getReservationGroupById.fetchReservationGroupId
+  );
+  const editFlagData = useSelector(
+    (state) => state.editReservationGroupFlag.editReservationGroupFlag
+  );
+  const dataForSearch = useSelector(
+    (state) => state.getReservationGroup.fetchReservationGroup
+  );
+  const [recordId, setRecordId] = useState("");
+  const [groupId, setGroupId] = useState("");
+  const [groupName, setGroupName] = useState("");
+  const [isViewMode, setIsViewMode] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isEditDisable, setIsEditDisable] = useState(true);
+  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const [isDeleteDisable, setIsDeleteDisable] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [count, setCount] = useState(0);
+  const searchParams = new URLSearchParams(useLocation().search);
+  const data = searchParams.get("data");
+  const paramData = JSON.parse(data);
+  const mode = state ? state.mode : null;
 
   useEffect(() => {
-    if (location.state && location.state.customerData) {
-      setEditedData(location.state.customerData);
-      setIsEditMode(location.state.mode === "edit");
-    } else {
-      fetchData();
+    if (paramData && recordId) {
+      dispatch(fetchReservationGroupsById(recordId));
     }
-  }, [id, location.state]);
+  }, [dispatch, recordId]);
 
-  const fetchData = async () => {
+  const fetchData = () => {
+    if (fetchReservationGroupData) {
+      let filterData = fetchReservationGroupData;
+      if (filterData) {
+        if (count === 0) {
+          setGroupId(filterData?.groupId ?? "");
+          setGroupName(filterData?.groupName ?? "");
+          if (mode) {
+            if (mode === "edit") {
+              setIsViewMode(false);
+              setIsEditDisable(true);
+              setIsSaveDisable(false);
+            } else if (mode === "view") {
+              setIsViewMode(true);
+              setIsEditDisable(false);
+              setIsSaveDisable(true);
+            }
+          }
+        }
+      } else {
+        handleNavigate();
+      }
+      setCount(1);
+    }
+  };
+
+  useEffect(() => {
+    if (paramData && paramData.id && paramData.id !== "") {
+      setRecordId(paramData.id);
+    }
+    if (recordId) {
+      setTimeout(() => fetchData(), 100);
+    }
+  }, [isSaveDisable, recordId, fetchData]);
+
+  const handleEdit = () => {
+    setIsAddDisable(true);
+    setIsEditDisable(true);
+    setIsDeleteDisable(true);
+    setIsViewMode(false);
+    setIsSaveDisable(false);
+  };
+
+  const handleSave = async () => {
     try {
-      const customerData = await fetchCustomer(id);
-      setEditedData(customerData || {});
+      if (paramData && recordId) {
+        const formData = {
+          id: recordId,
+          groupId: groupId,
+          groupName: groupName,
+        };
+        console.log("formData ", recordId, formData);
+        // dispatch(editReservationGroup(recordId, formData));
+        handleNavigate();
+        toast.success("Data saved successfully");
+      } else {
+        toast.error("Cannot save. ID is undefined.");
+      }
     } catch (error) {
-      console.error("Error fetching customer:", error);
+      toast.error("Error saving data. Please try again.");
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
+  const confirmDelete = async () => {
+    try {
+      if (paramData && paramData.id) {
+        dispatch(deleteReservationGroup(paramData.id));
+        toast.success("Data deleted successfully");
+        handleNavigate();
+      } else {
+        toast.error("Cannot delete. ID is undefined.");
+      }
+    } catch (error) {
+      toast.error("Error deleting data. Please try again.");
+    } finally {
+      setShowConfirmation(false);
+    }
   };
 
-  const handleSave = () => {
-    updateCustomer(editedData);
-    // Optionally, you can redirect to another page after saving
+  const handleDelete = () => {
+    setShowConfirmation(true);
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmation(false);
+  };
+
+  const navigateToCreate = () => {
+    navigate("/reservationManagement/reservation/createReservationGroup");
+  };
+
+  const handleNavigate = () => {
+    navigate("/reservationManagement/reservation/reservationGroups");
   };
 
   return (
-    <div className="App">
-      <div className="body-part">
-        <div>
-          <label htmlFor="customerId">Customer ID</label>
-          <TextField id="customerId" type="text" value={editedData.id || ""} disabled />
-          <label htmlFor="fullName">Full Name</label>
-          <TextField id="fullName" type="text" name="fullName" value={editedData.fullName || ""} disabled={!isEditMode} onChange={handleChange} />
+    <>
+      <Row>
+        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+        <Col
+          xs={12}
+          sm={12}
+          md={8}
+          lg={8}
+          xl={8}
+          xxl={10}
+          className="body-content px-5 pt-4 pb-4 mb-5"
+        >
+          <TitleActionBar
+            Title={"Reservation Group Overview"}
+            plustDisabled={isAddDisable}
+            editDisabled={isEditDisable}
+            saveDisabled={isSaveDisable}
+            deleteDisabled={isDeleteDisable}
+            PlusAction={() => {
+              navigateToCreate();
+            }}
+            EditAction={() => {
+              handleEdit();
+            }}
+            SaveAction={() => {
+              handleSave();
+            }}
+            DeleteAction={() => {
+              handleDelete();
+            }}
+          />
+
           <div>
-            <label htmlFor="identifier">Identifier</label>
-            <TextField id="identifier" type="text" name="identifier" value={editedData.identifier || ""} disabled={!isEditMode} onChange={handleChange} />
+            <Form>
+              <TextField
+                label="GroupId"
+                className={`${!groupId ? "is-invalid" : ""}`}
+                disabled
+                value={groupId}
+                onChange={(e) => setGroupId(e.target.value)}
+              />
+              <TextField
+                label="GroupName"
+                className={`${!groupName ? "is-invalid" : "bg-white"}`}
+                value={groupName}
+                disabled={isViewMode}
+                onChange={(e) => setGroupName(e.target.value)}
+              />
+            </Form>
           </div>
-          <div>
-            <label htmlFor="address">Address</label>
-            <TextField id="address" type="text" name="address" value={editedData.address || ""} disabled={!isEditMode} onChange={handleChange} />
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <TextField id="email" type="text" name="email" value={editedData.email || ""} disabled={!isEditMode} onChange={handleChange} />
-          </div>
-          <div>
-            <label htmlFor="contactNo">Contact No</label>
-            <TextField id="contactNo" type="text" name="contactNo" value={editedData.contactNo || ""} disabled={!isEditMode} onChange={handleChange} />
-          </div>
-        </div>
-      </div>
-    </div>
+
+          <DeleteConfirmModel
+            show={showConfirmation}
+            close={cancelDelete}
+            title={"Warning"}
+            message={
+              "The selected Reservation Group will be deleted. Do you wish to continue?"
+            }
+            type={"Yes"}
+            action={() => {
+              confirmDelete();
+            }}
+          />
+        </Col>
+        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+      </Row>
+    </>
   );
-}
-
-const mapStateToProps = (state) => {
-  return {
-    customer: state.customerReducer.customer,
-  };
 };
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchCustomer: (customerId) => dispatch(fetchCustomer(customerId)),
-    updateCustomer: (customerData) => dispatch(updateCustomer(customerData)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerOverviewGeneral);
+export default ManageReservationGroups;
