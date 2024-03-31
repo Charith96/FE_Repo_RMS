@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { SetUserAction } from '../../store/actions/RolesAction';
 import { Form, Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField'; 
 import FormButton from '../../components/FormButton';
@@ -9,7 +11,12 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
 
 function CreateRole() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(SetUserAction("grbbrtbrtrtb"));
+    }, [dispatch]);
 
     const [values, setValues] = useState({
         rolecode: '',
@@ -17,16 +24,11 @@ function CreateRole() {
         privileges: [],
     });
 
-    const [errors, setErrors] = useState({
-        rolecode: '',
-        rolename: '',
-    });
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setValues(prevValues => ({
             ...prevValues,
-            [name]: value,
+            [name]: value.trim(), // Trim any whitespace from the input
         }));
     };
 
@@ -40,32 +42,11 @@ function CreateRole() {
         }));
     };
 
-    const validateForm = () => {
-        let formIsValid = true;
-        let newErrors = { rolecode: '', rolename: '' };
-
-        if (!values.rolecode || values.rolecode.trim().length === 0 || values.rolecode.length > 8) {
-            newErrors.rolecode = 'Role ID is mandatory and must be 8 characters or less.';
-            formIsValid = false;
-        }
-
-        if (!values.rolename || values.rolename.trim().length === 0 || values.rolename.length > 20) {
-            newErrors.rolename = 'Role Name is mandatory and must be 20 characters or less.';
-            formIsValid = false;
-        }
-
-        setErrors(newErrors);
-        return formIsValid;
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
-
         try {
+            // Send request with values directly from state
             const response = await axios.post(`${BASE_URL}${ROLE_URL}`, values);
             console.log('Role created successfully:', response.data);
             navigate('/rolesManagement/RoleList');
@@ -73,8 +54,6 @@ function CreateRole() {
             console.error('Error creating role:', error);
         }
     };
-
-    const formValid = !errors.rolecode && !errors.rolename;
 
     return (
         <Row>
@@ -97,7 +76,6 @@ function CreateRole() {
                         name="rolecode"
                         value={values.rolecode}
                         onChange={handleChange}
-                        inputMessage={errors.rolecode}
                         maxLength={8}
                     />
                     <TextField
@@ -105,7 +83,6 @@ function CreateRole() {
                         name="rolename"
                         value={values.rolename}
                         onChange={handleChange}
-                        inputMessage={errors.rolename}
                         maxLength={20}
                     />
                     <div className="mb-3">
@@ -136,7 +113,6 @@ function CreateRole() {
                                 type="submit"
                                 text="Create"
                                 className="form-btn"
-                               // disabled={!formValid}
                             />
                         </Col>
                     </Form.Group>

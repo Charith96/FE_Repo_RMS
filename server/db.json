@@ -17,6 +17,118 @@
     {
       "rolename": "new officer 2",
       "id": "da2e"
+    },
+    {
+      "id": "76f4",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "viewAccess",
+        "deleteAccess"
+      ],
+      "": "jiyara"
+    },
+    {
+      "id": "0bbe",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "bee4",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "j"
+    },
+    {
+      "id": "64af",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "updateAccess"
+      ],
+      "": "hjjkhkj"
+    },
+    {
+      "id": "72a0",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "aasfgg"
+    },
+    {
+      "id": "5d2b",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "aasfgg"
+    },
+    {
+      "id": "929d",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "aasfgg"
+    },
+    {
+      "id": "416c",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "k"
+    },
+    {
+      "id": "6924",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "k"
+    },
+    {
+      "id": "dd25",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "k"
+    },
+    {
+      "id": "7ee7",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "deleteAccess",
+        "viewAccess",
+        "updateAccess",
+        "createAccess"
+      ],
+      "": "j"
     }
   ],
   "groupcreation": [
