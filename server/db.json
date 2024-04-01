@@ -9,28 +9,14 @@
         "viewAccess"
       ]
     },
+ 
     {
-      "rolename": "new officer 2",
+      "rolename": "new officer 298",
       "id": "da2e"
     },
     {
-      "id": "0765",
-      "rolecode": "213398",
-      "rolename": "Pasindu",
-      "privileges": [
-        "createAccess",
-        "viewAccess",
-        "deleteAccess"
-      ]
-    },
-    {
-      "id": "ffa2",
-      "rolecode": "7878",
-      "rolename": "bhghghgh",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ]
+      "rolename": "new 2",
+      "id": "ffa2"
     },
     {
       "id": "d857",
@@ -63,15 +49,6 @@
       "rolename": "view officer",
       "privileges": [
         "createAccess",
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "0fe1",
-      "rolecode": "7876cd",
-      "rolename": "bhghgh",
-      "privileges": [
-        "viewAccess",
         "updateAccess"
       ]
     }
