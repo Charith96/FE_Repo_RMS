@@ -54,28 +54,13 @@
       ]
     },
     {
-      "rolename": "view offffff",
-      "id": "e516"
-    },
-    {
-      "id": "6331",
-      "rolecode": "",
-      "rolename": "",
+      "id": "199c",
+      "rolecode": "78778",
+      "rolename": "bhahsna test",
       "privileges": [
-        "updateAccess"
-      ],
-      "error": "",
-      "": "njkk"
-    },
-    {
-      "id": "41f4",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess"
-      ],
-      "error": "",
-      "": "nnnn"
+        "createAccess",
+        "viewAccess"
+      ]
     }
   ],
   "groupcreation": [

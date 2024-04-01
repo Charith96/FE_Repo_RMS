@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import TitleActionBar from '../../components/TitleActionsBar';
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTrash, faPencilAlt, faEllipsisV, faSearch , faEllipsisH} from "@fortawesome/free-solid-svg-icons";
+import TitleActionBar from "../../components/TitleActionsBar";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
@@ -12,6 +14,9 @@ function RoleList() {
     const [selectedRows, setSelectedRows] = useState([]);
     const [editingRow, setEditingRow] = useState(null);
     const [editedRoleName, setEditedRoleName] = useState('');
+    const [searchValue, setSearchValue] = useState("");
+    const [isFiltered, setIsFiltered] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -21,6 +26,17 @@ function RoleList() {
         axios.get(`${BASE_URL}${ROLE_URL}`)
             .then((response) => {
                 setData(response.data);
+                setFilteredData(response.data);
+            })
+            .catch(err => console.log(err));
+    };
+
+    const deleteRole = () => {
+        axios.delete(`${BASE_URL}${ROLE_URL}/${selectedRows}`)
+            .then(res => {
+                console.log("Roles deleted successfully.");
+                setSelectedRows([]); // Clear selected rows after deletion
+                fetchData(); // Refetch data after deletion
             })
             .catch(err => console.log(err));
     };
@@ -34,86 +50,171 @@ function RoleList() {
         }
     };
 
-    const deleteSelectedRows = () => {
-        const newData = data.filter((_, i) => !selectedRows.includes(i));
-        setData(newData);
-        selectedRows.forEach(rowId => {
-            axios.delete(`${BASE_URL}${ROLE_URL}/${data[rowId].id}`)
-                .then(res => {
-                    console.log("Deleted successfully.");
-                })
-                .catch(err => console.log(err));
-        });
-        setSelectedRows([]);
-    };
-
     const handleEdit = (rowId) => {
         setEditingRow(rowId);
         setEditedRoleName(data[rowId].rolename);
     };
 
     const handleSave = () => {
-        const newData = data.map((d, i) => {
-            if (i === editingRow) {
-                return { ...d, rolename: editedRoleName };
-            }
-            return d;
-        });
-        setData(newData);
-        axios.put(`${BASE_URL}${ROLE_URL}/${data[editingRow].id}`, { rolename: editedRoleName })
-            .then(res => {
-                console.log("Data saved successfully.");
-                setEditingRow(null); 
-            })
-            .catch(err => console.log(err));
+        // Implement the logic to save edited roles
     };
 
     const handleMoreOptions = () => {
-        if (selectedRows.length === 1) {
-            const selectedRole = data[selectedRows[0]];
-            navigate(`/rolesManagement/RoleOverview`, { state: { roleData: selectedRole } }); 
-        }
+        // Implement the logic for more options
+    };
+
+    const handleCreate = () => {
+        navigate("/rolesManagement/CreateRole");
+    };
+
+    const handleEditIconClick = () => {
+        // Implement the logic when edit icon is clicked
+    };
+
+    const handleSearchChange = (e) => {
+        const inputValue = e.target.value.toLowerCase();
+        setSearchValue(inputValue);
+        setIsFiltered(inputValue !== "");
+
+        setFilteredData(
+            data.filter(
+                (role) =>
+                    role.rolename &&
+                    role.rolename.toLowerCase().includes(inputValue)
+            )
+        );
+    };
+
+    const clearFilter = () => {
+        setSearchValue("");
+        setIsFiltered(false);
+        setFilteredData(data);
+    };
+
+    const handleCellClick = (e, item) => {
+        navigate("/rolesManagement/RoleOverview", { state: { roleData: item } });
     };
 
     return (
-        <div>
-            <div className="mb-5 mx-2">
-                <TitleActionBar
-                    Title={"Role List"}
-                    PlusAction={() => {}}
-                    EditAction={() => {}}
-                    SaveAction={handleSave}
-                    DeleteAction={deleteSelectedRows}
+        <div className="mb-5 mx-2">
+            <TitleActionBar
+                Title={"Roles List"}
+                PlusAction={handleCreate}
+                SaveAction={handleSave}
+                DeleteAction={deleteRole}
+                MoreOptionsAction={handleMoreOptions}
+                EditAction={handleEditIconClick}
+                SaveIcon={<FontAwesomeIcon icon={faSave} />}
+                DeleteIcon={<FontAwesomeIcon icon={faTrash} />}
+                MoreOptionsIcon={<FontAwesomeIcon icon={faEllipsisV} />}
+                EditIcon={<FontAwesomeIcon icon={faPencilAlt} />}
+            />
+
+            <div className="mb-3">
+                <input
+                    type="text"
+                    placeholder="Search by role name"
+                    value={searchValue}
+                    onChange={handleSearchChange}
                 />
+                <button onClick={clearFilter}>Clear</button>
             </div>
-            <div className="role-list-container mb-5 mx-2">
-                <table className="table" border={1}>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Role name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data && data.map((item, i) => (
-                            <tr key={item.id}>
-                                <td>
-                                    <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        name="view"
-                                        onChange={() => toggleRowSelection(i)}
-                                        checked={selectedRows.includes(i)}
-                                    />
-                                </td>
-                                <td>
-                                    {item.rolename}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+
+            <table className="table" border={1}>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Role name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {isFiltered
+                        ? filteredData.map((item, i) => (
+                              <tr key={i}>
+                                  <td>
+                                      <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          name="view"
+                                          onChange={() =>
+                                              toggleRowSelection(item.id)
+                                          }
+                                          checked={selectedRows.includes(
+                                              item.id
+                                          )}
+                                      />
+                                      <FontAwesomeIcon
+                                          icon={faEllipsisH}
+                                          style={{
+                                              cursor: "pointer",
+                                              marginLeft: "10px",
+                                          }}
+                                          onClick={(e) =>
+                                              handleCellClick(e, item)
+                                          }
+                                      />
+                                  </td>
+                                  <td>
+                                      {editingRow === i ? (
+                                          <input
+                                              type="text"
+                                              value={editedRoleName}
+                                              onChange={(e) =>
+                                                  setEditedRoleName(
+                                                      e.target.value
+                                                  )
+                                              }
+                                          />
+                                      ) : (
+                                          item.rolename
+                                      )}
+                                  </td>
+                              </tr>
+                          ))
+                        : data.map((item, i) => (
+                              <tr key={i}>
+                                  <td>
+                                      <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          name="view"
+                                          onChange={() =>
+                                              toggleRowSelection(item.id)
+                                          }
+                                          checked={selectedRows.includes(
+                                              item.id
+                                          )}
+                                      />
+                                      <FontAwesomeIcon
+                                          icon={faEllipsisH}
+                                          style={{
+                                              cursor: "pointer",
+                                              marginLeft: "10px",
+                                          }}
+                                          onClick={(e) =>
+                                              handleCellClick(e, item)
+                                          }
+                                      />
+                                  </td>
+                                  <td>
+                                      {editingRow === i ? (
+                                          <input
+                                              type="text"
+                                              value={editedRoleName}
+                                              onChange={(e) =>
+                                                  setEditedRoleName(
+                                                      e.target.value
+                                                  )
+                                              }
+                                          />
+                                      ) : (
+                                          item.rolename
+                                      )}
+                                  </td>
+                              </tr>
+                          ))}
+                </tbody>
+            </table>
         </div>
     );
 }
