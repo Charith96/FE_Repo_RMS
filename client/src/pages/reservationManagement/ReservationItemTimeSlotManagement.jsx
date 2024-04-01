@@ -213,6 +213,8 @@ const ReservationItemTimeSlotManagement = () => {
       }
     } catch (error) {
       toast.error("Error saving data. Please try again.");
+    } finally {
+      dispatch(fetchTimeSlotsByItemId(recordId));
     }
   };
 

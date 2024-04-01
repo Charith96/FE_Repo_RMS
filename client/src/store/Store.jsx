@@ -9,6 +9,7 @@ import {
   getReservationGroupByIdReducer,
   editReservationGroupFlagReducer,
   checkForDuplicatesReducer,
+  fetchReservationItemByGroupReducer
 } from "./reducers/ReservationGroupReducer";
 import {
   createReservationItemReducer,
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   editReservationGroupFlag: editReservationGroupFlagReducer,
   checkForDuplicates: checkForDuplicatesReducer,
   deleteReservationItem: deleteReservationItemReducer,
+  fetchReservationItemByGroup: fetchReservationItemByGroupReducer,
   // reservation item
   createReservationItem: createReservationItemReducer,
   createTimeSlot: createTimeSlotReducer,

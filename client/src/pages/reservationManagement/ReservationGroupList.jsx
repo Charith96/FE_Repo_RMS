@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchReservationGroups,
   resetReservationGroupState,
+  fetchReservationItemByGroupId,
 } from "../../store/actions/ReservationGroupActions";
 import {
   faArrowUpRightFromSquare,
@@ -29,6 +30,9 @@ const ReservationGroupList = () => {
   const deleteReservationGroupData = useSelector(
     (state) => state.deleteReservationGroup.deleteReservationGroup
   );
+  const fetchReservationItemByGroupData = useSelector(
+    (state) => state.fetchReservationItemByGroup.fetchReservationItemByGroupFlag
+  );
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -42,6 +46,7 @@ const ReservationGroupList = () => {
     x: 0,
     y: 0,
   });
+  const [itemsExist, setItemsExist] = useState(false);
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -49,6 +54,18 @@ const ReservationGroupList = () => {
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
+
+  useEffect(() => {
+    if (fetchReservationItemByGroupData) {
+      console.log(
+        "fetchReservationItemByGroupData",
+        fetchReservationItemByGroupData
+      );
+      setItemsExist(fetchReservationItemByGroupData);
+    } else {
+      setItemsExist(fetchReservationItemByGroupData);
+    }
+  }, [fetchReservationItemByGroupData]);
 
   useEffect(() => {
     dispatch(fetchReservationGroups());
@@ -68,6 +85,8 @@ const ReservationGroupList = () => {
     setPaginatedData(slicedData);
 
     if (selectedRows.length === 1) {
+      console.log("selectedRows", selectedRows);
+      dispatch(fetchReservationItemByGroupId(selectedRows[0]?.id));
       setIsDeleteDisable(false);
     } else {
       setIsDeleteDisable(true);
@@ -85,7 +104,10 @@ const ReservationGroupList = () => {
       name: "",
       cell: (row) => (
         <div className="cell-actions">
-          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
+          <span
+            className="ellipsis tree-dots"
+            onClick={(e) => handleCellClick(e, row)}
+          >
             <FontAwesomeIcon icon={faEllipsisH} />
           </span>
         </div>
@@ -173,12 +195,17 @@ const ReservationGroupList = () => {
 
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
-      try {
-        dispatch(deleteReservationGroup(selectedRows[0]?.id));
-        toast.success("Record Successfully deleted!");
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-      } finally {
+      if (!itemsExist) {
+        try {
+          dispatch(deleteReservationGroup(selectedRows[0]?.id));
+          toast.success("Record Successfully deleted!");
+        } catch (error) {
+          toast.error("Error deleting row. Please try again.");
+        } finally {
+          setShowConfirmation(false);
+        }
+      } else {
+        toast.error("Cannot delete group with items.");
         setShowConfirmation(false);
       }
     }

@@ -1,11 +1,6 @@
 {
   "groupcreation": [
     {
-      "id": "0ca8",
-      "groupId": "1009",
-      "groupName": "vehicle 12345"
-    },
-    {
       "id": "c940",
       "groupId": "1010",
       "groupName": "test"
@@ -29,6 +24,11 @@
       "id": "c5f0",
       "groupId": "10001",
       "groupName": "test"
+    },
+    {
+      "id": "6f1d",
+      "groupId": "S1001",
+      "groupName": "tables"
     }
   ],
   "itemcreation": [
@@ -655,6 +655,18 @@
       "noOfReservations": 44,
       "capacity": 44,
       "reservationGroup": "0ca8"
+    },
+    {
+      "id": "8930",
+      "itemId": "s1234",
+      "itemName": "new item",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": "02:00",
+      "noOfReservations": 22,
+      "capacity": 22,
+      "reservationGroup": "d082"
     }
   ],
   "timeslotsitem": [
@@ -1495,6 +1507,48 @@
       "startTime": "22:30",
       "endTime": "01:32",
       "itemId": "83d2"
+    },
+    {
+      "id": "146c",
+      "startTime": "17:36",
+      "endTime": "19:36",
+      "itemId": "8930"
+    },
+    {
+      "id": "0bca",
+      "startTime": "12:36",
+      "endTime": "14:36",
+      "itemId": "8930"
+    },
+    {
+      "id": "359f",
+      "startTime": "11:41",
+      "endTime": "12:41",
+      "itemId": "57c8"
+    },
+    {
+      "id": "94ba",
+      "startTime": "11:41",
+      "endTime": "12:41",
+      "itemId": "57c8"
+    },
+    {
+      "id": "d485",
+      "startTime": "18:44",
+      "endTime": "20:44",
+      "itemId": "57c8"
+    },
+    {
+      "id": "31d6",
+      "startTime": "17:36",
+      "endTime": "19:36",
+      "itemId": "8930"
+    },
+    {
+      "id": "e2bf",
+      "startTime": "12:36",
+      "endTime": "14:36",
+      "itemId": "8930"
     }
   ],
   "todos": [
