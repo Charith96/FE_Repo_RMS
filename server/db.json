@@ -1,42 +1,13 @@
 {
   "Roles": [
     {
-      "rolename": "view ",
-      "id": "99a0"
-    },
-    {
-      "id": "21c4",
-      "rolecode": "8989",
-      "rolename": "bhjkjl",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "4245",
-      "rolecode": "8976",
-      "rolename": "rtewqas",
-      "privileges": [
-        "updateAccess",
-        "viewAccess"
-      ]
-    },
-    {
-      "id": "e2cf",
-      "rolecode": "89775cdf",
-      "rolename": "tygvbbcxds",
-      "privileges": [
-        "updateAccess",
-        "viewAccess"
-      ]
-    },
-    {
       "id": "f502",
       "rolecode": "7890ju",
       "rolename": "bhas",
       "privileges": []
     },
     {
+<<<<<<< HEAD
       "id": "73d5",
       "rolecode": "76tyvf",
       "rolename": "kljui",
@@ -49,16 +20,94 @@
       "id": "7b5c",
       "rolecode": "9088",
       "rolename": "vgcg",
+=======
+      "id": "1dd0",
+      "rolecode": "kio989",
+      "rolename": "kkkkkkkkkk",
       "privileges": [
         "createAccess"
       ]
     },
     {
+      "rolename": "new officer 2",
+      "id": "da2e"
+    },
+    {
+      "id": "dd25",
+      "rolecode": "",
+      "rolename": "",
+>>>>>>> d702d0510f9dfb74c7933f3df5b634d54448ab73
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "k"
+    },
+    {
+      "id": "7ee7",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "deleteAccess",
+        "viewAccess",
+        "updateAccess",
+        "createAccess"
+      ],
+      "": "j"
+    },
+    {
+      "id": "2e3a",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "jhghjhjhjh"
+    },
+    {
+      "id": "0602",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ],
+      "": "hjkjkj"
+    },
+    {
+      "id": "0765",
+      "rolecode": "213398",
+      "rolename": "Pasindu",
+      "privileges": [
+        "createAccess",
+        "viewAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+<<<<<<< HEAD
       "id": "199c",
       "rolecode": "78778",
       "rolename": "bhahsna test",
       "privileges": [
         "createAccess",
+=======
+      "id": "4958",
+      "rolecode": "1237890",
+      "rolename": "Corrected test 3",
+      "privileges": [
+        "updateAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "02ad",
+      "rolecode": "3478",
+      "rolename": "Admin ",
+      "privileges": [
+        "updateAccess",
+>>>>>>> d702d0510f9dfb74c7933f3df5b634d54448ab73
         "viewAccess"
       ]
     }
