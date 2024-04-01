@@ -7,25 +7,12 @@
       "privileges": []
     },
     {
-<<<<<<< HEAD
       "id": "73d5",
       "rolecode": "76tyvf",
       "rolename": "kljui",
       "privileges": [
         "updateAccess",
         "viewAccess"
-      ]
-    },
-    {
-      "id": "7b5c",
-      "rolecode": "9088",
-      "rolename": "vgcg",
-=======
-      "id": "1dd0",
-      "rolecode": "kio989",
-      "rolename": "kkkkkkkkkk",
-      "privileges": [
-        "createAccess"
       ]
     },
     {
@@ -36,7 +23,6 @@
       "id": "dd25",
       "rolecode": "",
       "rolename": "",
->>>>>>> d702d0510f9dfb74c7933f3df5b634d54448ab73
       "privileges": [
         "createAccess",
         "updateAccess"
@@ -86,29 +72,12 @@
       ]
     },
     {
-<<<<<<< HEAD
-      "id": "199c",
-      "rolecode": "78778",
-      "rolename": "bhahsna test",
+      "id": "ffa2",
+      "rolecode": "7878",
+      "rolename": "bhghghgh",
       "privileges": [
         "createAccess",
-=======
-      "id": "4958",
-      "rolecode": "1237890",
-      "rolename": "Corrected test 3",
-      "privileges": [
-        "updateAccess",
-        "deleteAccess"
-      ]
-    },
-    {
-      "id": "02ad",
-      "rolecode": "3478",
-      "rolename": "Admin ",
-      "privileges": [
-        "updateAccess",
->>>>>>> d702d0510f9dfb74c7933f3df5b634d54448ab73
-        "viewAccess"
+        "updateAccess"
       ]
     }
   ],
