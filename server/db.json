@@ -1,12 +1,6 @@
 {
   "Roles": [
     {
-      "id": "f502",
-      "rolecode": "7890ju",
-      "rolename": "bhas",
-      "privileges": []
-    },
-    {
       "id": "73d5",
       "rolecode": "76tyvf",
       "rolename": "kljui",
@@ -53,6 +47,23 @@
       "rolename": "test",
       "privileges": [
         "createAccess"
+      ]
+    },
+    {
+      "id": "7506",
+      "rolecode": "676745",
+      "rolename": "bhbhs",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "fe5a",
+      "rolecode": "4567cd",
+      "rolename": "view officer",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
       ]
     }
   ],
