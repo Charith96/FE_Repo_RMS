@@ -94,7 +94,7 @@ function RoleOverview() {
                             <tbody>
                                 {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
                                     <tr key={privilege}>
-                                        <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)} Access`}</td>
+                                        <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
                                         <td>
                                             <input className="form-check-input" type="checkbox" name={privilege}
                                                 checked={isEditing ? editingPrivileges.includes(privilege) : values.privileges.includes(privilege)} onChange={handleCheckboxChange} style={{ width: '20px', height: '20px', border: '2px solid black' }} />

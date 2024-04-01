@@ -1,53 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { SetUserAction } from '../../store/actions/RolesAction';
 import { Form, Row, Col } from 'react-bootstrap';
-import TextField from '../../components/TextField'; 
+import TextField from '../../components/TextField';
 import FormButton from '../../components/FormButton';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
 
 function CreateRole() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        dispatch(SetUserAction("grbbrtbrtrtb"));
-    }, [dispatch]);
+    const [rolecode, setRoleCode] = useState('');
+    const [rolename, setRoleName] = useState('');
+    const [privileges, setPrivileges] = useState([]);
 
-    const [values, setValues] = useState({
-        rolecode: '',
-        rolename: '',
-        privileges: [],
-    });
+    const handleRoleCodeChange = (e) => {
+        setRoleCode(e.target.value);
+    };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setValues(prevValues => ({
-            ...prevValues,
-            [name]: value.trim(), // Trim any whitespace from the input
-        }));
+    const handleRoleNameChange = (e) => {
+        setRoleName(e.target.value);
     };
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
-        setValues(prevValues => ({
-            ...prevValues,
-            privileges: checked
-                ? [...prevValues.privileges, name]
-                : prevValues.privileges.filter(item => item !== name),
-        }));
+        setPrivileges(prevPrivileges => (
+            checked
+                ? [...prevPrivileges, name]
+                : prevPrivileges.filter(item => item !== name)
+        ));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            // Send request with values directly from state
-            const response = await axios.post(`${BASE_URL}${ROLE_URL}`, values);
+            const response = await axios.post(`${BASE_URL}${ROLE_URL}`, {
+                rolecode,
+                rolename,
+                privileges,
+            });
             console.log('Role created successfully:', response.data);
             navigate('/rolesManagement/RoleList');
         } catch (error) {
@@ -72,17 +65,17 @@ function CreateRole() {
                 </div>
                 <Form onSubmit={handleSubmit}>
                     <TextField
-                        label="Role Code:"
-                        name="rolecode"
-                        value={values.rolecode}
-                        onChange={handleChange}
+                        label="Role Code"
+                        type="text"
+                        value={rolecode}
+                        onChange={handleRoleCodeChange}
                         maxLength={8}
                     />
                     <TextField
-                        label="Role Name:"
-                        name="rolename"
-                        value={values.rolename}
-                        onChange={handleChange}
+                        label="Role Name"
+                        type="text"
+                        value={rolename}
+                        onChange={handleRoleNameChange}
                         maxLength={20}
                     />
                     <div className="mb-3">
@@ -94,13 +87,12 @@ function CreateRole() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* Checkbox rows for privileges */}
                                 {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
                                     <tr key={privilege}>
                                         <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
                                         <td>
                                             <input className="form-check-input" type="checkbox" name={privilege}
-                                                checked={values.privileges.includes(privilege)} onChange={handleCheckboxChange} />
+                                                checked={privileges.includes(privilege)} onChange={handleCheckboxChange} />
                                         </td>
                                     </tr>
                                 ))}

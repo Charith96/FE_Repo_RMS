@@ -19,56 +19,6 @@
       "id": "da2e"
     },
     {
-      "id": "76f4",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess",
-        "viewAccess",
-        "deleteAccess"
-      ],
-      "": "jiyara"
-    },
-    {
-      "id": "0bbe",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "bee4",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "j"
-    },
-    {
-      "id": "64af",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "updateAccess"
-      ],
-      "": "hjjkhkj"
-    },
-    {
-      "id": "72a0",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "aasfgg"
-    },
-    {
       "id": "5d2b",
       "rolecode": "",
       "rolename": "",
@@ -77,36 +27,6 @@
         "updateAccess"
       ],
       "": "aasfgg"
-    },
-    {
-      "id": "929d",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "aasfgg"
-    },
-    {
-      "id": "416c",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "k"
-    },
-    {
-      "id": "6924",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "k"
     },
     {
       "id": "dd25",
@@ -129,6 +49,76 @@
         "createAccess"
       ],
       "": "j"
+    },
+    {
+      "id": "2e3a",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ],
+      "": "jhghjhjhjh"
+    },
+    {
+      "id": "0602",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ],
+      "": "hjkjkj"
+    },
+    {
+      "id": "996a",
+      "rolecode": "",
+      "rolename": "",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "viewAccess"
+      ],
+      "": "jkhiuoiop"
+    },
+    {
+      "id": "ffef",
+      "rolecode": "9080",
+      "rolename": "kjhhksdafg",
+      "privileges": [
+        "createAccess",
+        "deleteAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "0765",
+      "rolecode": "213398",
+      "rolename": "Pasindu",
+      "privileges": [
+        "createAccess",
+        "viewAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "0482",
+      "rolecode": "23132090",
+      "rolename": "gfjhgjkhk",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "4958",
+      "rolecode": "1237890",
+      "rolename": "Corrected test 3",
+      "privileges": [
+        "updateAccess",
+        "deleteAccess"
+      ]
     }
   ],
   "groupcreation": [
