@@ -65,6 +65,15 @@
         "createAccess",
         "updateAccess"
       ]
+    },
+    {
+      "id": "0fe1",
+      "rolecode": "7876cd",
+      "rolename": "bhghgh",
+      "privileges": [
+        "viewAccess",
+        "updateAccess"
+      ]
     }
   ],
   "groupcreation": [

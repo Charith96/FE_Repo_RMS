@@ -56,7 +56,16 @@ function RoleList() {
     };
 
     const handleSave = () => {
-        // Implement the logic to save edited roles
+        // Save edited role name
+        const updatedData = [...data];
+        updatedData[editingRow].rolename = editedRoleName;
+        axios.put(`${BASE_URL}${ROLE_URL}/${updatedData[editingRow].id}`, { rolename: editedRoleName })
+            .then(res => {
+                console.log("Role name updated successfully.");
+                setEditingRow(null);
+                fetchData(); // Refetch data after update
+            })
+            .catch(err => console.log(err));
     };
 
     const handleMoreOptions = () => {
@@ -68,8 +77,17 @@ function RoleList() {
     };
 
     const handleEditIconClick = () => {
-        // Implement the logic when edit icon is clicked
+        // Ensure there is exactly one selected row
+        if (selectedRows.length === 1) {
+            // Find the index of the selected row in the data array
+            const selectedIndex = data.findIndex(item => item.id === selectedRows[0]);
+            // If the selected row exists in the data array
+            if (selectedIndex !== -1) {
+                handleEdit(selectedIndex); // Pass the index to handleEdit
+            }
+        }
     };
+    
 
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();

@@ -49,63 +49,67 @@ function RoleOverview() {
     return (
         <>
         <TitleActionBar
-        Title={"Roles Overview"}
-        plustDisabled={true}
-        editDisabled={false}
-        saveDisabled={false}
-        deleteDisabled={true}
-        PlusAction={() => {}}
-        EditAction={() => {}}
-        SaveAction={() => {}}
-        DeleteAction={() => {}}
-      />
-            <Row>
-
-            
-                <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
-                <Col
-                    xs={12}
-                    sm={12}
-                    md={8}
-                    lg={8}
-                    xl={8}
-                    xxl={10}
-                    className="body-content px-5 pt-4 pb-4 mb-5"
-                >
-                    
-                    <TextField
-                        label="Role Code:"
-                        value={values.rolecode}
-                        disabled
-                    />
-                    <TextField
-                        label="Role Name:"
-                        value={values.rolename}
-                        disabled
-                    />
-                    <div className="mb-3">
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>Privileges</th>
-                                    <th>Grant</th>
+            Title={"Roles Overview"}
+            PlusDisabled={true}
+            EditDisabled={false}
+            SaveDisabled={!isEditing}
+            DeleteDisabled={true}
+            PlusAction={() => {}}
+            EditAction={handleEdit}
+            SaveAction={handleSave}
+            DeleteAction={() => {}}
+        />
+        <Row>
+            <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+            <Col
+                xs={12}
+                sm={12}
+                md={8}
+                lg={8}
+                xl={8}
+                xxl={10}
+                className="body-content px-5 pt-4 pb-4 mb-5"
+            >
+                <TextField
+                    label="Role Code:"
+                    value={values.rolecode}
+                    disabled={!isEditing}
+                />
+                <TextField
+                    label="Role Name:"
+                    value={values.rolename}
+                    disabled={!isEditing}
+                />
+                <div className="mb-3">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Privileges</th>
+                                <th>Grant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
+                                <tr key={privilege}>
+                                    <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
+                                    <td>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            name={privilege}
+                                            checked={editingPrivileges.includes(privilege)}
+                                            onChange={handleCheckboxChange}
+                                            style={{ width: '20px', height: '20px', border: '2px solid black' }}
+                                            disabled={!isEditing}
+                                        />
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
-                                    <tr key={privilege}>
-                                        <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
-                                        <td>
-                                            <input className="form-check-input" type="checkbox" name={privilege}
-                                                checked={isEditing ? editingPrivileges.includes(privilege) : values.privileges.includes(privilege)} onChange={handleCheckboxChange} style={{ width: '20px', height: '20px', border: '2px solid black' }} />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </Col>
-            </Row>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </Col>
+        </Row>
         </>
     );
 }
