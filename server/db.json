@@ -20,48 +20,6 @@
       "id": "da2e"
     },
     {
-      "id": "dd25",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "k"
-    },
-    {
-      "id": "7ee7",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "deleteAccess",
-        "viewAccess",
-        "updateAccess",
-        "createAccess"
-      ],
-      "": "j"
-    },
-    {
-      "id": "2e3a",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ],
-      "": "jhghjhjhjh"
-    },
-    {
-      "id": "0602",
-      "rolecode": "",
-      "rolename": "",
-      "privileges": [
-        "updateAccess",
-        "viewAccess"
-      ],
-      "": "hjkjkj"
-    },
-    {
       "id": "0765",
       "rolecode": "213398",
       "rolename": "Pasindu",
@@ -78,6 +36,23 @@
       "privileges": [
         "createAccess",
         "updateAccess"
+      ]
+    },
+    {
+      "id": "d857",
+      "rolecode": "763243cd",
+      "rolename": "new role",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "f25b",
+      "rolecode": "5656",
+      "rolename": "test",
+      "privileges": [
+        "createAccess"
       ]
     }
   ],
