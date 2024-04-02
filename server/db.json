@@ -9,7 +9,6 @@
         "viewAccess"
       ]
     },
- 
     {
       "rolename": "new officer 298",
       "id": "da2e"
@@ -50,6 +49,14 @@
       "privileges": [
         "createAccess",
         "updateAccess"
+      ]
+    },
+    {
+      "id": "fb92",
+      "rolecode": "2345cd",
+      "rolename": "view officer",
+      "privileges": [
+        "viewAccess"
       ]
     }
   ],
