@@ -1,122 +1,150 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate ,useLocation} from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { connect } from "react-redux";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import TextField from "../../components/TextField";
-import { fetchCustomer } from "../../store/actions/customerActions";
+import FormButton from "../../components/FormButton";
+import { fetchCustomer, updateCustomer, deleteCustomer, fetchCustomers } from "../../store/actions/customerActions";
 import TitleActionBar from "../../components/TitleActionsBar";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { toast } from "react-toastify";
+import { selectCustomer } from "../../store/Store";
 
-function CustomerOverviewGeneral({ customer, fetchCustomer, editOrDetailsClicked }) {
-  const { id } = useParams();
-  const location = useLocation();
-  const [editedData, setEditedData] = useState({});
+const CustomerOverviewGeneral = ({ value, mode }) => {
+  const id = value;
+  const dispatch = useDispatch();
+  const customers = useSelector((state) => state.customerReducer.customers);
+  const customerData = useSelector(selectCustomer);
+  const [filteredCustomerData, setFilteredCustomerData] = useState({});
   const [editMode, setEditMode] = useState(false);
-  //const [isViewMode, setIsViewMode]=useState(false);
- // const dispatch = useDispatch();
-  //const [mode,setMode]=useState(mode);
-  //const navigate = useNavigate();
+  const [isViewMode, setIsViewMode] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const navigate = useNavigate();
+  const [modea, setMode] = useState(mode);
+  const [checkCustomer, setCheckCustomer] = useState(false);
 
   useEffect(() => {
-    if (location.state && location.state.customerData) {
-      setEditedData(location.state.customerData);
-    } else {
-      fetchData();
-    }
-  }, [id, location.state]);
+    fetchData();
+  }, [dispatch, id, customers, editMode]);
 
   const fetchData = async () => {
     try {
-      const customerData = await fetchCustomer(id);
-      setEditedData(customerData || {});
+      if (!editMode) {
+        await dispatch(fetchCustomer(id));
+        const customerData = customers;
+        setFilteredCustomerData({
+          customerID: customerData.id,
+          fullName: customerData.fullName,
+          identifier: customerData.identifier,
+          address: customerData.address,
+          email: customerData.email,
+        });
+      }
+      if (modea) {
+        if (modea === "edit") {
+          setEditMode(true);
+        } else if (modea === "view") {
+          setIsViewMode(true);
+        }
+      }
     } catch (error) {
- console.error("Error fetching customer:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFilteredCustomerData({
+      ...filteredCustomerData,
+      [id]: value,
+    });
   };
 
-  
-  
+  const handleCreate = () => {
+    navigate("/customerManagement/CustomerCreation");
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmation(false);
+  };
+
+  const handleDelete = () => {
+    setShowConfirmation(true);
+  };
+
+  const confirmDelete = (id) => {
+    try {
+      dispatch(deleteCustomer(id));
+      toast.success("Record Successfully deleted!");
+    } catch (error) {
+      toast.error("Error deleting row. Please try again.");
+    } finally {
+      setShowConfirmation(false);
+    }
+    navigate("/customerManagement/Customerlist");
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const updatedCustomerData = {
+        id: id,
+        ...filteredCustomerData,
+      };
+      await dispatch(updateCustomer(id, updatedCustomerData));
+      setIsViewMode(true);
+      setEditMode(false);
+      setMode("view");
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  };
+
   return (
-    <div className="App">
-      <div className="body-part">
-
-      <TitleActionBar
+    <>
+      <Row>
+        <Col>
+          <TitleActionBar
             Title={""}
-            // plustDisabled={isAddDisable}
             EditAction={() => setEditMode(true)}
-            SaveAction={() => {
-              //handleSubmit();
-            }}
-          
-            PlusAction={() => {
-              //handleCreate();
-            }}
-          
-            DeleteAction={() => {
-             // handleDelete();
-            }}
+            SaveAction={handleSubmit}
+            PlusAction={handleCreate}
+            DeleteAction={handleDelete}
           />
-        <div>
-          <TextField
-            label="Customer ID"
-            value={editedData.id || ""}
-            disabled
-          />
-          <TextField
-            label="Full Name"
-            value={editedData.fullName || ""}
-            disabled={!editOrDetailsClicked}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Identifier"
-            value={editedData.identifier || ""}
-            disabled={!editOrDetailsClicked}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Address"
-            value={editedData.address || ""}
-            disabled={!editOrDetailsClicked}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Email"
-            value={editedData.email || ""}
-            disabled={!editOrDetailsClicked}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Contact No"
-            value={editedData.contactNo || ""}
-            disabled={!editOrDetailsClicked}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-    </div>
+          <div style={{ margin: 10, padding: 20 }}>
+            <CustomerForm
+              formData={filteredCustomerData}
+              onChange={handleInputChange}
+              editMode={editMode}
+              customers={customers}
+            />
+          </div>
+        </Col>
+      </Row>
+      <DeleteConfirmModel
+        show={showConfirmation}
+        close={cancelDelete}
+        title={"Warning"}
+        message={"The selected Reservation Group will be deleted. Do you wish to continue?"}
+        type={"Yes"}
+        action={() => {
+          confirmDelete(id);
+        }}
+      />
+    </>
   );
-}
-
-const mapStateToProps = (state) => {
-  return {
-    customer: state.customerReducer.customer,
-  };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchCustomer: (customerId) => dispatch(fetchCustomer(customerId)),
-  };
+const CustomerForm = ({ formData, onChange, editMode, customer, isViewMode }) => {
+  return (
+    <>
+      <TextField id="id"label="Customer ID :" value={formData.customerID} onChange={onChange} disabled={true} />
+      <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={!editMode} />
+      <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={!editMode} />
+      <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={!editMode} />
+      <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={!editMode} />
+      <TextField id="contactno" label="Contact No" value={formData.contactno} onChange={onChange} disabled={!editMode} />
+    </>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerOverviewGeneral);
+export default CustomerOverviewGeneral;

@@ -1,200 +1,332 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCustomers, deleteCustomer } from "../../store/actions/customerActions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisH, faArrowUpRightFromSquare, faEdit ,faSearch} from "@fortawesome/free-solid-svg-icons";
-import { Row, Col, InputGroup, FormControl, Button } from "react-bootstrap";
-import TitleActionBar from "../../components/TitleActionsBar";
-import { useNavigate } from "react-router-dom";
 
-function CustomerList() {
+import React, { useEffect, useRef, useState } from "react";
+import ReservationGroupTable from "../../components/table/DataTableComponent";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams } from "react-router-dom";
+
+import {
+  fetchCustomer,
+  deleteCustomer
+} from "../../store/actions/customerActions";
+
+      import {
+  faArrowUpRightFromSquare,
+  faEdit,
+  faEllipsisH,
+  faMagnifyingGlass,
+  faXmark,
+    } from "@fortawesome/free-solid-svg-icons";
+
+import { Row, Button, Form, InputGroup } from "react-bootstrap";
+import TitleActionBar from "../../components/TitleActionsBar";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { selectCustomer } from "../../store/Store";
+
+  const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  //const customerData = useSelector(selectCustomer);
   const customers = useSelector((state) => state.customerReducer.customers);
+  let { value } = useParams();
+  const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [selectedCustomers, setSelectedCustomers] = useState([]);
-  const [showOptions, setShowOptions] = useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isEditDisable, setIsEditDisable] = useState(true);
+  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    x: 0,
+    y: 0,
+  });
   const [contextMenuRow, setContextMenuRow] = useState(null);
-  const [editOrDetailsClicked, setEditOrDetailsClicked] = useState(false);
-  const [selectedCustomerData, setSelectedCustomerData] = useState(null);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [perPage, setPerPage] = useState(5);
+  const totalItems = filteredData.length;
+  const toggledClearRows = useRef(false);
 
+ 
   useEffect(() => {
-    dispatch(fetchCustomers());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (customers && customers.length > 0) {
-      setFilteredData(customers);
+    dispatch(fetchCustomer());
+    if (deleteCustomer) {
+      dispatch(fetchCustomer());
     }
-  }, [customers]);
+  }, []);
+  
 
-  const handleCellClick = (e, customer) => {
+  useEffect(() => {
+    dispatch(fetchCustomer()).then(() => {
+      if (customers && customers.length > 0 && !isFiltered) {
+        setFilteredData(customers);
+        
+        const start = currentPage * perPage;
+        const end = start + perPage;
+        const slicedData = customers?.slice(start, end);
+        setPaginatedData(slicedData);
+  
+        if (selectedRows.length === 1) {
+          setIsDeleteDisable(false);
+        } else {
+          setIsDeleteDisable(true);
+        }
+      }
+    });
+  }, [customers, currentPage, perPage, selectedRows, isFiltered]);
+  
+
+      const columns = [
+    {
+      name: "",
+      cell: (row) => (
+        <div className="cell-actions">
+          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
+            <FontAwesomeIcon icon={faEllipsisH} />
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "Customer Id",
+      selector: (row) => row.id,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Customer Name",
+      selector: (row) => row.fullName,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Identifier",
+      selector: (row) => row.identifier,
+      sortable: true,
+      grow: 2,
+    }, 
+  
+
+    {
+      name: "Address",
+      selector: (row) => row.address,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Contact Number",
+      selector: (row) => row.contactNo,
+      sortable: true,
+      grow: 2,
+    }
+
+  ];
+      const handleCellClick = (e, row) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
-    setContextMenuRow(customer);
-    setShowOptions(true);
+    setMenuVisible(true);
+    setContextMenuRow(row);
   };
 
-  const handleEditNavigation = () => {
-    if (selectedCustomers.length === 1) {
-      const data = { ...contextMenuRow };
-      setSelectedCustomerData(data);
-      setEditOrDetailsClicked(true);
-      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "edit", customerData: data, editOrDetailsClicked: true } });
-    }
-  };
-  
-  const handleDetailedNavigation = () => {
-    if (selectedCustomers.length === 1) {
-      const data = { ...contextMenuRow };
-      setSelectedCustomerData(data);
-      setEditOrDetailsClicked(false);
-      navigate(`/customerManagement/CustomerOverview?data=${data.id}`, { state: { mode: "view", customerData: data, editOrDetailsClicked: false } });
-    }
-  };
-
-  const handleSearchChange = (e) => {
-    const inputValue = e.target.value.toLowerCase();
-    setSearchValue(inputValue);
-    setIsFiltered(inputValue !== "");
-
-    if (customers && customers.length > 0) {
-      setFilteredData(
-        customers.filter(
-          (customer) =>
-            customer.fullName &&
-            customer.fullName.toLowerCase().includes(inputValue)
-        )
+      const handleEditNavigation = () => {
+    if (selectedRows.length === 1) {
+      let data = { id: contextMenuRow.id };
+      let dataString = JSON.stringify(data);
+      navigate(
+        `/customerManagement/CustomerOverviewGeneral?data=${encodeURIComponent(
+          dataString
+        )}`,
+        { state: { mode: "edit" } }
       );
     }
   };
 
-  const handleCreate = () => {
+
+      const handleDetailedNavigation = () => {
+    if (selectedRows.length === 1) {
+      let data = { id: contextMenuRow.id };
+      let dataString = JSON.stringify(data);
+      navigate(
+        `/customerManagement/CustomerOverviewGeneral?data=${encodeURIComponent(
+          dataString
+        )}`,
+        { state: { mode: "view" } }
+      );
+    }
+  };
+
+      const customContextMenu = menuVisible && (
+    <div
+      className="styled-menu"
+      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
+    >
+      <div className="menu-item" onClick={() => handleEditNavigation()}>
+        <FontAwesomeIcon icon={faEdit} /> Edit
+      </div>
+      <div className="menu-item" onClick={() => handleDetailedNavigation()}>
+        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
+      </div>
+    </div>
+  );
+
+
+
+      const handleFilter = () => {
+ 
+ console.log(searchTerm);
+if (searchTerm === "") {
+ setFilteredData(customers);
+} else {
+ const filtered = customers.filter((item) =>
+   item.customerId
+     ?.toString()
+     .toLowerCase()
+     .includes(searchTerm?.toLowerCase())
+      );
+        
+        setIsFiltered(true);
+
+        setFilteredData(filtered);
+      }
+    
+  };
+
+      const confirmDelete = () => {
+    if (selectedRows.length === 1) {
+      try {
+        dispatch(deleteCustomer(selectedRows[0]?.id));
+        toast.success("Record Successfully deleted!");
+      } catch (error) {
+        toast.error("Error deleting row. Please try again.");
+      } finally {
+        setShowConfirmation(false);
+      }
+    }
+  };
+
+      const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
 
   const handleDelete = () => {
-    dispatch(deleteCustomer(selectedCustomers));
-    setSelectedCustomers([]);
+    setShowConfirmation(true);
   };
 
-  const handleCheckboxChange = (customerId) => {
-    const isSelected = selectedCustomers.includes(customerId);
-    if (isSelected) {
-      setSelectedCustomers(selectedCustomers.filter((id) => id !== customerId));
-    } else {
-      setSelectedCustomers([...selectedCustomers, customerId]);
-    }
+  const cancelDelete = () => {
+    setShowConfirmation(false);
   };
 
+      
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+      
   const clearFilter = () => {
-    setSearchValue("");
+    setSearchTerm("");
+    dispatch(fetchCustomer());
     setIsFiltered(false);
-    setFilteredData(customers);
+    setCurrentPage(0);
   };
 
-  return (
+      const isSingleRecordSelected = selectedRows.length === 1 && false;
+
+      return (
     <div className="mb-5 mx-2">
       <TitleActionBar
         Title={"Customer List"}
-        plustDisabled={false}
-        editDisabled={true}
-        saveDisabled={true}
-        deleteDisabled={selectedCustomers.length === 0}
-        PlusAction={handleCreate}
+        plustDisabled={isAddDisable}
+        editDisabled={isEditDisable}
+        saveDisabled={isSaveDisable}
+        deleteDisabled={isDeleteDisable}
+        PlusAction={() => {
+          handleCreate();
+        }}
         EditAction={() => {}}
         SaveAction={() => {}}
-        DeleteAction={handleDelete}
+        DeleteAction={() => {
+          handleDelete();
+        }}
       />
 
-      <Row className="mb-3">
-        <Col md={6}>
-          <InputGroup>
-            <FormControl
-              type="text"
-              placeholder="Search by full name"
-              value={searchValue}
+      <Row>
+        <div className="filter-box mb-5">
+          <InputGroup className="w-25">
+            <Form.Control
+              className="bg-white form-control-filter"
+              placeholder="Search..."
+              aria-label="Search"
+              value={searchTerm}
               onChange={handleSearchChange}
             />
-            <Button
-              variant="primary"
-              onClick={() => setIsFiltered(true)}
-              className="search-button"
-            >
-              <FontAwesomeIcon icon={faSearch} />
-            </Button>
-            {isFiltered && (
+      {isFiltered ? (
               <Button
-                variant="light"
+                variant="primary"
+                className="form-btn"
+                id="button-addon2"
                 onClick={clearFilter}
-                className="clear-button"
               >
-                Clear
+                <FontAwesomeIcon icon={faXmark} size="lg" />
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                className="form-btn"
+                id="button-addon2"
+                onClick={handleFilter}
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Button>
             )}
           </InputGroup>
-        </Col>
-      </Row>
-
-      <div className="container">
-        <table className="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Customer ID</th>
-              <th>Full Name</th>
-              <th>Identifier</th>
-              <th>Address</th>
-              <th>Email</th>
-              <th>Contact No</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((customer, index) => (
-              <tr key={index}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedCustomers.includes(customer.id)}
-                    onChange={() => handleCheckboxChange(customer.id)}
-                  />
-                  <FontAwesomeIcon
-                    icon={faEllipsisH}
-                    style={{ cursor: "pointer", marginLeft: "10px" }}
-                    onClick={(e) => handleCellClick(e, customer)}
-                  />
-                </td>
-                <td>{customer.id}</td>
-                <td>{customer.fullName}</td>
-                <td>{customer.identifier}</td>
-                <td>{customer.address}</td>
-                <td>{customer.email}</td>
-                <td>{customer.contactNo}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Popup menu */}
-      {showOptions && (
-        <div
-          className="styled-menu"
-          style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-        >
-          <div className="menu-item" onClick={handleEditNavigation}>
-            <FontAwesomeIcon icon={faEdit} /> Edit
-          </div>
-          <div className="menu-item" onClick={handleDetailedNavigation}>
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
-          </div>
         </div>
-      )}
-    </div>
+      </Row>
+      <ReservationGroupTable
+        selectableRows={true}
+        selectableRowsSingle={true}
+        setPerPage={setPerPage}
+        setCurrentPage={setCurrentPage}
+        setSelectedRows={setSelectedRows}
+        setMenuVisible={setMenuVisible}
+        paginatedData={paginatedData}
+        filteredData={filteredData}
+        totalItems={totalItems}
+        currentPage={currentPage}
+        perPage={perPage}
+        columns={columns}
+        menuVisible={menuVisible}
+        contextMenuPosition={contextMenuPosition}
+        toggledClearRows={toggledClearRows}
+        isSingleRecordSelected={isSingleRecordSelected}
+      />
+
+     {/* Popup menu */}
+     <div>{customContextMenu}</div>
+
+<DeleteConfirmModel
+  show={showConfirmation}
+  close={cancelDelete}
+  title={"Warning"}
+  message={
+    "The selected Reservation Group will be deleted. Do you wish to continue?"
+  }
+  type={"Yes"}
+  action={() => {
+    confirmDelete();
+  }}
+/>
+</div>
   );
-}
+};
 
 export default CustomerList;
