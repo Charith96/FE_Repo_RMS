@@ -103,9 +103,12 @@ const CreateCompany = () => {
       const data = {
         companyCode: companyCode.toString(),
         companyName: companyName,
+        description: description,
         country: country,
         currency: currency,
         address01: address01,
+        address02: address02,
+        defaultCompany: defaultCompany,
       };
       dispatch(createCompany(data));
     } else {

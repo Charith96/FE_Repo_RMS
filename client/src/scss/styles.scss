@@ -400,7 +400,9 @@ input:-webkit-autofill:active {
   flex: 1;
   padding: 20px;
   margin-left: 300px !important;
-  transition: padding 0.3s, margin 0.3s;
+  transition:
+    padding 0.3s,
+    margin 0.3s;
   overflow: auto;
 }
 
@@ -409,7 +411,9 @@ input:-webkit-autofill:active {
   padding: 20px;
   margin-left: 140px;
   margin-right: 60px;
-  transition: padding 0.3s, margin 0.3s;
+  transition:
+    padding 0.3s,
+    margin 0.3s;
   overflow: auto;
 }
 
@@ -486,12 +490,16 @@ input:-webkit-autofill:active {
   box-shadow: $footer-shadow-color !important;
 
   .footer-collapsed {
-    transition: padding 0.3s, margin 0.3s;
+    transition:
+      padding 0.3s,
+      margin 0.3s;
     padding-left: 5dvw;
   }
 
   .footer-expanded {
-    transition: padding 0.3s, margin 0.3s;
+    transition:
+      padding 0.3s,
+      margin 0.3s;
     padding-left: 17dvw;
   }
 }
