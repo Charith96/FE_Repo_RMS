@@ -14,7 +14,7 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
   const id = value;
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customerReducer.customers);
-  const customerData = useSelector(selectCustomer);
+  const customer = useSelector(selectCustomer);
   const [filteredCustomerData, setFilteredCustomerData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
@@ -29,15 +29,15 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
 
   const fetchData = async () => {
     try {
-      if (!editMode) {
+      if(editMode===false){ 
         await dispatch(fetchCustomer(id));
-        const customerData = customers;
+      //  const customerData = customer.customers;
         setFilteredCustomerData({
-          customerID: customerData.id,
-          fullName: customerData.fullName,
-          identifier: customerData.identifier,
-          address: customerData.address,
-          email: customerData.email,
+          customerId: customers.customerId,
+          fullName: customers.fullName,
+          identifier: customers.identifier,
+          address: customers.address,
+          email: customers.email,
         });
       }
       if (modea) {
@@ -137,21 +137,21 @@ const CustomerForm = ({ formData, onChange, editMode, isViewMode }) => (
   <>
     {editMode ? (
       <>
-        <TextField id="customerID" label="Customer ID :" value={formData.customerID} onChange={onChange} disabled={isViewMode} />
+        <TextField id="customerID" label="Customer ID :" value={formData.customerId} onChange={onChange} disabled={isViewMode} />
         <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={isViewMode} />
         <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={isViewMode} />
         <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={isViewMode} />
         <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={isViewMode} />
-        <TextField id="contactno" label="Contact No" value={formData.contactno} onChange={onChange} disabled={isViewMode} />
+        <TextField id="contactno" label="Contact No" value={formData.contactNo} onChange={onChange} disabled={isViewMode} />
       </>
     ) : (
       <>
-        <TextField id="customerID" label="Customer ID :" value={formData.customerID} onChange={onChange} disabled={true} />
+        <TextField id="customerID" label="Customer ID :" value={formData.customerId} onChange={onChange} disabled={true} />
         <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={true} />
         <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={true} />
         <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={true} />
         <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={true} />
-        <TextField id="contactno" label="Contact No" value={formData.contactno} onChange={onChange} disabled={true} />
+        <TextField id="contactno" label="Contact No" value={formData.contactNo} onChange={onChange} disabled={true} />
       </>
     )}
   </>

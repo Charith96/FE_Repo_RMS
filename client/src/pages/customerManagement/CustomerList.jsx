@@ -22,6 +22,7 @@ import { selectCustomer } from "../../store/Store";
 const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ // const customer = useSelector(selectCustomer)
   const customers = useSelector((state) => state.customerReducer.customers);
   let { value } = useParams();
   

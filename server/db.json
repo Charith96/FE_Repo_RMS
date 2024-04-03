@@ -1,20 +1,44 @@
 {
   "customers": [
     {
-      "id": "123",
-      "fullName": "fghfgf",
-      "identifier": "1231",
-      "address": "hgjg",
-      "email": "hj@hj.yhth",
-      "contactNo": "89"
-    },
-    {
       "id": "897",
       "fullName": "Deepika Padukone",
       "identifier": "23249",
       "address": "India",
       "email": "deepika@hotmail.com",
       "contactNo": "78"
+    },
+    {
+      "id": "21356787",
+      "fullName": "Hana shafa",
+      "identifier": "89789A",
+      "address": "Colombo 07",
+      "email": "das@fv.gf",
+      "contactNo": "0798877288"
+    },
+    {
+      "id": "7856123",
+      "fullName": "john doe",
+      "identifier": "895675V",
+      "address": "California,USA",
+      "email": "john@gmail.com",
+      "contactNo": "07781882282"
+    },
+    {
+      "id": "89279873",
+      "fullName": "Ema",
+      "identifier": "87812378H",
+      "address": "Colombo 6",
+      "email": "ema@hotmail.com",
+      "contactNo": "719082093"
+    },
+    {
+      "id": "19872917",
+      "fullName": "Emli",
+      "identifier": "717173A",
+      "address": "Kandy",
+      "email": "emli@uok.lk",
+      "contactNo": "0738282829"
     }
   ],
   "groupcreation": [
