@@ -53,10 +53,10 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
   };
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
+    setCheckCustomer(true);
     setFilteredCustomerData({
       ...filteredCustomerData,
-      [id]: value,
+      [e.target.id]: e.target.value,
     });
   };
 
@@ -107,8 +107,8 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
             Title={""}
             EditAction={() => setEditMode(true)}
             SaveAction={handleSubmit}
-            PlusAction={handleCreate}
-            DeleteAction={handleDelete}
+            PlusAction={() => handleCreate()}
+            DeleteAction={() => handleDelete()}
           />
           <div style={{ margin: 10, padding: 20 }}>
             <CustomerForm
@@ -116,6 +116,7 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
               onChange={handleInputChange}
               editMode={editMode}
               customers={customers}
+              isViewMode={isViewMode}
             />
           </div>
         </Col>
@@ -126,25 +127,34 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
         title={"Warning"}
         message={"The selected Reservation Group will be deleted. Do you wish to continue?"}
         type={"Yes"}
-        action={() => {
-          confirmDelete(id);
-        }}
+        action={() => confirmDelete(id)}
       />
     </>
   );
 };
 
-const CustomerForm = ({ formData, onChange, editMode, customer, isViewMode }) => {
-  return (
-    <>
-      <TextField id="id"label="Customer ID :" value={formData.customerID} onChange={onChange} disabled={true} />
-      <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={!editMode} />
-      <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={!editMode} />
-      <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={!editMode} />
-      <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={!editMode} />
-      <TextField id="contactno" label="Contact No" value={formData.contactno} onChange={onChange} disabled={!editMode} />
-    </>
-  );
-};
+const CustomerForm = ({ formData, onChange, editMode, isViewMode }) => (
+  <>
+    {editMode ? (
+      <>
+        <TextField id="customerID" label="Customer ID :" value={formData.customerID} onChange={onChange} disabled={isViewMode} />
+        <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={isViewMode} />
+        <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={isViewMode} />
+        <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={isViewMode} />
+        <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={isViewMode} />
+        <TextField id="contactno" label="Contact No" value={formData.contactno} onChange={onChange} disabled={isViewMode} />
+      </>
+    ) : (
+      <>
+        <TextField id="customerID" label="Customer ID :" value={formData.customerID} onChange={onChange} disabled={true} />
+        <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={true} />
+        <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={true} />
+        <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={true} />
+        <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={true} />
+        <TextField id="contactno" label="Contact No" value={formData.contactno} onChange={onChange} disabled={true} />
+      </>
+    )}
+  </>
+);
 
 export default CustomerOverviewGeneral;

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
@@ -6,17 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 
 import {
-  fetchCustomer,
-  deleteCustomer
+  fetchCustomers,
+  deleteCustomer,
+  fetchCustomer
 } from "../../store/actions/customerActions";
 
-      import {
-  faArrowUpRightFromSquare,
-  faEdit,
-  faEllipsisH,
-  faMagnifyingGlass,
-  faXmark,
-    } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare, faEdit, faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -25,12 +19,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectCustomer } from "../../store/Store";
 
-  const CustomerList = () => {
+const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const customerData = useSelector(selectCustomer);
   const customers = useSelector((state) => state.customerReducer.customers);
   let { value } = useParams();
+  
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -56,13 +50,13 @@ import { selectCustomer } from "../../store/Store";
   useEffect(() => {
     dispatch(fetchCustomer());
     if (deleteCustomer) {
-      dispatch(fetchCustomer());
+      dispatch(fetchCustomers());
     }
   }, []);
   
 
   useEffect(() => {
-    dispatch(fetchCustomer()).then(() => {
+    dispatch(fetchCustomers()).then(() => {
       if (customers && customers.length > 0 && !isFiltered) {
         setFilteredData(customers);
         
@@ -189,7 +183,7 @@ if (searchTerm === "") {
  setFilteredData(customers);
 } else {
  const filtered = customers.filter((item) =>
-   item.customerId
+   item.id
      ?.toString()
      .toLowerCase()
      .includes(searchTerm?.toLowerCase())
@@ -318,7 +312,7 @@ if (searchTerm === "") {
   close={cancelDelete}
   title={"Warning"}
   message={
-    "The selected Reservation Group will be deleted. Do you wish to continue?"
+    "The selected Customer will be deleted. Do you wish to continue?"
   }
   type={"Yes"}
   action={() => {
