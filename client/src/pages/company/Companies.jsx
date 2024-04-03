@@ -14,7 +14,7 @@ import {
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputCompany } from "react-bootstrap";
+import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -255,13 +255,14 @@ const Companies = () => {
 
       <Row>
         <div className="filter-box mb-5">
-          <InputCompany className="w-25">
+          <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
               placeholder="Search Company"
               aria-label="Search"
               value={searchTerm}
               onChange={handleSearchChange}
+
             />
             {isFiltered ? (
               <Button
@@ -282,7 +283,7 @@ const Companies = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Button>
             )}
-          </InputCompany>
+          </InputGroup>
         </div>
       </Row>
 
