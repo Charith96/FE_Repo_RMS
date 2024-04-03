@@ -1,14 +1,6 @@
 {
   "customers": [
     {
-      "id": "897",
-      "fullName": "Deepika Padukone",
-      "identifier": "23249",
-      "address": "India",
-      "email": "deepika@hotmail.com",
-      "contactNo": "78"
-    },
-    {
       "id": "21356787",
       "fullName": "Hana shafa",
       "identifier": "89789A",
@@ -39,6 +31,14 @@
       "address": "Kandy",
       "email": "emli@uok.lk",
       "contactNo": "0738282829"
+    },
+    {
+      "id": "987989",
+      "fullName": "sara",
+      "identifier": "9770j",
+      "address": "gggggf",
+      "email": "dr@fh.jg",
+      "contactNo": "07788"
     }
   ],
   "groupcreation": [

@@ -10,11 +10,12 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
 import { selectCustomer } from "../../store/Store";
 
-const CustomerOverviewGeneral = ({ value, mode }) => {
-  const id = value;
+const CustomerOverviewGeneral = ({ customer, mode }) => {
+  const { customerId, fullName, identifier, address, email } = customer;
+  const id = customer;
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customerReducer.customers);
-  const customer = useSelector(selectCustomer);
+ // const customer = useSelector(selectCustomer);
   const [filteredCustomerData, setFilteredCustomerData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
@@ -25,20 +26,20 @@ const CustomerOverviewGeneral = ({ value, mode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [dispatch, id, customers, editMode]);
+  }, [dispatch, customer, editMode]);
 
   const fetchData = async () => {
     try {
       if(editMode===false){ 
         await dispatch(fetchCustomer(id));
       //  const customerData = customer.customers;
-        setFilteredCustomerData({
-          customerId: customers.customerId,
-          fullName: customers.fullName,
-          identifier: customers.identifier,
-          address: customers.address,
-          email: customers.email,
-        });
+      setFilteredCustomerData({
+        customerId: customer.id,
+        fullName: customer.fullName,
+        identifier: customer.identifier,
+        address: customer.address,
+        email: customer.email,
+      });
       }
       if (modea) {
         if (modea === "edit") {
@@ -137,7 +138,7 @@ const CustomerForm = ({ formData, onChange, editMode, isViewMode }) => (
   <>
     {editMode ? (
       <>
-        <TextField id="customerID" label="Customer ID :" value={formData.customerId} onChange={onChange} disabled={isViewMode} />
+        <TextField id="customerID" label="Customer ID :" value={formData.id} onChange={onChange} disabled={isViewMode} />
         <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={isViewMode} />
         <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={isViewMode} />
         <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={isViewMode} />
@@ -146,7 +147,7 @@ const CustomerForm = ({ formData, onChange, editMode, isViewMode }) => (
       </>
     ) : (
       <>
-        <TextField id="customerID" label="Customer ID :" value={formData.customerId} onChange={onChange} disabled={true} />
+        <TextField id="customerID" label="Customer ID :" value={formData.id} onChange={onChange} disabled={true} />
         <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={true} />
         <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={true} />
         <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={true} />

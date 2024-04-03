@@ -94,8 +94,9 @@ const CustomerOverview = () => {
   const tabs = [
     {
       name: "General",
-      content: <CustomerOverviewGeneral value={paramData?.id} mode={state && state.mode} />,
-
+      content: paramData ? (
+        <CustomerOverviewGeneral customer={paramData} mode={state && state.mode} />
+      ) : null,
     },
     {
       name: "Current Reservations",
