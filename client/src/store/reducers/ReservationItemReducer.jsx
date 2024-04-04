@@ -11,6 +11,8 @@ const initialState = {
   deleteError: null,
   fetchReservationItemId: [],
   getByIdError: null,
+  fetchReservationItem: [],
+  getError: null,
   timeSlotsByItemId: [],
   getTimeSlotsError: null,
   timeSlotsDeleted: false,
@@ -143,6 +145,37 @@ export const getReservationItemByIdReducer = (
         ...state,
         loading: initialState.loading,
         fetchReservationItemId: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const getReservationItemReducer = (
+  state = {
+    loading: initialState.loading,
+    fetchReservationItem: initialState.fetchReservationItem,
+    getError: initialState.getError,
+  },
+  action
+) => {
+  switch (action.type) {
+    case "GET_RESERVATION_ITEM_START":
+      return {
+        ...state,
+        loading: !initialState.loading,
+      };
+    case "GET_RESERVATION_ITEM_SUCCESS":
+      return {
+        ...state,
+        loading: initialState.loading,
+        fetchReservationItem: action.payload,
+      };
+    case "GET_RESERVATION_ITEM_FAIL":
+      return {
+        ...state,
+        loading: initialState.loading,
+        getError: action.payload,
       };
     default:
       return state;

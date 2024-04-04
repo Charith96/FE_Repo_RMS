@@ -114,6 +114,26 @@ export const fetchReservationItemsById = (id) => async (dispatch) => {
   }
 };
 
+export const fetchReservationItems = () => async (dispatch) => {
+  try {
+    dispatch({ type: ActionTypes.GET_RESERVATION_ITEM_START });
+    const response = await axios.get(`${BASE_URL}${RESERVATION_ITEM}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.status === 200) {
+      dispatch({
+        type: ActionTypes.GET_RESERVATION_ITEM_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: ActionTypes.GET_RESERVATION_ITEM_FAIL,
+      payload: error.message,
+    });
+  }
+};
+
 export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.GET_TIME_SLOTS_BY_ITEM_ID_START });
