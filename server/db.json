@@ -1,14 +1,6 @@
 {
   "customers": [
     {
-      "id": "21356787",
-      "fullName": "Hana shafa",
-      "identifier": "89789A",
-      "address": "Colombo 07",
-      "email": "das@fv.gf",
-      "contactNo": "0798877288"
-    },
-    {
       "id": "7856123",
       "fullName": "john doe",
       "identifier": "895675V",
@@ -39,6 +31,14 @@
       "address": "gggggf",
       "email": "dr@fh.jg",
       "contactNo": "07788"
+    },
+    {
+      "id": "782919",
+      "fullName": "Morgana",
+      "identifier": "925621J",
+      "address": "England",
+      "email": "fwfy@jhkw.kfi",
+      "contactNo": "0927710370"
     }
   ],
   "groupcreation": [
