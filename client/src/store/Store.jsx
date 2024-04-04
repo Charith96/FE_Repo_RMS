@@ -13,6 +13,11 @@ import {
 import {
   createReservationItemReducer,
   createTimeSlotReducer,
+  editReservationItemReducer,
+  editReservationItemFlagReducer,
+  deleteReservationItemReducer,
+  getReservationItemReducer,
+  getReservationItemByIdReducer,
 } from "./reducers/ReservationItemReducer";
 
 import {
@@ -37,6 +42,11 @@ const rootReducer = combineReducers({
   // reservation item
   createReservationItem: createReservationItemReducer,
   createTimeSlot: createTimeSlotReducer,
+  editReservationItem: editReservationItemReducer,
+  editReservationItemFlag: editReservationItemFlagReducer,
+  deleteReservationItem: deleteReservationItemReducer,
+  getReservationItem: getReservationItemReducer,
+  getReservationItemById: getReservationItemByIdReducer,
 
   // todos
   manageTodo: manageTodoReducer,

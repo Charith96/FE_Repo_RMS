@@ -18,6 +18,10 @@ const ReservationItemTabView = React.lazy(() =>
   import("./pages/reservationManagement/ReservationItemManagement")
 );
 
+const ReservationItemList = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationItemList")
+);
+
 // todo
 const ToDoManagement = React.lazy(() =>
   import("./pages/common/ToDoManagement")
@@ -59,6 +63,13 @@ const routes = [
     name: "Create Reservation Item",
     element: ReservationItemTabView,
   },
+
+  {
+    path: "/reservationManagement/reservation/reservationItemList",
+    name: "Reservation Item List",
+    element: ReservationItemList,
+  },
+ 
 
   // todo
   {
