@@ -134,6 +134,23 @@ export const fetchReservationItems = () => async (dispatch) => {
   }
 };
 
+export const resetReservationItemState = (data) => (dispatch) => {
+  dispatch({
+    type: ActionTypes.GET_RESERVATION_ITEM_SUCCESS,
+    payload: data || [],
+  });
+  dispatch({ type: ActionTypes.GET_RESERVATION_ITEM_FAIL, payload: null });
+};
+
+
+export const resetManageReservationItemState = () => (dispatch) => {
+  dispatch({
+    type: ActionTypes.CREATE_RESERVATION_ITEM_SUCCESS,
+    payload: null,
+  });
+  dispatch({ type: ActionTypes.GET_RESERVATION_ITEM_FAIL, payload: null });
+};
+
 export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.GET_TIME_SLOTS_BY_ITEM_ID_START });
