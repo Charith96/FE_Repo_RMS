@@ -14,6 +14,7 @@ import TabStructure from "../../components/TabStructure";
 import ManageReservationItems from "./ReservationItemOverview";
 import ReservationItemTimeSlotList from "./ReservationItemTimeSlotList";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ReservationItemTimeSlotManagement = () => {
   const { state } = useLocation();
@@ -26,6 +27,7 @@ const ReservationItemTimeSlotManagement = () => {
   );
   const [recordId, setRecordId] = useState("");
   const [isViewMode, setIsViewMode] = useState(false);
+  const navigate = useNavigate();
 
   const [isAddDisable, setIsAddDisable] = useState(false);
   const [isEditDisable, setIsEditDisable] = useState(true);
@@ -38,7 +40,7 @@ const ReservationItemTimeSlotManagement = () => {
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
-  const mode = state ? state.mode : "edit";
+  const mode = state ? state.mode : null;
 
   const [itemId, setItemId] = useState("");
   const [groupName, setGroupName] = useState("");
@@ -56,8 +58,6 @@ const ReservationItemTimeSlotManagement = () => {
 
   useEffect(() => {
     setNoOfAddedSlots(parseInt(noOfSlots, 10)); // Update noOfAddedSlots when noOfSlots changes
-
-    
   }, [noOfSlots]);
 
   useEffect(() => {
@@ -118,7 +118,7 @@ const ReservationItemTimeSlotManagement = () => {
           }
         }
       } else {
-        //handleNavigate();
+        handleNavigate();
       }
       setCount(1);
     }
@@ -183,7 +183,6 @@ const ReservationItemTimeSlotManagement = () => {
         ) {
           dispatch(editReservationItem(recordId, formData));
 
-          
           const data = inputValues.map((value) => ({
             ...value,
           }));
@@ -197,7 +196,7 @@ const ReservationItemTimeSlotManagement = () => {
           dataNew.forEach((value) => {
             dispatch(createTimeSlots(value));
           });
-
+          handleNavigate();
           toast.success("Data saved successfully");
         } else {
           if (isOverlapping) {
@@ -218,6 +217,14 @@ const ReservationItemTimeSlotManagement = () => {
     }
   };
 
+  const handleEdit = () => {
+    setIsAddDisable(true);
+    setIsEditDisable(true);
+    setIsDeleteDisable(true);
+    setIsViewMode(false);
+    setIsSaveDisable(false);
+  };
+
   //handle delete click
   const confirmDelete = async () => {
     try {
@@ -227,7 +234,7 @@ const ReservationItemTimeSlotManagement = () => {
           dispatch(deleteTimeSlotsByItemId(value.id));
         });
         toast.success("Data deleted successfully");
-        //handleNavigate();
+        handleNavigate();
       } else {
         toast.error("Cannot delete. ID is undefined.");
       }
@@ -246,13 +253,13 @@ const ReservationItemTimeSlotManagement = () => {
     setShowConfirmation(false);
   };
 
-  /*const navigateToCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationGroup");
+  const navigateToCreate = () => {
+    navigate("/reservationManagement/reservation/createReservationItem");
   };
 
   const handleNavigate = () => {
-    navigate("/reservationManagement/reservation/reservationGroups");
-  };*/
+    navigate("/reservationManagement/reservation/reservationItems");
+  };
 
   // tab view content
   const tabs = [
@@ -278,6 +285,7 @@ const ReservationItemTimeSlotManagement = () => {
           setNoOfSlots={setNoOfSlots}
           noOfAddedSlots={noOfAddedSlots}
           setNoOfAddedSlots={setNoOfAddedSlots}
+          isViewMode={isViewMode}
         />
       ),
     },
@@ -301,6 +309,7 @@ const ReservationItemTimeSlotManagement = () => {
           setIsOverlapping={setIsOverlapping}
           isValuesEqual={isValuesEqual}
           setIsValuesEqual={setIsValuesEqual}
+          isViewMode={isViewMode}
         />
       ),
     },
@@ -314,8 +323,12 @@ const ReservationItemTimeSlotManagement = () => {
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
         deleteDisabled={isDeleteDisable}
-        PlusAction={() => {}}
-        EditAction={() => {}}
+        PlusAction={() => {
+          navigateToCreate();
+        }}
+        EditAction={() => {
+          handleEdit();
+        }}
         SaveAction={() => {
           handleSave();
         }}

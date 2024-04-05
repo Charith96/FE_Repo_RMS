@@ -25,6 +25,7 @@ const ReservationItemTimeSlotList = ({
   setIsOverlapping,
   
   setIsValuesEqual,
+  isViewMode,
 }) => {
   useEffect(() => {
     const timeSlots = [...inputValues];
@@ -117,6 +118,7 @@ const ReservationItemTimeSlotList = ({
                 e.target.checked ? setSelectedId(value.id) : setSelectedId("");
                 console.log("selectedId", selectedId);
               }}
+              disabled={isViewMode}
             />
             <div className="p-1">
               <Form.Control
@@ -135,6 +137,7 @@ const ReservationItemTimeSlotList = ({
                   setInputValues(newValues);
                 }}
                 className="mr-2"
+                disabled={isViewMode}
               />
               <span className="align-self-center">TO</span>
               <Form.Control
@@ -147,6 +150,7 @@ const ReservationItemTimeSlotList = ({
                   setInputValues(newValues);
                 }}
                 className="ml-2"
+                disabled={isViewMode}
               />
             </div>
           </Form.Group>
