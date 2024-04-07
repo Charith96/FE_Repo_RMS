@@ -76,7 +76,7 @@ const CustomerList = () => {
   }, [customers, currentPage, perPage, selectedRows, isFiltered]);
   
 
-      const columns = [
+  const columns = [
     {
       name: "",
       cell: (row) => (
@@ -125,43 +125,42 @@ const CustomerList = () => {
       sortable: true,
       grow: 2,
     }
-
   ];
-      const handleCellClick = (e, row) => {
+
+  const handleCellClick = (e, row) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
   };
 
-      const handleEditNavigation = () => {
+  const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/customerManagement/CustomerOverviewGeneral?data=${encodeURIComponent(
+        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
           dataString
-        )}`,
+        )}&mode=edit`, // Pass mode as edit
         { state: { mode: "edit" } }
       );
     }
   };
-
-
-      const handleDetailedNavigation = () => {
+  
+  const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/customerManagement/CustomerOverviewGeneral?data=${encodeURIComponent(
+        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
           dataString
-        )}`,
+        )}&mode=view`, // Pass mode as view
         { state: { mode: "view" } }
       );
     }
   };
 
-      const customContextMenu = menuVisible && (
+  const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
@@ -175,29 +174,24 @@ const CustomerList = () => {
     </div>
   );
 
-
-
-      const handleFilter = () => {
- 
- console.log(searchTerm);
-if (searchTerm === "") {
- setFilteredData(customers);
-} else {
- const filtered = customers.filter((item) =>
-   item.id
-     ?.toString()
-     .toLowerCase()
-     .includes(searchTerm?.toLowerCase())
+  const handleFilter = () => {
+    console.log(searchTerm);
+    if (searchTerm === "") {
+      setFilteredData(customers);
+    } else {
+      const filtered = customers.filter((item) =>
+        item.id
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm?.toLowerCase())
       );
         
-        setIsFiltered(true);
-
-        setFilteredData(filtered);
-      }
-    
+      setIsFiltered(true);
+      setFilteredData(filtered);
+    }
   };
 
-      const confirmDelete = () => {
+  const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
         dispatch(deleteCustomer(selectedRows[0]?.id));
@@ -210,7 +204,7 @@ if (searchTerm === "") {
     }
   };
 
-      const handleCreate = () => {
+  const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
 
@@ -222,21 +216,20 @@ if (searchTerm === "") {
     setShowConfirmation(false);
   };
 
-      
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-      
+
   const clearFilter = () => {
     setSearchTerm("");
-    dispatch(fetchCustomer());
+    dispatch(fetchCustomers());
     setIsFiltered(false);
     setCurrentPage(0);
   };
 
-      const isSingleRecordSelected = selectedRows.length === 1 && false;
+  const isSingleRecordSelected = selectedRows.length === 1 && false;
 
-      return (
+  return (
     <div className="mb-5 mx-2">
       <TitleActionBar
         Title={"Customer List"}
@@ -264,7 +257,7 @@ if (searchTerm === "") {
               value={searchTerm}
               onChange={handleSearchChange}
             />
-      {isFiltered ? (
+            {isFiltered ? (
               <Button
                 variant="primary"
                 className="form-btn"
@@ -305,22 +298,22 @@ if (searchTerm === "") {
         isSingleRecordSelected={isSingleRecordSelected}
       />
 
-     {/* Popup menu */}
-     <div>{customContextMenu}</div>
+      {/* Popup menu */}
+      <div>{customContextMenu}</div>
 
-<DeleteConfirmModel
-  show={showConfirmation}
-  close={cancelDelete}
-  title={"Warning"}
-  message={
-    "The selected Customer will be deleted. Do you wish to continue?"
-  }
-  type={"Yes"}
-  action={() => {
-    confirmDelete();
-  }}
-/>
-</div>
+      <DeleteConfirmModel
+        show={showConfirmation}
+        close={cancelDelete}
+        title={"Warning"}
+        message={
+          "The selected Customer will be deleted. Do you wish to continue?"
+        }
+        type={"Yes"}
+        action={() => {
+          confirmDelete();
+        }}
+      />
+    </div>
   );
 };
 

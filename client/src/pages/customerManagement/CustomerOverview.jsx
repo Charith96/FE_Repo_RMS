@@ -29,18 +29,21 @@ const CustomerOverview = () => {
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");
   const paramData = data ? JSON.parse(data) : null;
-  const mode = state ? state.mode : null;
+
+  const [editMode, setEditMode] = useState(false);
+  const [isViewMode, setIsViewMode] = useState(false);
+
 
   useEffect(() => {
-    if (selectedRecords === 1 && disableEdit && !isEdit) {
-      setDisableEdit(false);
-      setDisableDelete(false);
-    } else {
-      setDisableEdit(true);
-      setDisableDelete(true);
+    if (state && state.mode) {
+      if (state.mode === "edit") {
+        setEditMode(true);
+      } else if (state.mode === "view") {
+        setIsViewMode(true);
+      }
     }
-  }, [isAdd, isEdit, isSave, isDelete, disableEdit, selectedRecords, data]);
-
+  }, [state]);
+  
   // handle tab view
   const toggleTab = (index) => {
     setToggleState(index);
@@ -134,10 +137,10 @@ const CustomerOverview = () => {
         }}
       />
 
-      <TabStructure
+<TabStructure
         tabs={tabs}
         toggleState={toggleState}
-        toggleTab={toggleTab}
+        toggleTab={setToggleState}
       />
     </>
   );
