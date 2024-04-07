@@ -146,7 +146,7 @@ const _nav = [
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
-            ),
+           ),
             to: `/customerManagement/CustomerOverview`,
            },
           
