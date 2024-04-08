@@ -48,17 +48,7 @@ function RoleOverview() {
 
     return (
         <>
-        <TitleActionBar
-            Title={"Roles Overview"}
-            PlusDisabled={true}
-            EditDisabled={false}
-            SaveDisabled={!isEditing}
-            DeleteDisabled={true}
-            PlusAction={() => {}}
-            EditAction={handleEdit}
-            SaveAction={handleSave}
-            DeleteAction={() => {}}
-        />
+        
         <Row>
             <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
             <Col
@@ -70,6 +60,17 @@ function RoleOverview() {
                 xxl={10}
                 className="body-content px-5 pt-4 pb-4 mb-5"
             >
+                <TitleActionBar
+            Title={"Role Overview"}
+            PlusDisabled={true}
+            EditDisabled={false}
+            SaveDisabled={!isEditing}
+            DeleteDisabled={true}
+            PlusAction={() => {}}
+            EditAction={handleEdit}
+            SaveAction={handleSave}
+            DeleteAction={() => {}}
+        />
                 <TextField
                     label="Role Code:"
                     value={values.rolecode}

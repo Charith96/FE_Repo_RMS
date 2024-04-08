@@ -2,8 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faTrash, faPencilAlt, faEllipsisV, faSearch , faEllipsisH} from "@fortawesome/free-solid-svg-icons";
 import TitleActionBar from "../../components/TitleActionsBar";
+import { Row, Button, Form, InputGroup } from "react-bootstrap";
+import {
+    faSave,
+    faTrash,
+    faPencilAlt,
+    faEllipsisV,
+    faEllipsisH,
+    faMagnifyingGlass,
+    faXmark,
+  } from "@fortawesome/free-solid-svg-icons";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const ROLE_URL = '/Roles';
@@ -128,15 +137,38 @@ function RoleList() {
                 EditIcon={<FontAwesomeIcon icon={faPencilAlt} />}
             />
 
-            <div className="mb-3">
-                <input
-                    type="text"
-                    placeholder="Search by role name"
-                    value={searchValue}
-                    onChange={handleSearchChange}
-                />
-                <button onClick={clearFilter}>Clear</button>
-            </div>
+<Row>
+        <div className="filter-box mb-5">
+          <InputGroup className="w-25">
+            <Form.Control
+              className="bg-white form-control-filter"
+              placeholder="Search Role by role name"
+              aria-label="Search"
+              value={searchValue}
+              onChange={handleSearchChange}
+            />
+            {isFiltered ? (
+              <Button
+                variant="primary"
+                className="form-btn"
+                id="button-addon2"
+                onClick={clearFilter}
+              >
+                <FontAwesomeIcon icon={faXmark} size="lg" />
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                className="form-btn"
+                id="button-addon2"
+                //onClick={handleFilter}
+              >
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </Button>
+            )}
+          </InputGroup>
+        </div>
+      </Row>
 
             <table className="table" border={1}>
                 <thead>

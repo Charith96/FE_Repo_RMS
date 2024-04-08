@@ -58,6 +58,15 @@
       "privileges": [
         "viewAccess"
       ]
+    },
+    {
+      "id": "d9ac",
+      "rolecode": "34567cd",
+      "rolename": "test",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ]
     }
   ],
   "groupcreation": [
