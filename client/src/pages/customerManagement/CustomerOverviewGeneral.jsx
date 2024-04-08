@@ -98,7 +98,8 @@ const CustomerForm = ({ formData, onChange, editMode }) => (
     <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={!editMode} />
     <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={!editMode} />
     <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={!editMode} />
-    <TextField id="email" label="Email:" value={formData.email} onChange={onChange} disabled={!editMode} />
+    <TextField id="email" label="Email" value={formData.email} onChange={onChange} disabled={!editMode} />
+    <TextField id="contactNo" label="Contact No" value={formData.contactNo} onChange={onChange} disabled={!editMode} />
   </>
 );
 

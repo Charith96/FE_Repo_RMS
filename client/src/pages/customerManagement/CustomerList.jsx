@@ -136,12 +136,18 @@ const CustomerList = () => {
 
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { id: contextMenuRow.id ,
+        fullName:contextMenuRow.fullName ,
+        identifier:contextMenuRow.identifier,
+        address:contextMenuRow.address,
+        email:contextMenuRow.email,
+        contactNo:contextMenuRow.contactNo};
+
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
           dataString
-        )}&mode=edit`, // Pass mode as edit
+        )}`,
         { state: { mode: "edit" } }
       );
     }
@@ -149,12 +155,17 @@ const CustomerList = () => {
   
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { id: contextMenuRow.id ,
+        fullName:contextMenuRow.fullName ,
+        identifier:contextMenuRow.identifier,
+        address:contextMenuRow.address,
+        email:contextMenuRow.email,
+        contactNo:contextMenuRow.contactNo};
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
-          dataString
-        )}&mode=view`, // Pass mode as view
+         dataString
+        )}`,
         { state: { mode: "view" } }
       );
     }

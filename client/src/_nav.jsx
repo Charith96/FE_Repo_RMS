@@ -136,19 +136,19 @@ const _nav = [
             ),
             to: "/customerManagement/CustomerList",
           },
-           {
-             component: CNavItem,
-             name: "Customer Overview",
-             icon: <i className="ps-2" />,
-             quicknavicon: (
-               <FontAwesomeIcon
-                 icon={faUser}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-           ),
-            to: `/customerManagement/CustomerOverview`,
-           },
+           //{
+           //  component: CNavItem,
+           //  name: "Customer Overview",
+           //  icon: <i className="ps-2" />,
+            // quicknavicon: (
+             //  <FontAwesomeIcon
+             //    icon={faUser}
+              //  size="2x"
+              //  className="nav-icon pb-0 pt-3"
+             // />
+          // ),
+           // to: `/customerManagement/CustomerOverview`,
+         //  },
           
         ],
       },
