@@ -30,13 +30,6 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     }
   };
 
-  const handleInputChange = (e) => {
-    setFilteredCustomerData({
-      ...filteredCustomerData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
   const handleDelete = () => {
     setShowConfirmation(true);
   };
@@ -70,11 +63,12 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
             Title={""}
             EditAction={() => setEditMode(true)}
             DeleteAction={handleDelete}
+            SaveAction={handleSubmit}
           />
           <div style={{ margin: 10, padding: 20 }}>
             <CustomerForm
               formData={filteredCustomerData}
-              onChange={handleInputChange}
+              setFormData={setFilteredCustomerData}
               editMode={editMode}
             />
           </div>
@@ -92,14 +86,14 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
   );
 };
 
-const CustomerForm = ({ formData, onChange, editMode }) => (
+const CustomerForm = ({ formData, setFormData, editMode }) => (
   <>
-    <TextField id="id" label="Customer ID :" value={formData.id} onChange={onChange} disabled={!editMode} />
-    <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={onChange} disabled={!editMode} />
-    <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={onChange} disabled={!editMode} />
-    <TextField id="address" label="Address" value={formData.address} onChange={onChange} disabled={!editMode} />
-    <TextField id="email" label="Email" value={formData.email} onChange={onChange} disabled={!editMode} />
-    <TextField id="contactNo" label="Contact No" value={formData.contactNo} onChange={onChange} disabled={!editMode} />
+    <TextField id="id" label="Customer ID :" value={formData.id} onChange={(e) => setFormData({...formData, id: e.target.value})} disabled={!editMode} />
+    <TextField id="fullName" label="Full Name" value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} disabled={!editMode} />
+    <TextField id="identifier" label="Identifier" value={formData.identifier} onChange={(e) => setFormData({...formData, identifier: e.target.value})} disabled={!editMode} />
+    <TextField id="address" label="Address" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} disabled={!editMode} />
+    <TextField id="email" label="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} disabled={!editMode} />
+    <TextField id="contactNo" label="Contact No" value={formData.contactNo} onChange={(e) => setFormData({...formData, contactNo: e.target.value})} disabled={!editMode} />
   </>
 );
 
