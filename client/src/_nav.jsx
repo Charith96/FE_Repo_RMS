@@ -154,6 +154,43 @@ const _nav = [
       },
     ],
   },
+
+  {
+    component: CNavGroup,
+    name: "Reservation Overview",
+    navPath: "/reservationOverviewPart",
+    icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
+    items: [
+      {
+        component: CNavGroup,
+        name: "Reservations",
+        to: "/reservationOverviewPart/",
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faUser}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        className: "mt-3 ms-2",
+        items: [
+          {
+            component: CNavItem,
+            name: "Resevation Overview",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/reservationOverviewPart/ReservationOverview",
+          }, 
+        ],
+      },
+    ],
+  },
 ];
 
 export default _nav;

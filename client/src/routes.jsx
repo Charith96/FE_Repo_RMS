@@ -39,6 +39,12 @@ const QuickNavigation = React.lazy(() =>
  import("./pages/customerManagement/CustomerOverview")
  );
 
+
+ //Resevation Overview
+ const ReservationOverview = React.lazy(() =>
+ import("./pages/reservationOverviewPart/ReservationOverview")
+ );
+
 const routes = [
   // dashboard
   {
@@ -94,6 +100,17 @@ const routes = [
       name: "CustomerOverview",
       element:CustomerOverview,
     },
+
+
+    
+    //Reservation Overview
+    {
+      path: "/reservationOverviewPart/ReservationOverview",
+      name: "ReservationOverview",
+      element:ReservationOverview,
+    },
+
+
   // card layouts
   {
     path: "/reservationManagement",
@@ -113,6 +130,11 @@ const routes = [
   {
     path: "/customerManagement",
     name: "customer Management",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationOverviewPart",
+    name: "Reservation Overview",
     element: QuickNavigation,
   },
 ];
