@@ -3,7 +3,7 @@
     {
       "id": "3e7e",
       "groupId": "1006",
-      "groupName": "tables"
+      "groupName": "restaurant"
     },
     {
       "id": "4372",
@@ -37,7 +37,7 @@
     {
       "id": "3f85",
       "itemId": "1002",
-      "itemName": "table1",
+      "itemName": "table",
       "timeSlotType": "Defined",
       "noOfSlots": 5,
       "slotDurationType": "Customized",
@@ -55,7 +55,7 @@
       "slotDurationType": "Customized",
       "durationPerSlot": 12,
       "noOfReservations": 50,
-      "capacity": 12,
+      "capacity": 100,
       "reservationGroup": "4372"
     },
     {
@@ -74,27 +74,27 @@
   "timeslotsitem": [
     {
       "id": "5fa5",
-      "startTime": "14:01",
-      "endTime": "17:00",
-      "itemId": "aeda"
+      "startTime": "23:01",
+      "endTime": "07:00",
+      "itemId": "3f85"
     },
     {
       "id": "5ff8",
       "startTime": "18:00",
       "endTime": "19:01",
-      "itemId": "aeda"
+      "itemId": "3f85"
     },
     {
       "id": "fcb2",
       "startTime": "18:01",
       "endTime": "19:01",
-      "itemId": "aeda"
+      "itemId": "1ceb"
     },
     {
       "id": "632c",
       "startTime": "19:01",
       "endTime": "21:01",
-      "itemId": "aeda"
+      "itemId": "1ceb"
     }
   ],
   "todos": [
@@ -119,73 +119,52 @@
   ],
   "users": [
     {
-      "id": "5e53",
-      "userID": "abcd4@gmail.com",
-      "firstName": "anne",
-      "lastName": "W",
-      "defaultCompany": "ABC",
-      "designation": "Receptionist",
-      "primaryRole": "Reservation Officer",
-      "email": "abcd4@gmail.com",
-      "password": "qwer@12345",
-      "validFrom": "2024-03-14T16:42",
-      "validTill": "2024-03-29T16:42",
-      "companies": [],
-      "roles": [
-        "View Officer"
-      ]
-    },
-    {
-      "id": "c140",
+      "id": "8080",
       "firstName": "hasi",
       "lastName": "ni",
-      "defaultCompany": "ABC",
+      "defaultCompany": "Company 1",
       "designation": "Receptionist",
       "primaryRole": "Reservation Officer",
-      "email": "nelunikanuwanthi@gmail.com",
-      "password": "qwwert@1234567",
-      "validFrom": "2024-03-14T02:20",
-      "validTill": "2024-03-28T02:20",
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwert@12345",
+      "validFrom": "2024-04-01T13:48",
+      "validTill": "2024-04-17T13:48",
       "companies": [],
       "roles": [],
-      "userID": "nelunikanuwanthi@gmail.com"
+      "userID": "hasinichamodi4@gmail.com"
     },
     {
-      "id": "01ee",
-      "userID": "something@gmail.com",
-      "firstName": "akes",
+      "id": "f880",
+      "firstName": "hasi",
       "lastName": "ni",
-      "defaultCompany": "ABC",
-      "designation": "aaaaaaaaaaaa",
+      "defaultCompany": "Company 1",
+      "designation": "Receptionist",
       "primaryRole": "Reservation Officer",
-      "email": "something@gmail.com",
-      "password": "aaaa@1234567",
-      "validFrom": "2024-03-20T04:30",
-      "validTill": "2024-03-27T04:30",
-      "companies": [
-        "ABCd"
-      ],
-      "roles": [
-        "View Officer"
-      ]
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwert@12345",
+      "validFrom": "2024-04-01T13:48",
+      "validTill": "2024-04-17T13:48",
+      "companies": [],
+      "roles": [],
+      "userID": "hasinichamodi4@gmail.com"
     }
   ],
   "company": [
     {
       "id": "0001",
-      "name": "ABC"
+      "name": "Company 1"
     },
     {
       "id": "0002",
-      "name": "DEF"
+      "name": "Company 2"
     },
     {
       "id": "0003",
-      "name": "ABCd"
+      "name": "Company 3"
     },
     {
       "id": "0004",
-      "name": "DEFg"
+      "name": "Company 4"
     }
   ],
   "roles": [
@@ -196,6 +175,306 @@
     {
       "id": "0002",
       "name": "View Officer"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "5c2a",
+      "reservationID": "zvwpuj",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-02",
+      "noOfPeople": "45",
+      "time1": "2024-04-02T23:01",
+      "time2": "2024-04-03T07:00"
+    },
+    {
+      "id": "d92e",
+      "reservationID": "zo6w8w",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": "45",
+      "time1": "2024-04-03T00:36",
+      "time2": "2024-04-04T00:36"
+    },
+    {
+      "id": "92fc",
+      "reservationID": "3y153h",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-02",
+      "noOfPeople": 5,
+      "time1": "2024-04-02T23:01",
+      "time2": "2024-04-03T07:00"
+    },
+    {
+      "id": "ab20",
+      "reservationID": "f5l2l0",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "9b29",
+      "reservationID": "tj84v0",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": "45",
+      "time1": "2024-04-03T00:49",
+      "time2": "2024-04-04T00:49"
+    },
+    {
+      "id": "a569",
+      "reservationID": "xei9we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "a519",
+      "reservationID": "xpo7we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "a529",
+      "reservationID": "pey7we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "a469",
+      "reservationID": "xey4we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "at69",
+      "reservationID": "xe27we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "a969",
+      "reservationID": "xeo7we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "a369",
+      "reservationID": "xe27tt",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "t969",
+      "reservationID": "xeo7rt",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "c4c3",
+      "reservationID": "188sqb",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-12",
+      "noOfPeople": "10",
+      "time1": "2024-04-12T23:01",
+      "time2": "2024-04-13T07:00"
+    },
+    {
+      "id": "b192",
+      "reservationID": "6l9oux",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-12",
+      "noOfPeople": "30",
+      "time1": "2024-04-12T23:01",
+      "time2": "2024-04-13T07:00"
+    },
+    {
+      "id": "fdd5",
+      "reservationID": "jbox1b",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "d9a9",
+      "reservationID": "rchna6",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": "10",
+      "time1": "2024-04-11T18:00",
+      "time2": "2024-04-11T19:01"
+    },
+    {
+      "id": "120b",
+      "reservationID": "54ls1z",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-09",
+      "noOfPeople": 45,
+      "time1": "2024-04-09T23:01",
+      "time2": "2024-04-10T07:00"
+    },
+    {
+      "id": "2f05",
+      "reservationID": "n43ah8",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-09",
+      "noOfPeople": 5,
+      "time1": "2024-04-09T23:01",
+      "time2": "2024-04-10T07:00"
+    },
+    {
+      "id": "24e5",
+      "reservationID": "m4nd7d",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "4b35",
+      "reservationID": "p0gln1",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-28T01:27",
+      "time2": "2024-04-29T01:27"
+    },
+    {
+      "id": "99bc",
+      "reservationID": "fdfd05",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-28T01:27",
+      "time2": "2024-04-29T01:27"
+    },
+    {
+      "id": "51a9",
+      "reservationID": "3b7nd4",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "1061",
+      "reservationID": "pzyge8",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "430b",
+      "reservationID": "84vn92",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-12T01:32",
+      "time2": "2024-04-13T01:32"
+    },
+    {
+      "id": "a9f4",
+      "reservationID": "nuqpzv",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-12T01:32",
+      "time2": "2024-04-12T08:32"
+    },
+    {
+      "id": "3bfb",
+      "reservationID": "crqbho",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "1eb0",
+      "reservationID": "elrccq",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": ""
     }
   ]
 }

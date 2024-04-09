@@ -1,33 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
-import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react"
 import {
   fetchReservationGroups,
-  resetReservationGroupState,
+
 } from "../../store/actions/ReservationGroupActions";
-import {
-  faArrowUpRightFromSquare,
-  faEdit,
-  faEllipsisH,
-  faMagnifyingGlass,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputGroup,Col } from "react-bootstrap";
-import TitleActionBar from "../../components/TitleActionsBar";
+
+import { Row,  Form, Col } from "react-bootstrap";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import { toastFunction } from "../../components/ToastComponent";
-import { fetchCompanyData, fetchRoleData,fetchItemData,fetchData } from '../../store/actions/UserActions';
+import { fetchData} from '../../store/actions/UserActions';
+import {createReservation} from '../../store/actions/ReservationAction';
+import {fetchReservationItems} from '../../store/actions/ReservationItemActions';
 import { selectUserData } from '../../store/Store';
-import {
-  createReservationGroup,
-  resetManageReservationGroupState,
-} from "../../store/actions/ReservationGroupActions";
-import FormButton from "../../components/FormButton";
+
 import TextField from "../../components/TextField";
+import FormButton from "../../components/FormButton";
 
 
 const ReservationGroupList = () => {
@@ -36,83 +25,81 @@ const ReservationGroupList = () => {
   const fetchReservationGroupData = useSelector(
     (state) => state.getReservationGroup.fetchReservationGroup
   );
-  const deleteReservationGroupData = useSelector(
-    (state) => state.deleteReservationGroup.deleteReservationGroup
+
+
+  const fetchReservations = useSelector(
+    (state) => state.reservation
   );
-  const [paginatedData, setPaginatedData] = useState([]);
+
+  const fetchItem=useSelector(
+   (state)=>state.getReservationItem.fetchReservationItem
+  );
+ 
+ 
   const [groupData, setGroupData] = useState([]);
+  const [groupItem, setGroupItem] = useState([]);
   const [selectedItems,setSelectedItems] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
+  
   const [showMessage, setShowMessage] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-  const [contextMenuRow, setContextMenuRow] = useState(null);
-  const [emaiEntered, setemaiEntered] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [perPage, setPerPage] = useState(5);
 
-  const toggledClearRows = useRef(false);
+  const [emaiEntered, setemaiEntered] = useState(false);
+
+  const [itemEntered, setItemEntered] = useState(false);
+  
   const userData = useSelector(selectUserData);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [viewBtn,setViewBtn]=useState(false);
+
   const [groupID,setGroupID]=useState("");
   
   
 
   const [formData, setFormData] = useState({
-    // userID: "",
-    firstName: "",
-    lastName: "",
-    defaultCompany: "",
-    designation: "",
-    primaryRole: "",
-    email: "",
-    password: "",
-    validFrom: "",
-    validTill: "",
-    companies: [],
-    roles: [],
+
+    reservationID:"",
+    customerID:"",
+    group:"",
+    itemID:"",
+    date:"",
+    noOfPeople:"",
+
+    
   });
   useEffect(() => {
     dispatch(fetchReservationGroups());
-    dispatch(fetchItemData());
+    dispatch(fetchReservationItems());
     dispatch(fetchData());
-  }, [formData.defaultCompany,dispatch]);
+   
+   
+ 
+  }, [formData.defaultCompany,dispatch,formData, navigate]);
 
   useEffect(() => {
   
       setGroupData(fetchReservationGroupData);
-       
-console.log(userData);
+      setGroupItem(fetchItem);
+   
   }, [
     fetchReservationGroupData,
     groupData,
-    userData
-
-  
+    userData,
+    fetchReservations,
+    selectedRows,
+    fetchItem,
+    groupItem
   ]);
 
  
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
+   
     
-    console.log(e);
-    console.log("Value:", value);
-    if (id === "defaultCompany" ) {
+    if (id === "group" ) {
 
       const selectedGroup = groupData.find(group => group.groupName === value);
        setGroupID(value);
-      const selectItems=userData.itemcreation.filter(item=>item.reservationGroup===selectedGroup.id)
+      const selectItems=groupItem.filter(item=>item.reservationGroup===selectedGroup.id)
       setSelectedItems(selectItems);
       console.log(selectedItems);
       setFormData((prevState) => ({
@@ -129,22 +116,28 @@ console.log(userData);
       }else{
         setShowMessage(false);
         setemaiEntered(true);
-        setFormData((prevState) => ({
-          ...prevState,
-          [id]: value,
-       
-        }));
-      }
-     
-    } else  if (id === "item") {
+        const randomString = Math.random().toString(36).substring(2, 8); 
+
         
-    
-     navigate(`/reservation/timeSlots`,{state:{groupId:groupID}});
+        const reservationID = randomString;
       setFormData((prevState) => ({
         ...prevState,
-        email: value,
-        userID: value,
+        [id]: value,
+        reservationID: reservationID,
       }));
+      console.log(reservationID);
+      }
+     
+    } else  if (id === "item") {  
+      const selectedItem = selectedItems.find((item) => item.itemName === value);
+      setFormData((prevState) => ({
+        ...prevState,
+        itemID: selectedItem ? selectedItem.id : "",
+      }));
+        if(selectedItem){
+        setItemEntered(true);
+      }
+    
     } else {
    
       setFormData((prevState) => ({
@@ -152,48 +145,25 @@ console.log(userData);
         [id]: value,
       }));
     }
-    const {
-      firstName,
-      lastName,
-      defaultCompany,
-      designation,
-      primaryRole,
-      email,
-      password,
-      validFrom,
-      validTill,
-  } = formData;
-    if (
-      firstName &&
-      lastName &&
-      defaultCompany &&
-      designation &&
-      primaryRole &&
-      email &&
-      password &&
-      validFrom &&
-      validTill
-  ) {
-      setViewBtn(true);
-  } else {
-      setViewBtn(false);
-  }
+    
+   
   };
   
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-     
+    
+      dispatch(createReservation(formData));
       setFormSubmitted(true);
+      navigate(`/reservation/timeSlots?data=${formData.reservationID}`, { state: { reservationID: formData.reservationID, item: formData.itemID  } });
     } catch (error) {
       console.error("Error:", error);
       toastFunction("Something went wrong!", true);
     }
-    setFormSubmitted(true);
   };
-
   return (
     <>
       <Row>
@@ -235,13 +205,13 @@ console.log(userData);
                 </Form.Label>
                 <Col md={9}>
                   <Form.Select
-                    id="defaultCompany"
-                    value={formData.defaultCompany}
+                    id="group"
+                    value={formData.group}
                     onChange={handleInputChange}
                     disabled={!emaiEntered}
                   
                   >
-                    <option value="">Select Default Company</option>
+                    <option value="">Select Resevation Group</option>
                     {groupData.map((group) => (
                       <option key={group.id} value={group.groupName}>
                         {group.groupName}
@@ -259,11 +229,11 @@ console.log(userData);
                 <Col md={9}>
                   <Form.Select
                     id="item"
-                    value={formData.primaryRole}
+                    value={formData.item}
                     onChange={handleInputChange}
                      disabled={!emaiEntered}
                   >
-                    <option value="">Select Default Company</option>
+                    <option value="">Select Reservation Item</option>
                     {selectedItems.map((item) => (
                       <option key={item.id} value={item.itemName}>
                         {item.itemName}
@@ -273,18 +243,17 @@ console.log(userData);
                 </Col>
               </Form.Group>
         
-              
-                
-               { 
               <Form.Group as={Row} className="mb-3">
                 <Col className="d-flex justify-content-end">
                   <FormButton
                     type="submit"
-                    text="Create"
+                    text="Next"
                     className="form-btn"
+                    disabled={!itemEntered}
                   />
                 </Col>
-              </Form.Group>}
+              </Form.Group>              
+                
             </Form>  
           </div>
         </Col>

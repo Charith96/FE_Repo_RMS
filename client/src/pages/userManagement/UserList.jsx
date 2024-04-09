@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

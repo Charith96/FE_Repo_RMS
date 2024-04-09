@@ -2,10 +2,6 @@ import { toastFunction } from "../../components/ToastComponent";
 import { fetchCompanyData, fetchRoleData } from '../../store/actions/UserActions';
 import { selectUserData } from '../../store/Store';
 import React, { useState, useEffect, useRef } from "react";
-import {
-  createReservationGroup,
-  resetManageReservationGroupState,
-} from "../../store/actions/ReservationGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
 import TextField from "../../components/TextField";
@@ -18,7 +14,6 @@ import { createUser ,fetchData} from "../../store/actions/UserActions";
 const Main = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
-  const navigate = useNavigate();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [viewBtn,setViewBtn]=useState(false);
   const [checkUser,setCheckUser]=useState(false);
@@ -273,7 +268,7 @@ const Main = () => {
                     value={formData.primaryRole}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Default Company</option>
+                    <option value="">Select Primary Role</option>
                     {userData.roles.map((role) => (
                       <option key={role.id} value={role.name}>
                         {role.name}

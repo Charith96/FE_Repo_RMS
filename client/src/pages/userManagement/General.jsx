@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import {  Row, Col } from "react-bootstrap";
 import { fetchUserData,  updateUserData,deleteUser } from "../../store/actions/UserActions";
 import TitleActionBar from "../../components/TitleActionsBar";
-import FormButton from "../../components/FormButton";
+
 import TextField from "../../components/TextField";
-import Dropdown from "../../components/dropdown";
+
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,14 +11,12 @@ import {
   faArrowUpRightFromSquare,
   faEdit,
   faEllipsisH,
-  faMagnifyingGlass,
-  faXmark,
+
 } from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";
 
 const OverviewTable = ({value}) => {

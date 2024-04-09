@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
-import ReservationItemTimeSlot from "../reservationManagement/ReservationItemTimeSlot";
-import CreateReservationItem from "../reservationManagement/CreateReservationItem";
 import TabStructure from "../../components/TabStructure";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchUserData,
-  fetchCompanyData,
-  fetchRoleData,
-  updateUserData,
-} from "../../store/actions/UserActions"
-import { selectUserData } from "../../store/Store";
 import { useLocation } from "react-router-dom";
 import General from './General';
 import Roles from './Roles';
