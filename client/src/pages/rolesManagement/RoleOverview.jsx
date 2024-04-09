@@ -1,117 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useLocation } from 'react-router-dom';
-import { Row, Col, Form } from 'react-bootstrap';
-import TextField from '../../components/TextField'; 
-import TitleActionBar from '../../components/TitleActionsBar';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateRole } from '../../store/actions/RolesAction';
 
-function RoleOverview() {
-    const location = useLocation();
-    const roleData = location.state?.roleData || {};
+function RoleOverview({ roleData }) {
+    const dispatch = useDispatch();
 
-    const [values, setValues] = useState({
-        rolecode: roleData.rolecode || '',
-        rolename: roleData.rolename || '',
-        privileges: roleData.privileges || [],
-    });
-
-    const [editingPrivileges, setEditingPrivileges] = useState([...values.privileges]);
+    const [editingPrivileges, setEditingPrivileges] = useState([...roleData.privileges]);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
-        setEditingPrivileges((prevPrivileges) =>
+        setEditingPrivileges((prevPrivileges) => (
             checked
                 ? [...prevPrivileges, name]
                 : prevPrivileges.filter((item) => item !== name)
-        );
-    };
-
-    const handleEdit = () => {
-        setIsEditing(true);
+        ));
     };
 
     const handleSave = () => {
-        setValues({ ...values, privileges: editingPrivileges });
+        dispatch(updateRole(roleData.id, { privileges: editingPrivileges }));
         setIsEditing(false);
     };
 
-    useEffect(() => {
-        setValues({
-            rolecode: roleData.rolecode || '',
-            rolename: roleData.rolename || '',
-            privileges: roleData.privileges || [],
-        });
-        setEditingPrivileges([...roleData.privileges || []]);
-        setIsEditing(false);
-    }, [roleData]);
-
     return (
-        <>
-        
-        <Row>
-            <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
-            <Col
-                xs={12}
-                sm={12}
-                md={8}
-                lg={8}
-                xl={8}
-                xxl={10}
-                className="body-content px-5 pt-4 pb-4 mb-5"
-            >
-                <TitleActionBar
-            Title={"Role Overview"}
-            PlusDisabled={true}
-            EditDisabled={false}
-            SaveDisabled={!isEditing}
-            DeleteDisabled={true}
-            PlusAction={() => {}}
-            EditAction={handleEdit}
-            SaveAction={handleSave}
-            DeleteAction={() => {}}
-        />
-                <TextField
-                    label="Role Code:"
-                    value={values.rolecode}
-                    disabled={!isEditing}
-                />
-                <TextField
-                    label="Role Name:"
-                    value={values.rolename}
-                    disabled={!isEditing}
-                />
-                <div className="mb-3">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Privileges</th>
-                                <th>Grant</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
-                                <tr key={privilege}>
-                                    <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
-                                    <td>
-                                        <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            name={privilege}
-                                            checked={editingPrivileges.includes(privilege)}
-                                            onChange={handleCheckboxChange}
-                                            style={{ width: '20px', height: '20px', border: '2px solid black' }}
-                                            disabled={!isEditing}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </Col>
-        </Row>
-        </>
+        <div>
+            <h1>Role Overview</h1>
+            <h2>{roleData.rolename}</h2>
+            <div>
+                {isEditing ? (
+                    <>
+                        <label>
+                            <input type="checkbox" name="createAccess" checked={editingPrivileges.includes("createAccess")} onChange={handleCheckboxChange} />
+                            Create Access
+                        </label>
+                        <label>
+                            <input type="checkbox" name="updateAccess" checked={editingPrivileges.includes("updateAccess")} onChange={handleCheckboxChange} />
+                            Update Access
+                        </label>
+                        <label>
+                            <input type="checkbox" name="viewAccess" checked={editingPrivileges.includes("viewAccess")} onChange={handleCheckboxChange} />
+                            View Access
+                        </label>
+                        <label>
+                            <input type="checkbox" name="deleteAccess" checked={editingPrivileges.includes("deleteAccess")} onChange={handleCheckboxChange} />
+                            Delete Access
+                        </label>
+                    </>
+                ) : (
+                    <ul>
+                        {roleData.privileges.map(privilege => (
+                            <li key={privilege}>{privilege}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+            {isEditing && <button onClick={handleSave}>Save</button>}
+            <button onClick={() => setIsEditing(!isEditing)}>Edit</button>
+        </div>
     );
 }
 

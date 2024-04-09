@@ -67,6 +67,49 @@
         "updateAccess",
         "viewAccess"
       ]
+    },
+    {
+      "id": "a5bf",
+      "rolecode": "78677777",
+      "rolename": "njhhfasasddddddddddd",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "b40e",
+      "rolecode": "78787",
+      "rolename": "gg",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "820a",
+      "rolecode": "57575",
+      "rolename": "bnjnjh",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "7a98",
+      "rolecode": "654",
+      "rolename": "tetsd",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "95f1",
+      "rolecode": "66767tgt",
+      "rolename": "vgfgfhgh",
+      "privileges": [
+        "updateAccess"
+      ]
     }
   ],
   "groupcreation": [

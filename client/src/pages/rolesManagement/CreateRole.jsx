@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { createRole } from '../../store/actions/RolesAction';
 import { useNavigate } from 'react-router-dom';
 import { Form, Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import FormButton from '../../components/FormButton';
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-const ROLE_URL = '/Roles';
-
 function CreateRole() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [rolecode, setRoleCode] = useState('');
@@ -36,13 +35,19 @@ function CreateRole() {
         event.preventDefault();
 
         try {
-            const response = await axios.post(`${BASE_URL}${ROLE_URL}`, {
+            await dispatch(createRole({
                 rolecode,
                 rolename,
+               
+               
+               
+               
+               
+               
                 privileges,
-            });
-            console.log('Role created successfully:', response.data);
-            navigate('/rolesManagement/RoleList');
+            }));
+            console.log('Role created successfully');
+            navigate('/rolesManagement/RoleList', { state: { roleName: rolename } });
         } catch (error) {
             console.error('Error creating role:', error);
         }

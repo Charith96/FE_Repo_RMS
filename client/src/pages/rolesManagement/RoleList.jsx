@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRoles, deleteRole, updateRole, createRole } from '../../store/actions/RolesAction';
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -12,14 +14,18 @@ import {
     faEllipsisH,
     faMagnifyingGlass,
     faXmark,
-  } from "@fortawesome/free-solid-svg-icons";
-
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-const ROLE_URL = '/Roles';
+} from "@fortawesome/free-solid-svg-icons";
 
 function RoleList() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [data, setData] = useState([]);
+    const location = useLocation();
+    const roleName = location.state && location.state.roleName ? location.state.roleName : '';
+
+    const roles = useSelector(state => state.roles || []);
+    const loading = useSelector(state => state.loading);
+    const error = useSelector(state => state.error);
+
     const [selectedRows, setSelectedRows] = useState([]);
     const [editingRow, setEditingRow] = useState(null);
     const [editedRoleName, setEditedRoleName] = useState('');
@@ -28,26 +34,15 @@ function RoleList() {
     const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        dispatch(fetchRoles());
+    }, [dispatch]);
 
-    const fetchData = () => {
-        axios.get(`${BASE_URL}${ROLE_URL}`)
-            .then((response) => {
-                setData(response.data);
-                setFilteredData(response.data);
-            })
-            .catch(err => console.log(err));
-    };
+    useEffect(() => {
+        setFilteredData(roles);
+    }, [roles]);
 
-    const deleteRole = () => {
-        axios.delete(`${BASE_URL}${ROLE_URL}/${selectedRows}`)
-            .then(res => {
-                console.log("Roles deleted successfully.");
-                setSelectedRows([]); // Clear selected rows after deletion
-                fetchData(); // Refetch data after deletion
-            })
-            .catch(err => console.log(err));
+    const handleDelete = (roleId) => {
+        dispatch(deleteRole(roleId));
     };
 
     const toggleRowSelection = (rowId) => {
@@ -61,65 +56,70 @@ function RoleList() {
 
     const handleEdit = (rowId) => {
         setEditingRow(rowId);
-        setEditedRoleName(data[rowId].rolename);
+        setEditedRoleName(filteredData[rowId].rolename);
     };
 
     const handleSave = () => {
-        // Save edited role name
-        const updatedData = [...data];
+        const updatedData = [...filteredData];
         updatedData[editingRow].rolename = editedRoleName;
-        axios.put(`${BASE_URL}${ROLE_URL}/${updatedData[editingRow].id}`, { rolename: editedRoleName })
-            .then(res => {
-                console.log("Role name updated successfully.");
-                setEditingRow(null);
-                fetchData(); // Refetch data after update
-            })
-            .catch(err => console.log(err));
-    };
 
-    const handleMoreOptions = () => {
-        // Implement the logic for more options
+        dispatch(updateRole(updatedData[editingRow].id, updatedData[editingRow])).then(() => {
+            setEditingRow(null);
+            dispatch(fetchRoles());
+        }).catch((error) => {
+            console.error('Error updating role:', error);
+        });
     };
 
     const handleCreate = () => {
-        navigate("/rolesManagement/CreateRole");
+        // Implement create role functionality
+        const newRoleData = {
+            rolename: 'New Role', // Modify as per your requirement
+            // Add other necessary fields here
+        };
+        dispatch(createRole(newRoleData)).then(() => {
+            dispatch(fetchRoles());
+        }).catch((error) => {
+            console.error('Error creating role:', error);
+        });
     };
 
     const handleEditIconClick = () => {
-        // Ensure there is exactly one selected row
         if (selectedRows.length === 1) {
-            // Find the index of the selected row in the data array
-            const selectedIndex = data.findIndex(item => item.id === selectedRows[0]);
-            // If the selected row exists in the data array
+            const selectedIndex = filteredData.findIndex(item => item.id === selectedRows[0]);
             if (selectedIndex !== -1) {
-                handleEdit(selectedIndex); // Pass the index to handleEdit
+                handleEdit(selectedIndex);
             }
         }
     };
-    
 
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
         setSearchValue(inputValue);
         setIsFiltered(inputValue !== "");
-
-        setFilteredData(
-            data.filter(
-                (role) =>
-                    role.rolename &&
-                    role.rolename.toLowerCase().includes(inputValue)
-            )
+    
+        const filteredRoles = roles.filter(
+            (role) =>
+                role.rolename &&
+                role.rolename.toLowerCase().includes(inputValue)
         );
+    
+        setFilteredData(filteredRoles);
     };
+    
 
     const clearFilter = () => {
         setSearchValue("");
         setIsFiltered(false);
-        setFilteredData(data);
+        setFilteredData(roles);
     };
 
     const handleCellClick = (e, item) => {
         navigate("/rolesManagement/RoleOverview", { state: { roleData: item } });
+    };
+
+    const handleMoreOptions = () => {
+        // Implement more options functionality if needed
     };
 
     return (
@@ -128,7 +128,7 @@ function RoleList() {
                 Title={"Roles List"}
                 PlusAction={handleCreate}
                 SaveAction={handleSave}
-                DeleteAction={deleteRole}
+                DeleteAction={handleDelete}
                 MoreOptionsAction={handleMoreOptions}
                 EditAction={handleEditIconClick}
                 SaveIcon={<FontAwesomeIcon icon={faSave} />}
@@ -137,38 +137,37 @@ function RoleList() {
                 EditIcon={<FontAwesomeIcon icon={faPencilAlt} />}
             />
 
-<Row>
-        <div className="filter-box mb-5">
-          <InputGroup className="w-25">
-            <Form.Control
-              className="bg-white form-control-filter"
-              placeholder="Search Role by role name"
-              aria-label="Search"
-              value={searchValue}
-              onChange={handleSearchChange}
-            />
-            {isFiltered ? (
-              <Button
-                variant="primary"
-                className="form-btn"
-                id="button-addon2"
-                onClick={clearFilter}
-              >
-                <FontAwesomeIcon icon={faXmark} size="lg" />
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                className="form-btn"
-                id="button-addon2"
-                //onClick={handleFilter}
-              >
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </Button>
-            )}
-          </InputGroup>
-        </div>
-      </Row>
+            <Row>
+                <div className="filter-box mb-5">
+                    <InputGroup className="w-25">
+                        <Form.Control
+                            className="bg-white form-control-filter"
+                            placeholder="Search Role by role name"
+                            aria-label="Search"
+                            value={searchValue}
+                            onChange={handleSearchChange}
+                        />
+                        {isFiltered ? (
+                            <Button
+                                variant="primary"
+                                className="form-btn"
+                                id="button-addon2"
+                                onClick={clearFilter}
+                            >
+                                <FontAwesomeIcon icon={faXmark} size="lg" />
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="primary"
+                                className="form-btn"
+                                id="button-addon2"
+                            >
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </Button>
+                        )}
+                    </InputGroup>
+                </div>
+            </Row>
 
             <table className="table" border={1}>
                 <thead>
@@ -178,91 +177,48 @@ function RoleList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {isFiltered
-                        ? filteredData.map((item, i) => (
-                              <tr key={i}>
-                                  <td>
-                                      <input
-                                          className="form-check-input"
-                                          type="checkbox"
-                                          name="view"
-                                          onChange={() =>
-                                              toggleRowSelection(item.id)
-                                          }
-                                          checked={selectedRows.includes(
-                                              item.id
-                                          )}
-                                      />
-                                      <FontAwesomeIcon
-                                          icon={faEllipsisH}
-                                          style={{
-                                              cursor: "pointer",
-                                              marginLeft: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                              handleCellClick(e, item)
-                                          }
-                                      />
-                                  </td>
-                                  <td>
-                                      {editingRow === i ? (
-                                          <input
-                                              type="text"
-                                              value={editedRoleName}
-                                              onChange={(e) =>
-                                                  setEditedRoleName(
-                                                      e.target.value
-                                                  )
-                                              }
-                                          />
-                                      ) : (
-                                          item.rolename
-                                      )}
-                                  </td>
-                              </tr>
-                          ))
-                        : data.map((item, i) => (
-                              <tr key={i}>
-                                  <td>
-                                      <input
-                                          className="form-check-input"
-                                          type="checkbox"
-                                          name="view"
-                                          onChange={() =>
-                                              toggleRowSelection(item.id)
-                                          }
-                                          checked={selectedRows.includes(
-                                              item.id
-                                          )}
-                                      />
-                                      <FontAwesomeIcon
-                                          icon={faEllipsisH}
-                                          style={{
-                                              cursor: "pointer",
-                                              marginLeft: "10px",
-                                          }}
-                                          onClick={(e) =>
-                                              handleCellClick(e, item)
-                                          }
-                                      />
-                                  </td>
-                                  <td>
-                                      {editingRow === i ? (
-                                          <input
-                                              type="text"
-                                              value={editedRoleName}
-                                              onChange={(e) =>
-                                                  setEditedRoleName(
-                                                      e.target.value
-                                                  )
-                                              }
-                                          />
-                                      ) : (
-                                          item.rolename
-                                      )}
-                                  </td>
-                              </tr>
-                          ))}
+                    {Array.isArray(filteredData) && filteredData.map((item, i) => (
+                        <tr key={i}>
+                            <td>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="view"
+                                    onChange={() =>
+                                        toggleRowSelection(item.id)
+                                    }
+                                    checked={selectedRows.includes(
+                                        item.id
+                                    )}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faEllipsisH}
+                                    style={{
+                                        cursor: "pointer",
+                                        marginLeft: "10px",
+                                    }}
+                                    onClick={(e) =>
+                                        handleCellClick(e, item)
+                                    }
+                                />
+                            </td>
+                            <td>
+                                {editingRow === i ? (
+                                    <input
+                                        type="text"
+                                        value={editedRoleName}
+                                        onChange={(e) =>
+                                            setEditedRoleName(
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                ) : (
+                                    item.rolename
+                                )}
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
