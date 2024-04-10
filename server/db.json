@@ -1,83 +1,39 @@
 {
   "Roles": [
     {
-      "rolecode": "76tyvf",
-      "rolename": "kljui",
+      "id": "76f4",
+      "rolecode": "676xsd",
+      "rolename": "bnbn",
       "privileges": [
-        "viewAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "698f",
+      "rolecode": "787878vg",
+      "rolename": "tesrtd",
+      "privileges": [
+        "viewAccess"
+      ]
+    },
+    {
+      "rolecode": "787878cd",
+      "rolename": "test now",
+      "privileges": [
         "createAccess",
-        "deleteAccess",
+        "viewAccess"
+      ],
+      "id": "88ae"
+    },
+    {
+      "rolecode": "567",
+      "rolename": "test 34",
+      "privileges": [
+        "createAccess",
+        "viewAccess",
         "updateAccess"
       ],
-      "id": "73d5"
-    },
-    {
-      "rolename": "new officer 298",
-      "id": "da2e"
-    },
-    {
-      "rolename": "new 2",
-      "id": "ffa2"
-    },
-    {
-      "id": "d857",
-      "rolecode": "763243cd",
-      "rolename": "new role",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "f25b",
-      "rolecode": "5656",
-      "rolename": "test",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "7506",
-      "rolecode": "676745",
-      "rolename": "bhbhs",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "fe5a",
-      "rolecode": "4567cd",
-      "rolename": "view officer",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "fb92",
-      "rolecode": "2345cd",
-      "rolename": "view officer",
-      "privileges": [
-        "viewAccess"
-      ]
-    },
-    {
-      "id": "d9ac",
-      "rolecode": "34567cd",
-      "rolename": "test",
-      "privileges": [
-        "updateAccess",
-        "viewAccess"
-      ]
-    },
-    {
-      "id": "8def",
-      "rolecode": "yuyu77",
-      "rolename": "bhbhbh",
-      "privileges": [
-        "updateAccess",
-        "viewAccess"
-      ]
+      "id": "60af"
     }
   ],
   "groupcreation": [

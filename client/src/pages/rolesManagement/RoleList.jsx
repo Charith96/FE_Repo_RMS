@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash, faPencilAlt, faEllipsisV, faSearch , faEllipsisH} from "@fortawesome/free-solid-svg-icons";
 import TitleActionBar from "../../components/TitleActionsBar";
-import { fetchRoles, deleteRole, updateRole } from '../../store/actions/RolesAction'; // Importing axios methods
+import { fetchRoles, deleteRole, updateRole } from '../../store/actions/RolesAction';
 import { Button, Form, InputGroup } from "react-bootstrap";
-import {
-    faTimes,
-   
-  } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import ReservationGroupTable from "../../components/table/DataTableComponent";
 
 function RoleList() {
     const navigate = useNavigate();
@@ -19,6 +17,7 @@ function RoleList() {
     const [searchValue, setSearchValue] = useState("");
     const [isFiltered, setIsFiltered] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
+    
 
     useEffect(() => {
         fetchData();
@@ -38,7 +37,7 @@ function RoleList() {
         setEditedRoleName(data[rowId].rolename);
     };
 
-    const handleSave = () => {
+     const handleSave = () => {
         const updatedData = [...data];
         updatedData[editingRow].rolename = editedRoleName;
         updateRole(updatedData[editingRow].id, { rolename: editedRoleName })
@@ -78,6 +77,7 @@ function RoleList() {
         }
     };
 
+
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
         setSearchValue(inputValue);
@@ -98,11 +98,10 @@ function RoleList() {
         setFilteredData(data);
     };
 
-  
     const handleCellClick = (e, item) => {
         navigate("/rolesManagement/RoleOverview", { state: { roleData: item } });
     };
-    
+
     return (
         <div className="mb-5 mx-2">
           <TitleActionBar
@@ -140,78 +139,41 @@ function RoleList() {
             </InputGroup>
           </div>
       
-          <table className="table" border={1}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Role name</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isFiltered
-                ? filteredData.map((item, i) => (
-                  <tr key={i}>
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="view"
-                        onChange={() => toggleRowSelection(item.id)}
-                        checked={selectedRows.includes(item.id)}
-                      />
-                      <FontAwesomeIcon
-                        icon={faEllipsisH}
-                        style={{ cursor: "pointer", marginLeft: "10px" }}
-                        onClick={(e) => handleCellClick(e, item)}
-                      />
-                    </td>
-                    <td>
-                      {editingRow === item.id ? (
-                        <input
-                          type="text"
-                          value={editedRoleName}
-                          onChange={(e) => setEditedRoleName(e.target.value)}
-                        />
-                      ) : (
-                        item.rolename
-                      )}
-                    </td>
-                  </tr>
-                ))
-                : data.map((item, i) => (
-                  <tr key={i}>
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="view"
-                        onChange={() => toggleRowSelection(item.id)}
-                        checked={selectedRows.includes(item.id)}
-                      />
-                      <FontAwesomeIcon
-                        icon={faEllipsisH}
-                        style={{ cursor: "pointer", marginLeft: "10px" }}
-                        onClick={(e) => handleCellClick(e, item)}
-                      />
-                    </td>
-                    <td>
-                      {editingRow === item.id ? (
-                        <input
-                          type="text"
-                          value={editedRoleName}
-                          onChange={(e) => setEditedRoleName(e.target.value)}
-                        />
-                      ) : (
-                        item.rolename
-                      )}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <ReservationGroupTable
+          // selectableRows={true}
+            setSelectedRows={setSelectedRows}
+            paginatedData={isFiltered ? filteredData : data}
+            columns={[
+                {
+              
+                selector: (row) => (
+                  <div>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      name="view"
+                      onChange={() => toggleRowSelection(row.id)}
+                      checked={selectedRows.includes(row.id)}
+                    />
+                    <FontAwesomeIcon
+                      icon={faEllipsisH}
+                      style={{ cursor: "pointer", marginLeft: "10px" }}
+                      onClick={(e) => handleCellClick(e, row)}
+                    />
+                  </div>
+                ),
+              },
+              {
+                name: "Role name",
+                selector: (row) => row.rolename,
+                sortable: true,
+              },
+            
+            ]}
+            handleCellClick={handleCellClick}
+          />
         </div>
-      );
-      
+    );
 }
 
 export default RoleList;
