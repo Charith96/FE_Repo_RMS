@@ -10,8 +10,8 @@ function CreateRole() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [rolecode, setRoleCode] = useState('');
-    const [rolename, setRoleName] = useState('');
+    const [roleCode, setRoleCode] = useState('');
+    const [roleName, setRoleName] = useState('');
     const [privileges, setPrivileges] = useState([]);
 
     const handleRoleCodeChange = (e) => {
@@ -35,23 +35,29 @@ function CreateRole() {
         event.preventDefault();
 
         try {
+            // Basic validation
+            if (!roleCode || !roleName) {
+                console.error('Role code and role name are required.');
+                return;
+            }
+
             await dispatch(createRole({
-                rolecode,
-                rolename,
-               
-               
-               
-               
-               
-               
+                roleCode,
+                roleName,
                 privileges,
             }));
             console.log('Role created successfully');
-            navigate('/rolesManagement/RoleList', { state: { roleName: rolename } });
+           
+            // After role creation success
+            navigate('/rolesManagement/RoleList', { state: { roleName } });
+
         } catch (error) {
             console.error('Error creating role:', error);
+            // Show error message to the user
         }
     };
+
+    const privilegesList = ['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'];
 
     return (
         <Row>
@@ -72,14 +78,14 @@ function CreateRole() {
                     <TextField
                         label="Role Code"
                         type="text"
-                        value={rolecode}
+                        value={roleCode}
                         onChange={handleRoleCodeChange}
                         maxLength={8}
                     />
                     <TextField
                         label="Role Name"
                         type="text"
-                        value={rolename}
+                        value={roleName}
                         onChange={handleRoleNameChange}
                         maxLength={20}
                     />
@@ -92,12 +98,17 @@ function CreateRole() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
+                                {privilegesList.map(privilege => (
                                     <tr key={privilege}>
                                         <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
                                         <td>
-                                            <input className="form-check-input" type="checkbox" name={privilege}
-                                                checked={privileges.includes(privilege)} onChange={handleCheckboxChange} />
+                                            <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                name={privilege}
+                                                checked={privileges.includes(privilege)}
+                                                onChange={handleCheckboxChange}
+                                            />
                                         </td>
                                     </tr>
                                 ))}

@@ -110,6 +110,15 @@
       "privileges": [
         "updateAccess"
       ]
+    },
+    {
+      "id": "bd2b",
+      "rolecode": "7897",
+      "rolename": "mkmkmj",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
     }
   ],
   "groupcreation": [

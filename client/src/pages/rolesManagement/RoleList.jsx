@@ -13,7 +13,7 @@ import {
     faEllipsisV,
     faEllipsisH,
     faMagnifyingGlass,
-    faXmark,
+    faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
 function RoleList() {
@@ -41,8 +41,14 @@ function RoleList() {
         setFilteredData(roles);
     }, [roles]);
 
-    const handleDelete = (roleId) => {
-        dispatch(deleteRole(roleId));
+    const handleDelete = async (roleId) => {
+        try {
+            await dispatch(deleteRole(roleId));
+            dispatch(fetchRoles());
+        } catch (error) {
+            console.error('Error deleting role:', error);
+            // Handle error gracefully, e.g., show error message to user
+        }
     };
 
     const toggleRowSelection = (rowId) => {
@@ -59,29 +65,32 @@ function RoleList() {
         setEditedRoleName(filteredData[rowId].rolename);
     };
 
-    const handleSave = () => {
-        const updatedData = [...filteredData];
-        updatedData[editingRow].rolename = editedRoleName;
+    const handleSave = async () => {
+        try {
+            const updatedData = [...filteredData];
+            updatedData[editingRow].rolename = editedRoleName;
 
-        dispatch(updateRole(updatedData[editingRow].id, updatedData[editingRow])).then(() => {
+            await dispatch(updateRole(updatedData[editingRow].id, updatedData[editingRow]));
             setEditingRow(null);
             dispatch(fetchRoles());
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error updating role:', error);
-        });
+            // Handle error gracefully, e.g., show error message to user
+        }
     };
 
-    const handleCreate = () => {
-        // Implement create role functionality
-        const newRoleData = {
-            rolename: 'New Role', // Modify as per your requirement
-            // Add other necessary fields here
-        };
-        dispatch(createRole(newRoleData)).then(() => {
+    const handleCreate = async () => {
+        try {
+            const newRoleData = {
+                rolename: 'New Role', // Modify as per your requirement
+                // Add other necessary fields here
+            };
+            await dispatch(createRole(newRoleData));
             dispatch(fetchRoles());
-        }).catch((error) => {
+        } catch (error) {
             console.error('Error creating role:', error);
-        });
+            // Handle error gracefully, e.g., show error message to user
+        }
     };
 
     const handleEditIconClick = () => {
@@ -128,7 +137,7 @@ function RoleList() {
                 Title={"Roles List"}
                 PlusAction={handleCreate}
                 SaveAction={handleSave}
-                DeleteAction={handleDelete}
+                DeleteAction={() => handleDelete(selectedRows)}
                 MoreOptionsAction={handleMoreOptions}
                 EditAction={handleEditIconClick}
                 SaveIcon={<FontAwesomeIcon icon={faSave} />}
@@ -154,7 +163,7 @@ function RoleList() {
                                 id="button-addon2"
                                 onClick={clearFilter}
                             >
-                                <FontAwesomeIcon icon={faXmark} size="lg" />
+                                <FontAwesomeIcon icon={faTimes} size="lg" />
                             </Button>
                         ) : (
                             <Button
@@ -178,7 +187,7 @@ function RoleList() {
                 </thead>
                 <tbody>
                     {Array.isArray(filteredData) && filteredData.map((item, i) => (
-                        <tr key={i}>
+                        <tr key={item.id}>
                             <td>
                                 <input
                                     className="form-check-input"
