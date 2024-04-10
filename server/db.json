@@ -1,13 +1,15 @@
 {
   "Roles": [
     {
-      "id": "73d5",
       "rolecode": "76tyvf",
       "rolename": "kljui",
       "privileges": [
-        "updateAccess",
-        "viewAccess"
-      ]
+        "viewAccess",
+        "createAccess",
+        "deleteAccess",
+        "updateAccess"
+      ],
+      "id": "73d5"
     },
     {
       "rolename": "new officer 298",
@@ -69,55 +71,12 @@
       ]
     },
     {
-      "id": "a5bf",
-      "rolecode": "78677777",
-      "rolename": "njhhfasasddddddddddd",
+      "id": "8def",
+      "rolecode": "yuyu77",
+      "rolename": "bhbhbh",
       "privileges": [
-        "createAccess",
         "updateAccess",
         "viewAccess"
-      ]
-    },
-    {
-      "id": "b40e",
-      "rolecode": "78787",
-      "rolename": "gg",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "820a",
-      "rolecode": "57575",
-      "rolename": "bnjnjh",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "7a98",
-      "rolecode": "654",
-      "rolename": "tetsd",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "95f1",
-      "rolecode": "66767tgt",
-      "rolename": "vgfgfhgh",
-      "privileges": [
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "bd2b",
-      "rolecode": "7897",
-      "rolename": "mkmkmj",
-      "privileges": [
-        "createAccess",
-        "updateAccess"
       ]
     }
   ],

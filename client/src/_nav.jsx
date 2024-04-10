@@ -134,19 +134,19 @@ const _nav = [
             ),
             to: "/rolesManagement/RoleList",
           },
-          {
-            component: CNavItem,
-            name: "Roles Overview",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faUser}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-            ),
-            to: "/rolesManagement/RoleOverview",
-          },
+          //{
+            //component: CNavItem,
+            //name: "Roles Overview",
+            //icon: <i className="ps-2" />,
+            //quicknavicon: (
+              //<FontAwesomeIcon
+                //icon={faUser}
+                //size="2x"
+                //className="nav-icon pb-0 pt-3"
+              ///>
+            //),
+            //to: "/rolesManagement/RoleOverview",
+          //},
 
           
         ],

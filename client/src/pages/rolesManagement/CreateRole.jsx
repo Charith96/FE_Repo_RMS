@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createRole } from '../../store/actions/RolesAction';
 import { useNavigate } from 'react-router-dom';
 import { Form, Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import FormButton from '../../components/FormButton';
+import { createRole } from '../../store/actions/RolesAction';
 
 function CreateRole() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [roleCode, setRoleCode] = useState('');
-    const [roleName, setRoleName] = useState('');
+    const [rolecode, setRoleCode] = useState('');
+    const [rolename, setRoleName] = useState('');
     const [privileges, setPrivileges] = useState([]);
 
     const handleRoleCodeChange = (e) => {
@@ -33,34 +31,21 @@ function CreateRole() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         try {
-            // Basic validation
-            if (!roleCode || !roleName) {
-                console.error('Role code and role name are required.');
-                return;
-            }
-
-            await dispatch(createRole({
-                roleCode,
-                roleName,
-                privileges,
-            }));
+            await createRole(rolecode, rolename, privileges);
             console.log('Role created successfully');
-           
-            // After role creation success
-            navigate('/rolesManagement/RoleList', { state: { roleName } });
-
+            navigate('/rolesManagement/RoleList', { state: { roleName: rolename } });
         } catch (error) {
             console.error('Error creating role:', error);
-            // Show error message to the user
         }
     };
-
-    const privilegesList = ['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'];
+    
 
     return (
+    
         <Row>
+            <h3>Create Role</h3>
             <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
             <Col
                 xs={12}
@@ -71,21 +56,19 @@ function CreateRole() {
                 xxl={10}
                 className="body-content px-5 pt-4 pb-4 mb-5"
             >
-                <div>
-                    <h3>Create Role</h3>
-                </div>
+                
                 <Form onSubmit={handleSubmit}>
                     <TextField
                         label="Role Code"
                         type="text"
-                        value={roleCode}
+                        value={rolecode}
                         onChange={handleRoleCodeChange}
                         maxLength={8}
                     />
                     <TextField
                         label="Role Name"
                         type="text"
-                        value={roleName}
+                        value={rolename}
                         onChange={handleRoleNameChange}
                         maxLength={20}
                     />
@@ -98,17 +81,12 @@ function CreateRole() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {privilegesList.map(privilege => (
+                                {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
                                     <tr key={privilege}>
                                         <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
                                         <td>
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                name={privilege}
-                                                checked={privileges.includes(privilege)}
-                                                onChange={handleCheckboxChange}
-                                            />
+                                            <input className="form-check-input" type="checkbox" name={privilege}
+                                                checked={privileges.includes(privilege)} onChange={handleCheckboxChange} />
                                         </td>
                                     </tr>
                                 ))}
