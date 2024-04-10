@@ -1,6 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSave, faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faSave,
+  faTrash,
+  faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 function CustomerOverviewSecondTab() {
   const data = [
@@ -29,44 +34,31 @@ function CustomerOverviewSecondTab() {
 
   return (
     <div className="App">
-     
-
-        <table className="table" >
-          <thead>
-            <tr>
-              <th scope="col" >
-                Reservation ID
-              </th>
-              <th scope="col" >
-                Item ID
-              </th>
-              <th scope="col" >
-                Date
-              </th>
-              <th scope="col" >
-                Time Duration
-              </th>
-              <th scope="col" >
-                Select
-              </th>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Reservation ID</th>
+            <th scope="col">Item ID</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time Duration</th>
+            <th scope="col">Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item.id}>
+              <td>{item.reservationId}</td>
+              <td>{item.itemId}</td>
+              <td>{item.date}</td>
+              <td>{item.timeDuration}</td>
+              <td style={{ display: "flex", alignItems: "center" }}>
+                <input type="checkbox" style={{ marginRight: "5px" }} />
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.reservationId}</td>
-                <td>{item.itemId}</td>
-                <td>{item.date}</td>
-                <td>{item.timeDuration}</td>
-                <td style={{ display: "flex", alignItems: "center" }}>
-                  <input type="checkbox" style={{ marginRight: "5px" }} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

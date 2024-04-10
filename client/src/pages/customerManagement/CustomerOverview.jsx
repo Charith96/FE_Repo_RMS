@@ -9,12 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCustomers,
   fetchCustomer,
-  updateCustomer
-} from "../../store/actions/customerActions"
+  updateCustomer,
+} from "../../store/actions/customerActions";
 import { selectCustomer } from "../../store/Store";
 
 const CustomerOverview = () => {
-
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(false);
@@ -31,10 +30,7 @@ const CustomerOverview = () => {
   const paramData = JSON.parse(data);
   const mode = state ? state.mode : null;
 
-
   useEffect(() => {
-    
-
     if (selectedRecords === 1 && disableEdit && !isEdit) {
       setDisableEdit(false);
       setDisableDelete(false);
@@ -42,11 +38,8 @@ const CustomerOverview = () => {
       setDisableEdit(true);
       setDisableDelete(true);
     }
-  
+  }, [isAdd, isEdit, isSave, isDelete, disableEdit, selectedRecords, data]);
 
-  }, [isAdd, isEdit, isSave, isDelete, disableEdit,selectedRecords,data]);
-
-  
   // handle tab view
   const toggleTab = (index) => {
     setToggleState(index);
@@ -101,7 +94,10 @@ const CustomerOverview = () => {
     {
       name: "General",
       content: paramData ? (
-        <CustomerOverviewGeneral customer={paramData} mode={state && state.mode} />
+        <CustomerOverviewGeneral
+          customer={paramData}
+          mode={state && state.mode}
+        />
       ) : null,
     },
     {
@@ -140,7 +136,7 @@ const CustomerOverview = () => {
         }}
       />
 
-<TabStructure
+      <TabStructure
         tabs={tabs}
         toggleState={toggleState}
         toggleTab={setToggleState}

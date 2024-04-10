@@ -7,10 +7,16 @@ import { useParams } from "react-router-dom";
 import {
   fetchCustomers,
   deleteCustomer,
-  fetchCustomer
+  fetchCustomer,
 } from "../../store/actions/customerActions";
 
-import { faArrowUpRightFromSquare, faEdit, faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faEdit,
+  faEllipsisH,
+  faMagnifyingGlass,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -22,10 +28,10 @@ import { selectCustomer } from "../../store/Store";
 const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const customer = useSelector(selectCustomer)
+  const customer = useSelector(selectCustomer);
   const customers = useSelector((state) => state.customerReducer.customers);
   let { value } = useParams();
-  
+
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -47,25 +53,23 @@ const CustomerList = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
- 
   useEffect(() => {
     dispatch(fetchCustomers());
     if (deleteCustomer) {
       dispatch(fetchCustomers());
     }
   }, []);
-  
 
   useEffect(() => {
     dispatch(fetchCustomers()).then(() => {
       if (customers && customers.length > 0 && !isFiltered) {
         setFilteredData(customers);
-        
+
         const start = currentPage * perPage;
         const end = start + perPage;
         const slicedData = customers?.slice(start, end);
         setPaginatedData(slicedData);
-  
+
         if (selectedRows.length === 1) {
           setIsDeleteDisable(false);
         } else {
@@ -74,14 +78,16 @@ const CustomerList = () => {
       }
     });
   }, [customers, currentPage, perPage, selectedRows, isFiltered]);
-  
 
   const columns = [
     {
       name: "",
       cell: (row) => (
         <div className="cell-actions">
-          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
+          <span
+            className="ellipsis tree-dots"
+            onClick={(e) => handleCellClick(e, row)}
+          >
             <FontAwesomeIcon icon={faEllipsisH} />
           </span>
         </div>
@@ -104,8 +110,7 @@ const CustomerList = () => {
       selector: (row) => row.identifier,
       sortable: true,
       grow: 2,
-    }, 
-  
+    },
 
     {
       name: "Address",
@@ -124,7 +129,7 @@ const CustomerList = () => {
       selector: (row) => row.contactNo,
       sortable: true,
       grow: 2,
-    }
+    },
   ];
 
   const handleCellClick = (e, row) => {
@@ -136,12 +141,14 @@ const CustomerList = () => {
 
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id ,
-        fullName:contextMenuRow.fullName ,
-        identifier:contextMenuRow.identifier,
-        address:contextMenuRow.address,
-        email:contextMenuRow.email,
-        contactNo:contextMenuRow.contactNo};
+      let data = {
+        id: contextMenuRow.id,
+        fullName: contextMenuRow.fullName,
+        identifier: contextMenuRow.identifier,
+        address: contextMenuRow.address,
+        email: contextMenuRow.email,
+        contactNo: contextMenuRow.contactNo,
+      };
 
       let dataString = JSON.stringify(data);
       navigate(
@@ -152,19 +159,21 @@ const CustomerList = () => {
       );
     }
   };
-  
+
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id ,
-        fullName:contextMenuRow.fullName ,
-        identifier:contextMenuRow.identifier,
-        address:contextMenuRow.address,
-        email:contextMenuRow.email,
-        contactNo:contextMenuRow.contactNo};
+      let data = {
+        id: contextMenuRow.id,
+        fullName: contextMenuRow.fullName,
+        identifier: contextMenuRow.identifier,
+        address: contextMenuRow.address,
+        email: contextMenuRow.email,
+        contactNo: contextMenuRow.contactNo,
+      };
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
-         dataString
+          dataString
         )}`,
         { state: { mode: "view" } }
       );
@@ -191,12 +200,9 @@ const CustomerList = () => {
       setFilteredData(customers);
     } else {
       const filtered = customers.filter((item) =>
-        item.id
-          ?.toString()
-          .toLowerCase()
-          .includes(searchTerm?.toLowerCase())
+        item.id?.toString().toLowerCase().includes(searchTerm?.toLowerCase())
       );
-        
+
       setIsFiltered(true);
       setFilteredData(filtered);
     }

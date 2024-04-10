@@ -3,29 +3,27 @@ import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
-
 import {
-  fetchCustomers,
-  deleteCustomer,
-  fetchCustomer
-} from "../../store/actions/customerActions";
-
-import { faArrowUpRightFromSquare, faEdit, faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
-
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import TitleActionBar from "../../components/TitleActionsBar";
+  fetchReservation,
+  deleteReservation,
+  updateReservationData,
+  updateReservations,
+} from "../../store/actions/ReservationAction";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { selectCustomer } from "../../store/Store";
+import { Row } from "react-bootstrap";
+import TitleActionBar from "../../components/TitleActionsBar";
+import ActionTypes from "../../data/ReduxActionTypes";
 
 const ItemInformation = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const customer = useSelector(selectCustomer)
-  const customers = useSelector((state) => state.customerReducer.customers);
-  let { value } = useParams();
-  
+  // Dummy data for testing
+  const dummyReservations = [
+    { id: 1, customerId: 101, timeSlot: "10:00 AM", date: "2024-04-10" },
+    { id: 2, customerId: 102, timeSlot: "11:00 AM", date: "2024-04-11" },
+    // Add more dummy reservation data as needed
+  ];
+  const [reservations, setReservations] = useState(dummyReservations);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -47,92 +45,61 @@ const ItemInformation = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
- 
   useEffect(() => {
-    dispatch(fetchCustomers());
-    if (deleteCustomer) {
-      dispatch(fetchCustomers());
-    }
+    // Fetch reservation data from the backend
+    dispatch(fetchReservation());
   }, []);
-  
 
   useEffect(() => {
-    dispatch(fetchCustomers()).then(() => {
-      if (customers && customers.length > 0 && !isFiltered) {
-        setFilteredData(customers);
-        
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = customers?.slice(start, end);
-        setPaginatedData(slicedData);
-  
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
-      }
-    });
-  }, [customers, currentPage, perPage, selectedRows, isFiltered]);
-  
+    // Update paginated and filtered data based on reservations
+    setFilteredData(reservations);
+    const start = currentPage * perPage;
+    const end = start + perPage;
+    const slicedData = reservations?.slice(start, end);
+    setPaginatedData(slicedData);
+    if (selectedRows.length === 1) {
+      setIsDeleteDisable(false);
+    } else {
+      setIsDeleteDisable(true);
+    }
+  }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
 
   const columns = [
     {
-      name: "",
-      cell: (row) => (
-        <div className="cell-actions">
-         
-        </div>
-      ),
-    },
-    {
-      name: "Item Id",
+      name: "Reservation Id",
       selector: (row) => row.id,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Date",
-      selector: (row) => row.fullName,
+      name: "Customer Id",
+      selector: (row) => row.customerId,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Time slot",
-      selector: (row) => row.identifier,
+      name: "Time Slot",
+      selector: (row) => row.timeSlot,
       sortable: true,
       grow: 2,
-    }, 
-  
-
+    },
     {
-      name: "No. of people",
-      selector: (row) => row.address,
+      name: "Date",
+      selector: (row) => row.date,
       sortable: true,
       grow: 2,
-    }
+    },
+    // Other columns for reservation details
   ];
-
-  const handleCellClick = (e, row) => {
-    e.preventDefault();
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
-    setMenuVisible(true);
-    setContextMenuRow(row);
-  };
-
- 
-  
- 
- 
-     
 
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCustomer(selectedRows[0]?.id));
-        toast.success("Record Successfully deleted!");
+        // Here you may need to adjust the logic based on your actual delete function
+        dispatch(deleteReservation(selectedRows[0]?.id));
+        toast.success("Reservation successfully deleted!");
       } catch (error) {
-        toast.error("Error deleting row. Please try again.");
+        toast.error("Error deleting reservation. Please try again.");
       } finally {
         setShowConfirmation(false);
       }
@@ -140,7 +107,7 @@ const ItemInformation = () => {
   };
 
   const handleCreate = () => {
-    navigate("/customerManagement/CustomerCreation");
+    // Navigate to reservation creation page
   };
 
   const handleDelete = () => {
@@ -157,7 +124,7 @@ const ItemInformation = () => {
 
   const clearFilter = () => {
     setSearchTerm("");
-    dispatch(fetchCustomers());
+    dispatch(fetchReservation());
     setIsFiltered(false);
     setCurrentPage(0);
   };
@@ -167,7 +134,7 @@ const ItemInformation = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        plustDisabled={isAddDisable}
+        plusDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
         deleteDisabled={isDeleteDisable}
@@ -177,13 +144,11 @@ const ItemInformation = () => {
         EditAction={() => {}}
         SaveAction={() => {}}
         DeleteAction={() => {
-         // handleDelete();
+          handleDelete();
         }}
       />
 
-      <Row>
-          
-      </Row>
+      <Row></Row>
       <ReservationGroupTable
         selectableRows={true}
         selectableRowsSingle={true}
@@ -203,14 +168,12 @@ const ItemInformation = () => {
         isSingleRecordSelected={isSingleRecordSelected}
       />
 
-      
-
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
         title={"Warning"}
         message={
-          "The selected Customer will be deleted. Do you wish to continue?"
+          "The selected reservation will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
         action={() => {
@@ -221,4 +184,4 @@ const ItemInformation = () => {
   );
 };
 
-export default ItemInformation ;
+export default ItemInformation;

@@ -3,7 +3,6 @@ import { Row, Col } from "react-bootstrap";
 import TextField from "../../components/TextField";
 
 const ItemInformation = () => {
-  
   return (
     <Row>
       <Col
@@ -16,16 +15,9 @@ const ItemInformation = () => {
         className="body-content px-5 pt-4 pb-4 mb-5"
       >
         <form>
-          <TextField
-            label="Reservation ID"
-            type="text"         
-          />
+          <TextField label="Reservation ID" type="text" />
 
-          <TextField
-            label="Customer ID"
-            type="text"
-           
-          />
+          <TextField label="Customer ID" type="text" />
         </form>
       </Col>
     </Row>
