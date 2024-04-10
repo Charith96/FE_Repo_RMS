@@ -1,18 +1,7 @@
 import axios from "axios";
 import { toastFunction } from "../../components/ToastComponent";
-import { BASE_URL, RESERVATION_URL } from "../../utils/Constants";
-import ActionTypes from "../../data/ReduxActionTypes";
-
-export const fetchReservations = () => async (dispatch) => {
-  try {
-    const response = await axios.get(`${BASE_URL}${RESERVATION_URL}`);
-    dispatch({ type: ActionTypes.GET_RESERVATION_SUCCESS, payload: response.data });
-    console.log("Data fetched successfully");
-  } catch (error) {
-    dispatch({ type: ActionTypes.GET_RESERVATION_FAIL, payload: error });
-    console.error("Error fetching data:", error);
-  }
-};
+import {  BASE_URL ,RESERVATION_URL,} from "../../utils/Constants";
+import ActionTypes from '../../data/ReduxActionTypes';
 
 export const  fetchReservationByItemId  = (id) => async (dispatch) => {
   try {

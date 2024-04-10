@@ -10,10 +10,6 @@ const initialState = {
 
 export const reservationReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ActionTypes.GET_RESERVATION_SUCCESS:
-          return { ...state, loading: false, reservations: action.payload, error: null };
-        case ActionTypes.GET_RESERVATION_FAIL:
-          return { ...state, loading: false, error: action.payload };
       case ActionTypes.GET_Reservation_REQUEST:
         return { ...state, loading: true, error: null };
       case ActionTypes.GET_Reservation_SUCCESS:
