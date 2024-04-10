@@ -44,6 +44,7 @@ const QuickNavigation = React.lazy(() =>
  const ReservationOverview = React.lazy(() =>
  import("./pages/reservationOverviewPart/ReservationOverview")
  );
+ 
 
 const routes = [
   // dashboard
@@ -109,6 +110,8 @@ const routes = [
       name: "ReservationOverview",
       element:ReservationOverview,
     },
+   
+
 
 
   // card layouts
@@ -137,6 +140,7 @@ const routes = [
     name: "Reservation Overview",
     element: QuickNavigation,
   },
+ 
 ];
 
 export default routes;

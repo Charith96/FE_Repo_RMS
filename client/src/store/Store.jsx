@@ -11,10 +11,28 @@ import {
   editReservationGroupFlagReducer,
   checkForDuplicatesReducer,
 } from "./reducers/ReservationGroupReducer";
+//import {
+  //createReservationItemReducer,
+ // createTimeSlotReducer,
+//} from "./reducers/ReservationItemReducer";
+
 import {
   createReservationItemReducer,
   createTimeSlotReducer,
+  editReservationItemReducer,
+  deleteReservationItemReducer,
+  getReservationItemByIdReducer,
+  getTimeSlotsByItemIdReducer,
+  deleteTimeSlotsByItemIdReducer,
+  editTimeSlotsByItemIdReducer,
+  getReservationItemReducer,
 } from "./reducers/ReservationItemReducer";
+
+
+import {
+  reservationReducer,
+} from "./reducers/ReservationReducer";
+
 
 import {
   manageTodoReducer,
@@ -48,6 +66,14 @@ const rootReducer = combineReducers({
   getToDoList: getToDoListReducer,
   getToInfoDoById: getToDoByIdReducer,
   deleteToDoInfo: deleteToDoReducer,
+
+   //reservation
+   reservation:reservationReducer,
+
+   // time slot
+   getTimeSlotsByItem:getTimeSlotsByItemIdReducer,
+   deleteTimeSlotsByItem:deleteTimeSlotsByItemIdReducer,
+   editTimeSlotsByItem:editTimeSlotsByItemIdReducer
 });
 
 export const store = createStore(

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectCustomer } from "../../store/Store";
 
-const CustomerList = () => {
+const ItemInformation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const customer = useSelector(selectCustomer)
@@ -221,4 +221,4 @@ const CustomerList = () => {
   );
 };
 
-export default CustomerList;
+export default ItemInformation ;
