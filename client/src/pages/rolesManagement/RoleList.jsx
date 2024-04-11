@@ -17,7 +17,6 @@ function RoleList() {
     const [searchValue, setSearchValue] = useState("");
     const [isFiltered, setIsFiltered] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
-    
 
     useEffect(() => {
         fetchData();
@@ -32,22 +31,33 @@ function RoleList() {
             .catch(err => console.log(err));
     };
 
-    const handleEdit = (rowId) => {
+    const handleEdit = (rowId, roleName) => {
         setEditingRow(rowId);
-        setEditedRoleName(data[rowId].rolename);
+        setEditedRoleName(roleName);
     };
 
-     const handleSave = () => {
-        const updatedData = [...data];
-        updatedData[editingRow].rolename = editedRoleName;
-        updateRole(updatedData[editingRow].id, { rolename: editedRoleName })
-            .then(res => {
-                console.log("Role name updated successfully.");
-                setEditingRow(null);
-                fetchData(); // Refetch data after update
-            })
-            .catch(err => console.log(err));
-    };
+    const handleSave = () => {
+      if (editingRow !== null) {
+          const updatedRole = data.find(item => item.id === editingRow);
+          if (updatedRole) {
+              const updatedData = data.map(item => {
+                  if (item.id === editingRow) {
+                      return { ...item, rolename: editedRoleName };
+                  }
+                  return item;
+              });
+  
+              updateRole(updatedRole.id, { rolename: editedRoleName })
+                  .then(res => {
+                      console.log("Role name updated successfully.");
+                      setData(updatedData); // Update local state with updated data
+                      setEditingRow(null);
+                  })
+                  .catch(err => console.log(err));
+          }
+      }
+  };
+  
 
     const handleDelete = () => {
         deleteRole(selectedRows)
@@ -72,7 +82,7 @@ function RoleList() {
         if (selectedRows.length === 1) {
             const selectedIndex = data.findIndex(item => item.id === selectedRows[0]);
             if (selectedIndex !== -1) {
-                handleEdit(selectedIndex);
+                handleEdit(selectedRows[0], data[selectedIndex].rolename);
             }
         }
     };
@@ -111,10 +121,6 @@ function RoleList() {
             DeleteAction={handleDelete}
             MoreOptionsAction={() => {/* Implement more options logic */}}
             EditAction={handleEditIconClick}
-            SaveIcon={<FontAwesomeIcon icon={faSave} />}
-            DeleteIcon={<FontAwesomeIcon icon={faTrash} />}
-            MoreOptionsIcon={<FontAwesomeIcon icon={faEllipsisV} />}
-            EditIcon={<FontAwesomeIcon icon={faPencilAlt} />}
           />
       
           <div className="mb-3">
@@ -140,12 +146,10 @@ function RoleList() {
           </div>
       
           <ReservationGroupTable
-          // selectableRows={true}
             setSelectedRows={setSelectedRows}
             paginatedData={isFiltered ? filteredData : data}
             columns={[
-                {
-              
+              {
                 selector: (row) => (
                   <div>
                     <input
@@ -165,7 +169,21 @@ function RoleList() {
               },
               {
                 name: "Role name",
-                selector: (row) => row.rolename,
+                selector: (row) => {
+                  if (editingRow === row.id) {
+                    return (
+                      <div>
+                        <input
+                          type="text"
+                          value={editedRoleName}
+                          onChange={(e) => setEditedRoleName(e.target.value)}
+                        />
+                      
+                      </div>
+                    );
+                  }
+                  return row.rolename;
+                },
                 sortable: true,
               },
             

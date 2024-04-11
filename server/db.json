@@ -1,39 +1,31 @@
 {
   "Roles": [
     {
-      "id": "76f4",
-      "rolecode": "676xsd",
-      "rolename": "bnbn",
-      "privileges": [
-        "deleteAccess"
-      ]
+      "rolename": "tem",
+      "id": "60af"
     },
     {
-      "id": "698f",
-      "rolecode": "787878vg",
-      "rolename": "tesrtd",
-      "privileges": [
-        "viewAccess"
-      ]
+      "rolename": "jnjnjnjmmmmmmmmmmmm",
+      "id": "9adb"
     },
     {
-      "rolecode": "787878cd",
-      "rolename": "test now",
-      "privileges": [
-        "createAccess",
-        "viewAccess"
-      ],
-      "id": "88ae"
+      "rolename": "njne",
+      "id": "cec6"
     },
     {
-      "rolecode": "567",
-      "rolename": "test 34",
+      "rolename": "mkkktest",
+      "id": "8ef3"
+    },
+    {
+      "rolecode": "4543wecd",
+      "rolename": "olady officerld ",
       "privileges": [
         "createAccess",
         "viewAccess",
-        "updateAccess"
+        "updateAccess",
+        "deleteAccess"
       ],
-      "id": "60af"
+      "id": "c5f7"
     }
   ],
   "groupcreation": [
