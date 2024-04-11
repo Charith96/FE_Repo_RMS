@@ -84,6 +84,20 @@ const _nav = [
             ),
             to: "/reservationManagement/reservation/createReservationItem",
           },
+
+          {
+            component: CNavItem,
+            name: "Items",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/reservationManagement/reservation/reservationItems",
+          },
         ],
       },
     ],

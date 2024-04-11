@@ -139,7 +139,7 @@ const ReservationItemTimeSlotList = ({
                 className="mr-2"
                 disabled={isViewMode}
               />
-              <span className="align-self-center">TO</span>
+              <span className="align-self-center">&nbsp;TO&nbsp;</span>
               <Form.Control
                 readOnly={duration ? true : false}
                 type="time"

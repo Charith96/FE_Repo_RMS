@@ -95,7 +95,7 @@ const ReservationItemTimeSlot = ({
               }}
               className="mr-2"
             />
-            <span className="align-self-center">TO</span>
+            <span className="align-self-center">&nbsp;TO&nbsp;</span>
             <Form.Control
               type="time"
               value={
