@@ -3,7 +3,7 @@ import React from "react";
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 // reservation group
-const ReservationList = React.lazy(() =>
+const ReservationsList = React.lazy(() =>
   import("./pages/reservationManagement/ReservationGroupList")
 );
 const CreateReservationGroup = React.lazy(() =>
@@ -43,6 +43,9 @@ const QuickNavigation = React.lazy(() =>
  //Resevation Overview
  const ReservationOverview = React.lazy(() =>
  import("./pages/reservationOverviewPart/ReservationOverview")
+ );
+ const ReservationList = React.lazy(() =>
+ import("./pages/reservationOverviewPart/ReservationList")
  );
  
 
@@ -110,7 +113,11 @@ const routes = [
       name: "ReservationOverview",
       element:ReservationOverview,
     },
-   
+    {
+      path: "/reservationOverviewPart/ReservationList",
+      name: "ReservationList",
+      element:ReservationList,
+    },
 
 
 
@@ -138,6 +145,11 @@ const routes = [
   {
     path: "/reservationOverviewPart",
     name: "Reservation Overview",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationOverviewPart",
+    name: "Reservation List",
     element: QuickNavigation,
   },
  

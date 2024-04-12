@@ -1,6 +1,6 @@
-/*import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReservation } from "../../store/actions/ReservationActions";
+import { fetchReservation } from "../../store/actions/ReservationAction";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ReservationGroupTable from "../../components/ReservationGroupTable";
+import ReservationGroupTable from "../../components/table/DataTableComponent";
 
 const ReservationList = () => {
   const dispatch = useDispatch();
@@ -128,4 +128,4 @@ const ReservationList = () => {
   );
 };
 
-export default ReservationList;*/
+export default ReservationList;
