@@ -67,8 +67,8 @@ const rootReducer = combineReducers({
   getToInfoDoById: getToDoByIdReducer,
   deleteToDoInfo: deleteToDoReducer,
 
-   //reservation
-   reservationReducer,
+    //reservation
+  reservation:reservationReducer,
 
    // time slot
    getTimeSlotsByItem:getTimeSlotsByItemIdReducer,

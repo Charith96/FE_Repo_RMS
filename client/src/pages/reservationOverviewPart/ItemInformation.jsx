@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+/*import React, { useEffect, useRef, useState } from "react";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -184,4 +184,4 @@ const ItemInformation = () => {
   );
 };
 
-export default ItemInformation;
+export default ItemInformation;*/

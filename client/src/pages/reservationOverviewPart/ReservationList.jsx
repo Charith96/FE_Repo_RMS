@@ -1,100 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReservation } from "../../store/actions/ReservationAction";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { fetchReservations, deleteReservation } from "../../store/actions/ReservationAction";
+import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
+import { faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import TitleActionBar from "../../components/TitleActionsBar";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import ReservationGroupTable from "../../components/table/DataTableComponent";
 
 const ReservationList = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const reservations = useSelector((state) => state.reservationReducer.reservations);
-  const [filteredReservations, setFilteredReservations] = useState([]);
-  const [selectedReservation, setSelectedReservation] = useState(null);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const reservations = useSelector((state) => state.reservation.reservations);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchReservation());
+    dispatch(fetchReservations());
   }, [dispatch]);
 
   useEffect(() => {
-    setFilteredReservations(reservations);
-  }, [reservations]);
-
-  const handleEdit = (id) => {
-    navigate(`/edit-reservation/${id}`);
-  };
-
-  const handleDelete = (id) => {
-    setSelectedReservation(id);
-    setShowConfirmation(true);
-  };
-
-  const handleConfirmDelete = () => {
-    if (selectedReservation) {
-      // Dispatch delete action here
-      setShowConfirmation(false);
-      toast.success("Reservation successfully deleted");
+    if (reservations.length > 0) {
+      setLoading(false);
     }
-  };
+  }, [reservations]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    if (e.target.value === "") {
-      setFilteredReservations(reservations);
-    } else {
-      const filtered = reservations.filter((reservation) =>
-        reservation.reservationID.toLowerCase().includes(e.target.value.toLowerCase())
-      );
-      setFilteredReservations(filtered);
-    }
+    setIsFiltered(e.target.value !== "");
   };
 
-  const columns = [
-    {
-      name: "Reservation ID",
-      selector: (row) => row.reservationID,
-    },
-    {
-      name: "Customer ID",
-      selector: (row) => row.customerID,
-    },
-    {
-      name: "Item ID",
-      selector: (row) => row.itemID,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <>
-          <Button variant="info" onClick={() => handleEdit(row.id)}>
-            <FontAwesomeIcon icon={faEdit} />
-          </Button>{" "}
-          <Button variant="danger" onClick={() => handleDelete(row.id)}>
-            <FontAwesomeIcon icon={faTrashAlt} />
-          </Button>
-        </>
-      ),
-    },
-  ];
+  const clearFilter = () => {
+    setSearchTerm("");
+    setIsFiltered(false);
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deleteReservation(id));
+  };
 
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
         Title={"Reservation List"}
-        deleteDisabled={selectedReservation === null}
-        DeleteAction={() => setShowConfirmation(true)}
+        deleteDisabled={true}
+        PlusAction={() => {}}
+        EditAction={() => {}}
+        SaveAction={() => {}}
+        DeleteAction={() => {}}
       />
+
       <Row>
         <div className="filter-box mb-5">
           <InputGroup className="w-25">
@@ -105,25 +58,47 @@ const ReservationList = () => {
               value={searchTerm}
               onChange={handleSearchChange}
             />
+            {isFiltered ? (
+              <Button variant="primary" className="form-btn" onClick={clearFilter}>
+                <FontAwesomeIcon icon={faXmark} size="lg" />
+              </Button>
+            ) : (
+              <Button variant="primary" className="form-btn" onClick={() => {}}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </Button>
+            )}
           </InputGroup>
         </div>
       </Row>
-      <ReservationGroupTable
-        selectableRows={true}
-        selectableRowsSingle={true}
-        // Add other props as needed
-        data={filteredReservations}
-        columns={columns}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={() => setShowConfirmation(false)}
-        title={"Warning"}
-        message={"Are you sure you want to delete this reservation?"}
-        action={handleConfirmDelete}
-      />
+
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Reservation ID</th>
+              <th>Customer ID</th>
+              <th>Time Slot</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="4">Loading reservations...</td>
+              </tr>
+            ) : (
+              reservations.map((reservation) => (
+                <tr key={reservation.reservationID}>
+                  <td>{reservation.reservationID}</td>
+                  <td>{reservation.customerID}</td>
+                  <td>{`${reservation.time1} - ${reservation.time2}`}</td> {/* Derive time slot from time1 and time2 */}
+                  <td>{reservation.date}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
