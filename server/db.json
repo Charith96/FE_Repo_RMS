@@ -69,28 +69,6 @@
   ],
   "reservations": [
     {
-      "id": "5c2a",
-      "reservationID": "zvwpuj",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-02",
-      "noOfPeople": "45",
-      "time1": "2024-04-02T23:01",
-      "time2": "2024-04-03T07:00"
-    },
-    {
-      "id": "d92e",
-      "reservationID": "zo6w8w",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "cricket ground",
-      "itemID": "6f68",
-      "date": "",
-      "noOfPeople": "45",
-      "time1": "2024-04-03T00:36",
-      "time2": "2024-04-04T00:36"
-    },
-    {
       "id": "92fc",
       "reservationID": "3y153h",
       "customerID": "hasinichamodi4@gmail.com",
@@ -102,15 +80,6 @@
       "time2": "2024-04-03T07:00"
     },
     {
-      "id": "ab20",
-      "reservationID": "f5l2l0",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
-    },
-    {
       "id": "9b29",
       "reservationID": "tj84v0",
       "customerID": "hasinichamodi4@gmail.com",
@@ -120,17 +89,6 @@
       "noOfPeople": "45",
       "time1": "2024-04-03T00:49",
       "time2": "2024-04-04T00:49"
-    },
-    {
-      "id": "a569",
-      "reservationID": "xei9we",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 5,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
     },
     {
       "id": "a519",
@@ -173,17 +131,6 @@
       "itemID": "3f85",
       "date": "2024-04-11",
       "noOfPeople": 5,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
-    {
-      "id": "a969",
-      "reservationID": "xeo7we",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 1,
       "time1": "2024-04-11T23:01",
       "time2": "2024-04-12T07:00"
     },

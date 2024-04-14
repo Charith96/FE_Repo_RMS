@@ -1,187 +1,119 @@
-/*import React, { useEffect, useRef, useState } from "react";
-import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
-import {
-  fetchReservation,
-  deleteReservation,
-  updateReservationData,
-  updateReservations,
-} from "../../store/actions/ReservationAction";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { Row } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchReservations, deleteReservation, updateReservation } from "../../store/actions/ReservationAction";
+import { Row, Col } from "react-bootstrap";
+import TextField from "../../components/TextField";
 import TitleActionBar from "../../components/TitleActionsBar";
-import ActionTypes from "../../data/ReduxActionTypes";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { toast } from "react-toastify";
 
-const ItemInformation = () => {
+const ItemInformation = ({ reservationData, mode }) => {
+  const { reservationID, date, noOfPeople, itemID ,time1_time2} = reservationData || {}; 
   const dispatch = useDispatch();
-  // Dummy data for testing
-  const dummyReservations = [
-    { id: 1, customerId: 101, timeSlot: "10:00 AM", date: "2024-04-10" },
-    { id: 2, customerId: 102, timeSlot: "11:00 AM", date: "2024-04-11" },
-    // Add more dummy reservation data as needed
-  ];
-  const [reservations, setReservations] = useState(dummyReservations);
-  const [paginatedData, setPaginatedData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [filteredReservationData, setFilteredReservationData] = useState(reservationData);
+  const [editMode, setEditMode] = useState(mode === "edit");
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-  const [contextMenuRow, setContextMenuRow] = useState(null);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [perPage, setPerPage] = useState(5);
-  const totalItems = filteredData.length;
-  const toggledClearRows = useRef(false);
 
   useEffect(() => {
-    // Fetch reservation data from the backend
-    dispatch(fetchReservation());
+    if (!editMode) {
+      fetchReservationData();
+    }
   }, []);
 
-  useEffect(() => {
-    // Update paginated and filtered data based on reservations
-    setFilteredData(reservations);
-    const start = currentPage * perPage;
-    const end = start + perPage;
-    const slicedData = reservations?.slice(start, end);
-    setPaginatedData(slicedData);
-    if (selectedRows.length === 1) {
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
+  const fetchReservationData = async () => {
+    try {
+      // Fetch reservation data based on reservationID
+      await dispatch(fetchReservations(reservationID));
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
-
-  const columns = [
-    {
-      name: "Reservation Id",
-      selector: (row) => row.id,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Customer Id",
-      selector: (row) => row.customerId,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Time Slot",
-      selector: (row) => row.timeSlot,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-      sortable: true,
-      grow: 2,
-    },
-    // Other columns for reservation details
-  ];
-
-  const confirmDelete = () => {
-    if (selectedRows.length === 1) {
-      try {
-        // Here you may need to adjust the logic based on your actual delete function
-        dispatch(deleteReservation(selectedRows[0]?.id));
-        toast.success("Reservation successfully deleted!");
-      } catch (error) {
-        toast.error("Error deleting reservation. Please try again.");
-      } finally {
-        setShowConfirmation(false);
-      }
-    }
-  };
-
-  const handleCreate = () => {
-    // Navigate to reservation creation page
   };
 
   const handleDelete = () => {
     setShowConfirmation(true);
   };
 
-  const cancelDelete = () => {
-    setShowConfirmation(false);
+  const confirmDelete = () => {
+    try {
+      // Delete reservation based on reservationID
+      dispatch(deleteReservation(reservationID));
+      toast.success("Record Successfully deleted!");
+    } catch (error) {
+      toast.error("Error deleting row. Please try again.");
+    } finally {
+      setShowConfirmation(false);
+    }
   };
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+  const handleSubmit = async () => {
+    try {
+      // Update reservation based on reservationID
+      await dispatch(updateReservation(reservationID, filteredReservationData));
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
   };
 
-  const clearFilter = () => {
-    setSearchTerm("");
-    dispatch(fetchReservation());
-    setIsFiltered(false);
-    setCurrentPage(0);
-  };
-
-  const isSingleRecordSelected = selectedRows.length === 1 && false;
+  // Check if reservationData exists
+  if (!reservationData) {
+    return <div>No reservation data available.</div>;
+  }
 
   return (
-    <div className="mb-5 mx-2">
-      <TitleActionBar
-        plusDisabled={isAddDisable}
-        editDisabled={isEditDisable}
-        saveDisabled={isSaveDisable}
-        deleteDisabled={isDeleteDisable}
-        PlusAction={() => {
-          handleCreate();
-        }}
-        EditAction={() => {}}
-        SaveAction={() => {}}
-        DeleteAction={() => {
-          handleDelete();
-        }}
-      />
-
-      <Row></Row>
-      <ReservationGroupTable
-        selectableRows={true}
-        selectableRowsSingle={true}
-        setPerPage={setPerPage}
-        setCurrentPage={setCurrentPage}
-        setSelectedRows={setSelectedRows}
-        setMenuVisible={setMenuVisible}
-        paginatedData={paginatedData}
-        filteredData={filteredData}
-        totalItems={totalItems}
-        currentPage={currentPage}
-        perPage={perPage}
-        columns={columns}
-        menuVisible={menuVisible}
-        contextMenuPosition={contextMenuPosition}
-        toggledClearRows={toggledClearRows}
-        isSingleRecordSelected={isSingleRecordSelected}
-      />
-
+    <>
+      <Row>
+        <Col>
+          <TitleActionBar
+            Title={""}
+            plustDisabled={true}
+            editDisabled={true}
+            saveDisabled={true}
+            deleteDisabled={true}
+            //EditAction={() => setEditMode(true)}
+            //DeleteAction={handleDelete}
+            //SaveAction={handleSubmit}
+          />
+          <div style={{ margin: 10, padding: 20 }}>
+            {/* Display Reservation Data */}
+            <TextField
+              id="itemID"
+              label="Item ID"
+              value={itemID}
+              disabled={!editMode}
+            />
+            <TextField
+              id="date"
+              label="Date"
+              value={date}
+              disabled={!editMode}
+            />
+            <TextField
+              id="noOfPeople"
+              label="No of People"
+              value={noOfPeople}
+              disabled={!editMode}
+            />
+            <TextField
+              id="time1_time2"
+              label="Time Slot"
+              value={time1_time2}
+              disabled={!editMode}
+            />
+           
+          </div>
+        </Col>
+      </Row>
       <DeleteConfirmModel
         show={showConfirmation}
-        close={cancelDelete}
+        close={() => setShowConfirmation(false)}
         title={"Warning"}
-        message={
-          "The selected reservation will be deleted. Do you wish to continue?"
-        }
+        message={"The selected Reservation will be deleted. Do you wish to continue?"}
         type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
+        action={confirmDelete}
       />
-    </div>
+    </>
   );
 };
 
-export default ItemInformation;*/
+export default ItemInformation;

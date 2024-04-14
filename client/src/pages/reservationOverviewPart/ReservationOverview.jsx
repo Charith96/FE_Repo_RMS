@@ -93,11 +93,21 @@ const ReservationOverview = () => {
   const tabs = [
     {
       name: "General",
-      content: <General/>,
+      content: paramData ? (
+        <General
+          reservationData={paramData} // Corrected prop name
+          mode={state && state.mode}
+        />
+      ) : null,
     },
     {
       name: "Item Information",
-      content: <ItemInformation/>,
+      content: paramData ? (
+        <ItemInformation
+          reservationData={paramData} 
+          mode={state && state.mode}
+        />
+      ) : null,
     },
   ];
 
