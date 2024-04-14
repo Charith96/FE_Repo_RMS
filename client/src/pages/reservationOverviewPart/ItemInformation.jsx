@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchReservations, deleteReservation, updateReservation } from "../../store/actions/ReservationAction";
-import { Row, Col } from "react-bootstrap";
-import TextField from "../../components/TextField";
+import { Row, Col, Table } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
 
 const ItemInformation = ({ reservationData, mode }) => {
-  const { reservationID, date, noOfPeople, itemID ,time1_time2} = reservationData || {}; 
+  const { reservationID } = reservationData || {};
   const dispatch = useDispatch();
-  const [filteredReservationData, setFilteredReservationData] = useState(reservationData);
   const [editMode, setEditMode] = useState(mode === "edit");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -48,7 +46,7 @@ const ItemInformation = ({ reservationData, mode }) => {
   const handleSubmit = async () => {
     try {
       // Update reservation based on reservationID
-      await dispatch(updateReservation(reservationID, filteredReservationData));
+      await dispatch(updateReservation(reservationID, reservationData));
       setEditMode(false);
     } catch (error) {
       console.error("Error saving data:", error);
@@ -75,32 +73,25 @@ const ItemInformation = ({ reservationData, mode }) => {
             //SaveAction={handleSubmit}
           />
           <div style={{ margin: 10, padding: 20 }}>
-            {/* Display Reservation Data */}
-            <TextField
-              id="itemID"
-              label="Item ID"
-              value={itemID}
-              disabled={!editMode}
-            />
-            <TextField
-              id="date"
-              label="Date"
-              value={date}
-              disabled={!editMode}
-            />
-            <TextField
-              id="noOfPeople"
-              label="No of People"
-              value={noOfPeople}
-              disabled={!editMode}
-            />
-            <TextField
-              id="time1_time2"
-              label="Time Slot"
-              value={time1_time2}
-              disabled={!editMode}
-            />
-           
+            {/* Display Reservation Data in a Table */}
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Item ID</th>
+                  <th>Date</th>
+                  <th>No of People</th>
+                  <th>Time Slot</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{reservationData.itemID}</td>
+                  <td>{reservationData.date}</td>
+                  <td>{reservationData.noOfPeople}</td>
+                  <td>{reservationData.time1_time2}</td>
+                </tr>
+              </tbody>
+            </Table>
           </div>
         </Col>
       </Row>

@@ -124,17 +124,6 @@
       "time2": "2024-04-12T07:00"
     },
     {
-      "id": "at69",
-      "reservationID": "xe27we",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 5,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
-    {
       "id": "a369",
       "reservationID": "xe27tt",
       "customerID": "hasinichamodi4@gmail.com",
@@ -283,17 +272,6 @@
       "noOfPeople": 50,
       "time1": "2024-04-12T01:32",
       "time2": "2024-04-13T01:32"
-    },
-    {
-      "id": "a9f4",
-      "reservationID": "nuqpzv",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "cricket ground",
-      "itemID": "6f68",
-      "date": "",
-      "noOfPeople": 50,
-      "time1": "2024-04-12T01:32",
-      "time2": "2024-04-12T08:32"
     },
     {
       "id": "3bfb",
