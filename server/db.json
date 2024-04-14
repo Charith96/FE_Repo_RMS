@@ -65,6 +65,17 @@
       "address01": "no a2",
       "address02": "54",
       "defaultCompany": true
+    },
+    {
+      "id": "f822",
+      "companyCode": "1654",
+      "companyName": "Supun1",
+      "description": "Hi supun",
+      "country": "Sri Lanka",
+      "currency": "USD",
+      "address01": "@2,a1",
+      "address02": "@1,a23",
+      "defaultCompany": false
     }
   ],
   "countries": [

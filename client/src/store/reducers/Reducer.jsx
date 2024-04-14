@@ -133,6 +133,37 @@ export const deleteCompanyReducer = (
   }
 };
 
+// export const getCompanyReducer = (
+//   state = {
+//     loading: initialState.loading,
+//     fetchCompany: initialState.fetchCompany,
+//     getError: initialState.getError,
+//   },
+//   action
+// ) => {
+//   switch (action.type) {
+//     case "GET_COMPANY_START":
+//       return {
+//         ...state,
+//         loading: !initialState.loading,
+//       };
+//     case "GET_COMPANY_SUCCESS":
+//       return {
+//         ...state,
+//         loading: initialState.loading,
+//         fetchCompany: action.payload,
+//       };
+//     case "GET_COMPANY_FAIL":
+//       return {
+//         ...state,
+//         loading: initialState.loading,
+//         getError: action.payload,
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
 export const getCompanyReducer = (
   state = {
     loading: initialState.loading,
@@ -142,18 +173,18 @@ export const getCompanyReducer = (
   action
 ) => {
   switch (action.type) {
-    case "GET_COMPANY_START":
+    case ActionTypes.GET_COMPANY_START:
       return {
         ...state,
         loading: !initialState.loading,
       };
-    case "GET_COMPANY_SUCCESS":
+    case ActionTypes.GET_COMPANY_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
         fetchCompany: action.payload,
       };
-    case "GET_COMPANY_FAIL":
+    case ActionTypes.GET_COMPANY_FAIL:
       return {
         ...state,
         loading: initialState.loading,
@@ -200,36 +231,6 @@ export const getCompanyByIdReducer = (
       return state;
   }
 };
-
-// export const countriesReducer = (
-//   state = {
-//        loading: initialState.loading,
-//        countries: initialState.countries,
-//   },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case ActionTypes.FETCH_COUNTRIES_START:
-//       return {
-//         ...state,
-//         loading: !initialState.loading, 
-//       };
-//       case ActionTypes.FETCH_COUNTRIES_SUCCESS:
-//         return {
-//           ...state,
-//         loading: initialState.loading,
-//         countries: action.payload,
-//         }
-//       case ActionTypes.FETCH_COUNTRIES_FAIL:
-//         return {
-//           ...state,
-//           loading: initialState.loading,
-//           editError: action.payload,
-//         }; 
-//       default:
-//       return state;
-//     }
-//   };
 
 export const countriesReducer = (state = initialState, action) => {
   switch (action.type) {
