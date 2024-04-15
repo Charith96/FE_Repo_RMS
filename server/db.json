@@ -69,17 +69,6 @@
   ],
   "reservations": [
     {
-      "id": "92fc",
-      "reservationID": "3y153h",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-02",
-      "noOfPeople": 5,
-      "time1": "2024-04-02T23:01",
-      "time2": "2024-04-03T07:00"
-    },
-    {
       "id": "9b29",
       "reservationID": "tj84v0",
       "customerID": "hasinichamodi4@gmail.com",
