@@ -69,17 +69,6 @@
   ],
   "reservations": [
     {
-      "id": "9b29",
-      "reservationID": "tj84v0",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "cricket ground",
-      "itemID": "6f68",
-      "date": "",
-      "noOfPeople": "45",
-      "time1": "2024-04-03T00:49",
-      "time2": "2024-04-04T00:49"
-    },
-    {
       "id": "a519",
       "reservationID": "xpo7we",
       "customerID": "hasinichamodi4@gmail.com",
