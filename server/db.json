@@ -1,14 +1,6 @@
 {
   "Roles": [
     {
-      "rolename": "tem",
-      "id": "60af"
-    },
-    {
-      "rolename": "jnjnjnjmmmmmmmmmmmm",
-      "id": "9adb"
-    },
-    {
       "rolename": "njne",
       "id": "cec6"
     },
@@ -26,6 +18,23 @@
         "deleteAccess"
       ],
       "id": "c5f7"
+    },
+    {
+      "rolecode": "67cd",
+      "rolename": "vgtr",
+      "privileges": [
+        "createAccess",
+        "viewAccess"
+      ],
+      "id": "a6f3"
+    },
+    {
+      "id": "15c9",
+      "rolecode": "m7878",
+      "rolename": "njnj",
+      "privileges": [
+        "updateAccess"
+      ]
     }
   ],
   "groupcreation": [
