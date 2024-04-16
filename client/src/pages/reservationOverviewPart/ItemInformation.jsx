@@ -64,10 +64,10 @@ const ItemInformation = ({ reservationData, mode }) => {
         <Col>
           <TitleActionBar
             Title={""}
-            plustDisabled={true}
-            editDisabled={true}
-            saveDisabled={true}
-            deleteDisabled={true}
+           isPlusHidden={true}
+            isEditHidden={true}
+            isSaveHidden={true}
+            isDeleteHidden={true}
             //EditAction={() => setEditMode(true)}
             //DeleteAction={handleDelete}
             //SaveAction={handleSubmit}

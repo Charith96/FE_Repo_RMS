@@ -210,18 +210,21 @@ const ReservationList = () => {
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
+  
+
   };
+  
 
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     >
-      <div className="menu-item" onClick={() => handleEdit()}>
+     {/* <div className="menu-item" onClick={() => handleEdit()}>
         <FontAwesomeIcon icon={faEdit} /> Edit
-      </div>
+  </div> */}
       <div className="menu-item" onClick={() => handleDetails()}>
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Details
+        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> More info
       </div>
     </div>
   );
