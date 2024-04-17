@@ -4,8 +4,8 @@ import {
   fetchCountries,
   fetchCurrencies,
   editCompany,
-} from "../../store/actions/CompanyAction";
-import { deleteCompany } from "../../store/actions/CompanyAction";
+} from "../../store/actions/CompanyActions";
+import { deleteCompany } from "../../store/actions/CompanyActions";
 //import { editReservationGroup, editCompany } from "../../store/actions/Action";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteCompany } from "../../store/actions/CompanyAction";
+import { deleteCompany } from "../../store/actions/CompanyActions";
 import CompanyTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchCompanies,
   resetCompanyState,
-} from "../../store/actions/CompanyAction";
+} from "../../store/actions/CompanyActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,

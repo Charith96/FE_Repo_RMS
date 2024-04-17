@@ -4,7 +4,7 @@ import {
   resetManageCompanyState,
   fetchCountries,
   fetchCurrencies,
-} from "../../store/actions/CompanyAction";
+} from "../../store/actions/CompanyActions";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
 import TextField from "../../components/TextField";
