@@ -4,7 +4,7 @@ import {
   resetManageCompanyState,
   fetchCountries,
   fetchCurrencies,
-} from "../../store/actions/Action";
+} from "../../store/actions/CompanyAction";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
 import TextField from "../../components/TextField";
@@ -50,51 +50,6 @@ const CreateCompany = () => {
         clearTextFields();
       }
   }, [dispatch, navigate, companyData, isValueMounted]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (companyCode) {
-  //     const data = {
-  //       companyCode: companyCode.toString(),
-  //     };
-  //     dispatch(createCompany(data));
-  //   } else {
-  //     toast.error("Please fill out the Company Code fields.");
-  //   }
-  //   if (companyName) {
-  //     const data = {
-  //       companyName: companyName,
-  //     };
-  //     dispatch(createCompany(data));
-  //   } else {
-  //     toast.error("Please fill out the Company Name fields.");
-  //   }
-  //   if (country) {
-  //     const data = {
-  //       country: country,
-  //     };
-  //     dispatch(createCompany(data));
-  //   } else {
-  //     toast.error("Please fill out the Country fields.");
-  //   }
-  //   if (currency) {
-  //     const data = {
-  //       currency: currency,
-  //     };
-  //     dispatch(createCompany(data));
-  //   } else {
-  //     toast.error("Please fill out the Currency fields.");
-  //   }
-  //   if (address01) {
-  //     const data = {
-  //       address01: address01,
-  //     };
-  //     dispatch(createCompany(data));
-  //   } else {
-  //     toast.error("Please fill out the Addreess01 fields.");
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

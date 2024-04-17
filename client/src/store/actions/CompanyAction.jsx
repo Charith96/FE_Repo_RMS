@@ -126,6 +126,32 @@ export const resetManageCompanyState = () => (dispatch) => {
 
 //new
 
+export const fetchCountries = () => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
+    try {
+      const response = await fetch(`${BASE_URL}${COUNTRY_URL}`); // Assuming db.json is served at this URL
+      const data = await response.json();
+      dispatch({ type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: ActionTypes.FETCH_COUNTRIES_FAIL, error: error.message });
+    }
+  };
+};
+
+export const fetchCurrencies = () => {
+  return async (dispatch) => {
+    dispatch({ type: ActionTypes.FETCH_CURRENCIES_START });
+    try {
+      const response = await fetch(`${BASE_URL}${CURRENCY_URL}`); // Assuming db.json is served at this URL
+      const data = await response.json();
+      dispatch({ type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({ type: ActionTypes.FETCH_CURRENCIES_FAIL, error: error.message });
+    }
+  };
+};
+
 // Action.jsx
 
 
@@ -148,28 +174,32 @@ export const resetManageCompanyState = () => (dispatch) => {
 //   }
 // };
 
-export const fetchCountries = () => {
-  return async (dispatch) => {
-    dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
-    try {
-      const response = await fetch('http://localhost:3005/countries'); // Assuming db.json is served at this URL
-      const data = await response.json();
-      dispatch({ type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.FETCH_COUNTRIES_FAIL, error: error.message });
-    }
-  };
-};
 
-export const fetchCurrencies = () => {
-  return async (dispatch) => {
-    dispatch({ type: ActionTypes.FETCH_CURRENCIES_START });
-    try {
-      const response = await fetch('http://localhost:3005/currencies'); // Assuming db.json is served at this URL
-      const data = await response.json();
-      dispatch({ type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.FETCH_CURRENCIES_FAIL, error: error.message });
-    }
-  };
-};
+// export const fetchCountries = () => {
+//   return async (dispatch) => {
+//     dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
+//     try {
+//       const response = await fetch('http://localhost:3005/countries'); // Assuming db.json is served at this URL
+//       const data = await response.json();
+//       dispatch({ type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: data });
+//     } catch (error) {
+//       dispatch({ type: ActionTypes.FETCH_COUNTRIES_FAIL, error: error.message });
+//     }
+//   };
+// };
+
+// export const fetchCurrencies = () => {
+//   return async (dispatch) => {
+//     dispatch({ type: ActionTypes.FETCH_CURRENCIES_START });
+//     try {
+//       const response = await fetch('http://localhost:3005/currencies'); // Assuming db.json is served at this URL
+//       const data = await response.json();
+//       dispatch({ type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: data });
+//     } catch (error) {
+//       dispatch({ type: ActionTypes.FETCH_CURRENCIES_FAIL, error: error.message });
+//     }
+//   };
+// };
+
+
+

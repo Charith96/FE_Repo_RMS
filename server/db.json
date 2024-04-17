@@ -76,6 +76,17 @@
       "address01": "@2,a1",
       "address02": "@1,a23",
       "defaultCompany": false
+    },
+    {
+      "id": "faf5",
+      "companyCode": "189R",
+      "companyName": "Roaw",
+      "description": "abcd",
+      "country": "Australia",
+      "currency": "AUD",
+      "address01": "q87",
+      "address02": "q891",
+      "defaultCompany": true
     }
   ],
   "countries": [

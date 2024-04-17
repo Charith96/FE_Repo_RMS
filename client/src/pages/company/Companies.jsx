@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteCompany } from "../../store/actions/Action";
+import { deleteCompany } from "../../store/actions/CompanyAction";
 import CompanyTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchCompanies,
   resetCompanyState,
-} from "../../store/actions/Action";
+} from "../../store/actions/CompanyAction";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -53,7 +53,6 @@ const Companies = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-
   //new
   useEffect(() => {
     dispatch(fetchCompanies());
@@ -79,13 +78,7 @@ const Companies = () => {
     } else {
       setIsDeleteDisable(true);
     }
-  }, [
-    fetchCompanyData,
-    currentPage,
-    perPage,
-    filteredData,
-    selectedRows,
-  ]);
+  }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
   //new
 
   const columns = [
@@ -93,7 +86,10 @@ const Companies = () => {
       name: "",
       cell: (row) => (
         <div className="cell-actions">
-          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
+          <span
+            className="ellipsis tree-dots"
+            onClick={(e) => handleCellClick(e, row)}
+          >
             <FontAwesomeIcon icon={faEllipsisH} />
           </span>
         </div>
@@ -137,9 +133,7 @@ const Companies = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/company/companyOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "edit" } }
       );
     }
@@ -150,9 +144,7 @@ const Companies = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/company/companyOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "view" } }
       );
     }
@@ -262,7 +254,6 @@ const Companies = () => {
               aria-label="Search"
               value={searchTerm}
               onChange={handleSearchChange}
-
             />
             {isFiltered ? (
               <Button

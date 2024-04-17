@@ -44,48 +44,48 @@ const _nav = [
     //       />
     //     ),
     //     className: "mt-3 ms-2",
-        items: [
-          {
-            component: CNavItem,
-            name: "Create Company",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-            ),
-            to: "/company/createCompany",
-          },
-          {
-            component: CNavItem,
-            name: "Compaies",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-            ),
-            to: "/company/companies",
-          },
-          // {
-          //   component: CNavItem,
-          //   name: "Create Item",
-          //   icon: <i className="ps-2" />,
-          //   quicknavicon: (
-          //     <FontAwesomeIcon
-          //       icon={faCalendarDays}
-          //       size="2x"
-          //       className="nav-icon pb-0 pt-3"
-          //     />
-          //   ),
-          //   to: "/reservationManagement/reservation/createReservationItem",
-          // },
-        ],
+    items: [
+      {
+        component: CNavItem,
+        name: "Create Company",
+        icon: <i className="ps-2" />,
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faCalendarDays}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        to: "/company/createCompany",
       },
-    ];
+      {
+        component: CNavItem,
+        name: "Compaies",
+        icon: <i className="ps-2" />,
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faCalendarDays}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        to: "/company/companies",
+      },
+      // {
+      //   component: CNavItem,
+      //   name: "Create Item",
+      //   icon: <i className="ps-2" />,
+      //   quicknavicon: (
+      //     <FontAwesomeIcon
+      //       icon={faCalendarDays}
+      //       size="2x"
+      //       className="nav-icon pb-0 pt-3"
+      //     />
+      //   ),
+      //   to: "/reservationManagement/reservation/createReservationItem",
+      // },
+    ],
+  },
+];
 
 export default _nav;

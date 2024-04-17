@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 //import thunk from "redux-thunk";
- import {thunk} from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import {
   createCompanyReducer,
@@ -12,7 +12,7 @@ import {
   editCompanyFlagReducer,
   countriesReducer,
   currenciesReducer,
-} from "./reducers/Reducer";
+} from "./reducers/CompanyReducer";
 
 import {
   manageTodoReducer,
@@ -24,16 +24,14 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
-
-  createCompany : createCompanyReducer,
-  editCompany : editCompanyReducer,
-  deleteCompany : deleteCompanyReducer,
-  getCompany : getCompanyReducer,
-  getCompanyById : getCompanyByIdReducer,
-  editCompanyFlag : editCompanyFlagReducer,
-  countries : countriesReducer,
-  currencies : currenciesReducer,
-
+  createCompany: createCompanyReducer,
+  editCompany: editCompanyReducer,
+  deleteCompany: deleteCompanyReducer,
+  getCompany: getCompanyReducer,
+  getCompanyById: getCompanyByIdReducer,
+  editCompanyFlag: editCompanyFlagReducer,
+  countries: countriesReducer,
+  currencies: currenciesReducer,
 
   // todos
   manageTodo: manageTodoReducer,

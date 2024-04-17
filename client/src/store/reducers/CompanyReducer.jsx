@@ -88,14 +88,14 @@ export const editCompanyFlagReducer = (
 ) => {
   switch (action.type) {
     case ActionTypes.EDIT_COMPANY_FLAG:
-      return { 
-        ...state, 
-        editCompanyFlag: !initialState.loading 
+      return {
+        ...state,
+        editCompanyFlag: !initialState.loading,
       };
     case ActionTypes.DETAIL_COMPANY_FLAG:
-      return { 
-        ...state, 
-        editCompanyFlag: initialState.loading 
+      return {
+        ...state,
+        editCompanyFlag: initialState.loading,
       };
     default:
       return state;
@@ -257,5 +257,3 @@ export const currenciesReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-

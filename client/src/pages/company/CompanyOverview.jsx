@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { fetchCompaniesById,
+import {
+  fetchCompaniesById,
   fetchCountries,
   fetchCurrencies,
   editCompany,
-} from "../../store/actions/Action";
-import { deleteCompany } from "../../store/actions/Action";
+} from "../../store/actions/CompanyAction";
+import { deleteCompany } from "../../store/actions/CompanyAction";
 //import { editReservationGroup, editCompany } from "../../store/actions/Action";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -22,23 +23,17 @@ const CompanyOverview = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //const [companyData, setCompanyData] = useState([]);
-  //const [showConfirmation, setShowConfirmation] = useState(false);
-
   const fetchCompanyData = useSelector(
     (state) => state.getCompanyById.fetchCompanyId
   );
   const editFlagData = useSelector(
     (state) => state.editCompanyFlag.editCompanyFlag
   );
-  const dataForSearch = useSelector(
-    (state) => state.getCompany.fetchCompany
-  );
+  const dataForSearch = useSelector((state) => state.getCompany.fetchCompany);
   const [recordId, setRecordId] = useState("");
 
   const countries = useSelector((state) => state.countries.countries);
-    const currencies = useSelector((state) => state.currencies.currencies);
-
+  const currencies = useSelector((state) => state.currencies.currencies);
 
   const [companyCode, setCompanyCode] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -71,16 +66,6 @@ const CompanyOverview = () => {
     dispatch(fetchCountries());
     dispatch(fetchCurrencies());
   }, [dispatch]);
-
-  // const updateCompanyData = (updatedCompany) => {
-  //   const index = companyData.findIndex(company => company.id === updatedCompany.id);
-  //   if (index !== -1) {
-  //     const updatedData = [...companyData];
-  //     updatedData[index] = updatedCompany;
-  //     setCompanyData(updatedData);
-  //   }
-  // };
-
 
   const fetchData = () => {
     if (fetchCompanyData) {
@@ -145,24 +130,17 @@ const CompanyOverview = () => {
           address02: address02,
           defaultCompany: defaultCompany,
         };
-        //console.log("formData ", recordId, formData);
-         dispatch(editCompany(recordId, formData));
-        //const response = await saveCompanyChanges(formData);
-        // handleNavigate();
-        // if (response.success) {
-          // After successfully saving changes
-         // updateCompanyData(formData); // Pass the updated company data here
-          handleNavigate();
-          toast.success("Data saved successfully");
-        } else {
-          // Handle the case where saving failed
-          toast.error("Failed to save changes. Please try again.");
-        }
+        dispatch(editCompany(recordId, formData));
+        handleNavigate();
+        toast.success("Data saved successfully");
+      } else {
+        // Handle the case where saving failed
+        toast.error("Failed to save changes. Please try again.");
+      }
     } catch (error) {
       toast.error("Error saving data. Please try again.");
     }
   };
-
 
   const confirmDelete = async () => {
     try {
@@ -330,4 +308,3 @@ const CompanyOverview = () => {
   );
 };
 export default CompanyOverview;
-
