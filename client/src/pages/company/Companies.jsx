@@ -96,13 +96,13 @@ const Companies = () => {
       ),
     },
     {
-      name: "CompanyCode",
+      name: "Company Code",
       selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,
     },
     {
-      name: "CompanyName",
+      name: "Company Name",
       selector: (row) => row.companyName,
       sortable: true,
       grow: 2,

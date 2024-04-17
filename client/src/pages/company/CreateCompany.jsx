@@ -106,7 +106,7 @@ const CreateCompany = () => {
             <h3 className="mb-5">Create Company</h3>
             <Form onSubmit={handleSubmit}>
               <TextField
-                label="CompanyCode"
+                label="Company Code"
                 // className={`${companyCode ? "is-invalid" : "bg-white"}`}
                 value={companyCode}
                 onChange={(e) => {
@@ -118,7 +118,7 @@ const CreateCompany = () => {
               />
               <TextField
                 value={companyName}
-                label="CompanyName"
+                label="Company Name"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
 

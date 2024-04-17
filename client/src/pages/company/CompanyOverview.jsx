@@ -210,14 +210,14 @@ const CompanyOverview = () => {
           <div>
             <Form>
               <TextField
-                label="CompanyCode"
+                label="Company Code"
                 className={`${!companyCode ? "is-invalid" : ""}`}
                 disabled={isViewMode}
                 value={companyCode}
                 onChange={(e) => setCompanyCode(e.target.value)}
               />
               <TextField
-                label="CompanyName"
+                label="Company Name"
                 className={`${!companyName ? "is-invalid" : ""}`}
                 value={companyName}
                 disabled={isViewMode}
