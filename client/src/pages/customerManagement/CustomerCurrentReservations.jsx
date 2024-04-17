@@ -1,13 +1,6 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faSave,
-  faTrash,
-  faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
 
-function CustomerOverviewSecondTab() {
+function CustomerCurrentReservations() {
   const data = [
     {
       id: 1,
@@ -62,4 +55,4 @@ function CustomerOverviewSecondTab() {
   );
 }
 
-export default CustomerOverviewSecondTab;
+export default CustomerCurrentReservations;

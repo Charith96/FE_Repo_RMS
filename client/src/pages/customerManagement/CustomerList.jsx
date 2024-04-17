@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import {
   fetchCustomers,
   deleteCustomer,
-  fetchCustomer,
 } from "../../store/actions/customerActions";
 
 import {

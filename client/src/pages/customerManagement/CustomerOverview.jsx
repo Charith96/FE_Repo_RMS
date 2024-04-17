@@ -2,16 +2,9 @@ import React, { useState, useEffect } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
 import CustomerOverviewGeneral from "./CustomerOverviewGeneral";
-import CustomerOverviewSecondTab from "./CustomerOverviewSecondTab";
-import CustomerOverviewHistory from "./CustomerOverviewHistory";
+import CustomerCurrentReservations from "./CustomerCurrentReservations";
+import CustomerReservationHistory from "./CustomerReservationHistory";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCustomers,
-  fetchCustomer,
-  updateCustomer,
-} from "../../store/actions/customerActions";
-import { selectCustomer } from "../../store/Store";
 
 const CustomerOverview = () => {
   const [isAdd, setIsAdd] = useState(false);
@@ -102,11 +95,11 @@ const CustomerOverview = () => {
     },
     {
       name: "Current Reservations",
-      content: <CustomerOverviewSecondTab />,
+      content: <CustomerCurrentReservations />,
     },
     {
       name: "History",
-      content: <CustomerOverviewHistory />,
+      content: <CustomerReservationHistory />,
     },
   ];
 

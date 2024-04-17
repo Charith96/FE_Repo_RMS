@@ -4,10 +4,8 @@ import TabStructure from "../../components/TabStructure";
 import General from "./General";
 import ItemInformation from "./ItemInformation";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 const ReservationOverview = () => {
-
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(false);
@@ -24,10 +22,7 @@ const ReservationOverview = () => {
   const paramData = JSON.parse(data);
   const mode = state ? state.mode : null;
 
-
   useEffect(() => {
-    
-
     if (selectedRecords === 1 && disableEdit && !isEdit) {
       setDisableEdit(false);
       setDisableDelete(false);
@@ -35,11 +30,8 @@ const ReservationOverview = () => {
       setDisableEdit(true);
       setDisableDelete(true);
     }
-  
+  }, [isAdd, isEdit, isSave, isDelete, disableEdit, selectedRecords, data]);
 
-  }, [isAdd, isEdit, isSave, isDelete, disableEdit,selectedRecords,data]);
-
-  
   // handle tab view
   const toggleTab = (index) => {
     setToggleState(index);
@@ -94,17 +86,14 @@ const ReservationOverview = () => {
     {
       name: "General",
       content: paramData ? (
-        <General
-          reservationData={paramData} // Corrected prop name
-          mode={state && state.mode}
-        />
+        <General reservationData={paramData} mode={state && state.mode} />
       ) : null,
     },
     {
       name: "Item Information",
       content: paramData ? (
         <ItemInformation
-          reservationData={paramData} 
+          reservationData={paramData}
           mode={state && state.mode}
         />
       ) : null,
@@ -137,7 +126,7 @@ const ReservationOverview = () => {
         }}
       />
 
-<TabStructure
+      <TabStructure
         tabs={tabs}
         toggleState={toggleState}
         toggleTab={setToggleState}
