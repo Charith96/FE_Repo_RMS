@@ -69,17 +69,6 @@
   ],
   "reservations": [
     {
-      "id": "a519",
-      "reservationID": "xpo7we",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 5,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
-    {
       "id": "a529",
       "reservationID": "pey7we",
       "customerID": "hasinichamodi4@gmail.com",
@@ -109,17 +98,6 @@
       "itemID": "3f85",
       "date": "2024-04-11",
       "noOfPeople": 1,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
-    {
-      "id": "t969",
-      "reservationID": "xeo7rt",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 5,
       "time1": "2024-04-11T23:01",
       "time2": "2024-04-12T07:00"
     },
