@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faTrash, faPencilAlt, faEllipsisV, faSearch , faEllipsisH} from "@fortawesome/free-solid-svg-icons";
+import {  faEllipsisH} from "@fortawesome/free-solid-svg-icons";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { fetchRoles, deleteRole, updateRole } from '../../store/actions/RolesAction';
 import { Button, Form, InputGroup } from "react-bootstrap";
