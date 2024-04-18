@@ -133,6 +133,7 @@ const ReservationItemTimeSlotManagement = () => {
     }
   }, [isSaveDisable, recordId, fetchData]);
 
+  // handle save click
   const handleSave = async () => {
     var flagNew = true;
     var flagOld = true;

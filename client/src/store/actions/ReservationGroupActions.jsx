@@ -148,7 +148,7 @@ export const fetchReservationItemByGroupId = (id) => async (dispatch) => {
     const response = await axios.get(
       `${BASE_URL}${RESERVATION_ITEM}?reservationGroup=${id}`
     );
-    console.log("response", response.data.length);
+    
     if (response.status === 200){
     dispatch({
       type: "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID",

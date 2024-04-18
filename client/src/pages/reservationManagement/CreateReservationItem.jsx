@@ -94,7 +94,8 @@ const CreateReservationItem = ({
   const handleSelectChange = (e) => {
     setReservationGroup(e.target.value);
   };
-
+  
+  //to handle the submit click
   const handleSubmit = async (e) => {
     e.preventDefault();
 

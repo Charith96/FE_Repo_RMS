@@ -86,6 +86,7 @@ const ReservationItemTimeSlotList = ({
     return `${adjustedHours}:${adjustedMinutes}`;
   };
 
+  //handle add more time slot click
   const handleAddMore = () => {
     const value = { startTime: "", endTime: "", itemId: uniqueId };
     setNewlyAddedSlots([...newlyAddedSlots, value]);
@@ -93,6 +94,7 @@ const ReservationItemTimeSlotList = ({
     setInputValues(newInputValues);
   };
 
+  //handle remove time slot click
   const handleRemove = () => {
     try {
       dispatch(deleteTimeSlotsByItemId(selectedId));

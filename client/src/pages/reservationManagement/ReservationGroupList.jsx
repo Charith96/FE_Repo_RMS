@@ -57,10 +57,6 @@ const ReservationGroupList = () => {
 
   useEffect(() => {
     if (fetchReservationItemByGroupData) {
-      console.log(
-        "fetchReservationItemByGroupData",
-        fetchReservationItemByGroupData
-      );
       setItemsExist(fetchReservationItemByGroupData);
     } else {
       setItemsExist(fetchReservationItemByGroupData);
@@ -85,7 +81,6 @@ const ReservationGroupList = () => {
     setPaginatedData(slicedData);
 
     if (selectedRows.length === 1) {
-      console.log("selectedRows", selectedRows);
       dispatch(fetchReservationItemByGroupId(selectedRows[0]?.id));
       setIsDeleteDisable(false);
     } else {
@@ -98,7 +93,7 @@ const ReservationGroupList = () => {
     filteredData,
     selectedRows,
   ]);
-
+  //list table columns
   const columns = [
     {
       name: "",
@@ -133,7 +128,7 @@ const ReservationGroupList = () => {
     setMenuVisible(true);
     setContextMenuRow(row);
   };
-
+  //handle edit button click
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
@@ -146,7 +141,7 @@ const ReservationGroupList = () => {
       );
     }
   };
-
+  //handle detail button click
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
@@ -193,6 +188,7 @@ const ReservationGroupList = () => {
     }
   };
 
+  //to handle confirm delete click in the popup
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       if (!itemsExist) {

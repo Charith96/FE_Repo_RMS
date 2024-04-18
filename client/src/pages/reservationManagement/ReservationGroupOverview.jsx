@@ -51,10 +51,6 @@ const ManageReservationGroups = () => {
 
   useEffect(() => {
     if (fetchReservationItemByGroupData) {
-      console.log(
-        "fetchReservationItemByGroupData",
-        fetchReservationItemByGroupData
-      );
       setItemsExist(fetchReservationItemByGroupData);
     } else {
       setItemsExist(fetchReservationItemByGroupData);
@@ -104,6 +100,7 @@ const ManageReservationGroups = () => {
     setIsSaveDisable(false);
   };
 
+  //to handle the save button click
   const handleSave = async () => {
     try {
       if (paramData && recordId) {
@@ -124,6 +121,7 @@ const ManageReservationGroups = () => {
     }
   };
 
+  //to handle the confirm delete click in the popup
   const confirmDelete = async () => {
     try {
       if (paramData && paramData.id) {

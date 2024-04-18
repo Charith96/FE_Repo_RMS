@@ -21,20 +21,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-// import { handleEdit } from "../../store/actions/ReservationGroupActions";
-// import { handleDetails } from "../../store/actions/ReservationGroupActions";
-
 const ReservationItemList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  // const fetchReservationItemData = useSelector(
-  //   (state) => {
-  //      if (state.getReservationItem) {
-  //     return state.getReservationItem.fetchReservationItem;
-  //   }
-  //   return [];
-  // });
 
   const fetchReservationItemData = useSelector(
     (state) => state.getReservationItem?.fetchReservationItem || []
@@ -72,35 +61,38 @@ const ReservationItemList = () => {
     }
   }, [dispatch, deleteReservationItemData]);
 
-useEffect(() => {
-  if (fetchReservationItemData && fetchReservationItemData.length > 0) {
-    setFilteredData(fetchReservationItemData);
-    
-    const start = currentPage * perPage;
-    const end = start + perPage;
-    const slicedData = filteredData?.slice(start, end);
-    setPaginatedData(slicedData);
+  useEffect(() => {
+    if (fetchReservationItemData && fetchReservationItemData.length > 0) {
+      setFilteredData(fetchReservationItemData);
 
-    if (selectedRows.length === 1) {
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
+      const start = currentPage * perPage;
+      const end = start + perPage;
+      const slicedData = filteredData?.slice(start, end);
+      setPaginatedData(slicedData);
+
+      if (selectedRows.length === 1) {
+        setIsDeleteDisable(false);
+      } else {
+        setIsDeleteDisable(true);
+      }
     }
-  }
-   }, [
+  }, [
     fetchReservationItemData,
     currentPage,
     perPage,
     filteredData,
     selectedRows,
-   ]);
+  ]);
 
-   const columns = [
+  const columns = [
     {
       name: "",
       cell: (row) => (
         <div className="cell-actions">
-          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
+          <span
+            className="ellipsis tree-dots"
+            onClick={(e) => handleCellClick(e, row)}
+          >
             <FontAwesomeIcon icon={faEllipsisH} />
           </span>
         </div>
@@ -145,6 +137,7 @@ useEffect(() => {
     setContextMenuRow(row);
   };
 
+  //handle edit click
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
@@ -158,6 +151,7 @@ useEffect(() => {
     }
   };
 
+  //handle detail click
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
@@ -241,8 +235,6 @@ useEffect(() => {
   };
 
   const isSingleRecordSelected = selectedRows.length === 1 && false;
-
-
 
   return (
     <div className="mb-5 mx-2">
