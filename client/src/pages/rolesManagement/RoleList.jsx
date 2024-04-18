@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faEllipsisH} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH, faTimes } from "@fortawesome/free-solid-svg-icons";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { fetchRoles, deleteRole, updateRole } from '../../store/actions/RolesAction';
 import { Button, Form, InputGroup } from "react-bootstrap";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 
 function RoleList() {
@@ -22,13 +21,14 @@ function RoleList() {
         fetchData();
     }, []);
 
-    const fetchData = () => {
-        fetchRoles()
-            .then((response) => {
-                setData(response.data);
-                setFilteredData(response.data);
-            })
-            .catch(err => console.log(err));
+    const fetchData = async () => {
+        try {
+            const response = await fetchRoles();
+            setData(response.data);
+            setFilteredData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleEdit = (rowId, roleName) => {
@@ -36,45 +36,37 @@ function RoleList() {
         setEditedRoleName(roleName);
     };
 
-    const handleSave = () => {
-      if (editingRow !== null) {
-          const updatedRole = data.find(item => item.id === editingRow);
-          if (updatedRole) {
-              const updatedData = data.map(item => {
-                  if (item.id === editingRow) {
-                      return { ...item, rolename: editedRoleName };
-                  }
-                  return item;
-              });
-  
-              updateRole(updatedRole.id, { rolename: editedRoleName })
-                  .then(res => {
-                      console.log("Role name updated successfully.");
-                      setData(updatedData); // Update local state with updated data
-                      setEditingRow(null);
-                  })
-                  .catch(err => console.log(err));
-          }
-      }
-  };
-  
-
-    const handleDelete = () => {
-        deleteRole(selectedRows)
-            .then(res => {
-                console.log("Roles deleted successfully.");
-                setSelectedRows([]); // Clear selected rows after deletion
-                fetchData(); // Refetch data after deletion
-            })
-            .catch(err => console.log(err));
+    const handleSave = async () => {
+        try {
+            if (editingRow !== null) {
+                const updatedRole = data.find(item => item.id === editingRow);
+                if (updatedRole) {
+                    const updatedData = data.map(item => {
+                        if (item.id === editingRow) {
+                            return { ...item, rolename: editedRoleName };
+                        }
+                        return item;
+                    });
+    
+                    await updateRole(updatedRole.id, { rolename: editedRoleName });
+                    console.log("Role name updated successfully.");
+                    setData(updatedData); // Update local state with updated data
+                    setEditingRow(null);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-    const toggleRowSelection = (rowId) => {
-        const isSelected = selectedRows.includes(rowId);
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== rowId));
-        } else {
-            setSelectedRows([...selectedRows, rowId]);
+    const handleDelete = async () => {
+        try {
+            await deleteRole(selectedRows);
+            console.log("Roles deleted successfully.");
+            setSelectedRows([]); // Clear selected rows after deletion
+            fetchData(); // Refetch data after deletion
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -86,7 +78,6 @@ function RoleList() {
             }
         }
     };
-
 
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
@@ -106,6 +97,15 @@ function RoleList() {
         setSearchValue("");
         setIsFiltered(false);
         setFilteredData(data);
+    };
+
+    const toggleRowSelection = (rowId) => {
+        const isSelected = selectedRows.includes(rowId);
+        if (isSelected) {
+            setSelectedRows(selectedRows.filter(id => id !== rowId));
+        } else {
+            setSelectedRows([...selectedRows, rowId]);
+        }
     };
 
     const handleCellClick = (e, item) => {
@@ -178,7 +178,6 @@ function RoleList() {
                           value={editedRoleName}
                           onChange={(e) => setEditedRoleName(e.target.value)}
                         />
-                      
                       </div>
                     );
                   }
@@ -186,7 +185,6 @@ function RoleList() {
                 },
                 sortable: true,
               },
-            
             ]}
             handleCellClick={handleCellClick}
           />

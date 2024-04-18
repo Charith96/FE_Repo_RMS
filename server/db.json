@@ -1,14 +1,6 @@
 {
   "Roles": [
     {
-      "rolename": "njne",
-      "id": "cec6"
-    },
-    {
-      "rolename": "mkkktest",
-      "id": "8ef3"
-    },
-    {
       "rolecode": "4543wecd",
       "rolename": "olady officerld ",
       "privileges": [
@@ -29,9 +21,35 @@
       "id": "a6f3"
     },
     {
-      "id": "15c9",
       "rolecode": "m7878",
       "rolename": "njnj",
+      "privileges": [
+        "viewAccess"
+      ],
+      "id": "15c9"
+    },
+    {
+      "rolecode": "7676vg",
+      "rolename": "hjbhj",
+      "privileges": [
+        "createAccess",
+        "deleteAccess"
+      ],
+      "id": "91e4"
+    },
+    {
+      "id": "126a",
+      "rolecode": "45455cd",
+      "rolename": "test",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "7d0b",
+      "rolecode": "56565dr",
+      "rolename": "test 3",
       "privileges": [
         "updateAccess"
       ]

@@ -33,17 +33,24 @@ function CreateRole() {
         event.preventDefault();
     
         try {
-            await createRole(rolecode, rolename, privileges);
+            await createRoleAsync(rolecode, rolename, privileges);
             console.log('Role created successfully');
             navigate('/rolesManagement/RoleList', { state: { roleName: rolename } });
         } catch (error) {
             console.error('Error creating role:', error);
         }
     };
-    
+
+    // Async/await-based API calling function
+    const createRoleAsync = async (rolecode, rolename, privileges) => {
+        try {
+            await createRole(rolecode, rolename, privileges);
+        } catch (error) {
+            throw error;
+        }
+    };
 
     return (
-    
         <Row>
             <h3>Create Role</h3>
             <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
@@ -56,7 +63,6 @@ function CreateRole() {
                 xxl={10}
                 className="body-content px-5 pt-4 pb-4 mb-5"
             >
-                
                 <Form onSubmit={handleSubmit}>
                     <TextField
                         label="Role Code"

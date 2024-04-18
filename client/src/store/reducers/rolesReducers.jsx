@@ -38,7 +38,7 @@ const rolesReducer = (state = initialState, action) => {
         case 'UPDATE_ROLE_FAILURE':
             return {
                 ...state,
-                error: action.error
+                error: action.payload
             };
         case 'DELETE_ROLE_SUCCESS':
         case 'UPDATE_ROLE_SUCCESS':

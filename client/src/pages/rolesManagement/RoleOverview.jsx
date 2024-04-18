@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import TitleActionBar from '../../components/TitleActionsBar';
-import { updateRole } from '../../store/actions/RolesAction'; // Corrected import statements
+import { updateRole } from '../../store/actions/RolesAction';
 
 function RoleOverview() {
     const navigate = useNavigate();
@@ -46,13 +46,21 @@ function RoleOverview() {
         const updatedRoleData = { ...values, privileges: editingPrivileges };
         const roleId = roleData.id; // Assuming there is a property `id` in `roleData` that holds the role ID
         try {
-            await updateRole(roleId, updatedRoleData); // Pass role ID along with the updated role data
+            await updateRoleAsync(roleId, updatedRoleData);
             setIsEditing(false);
         } catch (error) {
             console.error('Error updating role:', error);
         }
     };
-    
+
+    // Async/await-based API calling function
+    const updateRoleAsync = async (roleId, updatedRoleData) => {
+        try {
+            await updateRole(roleId, updatedRoleData);
+        } catch (error) {
+            throw error;
+        }
+    };
 
     return (
         <>
