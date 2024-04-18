@@ -3,7 +3,13 @@ import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+
+import {
+  fetchCustomers,
+  deleteCustomer,
+  fetchCustomer,
+} from "../../store/actions/customerActions";
+
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -11,16 +17,17 @@ import {
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCustomers, deleteCustomer } from "../../store/actions/customerActions";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { selectCustomer } from "../../store/Store";
 
 const CustomerList = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const customer = useSelector(selectCustomer);
   const customers = useSelector((state) => state.customerReducer.customers);
   let { value } = useParams();
@@ -48,6 +55,9 @@ const CustomerList = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
+    if (deleteCustomer) {
+      dispatch(fetchCustomers());
+    }
   }, []);
 
   useEffect(() => {
@@ -141,10 +151,10 @@ const CustomerList = () => {
       };
 
       let dataString = JSON.stringify(data);
-      history.push(
-        `/customerManagement/CustomerOverview?email=${encodeURIComponent(
-          contextMenuRow.email
-        )}&data=${encodeURIComponent(dataString)}`,
+      navigate(
+        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
+          dataString
+        )}`,
         { state: { mode: "edit" } }
       );
     }
@@ -161,17 +171,15 @@ const CustomerList = () => {
         contactNo: contextMenuRow.contactNo,
       };
       let dataString = JSON.stringify(data);
-      history.push(
-        `/customerManagement/CustomerOverview?email=${encodeURIComponent(
-          contextMenuRow.email
-        )}&customerId=${contextMenuRow.id}&data=${encodeURIComponent(
+      navigate(
+        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "view" } }
       );
     }
   };
-  
+
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
@@ -214,7 +222,7 @@ const CustomerList = () => {
   };
 
   const handleCreate = () => {
-    // navigate("/customerManagement/CustomerCreation");
+    navigate("/customerManagement/CustomerCreation");
   };
 
   const handleDelete = () => {

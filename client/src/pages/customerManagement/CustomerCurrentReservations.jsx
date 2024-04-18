@@ -1,22 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReservations, deleteReservation } from "../../store/actions/ReservationAction";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUpRightFromSquare,
-  faEdit,
-  faEllipsisH,
-  faMagnifyingGlass,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CustomerCurrentReservations = ({ customerId }) => {
+const CustomerCurrentReservations = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reservations = useSelector((state) => state.reservation.reservations);
@@ -42,26 +32,40 @@ const CustomerCurrentReservations = ({ customerId }) => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
+
+  /*useEffect(() => {
+    dispatch(fetchReservations()).then(() => {
+      setLoading(false);
+    });
+  }, [dispatch]);*/
+
   useEffect(() => {
     dispatch(fetchReservations());
+    if (deleteReservation) {
+      dispatch(fetchReservations());
+    }
   }, []);
 
   useEffect(() => {
-    const filteredReservations = reservations.filter(
-      (reservation) => reservation.customerID === customerId
-    );
-    setFilteredData(filteredReservations);
-    const start = currentPage * perPage;
-    const end = start + perPage;
-    const slicedData = reservations?.slice(start, end);
-    setPaginatedData(slicedData);
-    if (selectedRows.length === 1) {
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
-    }
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered, customerId]);
+    dispatch(fetchReservations()).then(() => {
+      if (reservations && reservations.length > 0 && !isFiltered) {
+        setFilteredData(reservations);
 
+        const start = currentPage * perPage;
+        const end = start + perPage;
+        const slicedData = reservations?.slice(start, end);
+        setPaginatedData(slicedData);
+
+        if (selectedRows.length === 1) {
+          setIsDeleteDisable(false);
+        } else {
+          setIsDeleteDisable(true);
+        }
+      }
+    });
+  }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
+
+  
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setIsFiltered(e.target.value !== "");
@@ -98,7 +102,9 @@ const CustomerCurrentReservations = ({ customerId }) => {
     }
   };
 
+
   const columns = [
+    
     {
       name: "Reservation ID",
       selector: (row) => row.reservationID,
@@ -142,16 +148,19 @@ const CustomerCurrentReservations = ({ customerId }) => {
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
+  
+
   };
+  
 
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     >
-      {/* <div className="menu-item" onClick={() => handleEdit()}>
+     {/* <div className="menu-item" onClick={() => handleEdit()}>
         <FontAwesomeIcon icon={faEdit} /> Edit
-      </div>
+  </div> 
       <div className="menu-item" onClick={() => handleDetails()}>
         <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> More info
       </div> */}
@@ -162,8 +171,9 @@ const CustomerCurrentReservations = ({ customerId }) => {
 
   return (
     <div className="mb-5 mx-2">
+
       <div className="table-responsive">
-        <ReservationGroupTable
+      <ReservationGroupTable
           reservations={reservations}
           selectableRows={true}
           selectableRowsSingle={true}
@@ -184,14 +194,16 @@ const CustomerCurrentReservations = ({ customerId }) => {
         />
       </div>
 
-      {/* Popup menu */}
-      <div>{customContextMenu}</div>
+       {/* Popup menu */}
+       <div>{customContextMenu}</div>
 
-      <DeleteConfirmModel
+       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
         title={"Warning"}
-        message={"The selected Reservation will be deleted. Do you wish to continue?"}
+        message={
+          "The selected Reservation will be deleted. Do you wish to continue?"
+        }
         type={"Yes"}
         action={() => {
           confirmDelete();
@@ -201,4 +213,4 @@ const CustomerCurrentReservations = ({ customerId }) => {
   );
 };
 
-export default CustomerCurrentReservations;
+export default CustomerCurrentReservations
