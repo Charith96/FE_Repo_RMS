@@ -281,9 +281,9 @@ const ReservationList = () => {
           setCurrentPage={setCurrentPage}
           setSelectedRows={setSelectedRows}
           setMenuVisible={setMenuVisible}
-          paginatedData={reservations}
+          paginatedData={paginatedData}
           filteredData={filteredData}
-          totalItems={reservations.length}
+          totalItems={totalItems}
           currentPage={currentPage}
           perPage={perPage}
           columns={columns}

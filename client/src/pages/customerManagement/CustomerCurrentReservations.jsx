@@ -182,9 +182,9 @@ const CustomerCurrentReservations = ({ email }) => {
           setCurrentPage={setCurrentPage}
           setSelectedRows={setSelectedRows}
           setMenuVisible={setMenuVisible}
-          paginatedData={reservations}
+          paginatedData={paginatedData}
           filteredData={filteredData}
-          totalItems={reservations.length}
+          totalItems={totalItems}
           currentPage={currentPage}
           perPage={perPage}
           columns={columns}
@@ -194,7 +194,6 @@ const CustomerCurrentReservations = ({ email }) => {
           isSingleRecordSelected={isSingleRecordSelected}
         />
       </div>
-
        {/* Popup menu */}
        <div>{customContextMenu}</div>
 
