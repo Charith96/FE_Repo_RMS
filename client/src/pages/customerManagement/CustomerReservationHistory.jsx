@@ -1,16 +1,6 @@
 import React, { useEffect,useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReservations, deleteReservation } from "../../store/actions/ReservationAction";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUpRightFromSquare,
-  faEdit,
-  faEllipsisH,
-  faMagnifyingGlass,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
