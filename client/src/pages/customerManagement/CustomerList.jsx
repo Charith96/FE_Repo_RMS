@@ -143,18 +143,27 @@ const CustomerList = () => {
     if (selectedRows.length === 1) {
       let data = { ...contextMenuRow }; // Copy the row data
       let dataString = JSON.stringify(data); // Convert data to string
-      navigate(`/customerManagement/CustomerOverview?data=${encodeURIComponent(dataString)}`, { state: { mode: "edit" } });
+      navigate(
+        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
+          dataString
+        )}`,
+        { state: { mode: "edit" } }
+      );
     }
   };
 
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { ...contextMenuRow }; 
-      let dataString = JSON.stringify(data); 
-      navigate(`/customerManagement/CustomerOverview?data=${encodeURIComponent(dataString)}`, { state: { mode: "view" } });
+      let data = { ...contextMenuRow };
+      let dataString = JSON.stringify(data);
+      navigate(
+        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
+          dataString
+        )}`,
+        { state: { mode: "view" } }
+      );
     }
   };
-  
 
   const customContextMenu = menuVisible && (
     <div
