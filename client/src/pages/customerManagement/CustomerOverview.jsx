@@ -95,11 +95,19 @@ const CustomerOverview = () => {
     },
     {
       name: "Current Reservations",
-      content: <CustomerCurrentReservations />,
+      content: paramData?.email === "hasinichamodi4@gmail.com" ? (
+        <CustomerCurrentReservations email={paramData?.email} />
+      ) : (
+        <p>No reservations found for this customer.</p>
+      ),
     },
     {
       name: "History",
-      content: <CustomerReservationHistory />,
+      content: paramData?.email === "hasinichamodi4@gmail.com" ? (
+        <CustomerReservationHistory email={paramData?.email} />
+      ) : (
+        <p>No reservations found for this customer.</p>
+      ),
     },
   ];
 

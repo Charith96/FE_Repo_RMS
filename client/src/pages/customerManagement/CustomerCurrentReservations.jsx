@@ -6,7 +6,7 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CustomerCurrentReservations = () => {
+const CustomerCurrentReservations = ({ email }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reservations = useSelector((state) => state.reservation.reservations);
@@ -48,9 +48,10 @@ const CustomerCurrentReservations = () => {
 
   useEffect(() => {
     dispatch(fetchReservations()).then(() => {
-      if (reservations && reservations.length > 0 && !isFiltered) {
-        setFilteredData(reservations);
-
+      if (reservations && reservations.length > 0 && email) {
+        const filtered = reservations.filter((reservation) => reservation.customerEmail === email);
+        setFilteredData(filtered);
+      
         const start = currentPage * perPage;
         const end = start + perPage;
         const slicedData = reservations?.slice(start, end);
@@ -63,7 +64,7 @@ const CustomerCurrentReservations = () => {
         }
       }
     });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
+  }, [reservations, currentPage, perPage, selectedRows, isFiltered,email]);
 
   
   const handleSearchChange = (e) => {
@@ -213,4 +214,4 @@ const CustomerCurrentReservations = () => {
   );
 };
 
-export default CustomerCurrentReservations
+export default CustomerCurrentReservations;

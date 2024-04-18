@@ -141,44 +141,20 @@ const CustomerList = () => {
 
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = {
-        id: contextMenuRow.id,
-        fullName: contextMenuRow.fullName,
-        identifier: contextMenuRow.identifier,
-        address: contextMenuRow.address,
-        email: contextMenuRow.email,
-        contactNo: contextMenuRow.contactNo,
-      };
-
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "edit" } }
-      );
+      let data = { ...contextMenuRow }; // Copy the row data
+      let dataString = JSON.stringify(data); // Convert data to string
+      navigate(`/customerManagement/CustomerOverview?data=${encodeURIComponent(dataString)}`, { state: { mode: "edit" } });
     }
   };
 
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = {
-        id: contextMenuRow.id,
-        fullName: contextMenuRow.fullName,
-        identifier: contextMenuRow.identifier,
-        address: contextMenuRow.address,
-        email: contextMenuRow.email,
-        contactNo: contextMenuRow.contactNo,
-      };
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "view" } }
-      );
+      let data = { ...contextMenuRow }; 
+      let dataString = JSON.stringify(data); 
+      navigate(`/customerManagement/CustomerOverview?data=${encodeURIComponent(dataString)}`, { state: { mode: "view" } });
     }
   };
+  
 
   const customContextMenu = menuVisible && (
     <div
