@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchReservations, deleteReservation, updateReservation } from "../../store/actions/ReservationAction";
+import {
+  fetchReservations,
+  deleteReservation,
+  updateReservation,
+} from "../../store/actions/ReservationAction";
 import { Row, Col, Table } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
@@ -64,13 +68,10 @@ const ItemInformation = ({ reservationData, mode }) => {
         <Col>
           <TitleActionBar
             Title={""}
-           isPlusHidden={true}
+            isPlusHidden={true}
             isEditHidden={true}
             isSaveHidden={true}
             isDeleteHidden={true}
-            //EditAction={() => setEditMode(true)}
-            //DeleteAction={handleDelete}
-            //SaveAction={handleSubmit}
           />
           <div style={{ margin: 10, padding: 20 }}>
             {/* Display Reservation Data in a Table */}
@@ -99,7 +100,9 @@ const ItemInformation = ({ reservationData, mode }) => {
         show={showConfirmation}
         close={() => setShowConfirmation(false)}
         title={"Warning"}
-        message={"The selected Reservation will be deleted. Do you wish to continue?"}
+        message={
+          "The selected Reservation will be deleted. Do you wish to continue?"
+        }
         type={"Yes"}
         action={confirmDelete}
       />

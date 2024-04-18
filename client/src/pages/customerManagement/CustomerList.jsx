@@ -79,6 +79,7 @@ const CustomerList = () => {
     });
   }, [customers, currentPage, perPage, selectedRows, isFiltered]);
 
+  //table columns
   const columns = [
     {
       name: "",
@@ -139,6 +140,7 @@ const CustomerList = () => {
     setContextMenuRow(row);
   };
 
+  //Edit option's functionality
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { ...contextMenuRow }; // Copy the row data
@@ -152,6 +154,7 @@ const CustomerList = () => {
     }
   };
 
+  //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { ...contextMenuRow };
@@ -165,6 +168,7 @@ const CustomerList = () => {
     }
   };
 
+  //Display Edit and Details options
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
@@ -179,8 +183,8 @@ const CustomerList = () => {
     </div>
   );
 
+  //Search bar
   const handleFilter = () => {
-    console.log(searchTerm);
     if (searchTerm === "") {
       setFilteredData(customers);
     } else {

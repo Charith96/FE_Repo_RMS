@@ -5,6 +5,7 @@ import { createCustomer } from "../../store/actions/customerActions";
 import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
 import { Row, Col, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const CustomerCreation = ({ createCustomer }) => {
   const navigate = useNavigate();
@@ -17,11 +18,13 @@ const CustomerCreation = ({ createCustomer }) => {
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
+    //Email validation
     const isValidEmail = (value) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return !value || emailRegex.test(value);
     };
 
+    //check whether all the mandotary fields are filled or not
     const mandatoryFieldsFilled =
       id.trim() !== "" &&
       fullName.trim() !== "" &&
@@ -53,7 +56,7 @@ const CustomerCreation = ({ createCustomer }) => {
       await createCustomer(newCustomer);
       navigate("/customerManagement/CustomerList"); 
     } catch (error) {
-      console.error("Error creating customer:", error);
+      toast.error("Error creating customer. Please try again.");
     }
   };
 

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchReservations, deleteReservation, updateReservation } from "../../store/actions/ReservationAction";
+import {
+  fetchReservations,
+  deleteReservation,
+  updateReservation,
+} from "../../store/actions/ReservationAction";
 import { Row, Col } from "react-bootstrap";
 import TextField from "../../components/TextField";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -10,7 +14,8 @@ import { toast } from "react-toastify";
 const General = ({ reservationData, mode }) => {
   const { reservationID, customerID } = reservationData || {}; // Destructure reservationID and customerID
   const dispatch = useDispatch();
-  const [filteredReservationData, setFilteredReservationData] = useState(reservationData);
+  const [filteredReservationData, setFilteredReservationData] =
+    useState(reservationData);
   const [editMode, setEditMode] = useState(mode === "edit");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -95,7 +100,9 @@ const General = ({ reservationData, mode }) => {
         show={showConfirmation}
         close={() => setShowConfirmation(false)}
         title={"Warning"}
-        message={"The selected Reservation will be deleted. Do you wish to continue?"}
+        message={
+          "The selected Reservation will be deleted. Do you wish to continue?"
+        }
         type={"Yes"}
         action={confirmDelete}
       />

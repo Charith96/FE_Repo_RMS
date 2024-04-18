@@ -1,6 +1,9 @@
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReservations, deleteReservation } from "../../store/actions/ReservationAction";
+import {
+  fetchReservations,
+  deleteReservation,
+} from "../../store/actions/ReservationAction";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
@@ -32,13 +35,6 @@ const CustomerCurrentReservations = ({ email }) => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-
-  /*useEffect(() => {
-    dispatch(fetchReservations()).then(() => {
-      setLoading(false);
-    });
-  }, [dispatch]);*/
-
   useEffect(() => {
     dispatch(fetchReservations());
     if (deleteReservation) {
@@ -49,9 +45,11 @@ const CustomerCurrentReservations = ({ email }) => {
   useEffect(() => {
     dispatch(fetchReservations()).then(() => {
       if (reservations && reservations.length > 0 && email) {
-        const filtered = reservations.filter((reservation) => reservation.customerEmail === email);
+        const filtered = reservations.filter(
+          (reservation) => reservation.customerEmail === email
+        );
         setFilteredData(filtered);
-      
+
         const start = currentPage * perPage;
         const end = start + perPage;
         const slicedData = reservations?.slice(start, end);
@@ -64,9 +62,8 @@ const CustomerCurrentReservations = ({ email }) => {
         }
       }
     });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered,email]);
+  }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
 
-  
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setIsFiltered(e.target.value !== "");
@@ -79,7 +76,7 @@ const CustomerCurrentReservations = ({ email }) => {
   };
 
   const handleCreate = () => {
-    //navigate("/customerManagement/CustomerCreation");
+    //navigate("/reservationOverviewPart/CreateReservations");
   };
 
   const handleDelete = () => {
@@ -103,9 +100,7 @@ const CustomerCurrentReservations = ({ email }) => {
     }
   };
 
-
   const columns = [
-    
     {
       name: "Reservation ID",
       selector: (row) => row.reservationID,
@@ -149,32 +144,21 @@ const CustomerCurrentReservations = ({ email }) => {
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
-  
-
   };
-  
 
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-    >
-     {/* <div className="menu-item" onClick={() => handleEdit()}>
-        <FontAwesomeIcon icon={faEdit} /> Edit
-  </div> 
-      <div className="menu-item" onClick={() => handleDetails()}>
-        <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> More info
-      </div> */}
-    </div>
+    ></div>
   );
 
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
-
       <div className="table-responsive">
-      <ReservationGroupTable
+        <ReservationGroupTable
           reservations={reservations}
           selectableRows={true}
           selectableRowsSingle={true}
@@ -194,10 +178,10 @@ const CustomerCurrentReservations = ({ email }) => {
           isSingleRecordSelected={isSingleRecordSelected}
         />
       </div>
-       {/* Popup menu */}
-       <div>{customContextMenu}</div>
+      {/* Popup menu */}
+      <div>{customContextMenu}</div>
 
-       <DeleteConfirmModel
+      <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
         title={"Warning"}

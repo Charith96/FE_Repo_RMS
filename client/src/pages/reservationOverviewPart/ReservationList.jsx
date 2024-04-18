@@ -1,6 +1,9 @@
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReservations, deleteReservation } from "../../store/actions/ReservationAction";
+import {
+  fetchReservations,
+  deleteReservation,
+} from "../../store/actions/ReservationAction";
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -41,13 +44,6 @@ const ReservationList = () => {
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
-
-
-  /*useEffect(() => {
-    dispatch(fetchReservations()).then(() => {
-      setLoading(false);
-    });
-  }, [dispatch]);*/
 
   useEffect(() => {
     dispatch(fetchReservations());
@@ -120,7 +116,6 @@ const ReservationList = () => {
         itemID: contextMenuRow.itemID,
         noOfPeople: contextMenuRow.noOfPeople,
         time1_time2: `${contextMenuRow.time1} - ${contextMenuRow.time2}`,
-
       };
 
       let dataString = JSON.stringify(data);
@@ -191,18 +186,6 @@ const ReservationList = () => {
       sortable: true,
       grow: 2,
     },
-    /*{
-      name: "Item ID",
-      selector: (row) => row.itemID,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "No of People",
-      selector: (row) => row.noOfPeople,
-      sortable: true,
-      grow: 2,
-    },*/
   ];
 
   const handleCellClick = (e, row) => {
@@ -210,17 +193,14 @@ const ReservationList = () => {
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
-  
-
   };
-  
 
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     >
-     {/* <div className="menu-item" onClick={() => handleEdit()}>
+      {/* <div className="menu-item" onClick={() => handleEdit()}>
         <FontAwesomeIcon icon={faEdit} /> Edit
   </div> */}
       <div className="menu-item" onClick={() => handleDetails()}>
@@ -233,7 +213,7 @@ const ReservationList = () => {
 
   return (
     <div className="mb-5 mx-2">
-     <TitleActionBar
+      <TitleActionBar
         Title={"Reservations List"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
@@ -260,7 +240,11 @@ const ReservationList = () => {
               onChange={handleSearchChange}
             />
             {isFiltered ? (
-              <Button variant="primary" className="form-btn" onClick={clearFilter}>
+              <Button
+                variant="primary"
+                className="form-btn"
+                onClick={clearFilter}
+              >
                 <FontAwesomeIcon icon={faXmark} />
               </Button>
             ) : (
@@ -273,7 +257,7 @@ const ReservationList = () => {
       </Row>
 
       <div className="table-responsive">
-      <ReservationGroupTable
+        <ReservationGroupTable
           reservations={reservations}
           selectableRows={true}
           selectableRowsSingle={true}
@@ -294,10 +278,10 @@ const ReservationList = () => {
         />
       </div>
 
-       {/* Popup menu */}
-       <div>{customContextMenu}</div>
+      {/* Popup menu */}
+      <div>{customContextMenu}</div>
 
-       <DeleteConfirmModel
+      <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
         title={"Warning"}

@@ -83,6 +83,7 @@ const CustomerOverview = () => {
     setIsSave(false);
   };
 
+  //Tabs
   const tabs = [
     {
       name: "General",
@@ -95,19 +96,21 @@ const CustomerOverview = () => {
     },
     {
       name: "Current Reservations",
-      content: paramData?.email === "hasinichamodi4@gmail.com" ? (
-        <CustomerCurrentReservations email={paramData?.email} />
-      ) : (
-        <p>No reservations found for this customer.</p>
-      ),
+      content:
+        paramData?.email === "hasinichamodi4@gmail.com" ? (
+          <CustomerCurrentReservations email={paramData?.email} />
+        ) : (
+          <p>No reservations found for this customer.</p>
+        ),
     },
     {
       name: "History",
-      content: paramData?.email === "hasinichamodi4@gmail.com" ? (
-        <CustomerReservationHistory email={paramData?.email} />
-      ) : (
-        <p>No reservations found for this customer.</p>
-      ),
+      content:
+        paramData?.email === "hasinichamodi4@gmail.com" ? (
+          <CustomerReservationHistory email={paramData?.email} />
+        ) : (
+          <p>No reservations found for this customer.</p>
+        ),
     },
   ];
 
