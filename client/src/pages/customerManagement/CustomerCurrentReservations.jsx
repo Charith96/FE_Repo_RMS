@@ -1,4 +1,4 @@
-import React, { useEffect,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReservations, deleteReservation } from "../../store/actions/ReservationAction";
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
@@ -16,7 +16,7 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CustomerCurrentReservations = () => {
+const CustomerCurrentReservations = ({ customerId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reservations = useSelector((state) => state.reservation.reservations);
@@ -42,53 +42,26 @@ const CustomerCurrentReservations = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-
-  /*useEffect(() => {
-    dispatch(fetchReservations()).then(() => {
-      setLoading(false);
-    });
-  }, [dispatch]);*/
-
   useEffect(() => {
     dispatch(fetchReservations());
-    if (deleteReservation) {
-      dispatch(fetchReservations());
-    }
   }, []);
 
   useEffect(() => {
-    dispatch(fetchReservations()).then(() => {
-      if (reservations && reservations.length > 0 && !isFiltered) {
-        // Calculate today's date dynamically
-        const today = new Date();
-        // Set hours, minutes, seconds, and milliseconds to 0 to compare dates
-        today.setHours(0, 0, 0, 0);
-  
-        // Filter reservations with dates on or after today
-        const filteredReservations = reservations.filter(reservation => {
-          const reservationDate = new Date(reservation.date);
-          // Set hours, minutes, seconds, and milliseconds to 0 to compare dates
-          reservationDate.setHours(0, 0, 0, 0);
-          return reservationDate >= today;
-        });
-  
-        setFilteredData(filteredReservations);
-  
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = filteredReservations.slice(start, end);
-        setPaginatedData(slicedData);
-  
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
-      }
-    });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
-  
-  
+    const filteredReservations = reservations.filter(
+      (reservation) => reservation.customerID === customerId
+    );
+    setFilteredData(filteredReservations);
+    const start = currentPage * perPage;
+    const end = start + perPage;
+    const slicedData = reservations?.slice(start, end);
+    setPaginatedData(slicedData);
+    if (selectedRows.length === 1) {
+      setIsDeleteDisable(false);
+    } else {
+      setIsDeleteDisable(true);
+    }
+  }, [reservations, currentPage, perPage, selectedRows, isFiltered, customerId]);
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setIsFiltered(e.target.value !== "");
@@ -125,9 +98,7 @@ const CustomerCurrentReservations = () => {
     }
   };
 
-
   const columns = [
-    
     {
       name: "Reservation ID",
       selector: (row) => row.reservationID,
@@ -171,19 +142,16 @@ const CustomerCurrentReservations = () => {
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
-  
-
   };
-  
 
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     >
-     {/* <div className="menu-item" onClick={() => handleEdit()}>
+      {/* <div className="menu-item" onClick={() => handleEdit()}>
         <FontAwesomeIcon icon={faEdit} /> Edit
-  </div> 
+      </div>
       <div className="menu-item" onClick={() => handleDetails()}>
         <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> More info
       </div> */}
@@ -194,9 +162,8 @@ const CustomerCurrentReservations = () => {
 
   return (
     <div className="mb-5 mx-2">
-
       <div className="table-responsive">
-      <ReservationGroupTable
+        <ReservationGroupTable
           reservations={reservations}
           selectableRows={true}
           selectableRowsSingle={true}
@@ -217,16 +184,14 @@ const CustomerCurrentReservations = () => {
         />
       </div>
 
-       {/* Popup menu */}
-       <div>{customContextMenu}</div>
+      {/* Popup menu */}
+      <div>{customContextMenu}</div>
 
-       <DeleteConfirmModel
+      <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
         title={"Warning"}
-        message={
-          "The selected Reservation will be deleted. Do you wish to continue?"
-        }
+        message={"The selected Reservation will be deleted. Do you wish to continue?"}
         type={"Yes"}
         action={() => {
           confirmDelete();

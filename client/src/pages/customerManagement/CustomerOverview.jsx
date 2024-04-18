@@ -5,8 +5,10 @@ import CustomerOverviewGeneral from "./CustomerOverviewGeneral";
 import CustomerCurrentReservations from "./CustomerCurrentReservations";
 import CustomerReservationHistory from "./CustomerReservationHistory";
 import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const CustomerOverview = () => {
+  const { customerId } = useParams();
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(false);
@@ -95,7 +97,7 @@ const CustomerOverview = () => {
     },
     {
       name: "Current Reservations",
-      content: <CustomerCurrentReservations />,
+      content: <CustomerCurrentReservations customerId={customerId} />,
     },
     {
       name: "History",
