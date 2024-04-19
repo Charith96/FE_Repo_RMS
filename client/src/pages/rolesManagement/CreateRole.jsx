@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { connect } from "react-redux";
-import { Row, Col, Form } from "react-bootstrap";
+import { Form, Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import FormButton from '../../components/FormButton';
+import { createRole } from '../../store/actions/RolesAction';
 
 import { toast } from "react-toastify";
 
-const CreateRole = ({ createRole }) => {
+function CreateRole() {
     const navigate = useNavigate();
 
     const [rolecode, setRoleCode] = useState('');
@@ -31,23 +31,6 @@ const CreateRole = ({ createRole }) => {
         ));
     };
 
-    /*const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        try {
-            await createRole(rolecode, rolename, privileges);
-            console.log('Role created successfully');
-            navigate('/rolesManagement/RoleList', { state: { roleName: rolename } });
-        } catch (error) {
-            console.error('Error creating role:', error);
-        }
-    };
-*/
-
-
-  
-     
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -64,6 +47,8 @@ const CreateRole = ({ createRole }) => {
             toast.error("Error creating Role. Please try again.");
           }
         };
+    
+
     return (
     
         <Row>
@@ -78,22 +63,21 @@ const CreateRole = ({ createRole }) => {
                 xxl={10}
                 className="body-content px-5 pt-4 pb-4 mb-5"
             >
+                
                 <Form onSubmit={handleSubmit}>
                     <TextField
                         label="Role Code"
                         type="text"
                         value={rolecode}
-                        onChange={(e) => setRoleCode(e.target.value)}
+                        onChange={handleRoleCodeChange}
                         maxLength={8}
-                        isMandatory={true}
                     />
                     <TextField
                         label="Role Name"
                         type="text"
                         value={rolename}
-                        onChange={(e) => setRoleName(e.target.value)}
+                        onChange={handleRoleNameChange}
                         maxLength={20}
-                        isMandatory={true}
                     />
                     <div className="mb-3">
                         <table className="table">
