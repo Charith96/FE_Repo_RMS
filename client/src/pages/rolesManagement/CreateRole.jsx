@@ -5,7 +5,7 @@ import { createRole } from "../../";
 import { Row, Col, Form } from "react-bootstrap";
 import TextField from '../../components/TextField';
 import FormButton from '../../components/FormButton';
-import { createRole } from '../../store/actions/RolesAction';
+import { createRole } from '../../store/actions/';
 import { toast } from "react-toastify";
 
 function CreateRole() {
