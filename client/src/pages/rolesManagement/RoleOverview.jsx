@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
+import { useNavigate, useLocation } from 'react-router-dom'; 
+import { Row, Col } from 'react-bootstrap'; 
 import TextField from '../../components/TextField';
-import TitleActionBar from '../../components/TitleActionsBar';
+import TitleActionBar from '../../components/TitleActionsBar'; 
 import { useDispatch } from 'react-redux';
 import { updateRole } from '../../store/actions/RolesAction'; 
-import ActionTypes from "../../data/ReduxActionTypes";
+import ActionTypes from "../../data/ReduxActionTypes"; 
 
 function RoleOverview() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
+    const dispatch = useDispatch(); 
+    const navigate = useNavigate(); 
+    const location = useLocation(); 
     const roleData = location.state && location.state.roleData;
     const [values, setValues] = useState({
         rolecode: '',
@@ -21,6 +21,7 @@ function RoleOverview() {
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
+        // Effect to update state when roleData changes
         if (roleData) {
             setValues({
                 rolecode: roleData.rolecode || '',
@@ -32,6 +33,7 @@ function RoleOverview() {
         }
     }, [roleData]);
 
+    // Event handler for checkbox change
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setEditingPrivileges((prevPrivileges) =>
@@ -41,38 +43,41 @@ function RoleOverview() {
         );
     };
 
+    // Event handler for edit action
     const handleEdit = () => {
         setIsEditing(true);
     };
 
+    // Event handler for save action
     const handleSave = async () => {
         const updatedRoleData = { ...values, privileges: editingPrivileges };
-        const roleId = roleData.rolecode; // Assuming there is a property `id` in `roleData` that holds the role ID
+        const roleId = roleData.rolecode; 
         try {
-            dispatch({ type: ActionTypes.MANAGE_ROLE_START });
-            const response = await updateRole(roleId, updatedRoleData); // Dispatch the action with await
+            dispatch({ type: ActionTypes.MANAGE_ROLE_START }); // Dispatching action to indicate start of role management
+            const response = await updateRole(roleId, updatedRoleData); // Updating role
+            console.log('Response:', response); // Logging response for debugging
             if (response.status === 200) {
-                dispatch({ type: ActionTypes.UPDATE_ROLE_SUCCESS, payload: response.data });
-                setIsEditing(false);
+                dispatch({ type: ActionTypes.UPDATE_ROLE_SUCCESS, payload: response.data }); // Dispatching action for successful role update
+                setIsEditing(false); // Disabling edit mode
             }
         } catch (error) {
-            dispatch({ type: ActionTypes.UPDATE_ROLE_FAILURE, payload: error });
+            dispatch({ type: ActionTypes.UPDATE_ROLE_FAILURE, payload: error }); // Dispatching action for failed role update
             console.error('Error updating role:', error);
         }
     };
-    
 
     return (
         <>
+            {/* TitleActionBar component for displaying title and actions */}
             <TitleActionBar
                 Title={"Roles Overview"}
                 EditDisabled={false}
                 SaveDisabled={!isEditing}
                 DeleteDisabled={true}
-                PlusAction={() => navigate("/rolesManagement/CreateRole")}
-                EditAction={handleEdit}
-                SaveAction={handleSave}
-                DeleteAction={() => { }}
+                PlusAction={() => navigate("/rolesManagement/CreateRole")} 
+                EditAction={handleEdit} 
+                SaveAction={handleSave} 
+                DeleteAction={() => { }} 
             />
             <Row>
                 <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
@@ -85,17 +90,20 @@ function RoleOverview() {
                     xxl={10}
                     className="body-content px-5 pt-4 pb-4 mb-5"
                 >
+                    {/* TextField for displaying role code */}
                     <TextField
                         label="Role Code:"
                         value={values.rolecode}
                         disabled={!isEditing}
                     />
+                    {/* TextField for displaying role name */}
                     <TextField
                         label="Role Name:"
                         value={values.rolename}
                         disabled={!isEditing}
                     />
                     <div className="mb-3">
+                        {/* Table for displaying privileges */}
                         <table className="table">
                             <thead>
                                 <tr>
@@ -104,10 +112,12 @@ function RoleOverview() {
                                 </tr>
                             </thead>
                             <tbody>
+                                {/* Mapping through privileges and rendering checkboxes */}
                                 {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
                                     <tr key={privilege}>
                                         <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
                                         <td>
+                                            {/* Checkbox for each privilege */}
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"

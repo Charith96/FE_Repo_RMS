@@ -36,8 +36,6 @@ function RoleList() {
     const [editedRoleName, setEditedRoleName] = useState('');
     const [searchValue, setSearchValue] = useState("");
     
-
-
     // Redux state
     const roles = useSelector(state => state.roles);
     const { roles: data, loading } = roles;
@@ -115,31 +113,31 @@ function RoleList() {
     };
 
     // Function to handle editing of role name
-   const handleEdit = (rowId, rolename) => {
-    setEditingRow(rowId);
-    setEditedRoleName(rolename);
-    setIsEditDisable(true);
-    setIsSaveDisable(false);
-};
+    const handleEdit = (rowId, rolename) => {
+        setEditingRow(rowId);
+        setEditedRoleName(rolename);
+        setIsEditDisable(true);
+        setIsSaveDisable(false);
+    };
 
 
-  // Function to handle saving of edited role name
-const handleSave = async () => {
-  if (editedRoleName.trim() === "") {
-      toast.error("Role name cannot be empty");
-      return;
-  }
+    // Function to handle saving of edited role name
+    const handleSave = async () => {
+        if (editedRoleName.trim() === "") {
+            toast.error("Role name cannot be empty");
+            return;
+        }
 
-  try {
-      await dispatch(updateRole(editingRow, { rolename: editedRoleName }));
-      toast.success("Role name updated successfully");
-      setIsEditDisable(false);
-      setIsSaveDisable(true);
-      setEditingRow(null);
-  } catch (error) {
-      toast.error("Error updating role name. Please try again.");
-  }
-};
+        try {
+            await dispatch(updateRole(editingRow, { rolename: editedRoleName }));
+            toast.success("Role name updated successfully");
+            setIsEditDisable(false);
+            setIsSaveDisable(true);
+            setEditingRow(null);
+        } catch (error) {
+            toast.error("Error updating role name. Please try again.");
+        }
+    };
 
     const toggleRowSelection = (rowId) => {
         const isSelected = selectedRows.includes(rowId);
@@ -150,25 +148,45 @@ const handleSave = async () => {
         }
     };
 
-   // Function to handle clicking the Edit icon
-const handleEditIconClick = () => {
-  if (selectedRows.length === 1) {
-      const selectedIndex = data.findIndex(item => item.id === selectedRows[0]);
-      if (selectedIndex !== -1) {
-          handleEdit(selectedRows[0], data[selectedIndex].rolename);
-      }
-  }
-};
+    // Function to handle clicking the Edit icon
+    const handleEditIconClick = () => {
+        if (selectedRows.length === 1) {
+            const selectedIndex = data.findIndex(item => item.id === selectedRows[0]);
+            if (selectedIndex !== -1) {
+                handleEdit(selectedRows[0], data[selectedIndex].rolename);
+            }
+        }
+    };
 
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
+        setSearchTerm(inputValue);
         setSearchValue(inputValue);
         setIsFiltered(inputValue !== "");
+
+        const filteredRoles = data.filter(role =>
+            role.rolename.toLowerCase().includes(inputValue)
+        );
+        setFilteredData(filteredRoles);
+
+        // Update paginated data based on the filtered results
+        const start = currentPage * perPage;
+        const end = start + perPage;
+        const slicedData = filteredRoles.slice(start, end);
+        setPaginatedData(slicedData);
     };
 
     const clearFilter = () => {
         setSearchValue("");
+        setSearchTerm("");
         setIsFiltered(false);
+        setFilteredData(data);
+
+        // Reset paginated data to initial state
+        const start = currentPage * perPage;
+        const end = start + perPage;
+        const slicedData = data.slice(start, end);
+        setPaginatedData(slicedData);
     };
 
     const handleCellClick = (e, item) => {
@@ -183,7 +201,7 @@ const handleEditIconClick = () => {
             <TitleActionBar
                 Title={"Role List"}
                 plustDisabled={isAddDisable}
-                //editDisabled={isEditDisable}
+                editDisabled={isEditDisable}
                 saveDisabled={isSaveDisable}
                 deleteDisabled={isDeleteDisable}
                 PlusAction={handleCreate}
