@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect,  useState } from "react"
 import {
   fetchReservationGroups,
 
 } from "../../store/actions/ReservationGroupActions";
-
 import { Row,  Form, Col } from "react-bootstrap";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { toastFunction } from "../../components/ToastComponent";
 import { fetchData} from '../../store/actions/UserActions';
 import {createReservation} from '../../store/actions/ReservationAction';
@@ -101,7 +98,6 @@ const ReservationGroupList = () => {
        setGroupID(value);
       const selectItems=groupItem.filter(item=>item.reservationGroup===selectedGroup.id)
       setSelectedItems(selectItems);
-      console.log(selectedItems);
       setFormData((prevState) => ({
         ...prevState,
         [id]: value,
@@ -125,7 +121,7 @@ const ReservationGroupList = () => {
         [id]: value,
         reservationID: reservationID,
       }));
-      console.log(reservationID);
+     
       }
      
     } else  if (id === "item") {  
@@ -180,17 +176,10 @@ const ReservationGroupList = () => {
           <div>
             <h3 className="mb-5">Create Reservations</h3>
             <Form onSubmit={handleSubmit}>
-              <TextField
-                id="reservationID"
-                label="Reservation ID:"
-                onChange={handleInputChange}
-                value={formData.userID}
-                disabled={true}
              
-              />
              <TextField
                 id="customerID"
-                label="customer ID:"
+                label="Customer ID:"
                 onChange={handleInputChange}
                 value={formData.userID}
                 disabled={false}

@@ -60,7 +60,6 @@ const ReservationGroupList = () => {
 
   useEffect(() => {
     fetchData();
-    console.log("Updated formData:", formData);
   }, [fetchData,reservationID,formData]);
 
   useEffect(() => {
@@ -98,8 +97,7 @@ const ReservationGroupList = () => {
   const handleInputChange = (e) => {
     setEditMode(true);
     const { id, value } = e.target;
-    console.log("ID:", id);
-    console.log("Value:", value);
+   
     if (id === "date") {
       try{
         setFormData({
@@ -107,6 +105,8 @@ const ReservationGroupList = () => {
           [id]: value
         });
            setDateSelected(true);
+      
+     
       }catch(error){
           console.log(error);
       }
@@ -117,7 +117,7 @@ const ReservationGroupList = () => {
       const startDate = new Date(formData.date);
     let endDate = new Date(formData.date);
     const [endHour, endMinute] = endTime.split(':');
-      console.log(id);
+    
       if (parseInt(endHour) < parseInt(startTime)) {
         endDate.setDate(startDate.getDate() + 1); 
       }
@@ -155,6 +155,7 @@ const ReservationGroupList = () => {
   }
    
   };
+  //calculating available reservations according to the date and time range
   const calculateAvailableReservations = () => {
     const time1 = formData.time1;
     const time2 = formData.time2;
@@ -174,7 +175,7 @@ const ReservationGroupList = () => {
     return availableReservation> 0 ? availableReservation: "Reservations filled.";
   };
   
-  
+    //calculating available Capacity according to the date and time range
   const calculateAvailableCapacity = () => {
     if (slotType !== "Flexible") {
       const time1 = formData.time1;
@@ -185,10 +186,10 @@ const ReservationGroupList = () => {
         (reservation.time1 <= time1 && reservation.time2 >= time2);
       });
       const totalPeopleWithinRangeFlexible = reservationsWithinTimeRangeFle.reduce((total, reservation) => {
-        console.log(total + reservation.noOfPeople);
+      
         return total + reservation.noOfPeople;
       }, 0);
-      console.log("Total people within range flexible:", totalPeopleWithinRangeFlexible);
+
       const availableResFlexible = fetchItem.capacity - totalPeopleWithinRangeFlexible;
       return availableResFlexible  > 0 ? availableResFlexible  :"Capacity Reached.";
     } else {
@@ -209,6 +210,7 @@ const ReservationGroupList = () => {
       return availableCapacity > 0 ? availableCapacity : "Capacity Reached.";
     }
   };
+  //calling avialable capacity function
   const callCalculateAvailableCapacity = () => {
     const availableCapacity = calculateAvailableCapacity();
 
@@ -224,7 +226,7 @@ const ReservationGroupList = () => {
   }
     return availableCapacity;
   };
-
+  //calling avialable reservation function
   const callcalculateAvailableReservations= () => {
     const availableReservations = calculateAvailableReservations();
 

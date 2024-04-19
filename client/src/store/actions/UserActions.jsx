@@ -34,25 +34,25 @@ export const fetchData = () => async (dispatch) => {
   }
 };
 
-export const fetchCompanyData = () => async (dispatch) => {
+export const fetchUserCompanyData = () => async (dispatch) => {
   try {
-    dispatch({ type: ActionTypes.GET_COMPANY_REQUEST }); 
+    dispatch({ type: ActionTypes.GET_USERCOMPANY_REQUEST }); 
     const response = await axios.get(`${BASE_URL}${COMPANY_URL}`);
 
-    dispatch({ type: ActionTypes.GET_COMPANY_SUCCESS, payload: response.data }); 
+    dispatch({ type: ActionTypes.GET_USERCOMPANY_SUCCESS, payload: response.data }); 
   } catch (error) {
-    dispatch({ type: ActionTypes.GET_COMPANY_FAIL, payload: error.message || "An error occurred" }); 
+    dispatch({ type: ActionTypes.GET_USERCOMPANY_FAIL, payload: error.message || "An error occurred" }); 
   }
 };
 
-export const fetchRoleData = () => async (dispatch) => {
+export const fetchUserRoleData = () => async (dispatch) => {
   try {
-    dispatch({ type: ActionTypes.GET_ROLES_REQUEST }); 
+    dispatch({ type: ActionTypes.GET_USERROLES_REQUEST }); 
     const response = await axios.get(`${BASE_URL}${ROLE_URL}`);
 
-    dispatch({ type: ActionTypes.GET_ROLES_SUCCESS, payload: response.data });
+    dispatch({ type: ActionTypes.GET_USERROLES_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch({ type: ActionTypes.GET_ROLES_FAIL, payload: error.message || "An error occurred" }); 
+    dispatch({ type: ActionTypes.GET_USERROLES_FAIL, payload: error.message || "An error occurred" }); 
   }
 };
 

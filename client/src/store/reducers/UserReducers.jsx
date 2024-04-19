@@ -32,13 +32,13 @@ export const userReducer = (state = initialState, action) => {
     case ActionTypes.GET_USERS_FAILID:
     case ActionTypes.CREATE_USER_SUCCESS:
       return { ...state, users: [...state.users, action.payload], error: null };
-    case ActionTypes.GET_COMPANY_SUCCESS:
+    case ActionTypes.GET_USERCOMPANY_SUCCESS:
       return {
         ...state,
         loading: false,
         company: action.payload,
       };
-    case ActionTypes.GET_ROLES_SUCCESS:
+    case ActionTypes.GET_USERROLES_SUCCESS:
       return {
         ...state,
         loading: false,

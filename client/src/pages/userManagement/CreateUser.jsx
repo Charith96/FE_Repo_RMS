@@ -1,11 +1,10 @@
 import { toastFunction } from "../../components/ToastComponent";
-import { fetchCompanyData, fetchRoleData } from '../../store/actions/UserActions';
+import {fetchUserCompanyData  , fetchUserRoleData } from '../../store/actions/UserActions';
 import { selectUserData } from '../../store/Store';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
 import TextField from "../../components/TextField";
-import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { createUser ,fetchData} from "../../store/actions/UserActions";
@@ -64,8 +63,8 @@ const Main = () => {
     }
   }, [formData]);
   useEffect(() => {
-    dispatch(fetchCompanyData());
-    dispatch(fetchRoleData());
+    dispatch(fetchUserCompanyData());
+    dispatch(fetchUserRoleData());
     dispatch(fetchData());
   }, [dispatch]);
   const validateForm = () => {
@@ -83,13 +82,7 @@ const Main = () => {
     } = formData;
 
     
-    // User ID validation
-    // if (userId.length < 8) {
-    //   toastFunction("User ID must be at least 8 characters long", true);
-    //   return false;
-    // }
-
-  
+   
 
     // Password validation
     const passwordRegex = /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -114,8 +107,7 @@ const Main = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     
-    console.log(e);
-    console.log("Value:", value);
+    
     if (id === "defaultCompany" ) {
     
       setFormData((prevState) => ({
@@ -210,14 +202,7 @@ const Main = () => {
           <div>
             <h3 className="mb-5">Create Users</h3>
             <Form onSubmit={handleSubmit}>
-              {/* <TextField
-                id="userID"
-                label="User ID:"
-                onChange={handleInputChange}
-                value={formData.userID}
-                disabled={true}
-                type="email"
-              /> */}
+            
              <TextField
   id="firstName"
   label="First Name:"
@@ -241,7 +226,7 @@ const Main = () => {
                     value={formData.defaultCompany}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Default Company</option>
+               <option value="">Select Company</option>
                     {userData.company.map((company) => (
                       <option key={company.id} value={company.name}>
                         {company.name}
@@ -268,7 +253,7 @@ const Main = () => {
                     value={formData.primaryRole}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Primary Role</option>
+                        <option value="">Select Roles</option>
                     {userData.roles.map((role) => (
                       <option key={role.id} value={role.name}>
                         {role.name}

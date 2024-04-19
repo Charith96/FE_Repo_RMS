@@ -1,5 +1,4 @@
 import React from "react";
-const contextMenuRow = { id: "244e" };
 
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
@@ -38,11 +37,14 @@ const UserList = React.lazy(() =>
 const UserOverview = React.lazy(() =>
   import("./pages/userManagement/UserOverview")
 );
+//reservation
 const ReservationCreation=React.lazy(()=>
- import("./pages/reservation/reservationCreation")
+ import("./pages/reservation/ReservationCreation")
  );
+
  const ResevationTImeSlots=React.lazy(()=>
- import("./pages/reservation/reservationTImeslots"));
+ import("./pages/reservation/ReservationTimeslots")
+);
 const routes = [
   // dashboard
   {

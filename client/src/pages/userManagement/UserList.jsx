@@ -192,7 +192,7 @@ const UserList = () => {
  
   const handleFilter = () => {
  
-        console.log(searchTerm);
+      
       if (searchTerm === "") {
         setFilteredData(userData.users);
       } else {

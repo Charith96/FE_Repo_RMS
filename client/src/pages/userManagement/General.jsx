@@ -16,8 +16,6 @@ const UserDetailsPage = ({value, mode}) => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const [filteredUserData, setFilteredUserData] = useState({});
-  const [filteredCompanyData, setFilteredCompanyData] = useState({});
-  const [filteredRoleData, setFilteredRoleData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isViewMode, setIsViewMode]=useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -52,13 +50,11 @@ const UserDetailsPage = ({value, mode}) => {
       if (modea) {
         if (modea === "edit") {
           setEditMode(true);
-          // setEd(true);
-          // setIsSaveDisable(false);
+       
         } else if (modea === "view") {
           setIsViewMode(true);
 
-          // setIsEditDisable(false);
-          // setIsSaveDisable(true);
+       
         }
       }
     
@@ -188,7 +184,7 @@ const UserDetailsPage = ({value, mode}) => {
   );
 };
 
-const UserForm = ({ formData, onChange, editMode,userData ,isViewMode}) => {
+const UserForm = ({ formData, onChange, editMode,isViewMode}) => {
 
   return (
     <>

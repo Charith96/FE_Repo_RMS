@@ -3,8 +3,8 @@ import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
 import { useLocation } from "react-router-dom";
 import General from './General';
-import Roles from './Roles';
-import Company from './Company';
+import Roles from './UserRoles';
+import Company from './UserCompany';
 
 
 
