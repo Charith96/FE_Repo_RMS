@@ -1,26 +1,6 @@
 {
   "Roles": [
     {
-      "rolecode": "4543wecd",
-      "rolename": "olady officerld ",
-      "privileges": [
-        "createAccess",
-        "viewAccess",
-        "updateAccess",
-        "deleteAccess"
-      ],
-      "id": "c5f7"
-    },
-    {
-      "rolecode": "67cd",
-      "rolename": "vgtr",
-      "privileges": [
-        "createAccess",
-        "viewAccess"
-      ],
-      "id": "a6f3"
-    },
-    {
       "rolecode": "m7878",
       "rolename": "njnj",
       "privileges": [
@@ -57,6 +37,32 @@
     {
       "rolename": "bn",
       "id": "e5b3"
+    },
+    {
+      "id": "1c84",
+      "rolecode": "898",
+      "rolename": "mnmnm",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "98a6",
+      "rolecode": "7878",
+      "rolename": "test 45",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "5fff",
+      "rolecode": "5612",
+      "rolename": "weqasd",
+      "privileges": [
+        "createAccess",
+        "deleteAccess"
+      ]
     }
   ],
   "groupcreation": [

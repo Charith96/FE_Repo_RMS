@@ -3,9 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import TitleActionBar from '../../components/TitleActionsBar';
-import { updateRole } from '../../store/actions/RolesAction'; // Corrected import statements
+import { useDispatch } from 'react-redux';
+import { updateRole } from '../../store/actions/RolesAction'; 
+import ActionTypes from "../../data/ReduxActionTypes";
 
 function RoleOverview() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const roleData = location.state && location.state.roleData;
@@ -44,11 +47,16 @@ function RoleOverview() {
 
     const handleSave = async () => {
         const updatedRoleData = { ...values, privileges: editingPrivileges };
-        const roleId = roleData.id; // Assuming there is a property `id` in `roleData` that holds the role ID
+        const roleId = roleData.rolecode; // Assuming there is a property `id` in `roleData` that holds the role ID
         try {
-            await updateRole(roleId, updatedRoleData); // Pass role ID along with the updated role data
-            setIsEditing(false);
+            dispatch({ type: ActionTypes.MANAGE_ROLE_START });
+            const response = await updateRole(roleId, updatedRoleData); // Dispatch the action with await
+            if (response.status === 200) {
+                dispatch({ type: ActionTypes.UPDATE_ROLE_SUCCESS, payload: response.data });
+                setIsEditing(false);
+            }
         } catch (error) {
+            dispatch({ type: ActionTypes.UPDATE_ROLE_FAILURE, payload: error });
             console.error('Error updating role:', error);
         }
     };

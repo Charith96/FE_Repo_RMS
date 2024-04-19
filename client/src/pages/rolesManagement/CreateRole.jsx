@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux'; // Importing useDispatch hook
 import { useNavigate } from 'react-router-dom';
 import { Form, Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import FormButton from '../../components/FormButton';
 import { createRole } from '../../store/actions/RolesAction';
 
-import { toast } from "react-toastify";
-
 function CreateRole() {
+    const dispatch = useDispatch(); // Initializing useDispatch hook
     const navigate = useNavigate();
 
     const [rolecode, setRoleCode] = useState('');
@@ -33,20 +33,16 @@ function CreateRole() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        //const newRole = {
-           // rolecode,
-            //rolename,
-          //};
-      
-          try {
-            await createRole(rolecode, rolename, privileges);
-            toast.log('Role created successfully');
+    
+        try {
+            // Dispatching createRole action
+            await dispatch(createRole(rolecode, rolename, privileges));
+            console.log('Role created successfully');
             navigate('/rolesManagement/RoleList', { state: { roleName: rolename } });
-          } catch (error) {
-            toast.error("Error creating Role. Please try again.");
-          }
-        };
+        } catch (error) {
+            console.error('Error creating role:', error);
+        }
+    };
     
 
     return (
