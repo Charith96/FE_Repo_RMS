@@ -1,14 +1,6 @@
 {
   "customers": [
     {
-      "id": "19872917",
-      "fullName": "Emli",
-      "identifier": "717173A",
-      "address": "Kandy",
-      "email": "emli@uok.lk",
-      "contactNo": "0738282829"
-    },
-    {
       "id": "21121132",
       "fullName": "kelan ferhanss",
       "identifier": "8789HJ",
@@ -39,6 +31,14 @@
       "address": "Australia",
       "email": "hasinichamodi4@gmail.com",
       "contactNo": "078384278"
+    },
+    {
+      "id": "55555555",
+      "fullName": "Amashi",
+      "identifier": "3Dr",
+      "address": "Gampaha",
+      "email": "ama@gmail.com",
+      "contactNo": "07811233344"
     }
   ],
   "groupcreation": [

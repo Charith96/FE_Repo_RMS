@@ -55,6 +55,7 @@ const CustomerCreation = ({ createCustomer }) => {
     try {
       await createCustomer(newCustomer);
       navigate("/customerManagement/CustomerList"); 
+      toast.success("Customer created successfully");
     } catch (error) {
       toast.error("Error creating customer. Please try again.");
     }

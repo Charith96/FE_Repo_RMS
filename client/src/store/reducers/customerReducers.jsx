@@ -5,7 +5,7 @@ const initialState = {
   error: null,
 };
 
-const customerReducer = (state = initialState, action) => {
+const CustomerReducers = (state = initialState, action) => {
   switch (action.type) {
     case 'FETCH_CUSTOMERS_SUCCESS':
       return {
@@ -73,4 +73,4 @@ const customerReducer = (state = initialState, action) => {
   }
 };
 
-export default customerReducer;
+export default CustomerReducers;

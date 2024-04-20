@@ -36,6 +36,11 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     }
   };
 
+
+  const handleCreate = () => {
+    navigate("/customerManagement/CustomerCreation");
+  };
+  
   const handleDelete = () => {
     setShowConfirmation(true);
   };
@@ -56,8 +61,9 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     try {
       await dispatch(updateCustomer(id, filteredCustomerData));
       setEditMode(false);
+      toast.success("Changes saved successfully");
     } catch (error) {
-      console.error("Error saving data:", error);
+      toast.error("Error saving data:", error);
     }
   };
 
@@ -70,6 +76,9 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
             EditAction={() => setEditMode(true)}
             DeleteAction={handleDelete}
             SaveAction={handleSubmit}
+            PlusAction={() => {
+              handleCreate();
+            }}
           />
           <div style={{ margin: 10, padding: 20 }}>
             <CustomerForm
