@@ -7,6 +7,7 @@ const initialState = {
   editReservationGroup: null,
   deleteReservationGroup: null,
   editReservationGroupFlag: false,
+  fetchReservationItemByGroupFlag: false,
   checkDuplicate: false,
   createError: null,
   editError: null,
@@ -199,6 +200,23 @@ export const checkForDuplicatesReducer = (
       return { ...state, checkDuplicate: action.payload };
     case ActionTypes.CHECK_DUPLICATE_RESERVATION_GROUP_ID_FAIL:
       return { ...state, checkDuplicate: !initialState.loading };
+    default:
+      return state;
+  }
+};
+
+export const fetchReservationItemByGroupReducer = (
+  state = {
+    fetchReservationItemByGroupFlag:
+      initialState.fetchReservationItemByGroupFlag,
+  },
+  action
+) => {
+  switch (action.type) {
+    case "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID":
+      return { ...state, fetchReservationItemByGroupFlag: action.payload };
+    case "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID_FAILURE":
+      return { ...state, fetchReservationItemByGroupFlag: true };
     default:
       return state;
   }

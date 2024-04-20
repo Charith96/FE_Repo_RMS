@@ -15,6 +15,12 @@ const ReservationItemManagement = () => {
   const [disableEdit, setDisableEdit] = useState(true);
   const [disableDelete, setDisableDelete] = useState(true);
   const [selectedRecords, setSelectedRecords] = useState(0);
+  const [inputValues, setInputValues] = useState([]);
+  const [isCustomized, setIsCustomized] = useState(false);
+  const [duration, setDuration] = useState("");
+  const [isOverlapping, setIsOverlapping] = useState(false);
+  const [isValuesEqual, setIsValuesEqual] = useState(false);
+
 
   useEffect(() => {
     if (selectedRecords === 1 && disableEdit && !isEdit) {
@@ -24,7 +30,7 @@ const ReservationItemManagement = () => {
       setDisableEdit(true);
       setDisableDelete(true);
     }
-  }, [isAdd, isEdit, isSave, isDelete, disableEdit,selectedRecords]);
+  }, [isAdd, isEdit, isSave, isDelete, disableEdit, selectedRecords]);
 
   // handle tab view
   const toggleTab = (index) => {
@@ -80,18 +86,40 @@ const ReservationItemManagement = () => {
   const tabs = [
     {
       name: "Item Basic Info",
-      content: <CreateReservationItem />,
+      content: (
+        <CreateReservationItem
+          inputValues={inputValues}
+          setInputValues={setInputValues}
+          isCustomized={isCustomized}
+          setIsCustomized={setIsCustomized}
+          duration={duration}
+          setDuration={setDuration}
+          isOverlapping={isOverlapping}
+          isValuesEqual={isValuesEqual}
+          
+        />
+      ),
     },
     {
       name: "Time Slot Settings",
       content: (
         <ReservationItemTimeSlot
+          inputValues={inputValues}
+          setInputValues={setInputValues}
+          isCustomized={isCustomized}
+          setIsCustomized={setIsCustomized}
+          duration={duration}
+          setDuration={setDuration}
           isAdd={toggleState === 0 && isAdd ? isAdd : false}
           isEdit={toggleState === 0 && isEdit ? isEdit : false}
           isSave={toggleState === 0 && isSave ? isSave : false}
           isDelete={toggleState === 0 && isDelete}
           resetStates={() => handleReset()}
           setSelectedRecords={setSelectedRecords}
+          isOverlapping={isOverlapping}
+          setIsOverlapping={setIsOverlapping}
+          isValuesEqual={isValuesEqual}
+          setIsValuesEqual={setIsValuesEqual}
         />
       ),
     },

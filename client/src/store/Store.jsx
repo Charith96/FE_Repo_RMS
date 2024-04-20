@@ -9,10 +9,18 @@ import {
   getReservationGroupByIdReducer,
   editReservationGroupFlagReducer,
   checkForDuplicatesReducer,
+  fetchReservationItemByGroupReducer
 } from "./reducers/ReservationGroupReducer";
 import {
   createReservationItemReducer,
   createTimeSlotReducer,
+  editReservationItemReducer,
+  deleteReservationItemReducer,
+  getReservationItemByIdReducer,
+  getTimeSlotsByItemIdReducer,
+  deleteTimeSlotsByItemIdReducer,
+  editTimeSlotsByItemIdReducer,
+  getReservationItemReducer,
 } from "./reducers/ReservationItemReducer";
 
 import {
@@ -33,16 +41,23 @@ const rootReducer = combineReducers({
   getReservationGroupById: getReservationGroupByIdReducer,
   editReservationGroupFlag: editReservationGroupFlagReducer,
   checkForDuplicates: checkForDuplicatesReducer,
-
+  deleteReservationItem: deleteReservationItemReducer,
+  fetchReservationItemByGroup: fetchReservationItemByGroupReducer,
   // reservation item
   createReservationItem: createReservationItemReducer,
   createTimeSlot: createTimeSlotReducer,
-
+  editReservationItem:editReservationItemReducer,
+  getReservationItemById: getReservationItemByIdReducer,
+  getReservationItem: getReservationItemReducer,
   // todos
   manageTodo: manageTodoReducer,
   getToDoList: getToDoListReducer,
   getToInfoDoById: getToDoByIdReducer,
   deleteToDoInfo: deleteToDoReducer,
+  // time slot
+  getTimeSlotsByItem:getTimeSlotsByItemIdReducer,
+  deleteTimeSlotsByItem:deleteTimeSlotsByItemIdReducer,
+  editTimeSlotsByItem:editTimeSlotsByItemIdReducer
 });
 
 export const store = createStore(

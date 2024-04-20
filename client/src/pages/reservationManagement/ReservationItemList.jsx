@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
-import ReservationGroupTable from "../../components/table/DataTableComponent";
+import React, { useEffect, useState, useRef } from "react";
+import { deleteReservationItem } from "../../store/actions/ReservationItemActions";
+import ReservationItemTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  fetchReservationGroups,
-  resetReservationGroupState,
-  fetchReservationItemByGroupId,
-} from "../../store/actions/ReservationGroupActions";
+  fetchReservationItems,
+  resetReservationItemState,
+} from "../../store/actions/ReservationItemActions";
+
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -21,18 +21,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ReservationGroupList = () => {
+const ReservationItemList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const fetchReservationGroupData = useSelector(
-    (state) => state.getReservationGroup.fetchReservationGroup
+
+  const fetchReservationItemData = useSelector(
+    (state) => state.getReservationItem?.fetchReservationItem || []
   );
-  const deleteReservationGroupData = useSelector(
-    (state) => state.deleteReservationGroup.deleteReservationGroup
+
+  const deleteReservationItemData = useSelector(
+    (state) => state.deleteReservationItem.deleteReservationItem
   );
-  const fetchReservationItemByGroupData = useSelector(
-    (state) => state.fetchReservationItemByGroup.fetchReservationItemByGroupFlag
-  );
+
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -46,7 +46,6 @@ const ReservationGroupList = () => {
     x: 0,
     y: 0,
   });
-  const [itemsExist, setItemsExist] = useState(false);
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -56,44 +55,35 @@ const ReservationGroupList = () => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
-    if (fetchReservationItemByGroupData) {
-      setItemsExist(fetchReservationItemByGroupData);
-    } else {
-      setItemsExist(fetchReservationItemByGroupData);
+    dispatch(fetchReservationItems());
+    if (deleteReservationItemData) {
+      dispatch(fetchReservationItems());
     }
-  }, [fetchReservationItemByGroupData]);
+  }, [dispatch, deleteReservationItemData]);
 
   useEffect(() => {
-    dispatch(fetchReservationGroups());
-    if (deleteReservationGroupData) {
-      dispatch(fetchReservationGroups());
-    }
-  }, [dispatch, deleteReservationGroupData]);
+    if (fetchReservationItemData && fetchReservationItemData.length > 0) {
+      setFilteredData(fetchReservationItemData);
 
-  useEffect(() => {
-    if (fetchReservationGroupData && fetchReservationGroupData.length > 0) {
-      setFilteredData(fetchReservationGroupData);
-    }
+      const start = currentPage * perPage;
+      const end = start + perPage;
+      const slicedData = filteredData?.slice(start, end);
+      setPaginatedData(slicedData);
 
-    const start = currentPage * perPage;
-    const end = start + perPage;
-    const slicedData = filteredData?.slice(start, end);
-    setPaginatedData(slicedData);
-
-    if (selectedRows.length === 1) {
-      dispatch(fetchReservationItemByGroupId(selectedRows[0]?.id));
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
+      if (selectedRows.length === 1) {
+        setIsDeleteDisable(false);
+      } else {
+        setIsDeleteDisable(true);
+      }
     }
   }, [
-    fetchReservationGroupData,
+    fetchReservationItemData,
     currentPage,
     perPage,
     filteredData,
     selectedRows,
   ]);
-  //list table columns
+
   const columns = [
     {
       name: "",
@@ -109,14 +99,32 @@ const ReservationGroupList = () => {
       ),
     },
     {
-      name: "Group ID",
-      selector: (row) => row.groupId,
+      name: "Group",
+      selector: (row) => row.reservationGroup,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Group Name",
-      selector: (row) => row.groupName,
+      name: "ItemId",
+      selector: (row) => row.itemId,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "ItemName",
+      selector: (row) => row.itemName,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "NoOfReservations",
+      selector: (row) => row.noOfReservations,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Capacity",
+      selector: (row) => row.capacity,
       sortable: true,
       grow: 2,
     },
@@ -128,26 +136,28 @@ const ReservationGroupList = () => {
     setMenuVisible(true);
     setContextMenuRow(row);
   };
-  //handle edit button click
+
+  //handle edit click
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
+        `/reservationManagement/reservation/reservationItems/reservationItemOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "edit" } }
       );
     }
   };
-  //handle detail button click
+
+  //handle detail click
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
+        `/reservationManagement/reservation/reservationItems/reservationItemOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "view" } }
@@ -170,45 +180,39 @@ const ReservationGroupList = () => {
   );
 
   const handleFilter = () => {
-    if (fetchReservationGroupData && fetchReservationGroupData.length > 0) {
+    if (fetchReservationItemData && fetchReservationItemData.length > 0) {
       if (searchTerm === "") {
         setCurrentPage(0);
-        setFilteredData(fetchReservationGroupData);
+        setFilteredData(fetchReservationItemData);
       } else {
-        const filtered = fetchReservationGroupData.filter((item) =>
-          item.groupId
+        const filtered = fetchReservationItemData.filter((item) =>
+          item.itemId
             ?.toString()
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())
         );
         setIsFiltered(true);
-        dispatch(resetReservationGroupState(filtered));
+        dispatch(resetReservationItemState(filtered));
         setFilteredData(filtered);
       }
     }
   };
 
-  //to handle confirm delete click in the popup
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
-      if (!itemsExist) {
-        try {
-          dispatch(deleteReservationGroup(selectedRows[0]?.id));
-          toast.success("Record Successfully deleted!");
-        } catch (error) {
-          toast.error("Error deleting row. Please try again.");
-        } finally {
-          setShowConfirmation(false);
-        }
-      } else {
-        toast.error("Cannot delete group with items.");
+      try {
+        dispatch(deleteReservationItem(selectedRows[0]?.id));
+        toast.success("Record Successfully deleted!");
+      } catch (error) {
+        toast.error("Error deleting row. Please try again.");
+      } finally {
         setShowConfirmation(false);
       }
     }
   };
 
   const handleCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationGroup");
+    navigate("/reservationManagement/reservation/createReservationItem");
   };
 
   const handleDelete = () => {
@@ -225,7 +229,7 @@ const ReservationGroupList = () => {
 
   const clearFilter = () => {
     setSearchTerm("");
-    dispatch(fetchReservationGroups());
+    dispatch(fetchReservationItems());
     setIsFiltered(false);
     setCurrentPage(0);
   };
@@ -235,7 +239,7 @@ const ReservationGroupList = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Reservation Group List"}
+        Title={"Reservation Item List"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
@@ -255,7 +259,7 @@ const ReservationGroupList = () => {
           <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
-              placeholder="Search Reservation Group"
+              placeholder="Search Reservation Item"
               aria-label="Search"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -283,7 +287,7 @@ const ReservationGroupList = () => {
         </div>
       </Row>
 
-      <ReservationGroupTable
+      <ReservationItemTable
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}
@@ -310,7 +314,7 @@ const ReservationGroupList = () => {
         close={cancelDelete}
         title={"Warning"}
         message={
-          "The selected Reservation Group will be deleted. Do you wish to continue?"
+          "The selected Reservation Item will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
         action={() => {
@@ -321,4 +325,4 @@ const ReservationGroupList = () => {
   );
 };
 
-export default ReservationGroupList;
+export default ReservationItemList;

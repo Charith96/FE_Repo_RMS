@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { fetchReservationGroupsById } from "../../store/actions/ReservationGroupActions";
 import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
-import { editReservationGroup } from "../../store/actions/ReservationGroupActions";
+import {
+  editReservationGroup,
+  fetchReservationItemByGroupId,
+} from "../../store/actions/ReservationGroupActions";
+
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,12 +22,10 @@ const ManageReservationGroups = () => {
   const fetchReservationGroupData = useSelector(
     (state) => state.getReservationGroupById.fetchReservationGroupId
   );
-  const editFlagData = useSelector(
-    (state) => state.editReservationGroupFlag.editReservationGroupFlag
+  const fetchReservationItemByGroupData = useSelector(
+    (state) => state.fetchReservationItemByGroup.fetchReservationItemByGroupFlag
   );
-  const dataForSearch = useSelector(
-    (state) => state.getReservationGroup.fetchReservationGroup
-  );
+
   const [recordId, setRecordId] = useState("");
   const [groupId, setGroupId] = useState("");
   const [groupName, setGroupName] = useState("");
@@ -33,6 +35,7 @@ const ManageReservationGroups = () => {
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [itemsExist, setItemsExist] = useState(false);
   const [count, setCount] = useState(0);
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");
@@ -42,8 +45,17 @@ const ManageReservationGroups = () => {
   useEffect(() => {
     if (paramData && recordId) {
       dispatch(fetchReservationGroupsById(recordId));
+      dispatch(fetchReservationItemByGroupId(recordId));
     }
   }, [dispatch, recordId]);
+
+  useEffect(() => {
+    if (fetchReservationItemByGroupData) {
+      setItemsExist(fetchReservationItemByGroupData);
+    } else {
+      setItemsExist(fetchReservationItemByGroupData);
+    }
+  }, [fetchReservationItemByGroupData]);
 
   const fetchData = () => {
     if (fetchReservationGroupData) {
@@ -88,6 +100,7 @@ const ManageReservationGroups = () => {
     setIsSaveDisable(false);
   };
 
+  //to handle the save button click
   const handleSave = async () => {
     try {
       if (paramData && recordId) {
@@ -96,8 +109,8 @@ const ManageReservationGroups = () => {
           groupId: groupId,
           groupName: groupName,
         };
-        console.log("formData ", recordId, formData);
-        // dispatch(editReservationGroup(recordId, formData));
+
+        dispatch(editReservationGroup(recordId, formData));
         handleNavigate();
         toast.success("Data saved successfully");
       } else {
@@ -108,12 +121,17 @@ const ManageReservationGroups = () => {
     }
   };
 
+  //to handle the confirm delete click in the popup
   const confirmDelete = async () => {
     try {
       if (paramData && paramData.id) {
-        dispatch(deleteReservationGroup(paramData.id));
-        toast.success("Data deleted successfully");
-        handleNavigate();
+        if (!itemsExist) {
+          dispatch(deleteReservationGroup(paramData.id));
+          toast.success("Data deleted successfully");
+          handleNavigate();
+        } else {
+          toast.error("Cannot delete group with items");
+        }
       } else {
         toast.error("Cannot delete. ID is undefined.");
       }
