@@ -2,7 +2,7 @@ import React from "react";
 
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
-// reservation group
+
 const Companies = React.lazy(() => import("./pages/company/Companies"));
 const CreateCompany = React.lazy(() => import("./pages/company/CreateCompany"));
 const CompanyOverview = React.lazy(

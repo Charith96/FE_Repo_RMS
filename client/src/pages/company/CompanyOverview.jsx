@@ -6,7 +6,6 @@ import {
   editCompany,
 } from "../../store/actions/CompanyActions";
 import { deleteCompany } from "../../store/actions/CompanyActions";
-//import { editReservationGroup, editCompany } from "../../store/actions/Action";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -237,7 +236,6 @@ const CompanyOverview = () => {
                 value={country}
                 disabled={isViewMode}
                 onChange={(e) => setCountry(e.target.value)}
-                //options={countries}
                 options={[
                   { label: "Select Country", value: "" }, // Add an empty option as the default
                   ...countries.map((country) => ({
@@ -252,7 +250,6 @@ const CompanyOverview = () => {
                 value={currency}
                 disabled={isViewMode}
                 onChange={(e) => setCurrency(e.target.value)}
-                //options={countries}
                 options={[
                   { label: "Select Currency", value: "" }, // Add an empty option as the default
                   ...currencies.map((currency) => ({
