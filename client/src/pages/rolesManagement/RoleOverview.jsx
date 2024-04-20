@@ -1,39 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; 
-import { Row, Col } from 'react-bootstrap'; 
+import { connect } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
-import TitleActionBar from '../../components/TitleActionsBar'; 
-import { useDispatch } from 'react-redux';
-import { updateRole } from '../../store/actions/RolesAction'; 
-import ActionTypes from "../../data/ReduxActionTypes"; 
+import TitleActionBar from '../../components/TitleActionsBar';
+import { fetchRoles, updateRole } from '../../store/actions/RolesAction'; // Import fetchRoles and updateRole actions
+import { toast } from 'react-toastify';
 
-function RoleOverview() {
-    const dispatch = useDispatch(); 
-    const navigate = useNavigate(); 
-    const location = useLocation(); 
+function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
+    const navigate = useNavigate();
+    const location = useLocation();
     const roleData = location.state && location.state.roleData;
-    const [values, setValues] = useState({
-        rolecode: '',
-        rolename: '',
-        privileges: [],
-    });
+
+    useEffect(() => {
+        fetchRoles(); // Fetch roles when component mounts
+    }, [fetchRoles]);
+
     const [editingPrivileges, setEditingPrivileges] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
-        // Effect to update state when roleData changes
         if (roleData) {
-            setValues({
-                rolecode: roleData.rolecode || '',
-                rolename: roleData.rolename || '',
-                privileges: roleData.privileges || [],
-            });
             setEditingPrivileges([...roleData.privileges || []]);
             setIsEditing(false);
         }
     }, [roleData]);
 
-    // Event handler for checkbox change
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setEditingPrivileges((prevPrivileges) =>
@@ -43,41 +35,36 @@ function RoleOverview() {
         );
     };
 
-    // Event handler for edit action
     const handleEdit = () => {
         setIsEditing(true);
     };
 
-    // Event handler for save action
     const handleSave = async () => {
-        const updatedRoleData = { ...values, privileges: editingPrivileges };
-        const roleId = roleData.rolecode; 
+        const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update with roleData
+        const roleId = roleData.id; // Assuming there is a property `id` in `roleData` that holds the role ID
         try {
-            dispatch({ type: ActionTypes.MANAGE_ROLE_START }); // Dispatching action to indicate start of role management
-            const response = await updateRole(roleId, updatedRoleData); // Updating role
-            console.log('Response:', response); // Logging response for debugging
-            if (response.status === 200) {
-                dispatch({ type: ActionTypes.UPDATE_ROLE_SUCCESS, payload: response.data }); // Dispatching action for successful role update
-                setIsEditing(false); // Disabling edit mode
-            }
+            await updateRole(roleId, updatedRoleData); // Pass role ID along with the updated role data
+            setIsEditing(false);
+            toast.success('Role Saved successfully'); 
         } catch (error) {
-            dispatch({ type: ActionTypes.UPDATE_ROLE_FAILURE, payload: error }); // Dispatching action for failed role update
-            console.error('Error updating role:', error);
+            toast.error('Error updating role:', error);
         }
     };
 
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+
     return (
         <>
-            {/* TitleActionBar component for displaying title and actions */}
             <TitleActionBar
                 Title={"Roles Overview"}
                 EditDisabled={false}
                 SaveDisabled={!isEditing}
                 DeleteDisabled={true}
-                PlusAction={() => navigate("/rolesManagement/CreateRole")} 
-                EditAction={handleEdit} 
-                SaveAction={handleSave} 
-                DeleteAction={() => { }} 
+                PlusAction={() => navigate("/rolesManagement/CreateRole")}
+                EditAction={handleEdit}
+                SaveAction={handleSave}
+                DeleteAction={() => { }}
             />
             <Row>
                 <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
@@ -90,20 +77,17 @@ function RoleOverview() {
                     xxl={10}
                     className="body-content px-5 pt-4 pb-4 mb-5"
                 >
-                    {/* TextField for displaying role code */}
                     <TextField
                         label="Role Code:"
-                        value={values.rolecode}
+                        value={roleData.rolecode}
                         disabled={!isEditing}
                     />
-                    {/* TextField for displaying role name */}
                     <TextField
                         label="Role Name:"
-                        value={values.rolename}
+                        value={roleData.rolename}
                         disabled={!isEditing}
                     />
                     <div className="mb-3">
-                        {/* Table for displaying privileges */}
                         <table className="table">
                             <thead>
                                 <tr>
@@ -112,12 +96,10 @@ function RoleOverview() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* Mapping through privileges and rendering checkboxes */}
                                 {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
                                     <tr key={privilege}>
                                         <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
                                         <td>
-                                            {/* Checkbox for each privilege */}
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
@@ -139,4 +121,15 @@ function RoleOverview() {
     );
 }
 
-export default RoleOverview;
+const mapStateToProps = (state) => ({
+    roles: state.roles,
+    loading: state.loading,
+    error: state.error
+});
+
+const mapDispatchToProps = {
+    fetchRoles,
+    updateRole
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoleOverview);

@@ -1,55 +1,7 @@
 {
   "Roles": [
     {
-      "id": "6de4",
-      "rolecode": "7879",
-      "rolename": "vvb",
-      "privileges": [
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "f014",
-      "rolecode": "656",
-      "rolename": "bn",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "31bc",
-      "rolecode": "5656",
-      "rolename": "vcvc",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "404a",
-      "rolecode": "5656",
-      "rolename": "vcvc",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "462f",
-      "rolecode": "5656",
-      "rolename": "vcvc",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
       "id": "b678",
-      "rolecode": "5656",
-      "rolename": "vcvc",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "45ed",
       "rolecode": "5656",
       "rolename": "vcvc",
       "privileges": [
@@ -110,6 +62,43 @@
       "rolename": "nn",
       "privileges": [
         "createAccess"
+      ]
+    },
+    {
+      "id": "6db4",
+      "rolecode": "7890000",
+      "rolename": "Test 20000000",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "8676",
+      "rolecode": "456",
+      "rolename": "bnhj",
+      "privileges": [
+        "createAccess",
+        "viewAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "e4b3",
+      "rolecode": "454546",
+      "rolename": "rerwqwqwqw",
+      "privileges": [
+        "updateAccess",
+        "createAccess"
+      ]
+    },
+    {
+      "id": "061e",
+      "rolecode": "77878",
+      "rolename": "tesrdaw",
+      "privileges": [
+        "createAccess",
+        "deleteAccess"
       ]
     }
   ],
