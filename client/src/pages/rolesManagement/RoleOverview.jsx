@@ -41,9 +41,9 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
 
     const handleSave = async () => {
         const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update with roleData
-        const roleId = roleData.id; // Assuming there is a property `id` in `roleData` that holds the role ID
+        const roleId = roleData.id; 
         try {
-            await updateRole(roleId, updatedRoleData); // Pass role ID along with the updated role data
+            await updateRole(roleId, updatedRoleData); 
             setIsEditing(false);
             toast.success('Role Saved successfully'); 
         } catch (error) {
