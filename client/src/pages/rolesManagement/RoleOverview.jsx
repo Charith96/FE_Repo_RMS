@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import TitleActionBar from '../../components/TitleActionsBar';
-import { fetchRoles, updateRole } from '../../store/actions/RolesAction'; // Import fetchRoles and updateRole actions
+import { fetchRoles, updateRole } from '../../store/actions/RolesAction'; 
 import { toast } from 'react-toastify';
 
 function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
