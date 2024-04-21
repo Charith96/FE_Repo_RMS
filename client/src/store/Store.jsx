@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { thunk } from "redux-thunk";
+import customerReducer from "./reducers/CustomerReducers";
 import {
   createReservationGroupReducer,
   editReservationGroupReducer,
@@ -11,6 +12,11 @@ import {
   checkForDuplicatesReducer,
   fetchReservationItemByGroupReducer
 } from "./reducers/ReservationGroupReducer";
+//import {
+//createReservationItemReducer,
+// createTimeSlotReducer,
+//} from "./reducers/ReservationItemReducer";
+
 import {
   createReservationItemReducer,
   createTimeSlotReducer,
@@ -23,6 +29,8 @@ import {
   getReservationItemReducer,
 } from "./reducers/ReservationItemReducer";
 
+import { reservationReducer } from "./reducers/ReservationReducer";
+
 import {
   manageTodoReducer,
   getToDoListReducer,
@@ -33,6 +41,9 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
+  //customer
+  customerReducer,
+
   // reservation group
   createReservationGroup: createReservationGroupReducer,
   editReservationGroup: editReservationGroupReducer,
@@ -54,13 +65,18 @@ const rootReducer = combineReducers({
   getToDoList: getToDoListReducer,
   getToInfoDoById: getToDoByIdReducer,
   deleteToDoInfo: deleteToDoReducer,
+
+  //reservation
+  reservation: reservationReducer,
+
   // time slot
-  getTimeSlotsByItem:getTimeSlotsByItemIdReducer,
-  deleteTimeSlotsByItem:deleteTimeSlotsByItemIdReducer,
-  editTimeSlotsByItem:editTimeSlotsByItemIdReducer
+  getTimeSlotsByItem: getTimeSlotsByItemIdReducer,
+  deleteTimeSlotsByItem: deleteTimeSlotsByItemIdReducer,
+  editTimeSlotsByItem: editTimeSlotsByItemIdReducer,
 });
 
 export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middleware))
 );
+export const selectCustomer = (state) => state.customerData;

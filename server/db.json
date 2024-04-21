@@ -1,4 +1,46 @@
 {
+  "customers": [
+    {
+      "id": "21121132",
+      "fullName": "kelan ferhanss",
+      "identifier": "8789HJ",
+      "address": "India",
+      "email": "kajal@hotmail.com",
+      "contactNo": "21313123"
+    },
+    {
+      "id": "92173013",
+      "fullName": "Jithmi Monashi",
+      "identifier": "99879",
+      "address": "Moratuwa",
+      "email": "hasinichamodi4@gmail.com",
+      "contactNo": "08972819"
+    },
+    {
+      "id": "3424",
+      "fullName": "Wihanga Athukorala",
+      "identifier": "8978979HJ",
+      "address": "Nuwara Eliya",
+      "email": "wihanga@gmail.com",
+      "contactNo": "078738729"
+    },
+    {
+      "id": "32434356",
+      "fullName": "Seha Ayurvi",
+      "identifier": "1970709",
+      "address": "Australia",
+      "email": "hasinichamodi4@gmail.com",
+      "contactNo": "078384278"
+    },
+    {
+      "id": "55555555",
+      "fullName": "Amashi",
+      "identifier": "3Dr",
+      "address": "Gampaha",
+      "email": "ama@gmail.com",
+      "contactNo": "07811233344"
+    }
+  ],
   "groupcreation": [
     {
       "id": "c940",
@@ -1557,18 +1599,176 @@
       "title": "presentation",
       "description": "Complete presentation prep for Aurelia presentation",
       "completed": true
+    }
+  ],
+  "reservations": [
+    {
+      "id": "a529",
+      "reservationID": "pey7we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
     },
     {
-      "id": "2",
-      "title": "React JS Session",
-      "description": "Friday React JS Session",
-      "completed": true
+      "id": "a469",
+      "reservationID": "xey4we",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 5,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
     },
     {
-      "id": "3",
-      "title": "React JS session",
-      "description": "",
-      "completed": false
+      "id": "a369",
+      "reservationID": "xe27tt",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "b192",
+      "reservationID": "6l9oux",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-12",
+      "noOfPeople": "30",
+      "time1": "2024-04-12T23:01",
+      "time2": "2024-04-13T07:00"
+    },
+    {
+      "id": "fdd5",
+      "reservationID": "jbox1b",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "d9a9",
+      "reservationID": "rchna6",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": "10",
+      "time1": "2024-04-11T18:00",
+      "time2": "2024-04-11T19:01"
+    },
+    {
+      "id": "120b",
+      "reservationID": "54ls1z",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-09",
+      "noOfPeople": 45,
+      "time1": "2024-04-09T23:01",
+      "time2": "2024-04-10T07:00"
+    },
+    {
+      "id": "2f05",
+      "reservationID": "n43ah8",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-07-09",
+      "noOfPeople": 5,
+      "time1": "2024-04-09T23:01",
+      "time2": "2024-04-10T07:00"
+    },
+    {
+      "id": "24e5",
+      "reservationID": "m4nd7d",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "4b35",
+      "reservationID": "p0gln1",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-28T01:27",
+      "time2": "2024-04-29T01:27"
+    },
+    {
+      "id": "99bc",
+      "reservationID": "fdfd05",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-28T01:27",
+      "time2": "2024-04-29T01:27"
+    },
+    {
+      "id": "51a9",
+      "reservationID": "3b7nd4",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "1061",
+      "reservationID": "pzyge8",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-11",
+      "noOfPeople": 1,
+      "time1": "2024-04-11T23:01",
+      "time2": "2024-04-12T07:00"
+    },
+    {
+      "id": "430b",
+      "reservationID": "84vn92",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 50,
+      "time1": "2024-04-12T01:32",
+      "time2": "2024-04-13T01:32"
+    },
+    {
+      "id": "3bfb",
+      "reservationID": "crqbho",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "1eb0",
+      "reservationID": "elrccq",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": ""
     }
   ]
 }

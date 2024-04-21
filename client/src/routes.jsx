@@ -3,7 +3,7 @@ import React from "react";
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 // reservation group
-const ReservationList = React.lazy(() =>
+const ReservationsList = React.lazy(() =>
   import("./pages/reservationManagement/ReservationGroupList")
 );
 const CreateReservationGroup = React.lazy(() =>
@@ -32,6 +32,27 @@ const ToDoManagement = React.lazy(() =>
 const QuickNavigation = React.lazy(() =>
   import("./components/QuickNavigation")
 );
+
+ //customers
+ const CustomerCreation = React.lazy(() =>
+ import("./pages/customerManagement/CustomerCreation")
+ );
+ const CustomerList = React.lazy(() =>
+ import("./pages/customerManagement/CustomerList")
+ );
+ const CustomerOverview = React.lazy(() =>
+ import("./pages/customerManagement/CustomerOverview")
+ );
+
+
+ //Resevation Overview
+ const ReservationOverview = React.lazy(() =>
+ import("./pages/reservationOverviewPart/ReservationOverview")
+ );
+ const ReservationList = React.lazy(() =>
+ import("./pages/reservationOverviewPart/ReservationList")
+ );
+ 
 
 const routes = [
   // dashboard
@@ -82,6 +103,39 @@ const routes = [
     element: ToDoManagement,
   },
 
+    //customers
+    {
+      path: "/customerManagement/CustomerCreation",
+      name: "CustomerCreation",
+      element:CustomerCreation,
+    },
+    {
+      path: "/customerManagement/Customerlist",
+      name: "CustomerList",
+      element:CustomerList,
+    },
+    {
+      path:`/customerManagement/CustomerOverview`,
+      name: "CustomerOverview",
+      element:CustomerOverview,
+    },
+
+
+    
+    //Reservation Overview
+    {
+      path: "/reservationOverviewPart/ReservationOverview",
+      name: "ReservationOverview",
+      element:ReservationOverview,
+    },
+    {
+      path: "/reservationOverviewPart/ReservationList",
+      name: "ReservationList",
+      element:ReservationList,
+    },
+
+
+
   // card layouts
   {
     path: "/reservationManagement",
@@ -98,6 +152,22 @@ const routes = [
     name: "Todo Management",
     element: QuickNavigation,
   },
+  {
+    path: "/customerManagement",
+    name: "customer Management",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationOverviewPart",
+    name: "Reservation Overview",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationOverviewPart",
+    name: "Reservation List",
+    element: QuickNavigation,
+  },
+ 
 ];
 
 export default routes;
