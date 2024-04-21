@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
+//import thunk from "redux-thunk";
 import { thunk } from "redux-thunk";
 import customerReducer from "./reducers/CustomerReducers";
 import {
@@ -28,6 +29,17 @@ import {
   editTimeSlotsByItemIdReducer,
   getReservationItemReducer,
 } from "./reducers/ReservationItemReducer";
+
+import {
+  createCompanyReducer,
+  editCompanyReducer,
+  deleteCompanyReducer,
+  getCompanyReducer,
+  getCompanyByIdReducer,
+  editCompanyFlagReducer,
+  countriesReducer,
+  currenciesReducer,
+} from "./reducers/CompanyReducer";
 
 import { reservationReducer } from "./reducers/ReservationReducer";
 
@@ -60,6 +72,15 @@ const rootReducer = combineReducers({
   editReservationItem:editReservationItemReducer,
   getReservationItemById: getReservationItemByIdReducer,
   getReservationItem: getReservationItemReducer,
+  createCompany: createCompanyReducer,
+  editCompany: editCompanyReducer,
+  deleteCompany: deleteCompanyReducer,
+  getCompany: getCompanyReducer,
+  getCompanyById: getCompanyByIdReducer,
+  editCompanyFlag: editCompanyFlagReducer,
+  countries: countriesReducer,
+  currencies: currenciesReducer,
+
   // todos
   manageTodo: manageTodoReducer,
   getToDoList: getToDoListReducer,

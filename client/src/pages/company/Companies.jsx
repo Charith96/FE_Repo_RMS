@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteReservationGroup } from "../../store/actions/ReservationGroupActions";
-import ReservationGroupTable from "../../components/table/DataTableComponent";
+import { deleteCompany } from "../../store/actions/CompanyActions";
+import CompanyTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  fetchReservationGroups,
-  resetReservationGroupState,
-  fetchReservationItemByGroupId,
-} from "../../store/actions/ReservationGroupActions";
+  fetchCompanies,
+  resetCompanyState,
+} from "../../store/actions/CompanyActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -21,18 +20,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ReservationGroupList = () => {
+const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const fetchReservationGroupData = useSelector(
-    (state) => state.getReservationGroup.fetchReservationGroup
+
+  //new
+  const fetchCompanyData = useSelector(
+    (state) => state.getCompany.fetchCompany
   );
-  const deleteReservationGroupData = useSelector(
-    (state) => state.deleteReservationGroup.deleteReservationGroup
+  const deleteCompanyData = useSelector(
+    (state) => state.deleteCompany.deleteCompany
   );
-  const fetchReservationItemByGroupData = useSelector(
-    (state) => state.fetchReservationItemByGroup.fetchReservationItemByGroupFlag
-  );
+  //new
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -55,24 +54,19 @@ const ReservationGroupList = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
+  //new
   useEffect(() => {
-    if (fetchReservationItemByGroupData) {
-      setItemsExist(fetchReservationItemByGroupData);
-    } else {
-      setItemsExist(fetchReservationItemByGroupData);
+    dispatch(fetchCompanies());
+    if (deleteCompanyData) {
+      dispatch(fetchCompanies());
     }
-  }, [fetchReservationItemByGroupData]);
+  }, [dispatch, deleteCompanyData]);
+  //new
 
+  //new
   useEffect(() => {
-    dispatch(fetchReservationGroups());
-    if (deleteReservationGroupData) {
-      dispatch(fetchReservationGroups());
-    }
-  }, [dispatch, deleteReservationGroupData]);
-
-  useEffect(() => {
-    if (fetchReservationGroupData && fetchReservationGroupData.length > 0) {
-      setFilteredData(fetchReservationGroupData);
+    if (fetchCompanyData && fetchCompanyData.length > 0) {
+      setFilteredData(fetchCompanyData);
     }
 
     const start = currentPage * perPage;
@@ -86,14 +80,9 @@ const ReservationGroupList = () => {
     } else {
       setIsDeleteDisable(true);
     }
-  }, [
-    fetchReservationGroupData,
-    currentPage,
-    perPage,
-    filteredData,
-    selectedRows,
-  ]);
-  //list table columns
+  }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
+  //new
+
   const columns = [
     {
       name: "",
@@ -109,14 +98,26 @@ const ReservationGroupList = () => {
       ),
     },
     {
-      name: "Group ID",
-      selector: (row) => row.groupId,
+      name: "Company Code",
+      selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Group Name",
-      selector: (row) => row.groupName,
+      name: "Company Name",
+      selector: (row) => row.companyName,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Country",
+      selector: (row) => row.country,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Currency",
+      selector: (row) => row.currency,
       sortable: true,
       grow: 2,
     },
@@ -134,9 +135,7 @@ const ReservationGroupList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "edit" } }
       );
     }
@@ -147,9 +146,7 @@ const ReservationGroupList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "view" } }
       );
     }
@@ -169,46 +166,44 @@ const ReservationGroupList = () => {
     </div>
   );
 
+  //new
   const handleFilter = () => {
-    if (fetchReservationGroupData && fetchReservationGroupData.length > 0) {
+    if (fetchCompanyData && fetchCompanyData.length > 0) {
       if (searchTerm === "") {
         setCurrentPage(0);
-        setFilteredData(fetchReservationGroupData);
+        setFilteredData(fetchCompanyData);
       } else {
-        const filtered = fetchReservationGroupData.filter((item) =>
-          item.groupId
+        const filtered = fetchCompanyData.filter((item) =>
+          item.companyCode
             ?.toString()
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())
         );
         setIsFiltered(true);
-        dispatch(resetReservationGroupState(filtered));
+        dispatch(resetCompanyState(filtered));
         setFilteredData(filtered);
       }
     }
   };
+  //new
 
-  //to handle confirm delete click in the popup
+  //new
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
-      if (!itemsExist) {
-        try {
-          dispatch(deleteReservationGroup(selectedRows[0]?.id));
-          toast.success("Record Successfully deleted!");
-        } catch (error) {
-          toast.error("Error deleting row. Please try again.");
-        } finally {
-          setShowConfirmation(false);
-        }
-      } else {
-        toast.error("Cannot delete group with items.");
+      try {
+        dispatch(deleteCompany(selectedRows[0]?.id));
+        toast.success("Record Successfully deleted!");
+      } catch (error) {
+        toast.error("Error deleting row. Please try again.");
+      } finally {
         setShowConfirmation(false);
       }
     }
   };
+  //new
 
   const handleCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationGroup");
+    navigate("/company/createCompany");
   };
 
   const handleDelete = () => {
@@ -223,19 +218,21 @@ const ReservationGroupList = () => {
     setSearchTerm(e.target.value);
   };
 
+  //new
   const clearFilter = () => {
     setSearchTerm("");
-    dispatch(fetchReservationGroups());
+    dispatch(fetchCompanies());
     setIsFiltered(false);
     setCurrentPage(0);
   };
+  //new
 
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Reservation Group List"}
+        Title={"Company List"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
@@ -255,7 +252,7 @@ const ReservationGroupList = () => {
           <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
-              placeholder="Search Reservation Group"
+              placeholder="Search Company"
               aria-label="Search"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -283,7 +280,7 @@ const ReservationGroupList = () => {
         </div>
       </Row>
 
-      <ReservationGroupTable
+      <CompanyTable
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}
@@ -310,7 +307,7 @@ const ReservationGroupList = () => {
         close={cancelDelete}
         title={"Warning"}
         message={
-          "The selected Reservation Group will be deleted. Do you wish to continue?"
+          "The selected Company will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
         action={() => {
@@ -321,4 +318,4 @@ const ReservationGroupList = () => {
   );
 };
 
-export default ReservationGroupList;
+export default Companies;

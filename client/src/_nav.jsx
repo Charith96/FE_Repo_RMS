@@ -104,6 +104,40 @@ const _nav = [
       },
     ],
   },
+  {
+    component: CNavGroup,
+    name: "Company",
+    navPath: "/company",
+    icon: <FontAwesomeIcon icon={faCalendarDays} className="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "Create Company",
+        icon: <i className="ps-2" />,
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faCalendarDays}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        to: "/company/createCompany",
+      },
+      {
+        component: CNavItem,
+        name: "Compaies",
+        icon: <i className="ps-2" />,
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faCalendarDays}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        to: "/company/companies",
+      },
+    ],
+  },
 
   {
     component: CNavGroup,
@@ -150,25 +184,10 @@ const _nav = [
             ),
             to: "/customerManagement/CustomerList",
           },
-           //{
-           //  component: CNavItem,
-           //  name: "Customer Overview",
-           //  icon: <i className="ps-2" />,
-            // quicknavicon: (
-             //  <FontAwesomeIcon
-             //    icon={faUser}
-              //  size="2x"
-              //  className="nav-icon pb-0 pt-3"
-             // />
-          // ),
-           // to: `/customerManagement/CustomerOverview`,
-         //  },
-          
         ],
       },
     ],
   },
-
   {
     component: CNavGroup,
     name: "Reservation Overview",
@@ -214,8 +233,6 @@ const _nav = [
             ),
             to: "/reservationOverviewPart/ReservationList",
           }, 
-
-          
         ],
       },
     ],

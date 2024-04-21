@@ -13,9 +13,10 @@ const ReservationGroupOverview = React.lazy(() =>
   import("./pages/reservationManagement/ReservationGroupOverview")
 );
 
-// reservation item
-const ReservationItemTabView = React.lazy(() =>
-  import("./pages/reservationManagement/ReservationItemManagement")
+const Companies = React.lazy(() => import("./pages/company/Companies"));
+const CreateCompany = React.lazy(() => import("./pages/company/CreateCompany"));
+const CompanyOverview = React.lazy(
+  () => import("./pages/company/CompanyOverview")
 );
 const ReservationItemOverview = React.lazy(() =>
   import("./pages/reservationManagement/ReservationItemTimeSlotManagement")
@@ -24,13 +25,13 @@ const ReservationItemList = React.lazy(() =>
   import("./pages/reservationManagement/ReservationItemList")
 );
 // todo
-const ToDoManagement = React.lazy(() =>
-  import("./pages/common/ToDoManagement")
+const ToDoManagement = React.lazy(
+  () => import("./pages/common/ToDoManagement")
 );
 
 // card layout
-const QuickNavigation = React.lazy(() =>
-  import("./components/QuickNavigation")
+const QuickNavigation = React.lazy(
+  () => import("./components/QuickNavigation")
 );
 
  //customers
@@ -61,29 +62,20 @@ const routes = [
     name: "Dashboard",
     element: Dashboard,
   },
-
-  // reservation group
   {
-    path: "/reservationManagement/reservation/reservationGroups",
-    name: "Reservations",
-    element: ReservationList,
+    path: "/company/companies",
+    name: "Companies",
+    element: Companies,
   },
   {
-    path: "/reservationManagement/reservation/createReservationGroup",
-    name: "Create Reservation Group",
-    element: CreateReservationGroup,
+    path: "/company/createCompany",
+    name: "Create Company",
+    element: CreateCompany,
   },
   {
-    path: "/reservationManagement/reservation/reservationGroups/reservationGroupOverview",
-    name: "Manage Reservation",
-    element: ReservationGroupOverview,
-  },
-
-  // reservation item
-  {
-    path: "/reservationManagement/reservation/createReservationItem",
-    name: "Create Reservation Item",
-    element: ReservationItemTabView,
+    path: "/company/companyOverview",
+    name: "Company Overview",
+    element: CompanyOverview,
   },
   {
     path: "/reservationManagement/reservation/reservationItems/reservationItemOverview",
@@ -138,13 +130,8 @@ const routes = [
 
   // card layouts
   {
-    path: "/reservationManagement",
-    name: "Reservations Management",
-    element: QuickNavigation,
-  },
-  {
-    path: "/reservationManagement/reservation",
-    name: "Reservation",
+    path: "/company",
+    name: "Company",
     element: QuickNavigation,
   },
   {
