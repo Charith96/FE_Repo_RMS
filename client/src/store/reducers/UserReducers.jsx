@@ -4,9 +4,6 @@ import ActionTypes from "../../data/ReduxActionTypes";
 const initialState = {
   loading: false,
   users: [],
-  roles: [],
-  company: [],
-
   error: null,
 
 };
@@ -32,18 +29,7 @@ export const userReducer = (state = initialState, action) => {
     case ActionTypes.GET_USERS_FAILID:
     case ActionTypes.CREATE_USER_SUCCESS:
       return { ...state, users: [...state.users, action.payload], error: null };
-    case ActionTypes.GET_USERCOMPANY_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        company: action.payload,
-      };
-    case ActionTypes.GET_USERROLES_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        roles: action.payload,
-      };
+ 
     case ActionTypes.UPDATE_USER_SUCCESS:
       return {
         ...state,

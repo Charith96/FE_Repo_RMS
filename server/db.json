@@ -21,6 +21,188 @@
       "groupName": "New"
     }
   ],
+  "Roles": [
+    {
+      "id": "b678",
+      "rolecode": "5656",
+      "rolename": "vcvc",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "c8d4",
+      "rolecode": "ui",
+      "rolename": "n",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "3c71",
+      "rolecode": "78",
+      "rolename": "nb",
+      "privileges": [
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "acaa",
+      "rolecode": "89",
+      "rolename": "nmn",
+      "privileges": [
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "c5f8",
+      "rolecode": "67676",
+      "rolename": "dddddddd",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "f1d0",
+      "rolecode": "78nmnm",
+      "rolename": "m,mnmn",
+      "privileges": [
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "521f",
+      "rolecode": "nn",
+      "rolename": "bn",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "ce66",
+      "rolecode": "666",
+      "rolename": "nn",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "6db4",
+      "rolecode": "7890000",
+      "rolename": "Test 20000000",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "8676",
+      "rolecode": "456",
+      "rolename": "bnhj",
+      "privileges": [
+        "createAccess",
+        "viewAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "e4b3",
+      "rolecode": "454546",
+      "rolename": "rerwqwqwqw",
+      "privileges": [
+        "updateAccess",
+        "createAccess"
+      ]
+    },
+    {
+      "id": "061e",
+      "rolecode": "77878",
+      "rolename": "tesrdaw",
+      "privileges": [
+        "createAccess",
+        "deleteAccess"
+      ]
+    }
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "companyCode": "554",
+      "companyName": "ABC1",
+      "description": "This is a CRUD_22",
+      "country": "Sri Lanka",
+      "currency": "SLR",
+      "address01": "No1",
+      "address02": "No2",
+      "defaultCompany": true
+    },
+    {
+      "id": "3",
+      "companyCode": "12",
+      "companyName": "ABC2",
+      "description": "This is Abc2 group",
+      "country": "China",
+      "currency": "JPY",
+      "address01": "No3",
+      "address02": "No4",
+      "defaultCompany": false
+    },
+    {
+      "id": "4",
+      "companyCode": "1245",
+      "companyName": "ABC3",
+      "description": "This is Abc3 group",
+      "country": "Germany",
+      "currency": "AUD",
+      "address01": "No5",
+      "address02": "No6",
+      "defaultCompany": false
+    },
+    {
+      "id": "7",
+      "companyCode": "72",
+      "companyName": "ABC4",
+      "description": "This is Abc4 group",
+      "country": "Russia",
+      "currency": "GBP",
+      "address01": "No7",
+      "address02": "No8",
+      "defaultCompany": false
+    },
+    {
+      "id": "c420",
+      "companyCode": "65",
+      "companyName": "ABC5",
+      "description": "This is Abc5 group",
+      "country": "France",
+      "currency": "USD",
+      "address01": "No9",
+      "address02": "",
+      "defaultCompany": ""
+    },
+    {
+      "id": "08c6",
+      "companyCode": "654",
+      "companyName": "Abc6",
+      "description": "This is Abc group",
+      "country": "China",
+      "currency": "GBP",
+      "address01": "no a2",
+      "address02": "54",
+      "defaultCompany": true
+    },
+    {
+      "id": "f822",
+      "companyCode": "1654",
+      "companyName": "Supun1",
+      "description": "Hi supun",
+      "country": "Sri Lanka",
+      "currency": "USD",
+      "address01": "@2,a1",
+      "address02": "@1,a23",
+      "defaultCompany": false
+    }
+  ],
   "itemcreation": [
     {
       "id": "6641",
@@ -121,7 +303,7 @@
     {
       "id": "8080",
       "userID": "hasinichamodi4@gmail.com",
-      "firstName": "hasini",
+      "firstName": "hhhhhhhhhhhhhh",
       "lastName": "chamodi",
       "defaultCompany": "Company 1",
       "designation": "Receptionist",
@@ -130,8 +312,29 @@
       "password": "qwert@12345",
       "validFrom": "2024-04-01T13:48",
       "validTill": "2024-04-17T13:48",
-      "companies": [],
+      "companies": [
+        "Company 2",
+        "ABC1"
+      ],
       "roles": []
+    },
+    {
+      "id": "3885",
+      "userID": "hasinichamodi24@gmail.com",
+      "firstName": "hasia",
+      "lastName": "ni",
+      "defaultCompany": "ABC2",
+      "designation": "reservaiton officer",
+      "primaryRole": "nb",
+      "email": "hasinichamodi24@gmail.com",
+      "password": "qwer@12345",
+      "validFrom": "2024-04-23T00:13",
+      "validTill": "2024-04-25T00:14",
+      "companies": [],
+      "roles": [
+        "vcvc",
+        "nmn"
+      ]
     }
   ],
   "company": [
@@ -324,6 +527,26 @@
       "customerID": "hasinichamodi4@gmail.com",
       "group": "restaurant",
       "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "dad6",
+      "reservationID": "or0s6z",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": 45,
+      "time1": "2024-04-12T15:09",
+      "time2": "2024-04-13T15:09"
+    },
+    {
+      "id": "60ce",
+      "reservationID": "40cf1h",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
       "date": "",
       "noOfPeople": ""
     }

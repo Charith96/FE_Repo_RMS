@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toastFunction } from "../../components/ToastComponent";
-import { USER_URL, BASE_URL, ROLE_URL, COMPANY_URL, } from "../../utils/Constants";
+import { USER_URL, BASE_URL } from "../../utils/Constants";
 import ActionTypes from '../../data/ReduxActionTypes';
 
 export const fetchUserData = (id) => async (dispatch) => {
@@ -34,27 +34,7 @@ export const fetchData = () => async (dispatch) => {
   }
 };
 
-export const fetchUserCompanyData = () => async (dispatch) => {
-  try {
-    dispatch({ type: ActionTypes.GET_USERCOMPANY_REQUEST }); 
-    const response = await axios.get(`${BASE_URL}${COMPANY_URL}`);
 
-    dispatch({ type: ActionTypes.GET_USERCOMPANY_SUCCESS, payload: response.data }); 
-  } catch (error) {
-    dispatch({ type: ActionTypes.GET_USERCOMPANY_FAIL, payload: error.message || "An error occurred" }); 
-  }
-};
-
-export const fetchUserRoleData = () => async (dispatch) => {
-  try {
-    dispatch({ type: ActionTypes.GET_USERROLES_REQUEST }); 
-    const response = await axios.get(`${BASE_URL}${ROLE_URL}`);
-
-    dispatch({ type: ActionTypes.GET_USERROLES_SUCCESS, payload: response.data });
-  } catch (error) {
-    dispatch({ type: ActionTypes.GET_USERROLES_FAIL, payload: error.message || "An error occurred" }); 
-  }
-};
 
 
 export const createUser = (userData) => async (dispatch) => {

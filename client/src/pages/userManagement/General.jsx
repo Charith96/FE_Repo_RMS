@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {  Row, Col } from "react-bootstrap";
-import { fetchUserData,  updateUserData,deleteUser } from "../../store/actions/UserActions";
+import { Row, Col } from "react-bootstrap";
+import {
+  fetchUserData,
+  updateUserData,
+  deleteUser,
+} from "../../store/actions/UserActions";
 import TitleActionBar from "../../components/TitleActionsBar";
 
 import TextField from "../../components/TextField";
@@ -11,25 +15,24 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
 import { selectUserData } from "../../store/Store";
 
-const UserDetailsPage = ({value, mode}) => {
-  const id  = value;
+const UserDetailsPage = ({ value, mode }) => {
+  const id = value;
   const dispatch = useDispatch();
   const userData = useSelector(selectUserData);
   const [filteredUserData, setFilteredUserData] = useState({});
   const [editMode, setEditMode] = useState(false);
-  const [isViewMode, setIsViewMode]=useState(false);
+  const [isViewMode, setIsViewMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
-  const [modea,setMode]=useState(mode);
-  const [checkUser,setCheckUser]=useState(false);
+  const [modea, setMode] = useState(mode);
+  const [checkUser, setCheckUser] = useState(false);
   useEffect(() => {
-    
     setTimeout(() => fetchData(), 100);
-  }, [dispatch, id, userData.users,editMode]);
-  
+  }, [dispatch, id, userData.users, editMode]);
+
   const fetchData = async () => {
     try {
-      if(editMode===false){
+      if (editMode === false) {
         await dispatch(fetchUserData(id));
         const user = userData.users;
         setFilteredUserData({
@@ -50,46 +53,36 @@ const UserDetailsPage = ({value, mode}) => {
       if (modea) {
         if (modea === "edit") {
           setEditMode(true);
-       
         } else if (modea === "view") {
           setIsViewMode(true);
-
-       
         }
       }
-    
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === "email") {
-
-      const Checkusers=userData.users.find(user=>user.email===value);
-      if(!Checkusers){
+      const Checkusers = userData.users.find((user) => user.email === value);
+      if (!Checkusers) {
         setCheckUser(false);
         setFilteredUserData({
           ...filteredUserData,
           email: value,
           userID: value,
         });
-       
-      }else{
+      } else {
         setCheckUser(true);
-        
+
         setFilteredUserData({
-      
           ...filteredUserData,
           [id]: value,
         });
       }
-      
-    } 
+    }
     setFilteredUserData({
-      
       ...filteredUserData,
       [id]: value,
     });
@@ -107,38 +100,32 @@ const UserDetailsPage = ({value, mode}) => {
   };
 
   const confirmDelete = (id) => {
-  
-      try {
-        dispatch(deleteUser(id));
-        toast.success("Record Successfully deleted!");
- 
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-      } finally {
-        setShowConfirmation(false);
-      }
-  navigate("/userManagement/Userlist")
+    try {
+      dispatch(deleteUser(id));
+      toast.success("Record Successfully deleted!");
+    } catch (error) {
+      toast.error("Error deleting row. Please try again.");
+    } finally {
+      setShowConfirmation(false);
+    }
+    navigate("/userManagement/Userlist");
+  };
 
-    };
+  const handleSubmit = async () => {
+    try {
+      const updatedUserData = {
+        id: id,
+        ...filteredUserData,
+      };
+      await dispatch(updateUserData(id, updatedUserData));
 
-
-    const handleSubmit = async () => {
-      try {
-        const updatedUserData = {
-          id: id,
-          ...filteredUserData,
-         
-        };
-        await dispatch(updateUserData(id, updatedUserData));
-    
-        setIsViewMode(true);
-        setEditMode(false); // Turn off edit mode after successfully saving
-        setMode("view");
-      } catch (error) {
-        console.error("Error saving data:", error);
-      }
-    };
-    
+      setIsViewMode(true);
+      setEditMode(false); // Turn off edit mode after successfully saving
+      setMode("view");
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  };
 
   return (
     <>
@@ -149,11 +136,9 @@ const UserDetailsPage = ({value, mode}) => {
             // plustDisabled={isAddDisable}
             EditAction={() => setEditMode(true)}
             SaveAction={handleSubmit}
-          
             PlusAction={() => {
               handleCreate();
             }}
-          
             DeleteAction={() => {
               handleDelete();
             }}
@@ -184,8 +169,7 @@ const UserDetailsPage = ({value, mode}) => {
   );
 };
 
-const UserForm = ({ formData, onChange, editMode,isViewMode}) => {
-
+const UserForm = ({ formData, onChange, editMode, isViewMode }) => {
   return (
     <>
       {editMode ? (
@@ -311,7 +295,6 @@ const UserForm = ({ formData, onChange, editMode,isViewMode}) => {
           />
         </>
       )}
-      
     </>
   );
 };

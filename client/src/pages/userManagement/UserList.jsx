@@ -2,11 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
-import {
-  fetchData,
-  deleteUser
-} from "../../store/actions/UserActions";
+
+import { fetchData, deleteUser } from "../../store/actions/UserActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -25,7 +22,6 @@ const UserList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector(selectUserData);
-  let { value } = useParams();
 
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -70,21 +66,17 @@ const UserList = () => {
     } else {
       setIsDeleteDisable(true);
     }
-  }, [
-    userData,
-    currentPage,
-    perPage,
-    filteredData,
-    selectedRows,
-    isFiltered
-  ]);
+  }, [userData, currentPage, perPage, filteredData, selectedRows, isFiltered]);
 
   const columns = [
     {
       name: "",
       cell: (row) => (
         <div className="cell-actions">
-          <span className="ellipsis tree-dots" onClick={(e) => handleCellClick(e, row)}>
+          <span
+            className="ellipsis tree-dots"
+            onClick={(e) => handleCellClick(e, row)}
+          >
             <FontAwesomeIcon icon={faEllipsisH} />
           </span>
         </div>
@@ -107,8 +99,7 @@ const UserList = () => {
       selector: (row) => row.defaultCompany,
       sortable: true,
       grow: 2,
-    }, 
-  
+    },
 
     {
       name: "Designation",
@@ -154,9 +145,7 @@ const UserList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/userManagement/userOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/userManagement/userOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "edit" } }
       );
     }
@@ -167,9 +156,7 @@ const UserList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/userManagement/userOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/userManagement/userOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "view" } }
       );
     }
@@ -189,29 +176,22 @@ const UserList = () => {
     </div>
   );
 
- 
   const handleFilter = () => {
- 
-      
-      if (searchTerm === "") {
-        setFilteredData(userData.users);
-      } else {
-        const filtered = userData.users.filter((item) =>
-          item.firstName
-            ?.toString()
-            .toLowerCase()
-            .includes(searchTerm?.toLowerCase())
-          
-        );
-        
-        setIsFiltered(true);
+    if (searchTerm === "") {
+      setFilteredData(userData.users);
+    } else {
+      const filtered = userData.users.filter((item) =>
+        item.firstName
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm?.toLowerCase())
+      );
 
-        setFilteredData(filtered);
-      }
-    
+      setIsFiltered(true);
+
+      setFilteredData(filtered);
+    }
   };
-
-
 
   const confirmDelete = () => {
     if (selectedRows.length === 1) {

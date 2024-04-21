@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
 import { useLocation } from "react-router-dom";
-import General from './General';
-import Roles from './UserRoles';
-import Company from './UserCompany';
-
-
+import General from "./General";
+import Roles from "./UserRoles";
+import Company from "./UserCompany";
 
 const ReservationItemManagement = () => {
   const [isAdd, setIsAdd] = useState(false);
@@ -25,10 +23,7 @@ const ReservationItemManagement = () => {
   const paramData = JSON.parse(data);
   const mode = state ? state.mode : null;
 
-  
   useEffect(() => {
-    
-
     if (selectedRecords === 1 && disableEdit && !isEdit) {
       setDisableEdit(false);
       setDisableDelete(false);
@@ -36,9 +31,7 @@ const ReservationItemManagement = () => {
       setDisableEdit(true);
       setDisableDelete(true);
     }
-  
-
-  }, [isAdd, isEdit, isSave, isDelete, disableEdit,selectedRecords,data]);
+  }, [isAdd, isEdit, isSave, isDelete, disableEdit, selectedRecords, data]);
 
   // handle tab view
   const toggleTab = (index) => {
@@ -94,16 +87,16 @@ const ReservationItemManagement = () => {
   const tabs = [
     {
       name: "General",
-      content: <General  value={paramData.id} mode={mode}/>,
+      content: <General value={paramData.id} mode={mode} />,
     },
     {
       name: "Companies",
-      content: <Company   value={paramData.id} />,
+      content: <Company value={paramData.id} />,
     },
     {
-        name: "Roles",
-        content: <Roles  value={paramData.id} />,
-      },
+      name: "Roles",
+      content: <Roles value={paramData.id} />,
+    },
   ];
 
   return (
@@ -132,7 +125,6 @@ const ReservationItemManagement = () => {
         }}
       />
 
- 
       <TabStructure
         tabs={tabs}
         toggleState={toggleState}
