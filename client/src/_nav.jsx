@@ -5,7 +5,6 @@ import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-
 const _nav = [
   {
     component: CNavGroup,
@@ -86,6 +85,7 @@ const _nav = [
             ),
             to: "/reservationManagement/reservation/createReservationItem",
           },
+
           {
             component: CNavItem,
             name: "Items",
@@ -99,7 +99,6 @@ const _nav = [
             ),
             to: "/reservationManagement/reservation/reservationItems",
           },
-          
         ],
       },
     ],
@@ -219,7 +218,7 @@ const _nav = [
               />
             ),
             to: "/reservationOverviewPart/ReservationOverview",
-          }, 
+          },
           {
             component: CNavItem,
             name: "Resevation List",
@@ -232,7 +231,7 @@ const _nav = [
               />
             ),
             to: "/reservationOverviewPart/ReservationList",
-          }, 
+          },
         ],
       },
     ],

@@ -3,7 +3,7 @@ import React from "react";
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 // reservation group
-const ReservationsList = React.lazy(() =>
+const ReservationGroupList = React.lazy(() =>
   import("./pages/reservationManagement/ReservationGroupList")
 );
 const CreateReservationGroup = React.lazy(() =>
@@ -17,6 +17,11 @@ const Companies = React.lazy(() => import("./pages/company/Companies"));
 const CreateCompany = React.lazy(() => import("./pages/company/CreateCompany"));
 const CompanyOverview = React.lazy(
   () => import("./pages/company/CompanyOverview")
+);
+
+// reservation item
+const ReservationItemTabView = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationItemManagement")
 );
 const ReservationItemOverview = React.lazy(() =>
   import("./pages/reservationManagement/ReservationItemTimeSlotManagement")
@@ -77,6 +82,29 @@ const routes = [
     name: "Company Overview",
     element: CompanyOverview,
   },
+   // reservation group
+   {
+    path: "/reservationManagement/reservation/reservationGroups",
+    name: "Reservations",
+    element: ReservationGroupList,
+  },
+  {
+    path: "/reservationManagement/reservation/createReservationGroup",
+    name: "Create Reservation Group",
+    element: CreateReservationGroup,
+  },
+  {
+    path: "/reservationManagement/reservation/reservationGroups/reservationGroupOverview",
+    name: "Manage Reservation",
+    element: ReservationGroupOverview,
+  },
+
+  // reservation item
+  {
+    path: "/reservationManagement/reservation/createReservationItem",
+    name: "Create Reservation Item",
+    element: ReservationItemTabView,
+  },
   {
     path: "/reservationManagement/reservation/reservationItems/reservationItemOverview",
     name: "Manage Reservation",
@@ -87,6 +115,7 @@ const routes = [
     name: "Reservation Items",
     element: ReservationItemList,
   },
+
 
   // todo
   {
@@ -154,6 +183,16 @@ const routes = [
     name: "Reservation List",
     element: QuickNavigation,
   },
+  {
+    path: "/reservationManagement",
+    name: "Reservations Management",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationManagement/reservation",
+    name: "Reservation",
+    element: QuickNavigation,
+  }
  
 ];
 
