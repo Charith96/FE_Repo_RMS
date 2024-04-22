@@ -29,7 +29,8 @@ export const userReducer = (state = initialState, action) => {
     case ActionTypes.GET_USERS_FAILID:
     case ActionTypes.CREATE_USER_SUCCESS:
       return { ...state, users: [...state.users, action.payload], error: null };
- 
+      case ActionTypes.CREATE_USER_FAIL:
+        return { ...state, loading: false, error: action.payload };
     case ActionTypes.UPDATE_USER_SUCCESS:
       return {
         ...state,

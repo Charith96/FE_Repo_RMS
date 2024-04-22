@@ -66,7 +66,7 @@ const Main = () => {
   }, [formData]);
   useEffect(() => {
     dispatch(fetchCompanies());
-
+    dispatch(fetchRoles());
     dispatch(fetchData());
   }, [dispatch]);
   const validateForm = () => {

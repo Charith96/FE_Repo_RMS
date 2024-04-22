@@ -55,7 +55,7 @@ export const fetchReservation = () => async (dispatch) => {
   
   } catch (error) {
     dispatch({ type: ActionTypes.GET_Reservation_FAIL, payload: error });
-    console.error("Error fetching data:", error);
+   
   }
 };
 
@@ -70,7 +70,8 @@ export const createReservation = (reservationData) => async (dispatch) => {
       payload: response.data,
     });
   } catch (error) {
-    console.error("Error creating reservation:", error);
+    dispatch({ type: ActionTypes.CREATE_Reservation_FAIL, payload: error });
+  
   }
 };
 
@@ -86,10 +87,10 @@ export const updateReservations =
         type: ActionTypes.UPDATE_Reservation_SUCCESS,
         payload: response.data,
       });
-      console.log("Reservations updated successfully");
+
     } catch (error) {
       dispatch({ type: ActionTypes.UPDATE_Reservation_FAIL, payload: error });
-      console.error("Error updating reservation data:", error);
+ 
     }
   };
 
@@ -98,7 +99,8 @@ export const deleteReservation = (id) => async (dispatch) => {
     await axios.delete(`${BASE_URL}${RESERVATION_URL}/${id}`);
     dispatch(fetchReservation());
   } catch (error) {
-    console.error("Error deleting reservation:", error);
+    dispatch({ type: ActionTypes.DELETE_Reservation_FAIL, payload: error });
+  
   }
 };
 
@@ -117,6 +119,6 @@ export const updateReservationData =
       toastFunction("Reservation updated successfully");
     } catch (error) {
       dispatch({ type: ActionTypes.UPDATE_RESERVATION_FAIL, payload: error });
-      console.error("Error updating data:", error);
+  
     }
   };

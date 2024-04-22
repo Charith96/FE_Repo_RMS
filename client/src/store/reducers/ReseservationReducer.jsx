@@ -55,6 +55,8 @@ export const reservationReducer = (state = initialState, action) => {
         reservations: [...state.reservations, action.payload],
         error: null,
       };
+      case ActionTypes.CREATE_Reservation_FAIL:
+        return { ...state, loading: false, error: action.payload };
     case ActionTypes.GET_Reservation_REQUESTID:
       return { ...state, loading: true, error: null };
     case ActionTypes.GET_Reservation_SUCCESSID:
@@ -90,5 +92,11 @@ export const reservationReducer = (state = initialState, action) => {
       };
     default:
       return state;
+      case ActionTypes.DELETE_Reservation_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
   }
 };

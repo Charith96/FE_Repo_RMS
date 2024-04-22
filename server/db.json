@@ -301,24 +301,6 @@
   ],
   "users": [
     {
-      "id": "8080",
-      "userID": "hasinichamodi4@gmail.com",
-      "firstName": "hhhhhhhhhhhhhh",
-      "lastName": "chamodi",
-      "defaultCompany": "Company 1",
-      "designation": "Receptionist",
-      "primaryRole": "Reservation Officer",
-      "email": "hasinichamodi4@gmail.com",
-      "password": "qwert@12345",
-      "validFrom": "2024-04-01T13:48",
-      "validTill": "2024-04-17T13:48",
-      "companies": [
-        "Company 2",
-        "ABC1"
-      ],
-      "roles": []
-    },
-    {
       "id": "3885",
       "userID": "hasinichamodi24@gmail.com",
       "firstName": "hasia",
@@ -335,6 +317,21 @@
         "vcvc",
         "nmn"
       ]
+    },
+    {
+      "id": "cdcd",
+      "firstName": "hasi",
+      "lastName": "ni",
+      "defaultCompany": "ABC2",
+      "designation": "reservaiton officer",
+      "primaryRole": "vcvc",
+      "email": "hasinichamsodi4@gmail.com",
+      "password": "qwer!@12345",
+      "validFrom": "2024-04-14T01:46",
+      "validTill": "2024-04-26T01:46",
+      "companies": [],
+      "roles": [],
+      "userID": "hasinichamsodi4@gmail.com"
     }
   ],
   "company": [
