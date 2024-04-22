@@ -1,8 +1,80 @@
 {
-  "customers": [],
-  "groupcreation": [],
+  "customers": [
+    {
+      "id": "1234",
+      "fullName": "kamal",
+      "identifier": "1111",
+      "address": "kandy road, kurunegala",
+      "email": "kamal@gmail.com",
+      "contactNo": "0734474732"
+    }
+  ],
+  "groupcreation": [
+    {
+      "id": "93f9",
+      "groupId": "1001",
+      "groupName": "tester"
+    }
+  ],
   "users": [],
-  "itemcreation":[],
+  "timeslotsitem": [
+    {
+      "id": "5870",
+      "startTime": "13:18",
+      "endTime": "14:18",
+      "itemId": "5d5c"
+    },
+    {
+      "id": "e14f",
+      "startTime": "17:18",
+      "endTime": "18:18",
+      "itemId": "5d5c"
+    },
+    {
+      "id": "e3dd",
+      "startTime": "19:19",
+      "endTime": "20:19",
+      "itemId": "5d5c"
+    }
+  ],
+  "itemcreation": [
+    {
+      "id": "b49f",
+      "itemId": "1111",
+      "itemName": "ins",
+      "timeSlotType": "Defined",
+      "noOfSlots": 2,
+      "slotDurationType": "Fixed",
+      "duration": "01:00",
+      "noOfReservations": "*",
+      "capacity": "-",
+      "reservationGroup": "93f9"
+    },
+    {
+      "id": "5d5c",
+      "itemId": "1010",
+      "itemName": "test 1",
+      "timeSlotType": "Defined",
+      "noOfSlots": 3,
+      "slotDurationType": "Fixed",
+      "duration": "01:00",
+      "noOfReservations": 120,
+      "capacity": 1200,
+      "reservationGroup": "93f9"
+    },
+    {
+      "id": "84fa",
+      "itemId": "1234",
+      "itemName": "xyz",
+      "timeSlotType": "Flexible",
+      "noOfSlots": 0,
+      "slotDurationType": "",
+      "duration": "",
+      "noOfReservations": 220,
+      "capacity": 22,
+      "reservationGroup": "93f9"
+    }
+  ],
   "countries": [],
   "currencies": [],
   "todos": [

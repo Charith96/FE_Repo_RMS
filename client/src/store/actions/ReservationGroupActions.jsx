@@ -151,12 +151,12 @@ export const fetchReservationItemByGroupId = (id) => async (dispatch) => {
     
     if (response.status === 200){
     dispatch({
-      type: "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID",
+      type: ActionTypes.CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID,
       payload: response.data.length > 0,
     });}
   } catch (error) {
     dispatch({
-      type: "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID_FAILURE",
+      type: ActionTypes.CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID_FAILURE,
       payload: error.message || "An error occurred",
     });
   }

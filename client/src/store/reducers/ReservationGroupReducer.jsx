@@ -132,18 +132,18 @@ export const getReservationGroupReducer = (
   action
 ) => {
   switch (action.type) {
-    case "GET_RESERVATION_GROUP_START":
+    case ActionTypes.GET_RESERVATION_GROUP_START:
       return {
         ...state,
         loading: !initialState.loading,
       };
-    case "GET_RESERVATION_GROUP_SUCCESS":
+    case ActionTypes.GET_RESERVATION_GROUP_SUCCESS:
       return {
         ...state,
         loading: initialState.loading,
         fetchReservationGroup: action.payload,
       };
-    case "GET_RESERVATION_GROUP_FAIL":
+    case ActionTypes.GET_RESERVATION_GROUP_FAIL:
       return {
         ...state,
         loading: initialState.loading,
@@ -213,9 +213,9 @@ export const fetchReservationItemByGroupReducer = (
   action
 ) => {
   switch (action.type) {
-    case "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID":
+    case ActionTypes.CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID:
       return { ...state, fetchReservationItemByGroupFlag: action.payload };
-    case "CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID_FAILURE":
+    case ActionTypes.CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID_FAILURE:
       return { ...state, fetchReservationItemByGroupFlag: true };
     default:
       return state;

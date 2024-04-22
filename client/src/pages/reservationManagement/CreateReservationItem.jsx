@@ -7,6 +7,7 @@ import FormButton from "../../components/FormButton";
 import { Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const CreateReservationItem = ({
   inputValues,
@@ -30,7 +31,7 @@ const CreateReservationItem = ({
   const [timeSlotType, setTimeSlotType] = useState("");
   const [noOfSlots, setNoOfSlots] = useState("");
   const [slotDurationType, setSlotDurationType] = useState("");
-  
+  const navigate = useNavigate();
   const [noOfReservations, setNoOfReservations] = useState("");
   const [capacity, setCapacity] = useState("");
   const [reservationGroup, setReservationGroup] = useState("");
@@ -95,6 +96,10 @@ const CreateReservationItem = ({
     setReservationGroup(e.target.value);
   };
   
+  const handleNavigate = () => {
+    navigate("/reservationManagement/reservation/reservationItems");
+  };
+
   //to handle the submit click
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,6 +138,7 @@ const CreateReservationItem = ({
       ) {
         if (isFlexible) {
           dispatch(createReservationItem(data));
+          handleNavigate();
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else if (
@@ -143,6 +149,7 @@ const CreateReservationItem = ({
           !isValuesEqual
         ) {
           dispatch(createReservationItem(data));
+          handleNavigate();
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else if (
@@ -152,6 +159,7 @@ const CreateReservationItem = ({
           !isValuesEqual
         ) {
           dispatch(createReservationItem(data));
+          handleNavigate();
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else {

@@ -18,12 +18,12 @@ const ReservationItemTimeSlotList = ({
   resetStates,
   setSelectedRecords,
   uniqueId,
-  
+
   newlyAddedSlots,
   setNewlyAddedSlots,
-  
+
   setIsOverlapping,
-  
+
   setIsValuesEqual,
   isViewMode,
 }) => {
@@ -118,7 +118,6 @@ const ReservationItemTimeSlotList = ({
               checked={selectedId === value.id}
               onChange={(e) => {
                 e.target.checked ? setSelectedId(value.id) : setSelectedId("");
-                console.log("selectedId", selectedId);
               }}
               disabled={isViewMode}
             />
