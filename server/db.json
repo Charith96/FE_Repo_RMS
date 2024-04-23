@@ -1,51 +1,14 @@
 {
   "Roles": [
     {
-      "id": "b678",
-      "rolecode": "5656",
-      "rolename": "vcvc",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "c8d4",
-      "rolecode": "ui",
-      "rolename": "n",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "3c71",
-      "rolecode": "78",
-      "rolename": "nb",
-      "privileges": [
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "acaa",
-      "rolecode": "89",
-      "rolename": "nmn",
-      "privileges": [
-        "updateAccess"
-      ]
-    },
-    {
       "id": "c5f8",
       "rolecode": "67676",
-      "rolename": "dddddddd",
+      "rolename": "zxjjjjjbnnnnn",
       "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "f1d0",
-      "rolecode": "78nmnm",
-      "rolename": "m,mnmn",
-      "privileges": [
-        "viewAccess"
+        "createAccess",
+        "viewAccess",
+        "updateAccess",
+        "deleteAccess"
       ]
     },
     {
@@ -61,7 +24,9 @@
       "rolecode": "666",
       "rolename": "nn",
       "privileges": [
-        "createAccess"
+        "createAccess",
+        "viewAccess",
+        "deleteAccess"
       ]
     },
     {
@@ -99,6 +64,51 @@
       "privileges": [
         "createAccess",
         "deleteAccess"
+      ]
+    },
+    {
+      "id": "fafc",
+      "rolecode": "5656cf",
+      "rolename": "hjkk",
+      "privileges": [
+        "updateAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "f23b",
+      "rolecode": "556",
+      "rolename": "test 45457890",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "053a",
+      "rolecode": "89",
+      "rolename": "nbnbnn",
+      "privileges": [
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "b937",
+      "rolecode": "3435",
+      "rolename": "cvtest  yyyyyyy",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "deleteAccess",
+        "viewAccess"
+      ]
+    },
+    {
+      "id": "6b38",
+      "rolecode": "4545",
+      "rolename": "test r",
+      "privileges": [
+        "viewAccess"
       ]
     }
   ],
