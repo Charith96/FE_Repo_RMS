@@ -5,8 +5,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/company", {
-      state: { parentGroup: "Company" },
+    navigate("/reservationManagement", {
+      state: { parentGroup: "Reservation Management" },
     });
   }, [navigate]);
 

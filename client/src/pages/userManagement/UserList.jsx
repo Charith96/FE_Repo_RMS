@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteCompany } from "../../store/actions/CompanyActions";
-import CompanyTable from "../../components/table/DataTableComponent";
+import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  fetchCompanies,
-  resetCompanyState,
-} from "../../store/actions/CompanyActions";
+
+import { fetchData, deleteUser } from "../../store/actions/UserActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -19,19 +16,13 @@ import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { selectUserData } from "../../store/Store";
 
-const Companies = () => {
+const UserList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userData = useSelector(selectUserData);
 
-  //new
-  const fetchCompanyData = useSelector(
-    (state) => state.getCompany.fetchCompany
-  );
-  const deleteCompanyData = useSelector(
-    (state) => state.deleteCompany.deleteCompany
-  );
-  //new
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -45,7 +36,6 @@ const Companies = () => {
     x: 0,
     y: 0,
   });
-  const [itemsExist, setItemsExist] = useState(false);
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -54,19 +44,16 @@ const Companies = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-  //new
   useEffect(() => {
-    dispatch(fetchCompanies());
-    if (deleteCompanyData) {
-      dispatch(fetchCompanies());
+    dispatch(fetchData());
+    if (deleteUser) {
+      dispatch(fetchData());
     }
-  }, [dispatch, deleteCompanyData]);
-  //new
+  }, []);
 
-  //new
   useEffect(() => {
-    if (fetchCompanyData && fetchCompanyData.length > 0) {
-      setFilteredData(fetchCompanyData);
+    if (userData.users && userData.users.length > 0 && !isFiltered) {
+      setFilteredData(userData.users);
     }
 
     const start = currentPage * perPage;
@@ -75,13 +62,11 @@ const Companies = () => {
     setPaginatedData(slicedData);
 
     if (selectedRows.length === 1) {
-      
       setIsDeleteDisable(false);
     } else {
       setIsDeleteDisable(true);
     }
-  }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
-  //new
+  }, [userData, currentPage, perPage, filteredData, selectedRows, isFiltered]);
 
   const columns = [
     {
@@ -98,26 +83,51 @@ const Companies = () => {
       ),
     },
     {
-      name: "Company Code",
-      selector: (row) => row.companyCode,
+      name: "First Name",
+      selector: (row) => row.firstName,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Company Name",
-      selector: (row) => row.companyName,
+      name: "Last Name",
+      selector: (row) => row.lastName,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Country",
-      selector: (row) => row.country,
+      name: "Default Company",
+      selector: (row) => row.defaultCompany,
+      sortable: true,
+      grow: 2,
+    },
+
+    {
+      name: "Designation",
+      selector: (row) => row.designation,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Currency",
-      selector: (row) => row.currency,
+      name: "Primary Role",
+      selector: (row) => row.primaryRole,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Valid From",
+      selector: (row) => row.validFrom,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Valid Till",
+      selector: (row) => row.validTill,
       sortable: true,
       grow: 2,
     },
@@ -129,24 +139,24 @@ const Companies = () => {
     setMenuVisible(true);
     setContextMenuRow(row);
   };
-  //handle edit button click
+
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
+        `/userManagement/userOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "edit" } }
       );
     }
   };
-  //handle detail button click
+
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
+        `/userManagement/userOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "view" } }
       );
     }
@@ -166,32 +176,27 @@ const Companies = () => {
     </div>
   );
 
-  //new
   const handleFilter = () => {
-    if (fetchCompanyData && fetchCompanyData.length > 0) {
-      if (searchTerm === "") {
-        setCurrentPage(0);
-        setFilteredData(fetchCompanyData);
-      } else {
-        const filtered = fetchCompanyData.filter((item) =>
-          item.companyCode
-            ?.toString()
-            .toLowerCase()
-            .includes(searchTerm?.toLowerCase())
-        );
-        setIsFiltered(true);
-        dispatch(resetCompanyState(filtered));
-        setFilteredData(filtered);
-      }
+    if (searchTerm === "") {
+      setFilteredData(userData.users);
+    } else {
+      const filtered = userData.users.filter((item) =>
+        item.firstName
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm?.toLowerCase())
+      );
+
+      setIsFiltered(true);
+
+      setFilteredData(filtered);
     }
   };
-  //new
 
-  //new
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCompany(selectedRows[0]?.id));
+        dispatch(deleteUser(selectedRows[0]?.id));
         toast.success("Record Successfully deleted!");
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
@@ -200,10 +205,9 @@ const Companies = () => {
       }
     }
   };
-  //new
 
   const handleCreate = () => {
-    navigate("/company/createCompany");
+    navigate("/userManagement/createUsers");
   };
 
   const handleDelete = () => {
@@ -218,21 +222,19 @@ const Companies = () => {
     setSearchTerm(e.target.value);
   };
 
-  //new
   const clearFilter = () => {
     setSearchTerm("");
-    dispatch(fetchCompanies());
+    dispatch(fetchData());
     setIsFiltered(false);
     setCurrentPage(0);
   };
-  //new
 
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Company List"}
+        Title={"User List"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
@@ -252,7 +254,7 @@ const Companies = () => {
           <InputGroup className="w-25">
             <Form.Control
               className="bg-white form-control-filter"
-              placeholder="Search Company"
+              placeholder="Search..."
               aria-label="Search"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -280,7 +282,7 @@ const Companies = () => {
         </div>
       </Row>
 
-      <CompanyTable
+      <ReservationGroupTable
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}
@@ -307,7 +309,7 @@ const Companies = () => {
         close={cancelDelete}
         title={"Warning"}
         message={
-          "The selected Company will be deleted. Do you wish to continue?"
+          "The selected Reservation Group will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
         action={() => {
@@ -318,4 +320,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default UserList;

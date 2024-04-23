@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RESERVATION_GROUP, RESERVATION_ITEM } from "../../utils/Constants.jsx";
+import { RESERVATION_GROUP } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -141,23 +141,4 @@ export const resetManageReservationGroupState = () => (dispatch) => {
     payload: null,
   });
   dispatch({ type: ActionTypes.GET_RESERVATION_GROUP_FAIL, payload: null });
-};
-
-export const fetchReservationItemByGroupId = (id) => async (dispatch) => {
-  try {
-    const response = await axios.get(
-      `${BASE_URL}${RESERVATION_ITEM}?reservationGroup=${id}`
-    );
-    
-    if (response.status === 200){
-    dispatch({
-      type: ActionTypes.CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID,
-      payload: response.data.length > 0,
-    });}
-  } catch (error) {
-    dispatch({
-      type: ActionTypes.CHECK_FOR_RESERVATION_ITEM_BY_GROUP_ID_FAILURE,
-      payload: error.message || "An error occurred",
-    });
-  }
 };

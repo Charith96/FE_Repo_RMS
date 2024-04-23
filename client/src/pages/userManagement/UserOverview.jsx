@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
-import CustomerOverviewGeneral from "./CustomerOverviewGeneral";
-import CustomerCurrentReservations from "./CustomerCurrentReservations";
-import CustomerReservationHistory from "./CustomerReservationHistory";
 import { useLocation } from "react-router-dom";
+import General from "./General";
+import Roles from "./UserRoles";
+import Company from "./UserCompany";
 
-const CustomerOverview = () => {
+const ReservationItemManagement = () => {
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isSave, setIsSave] = useState(false);
@@ -83,41 +83,26 @@ const CustomerOverview = () => {
     setIsSave(false);
   };
 
-  //Tabs
+  // tab view content
   const tabs = [
     {
       name: "General",
-      content: paramData ? (
-        <CustomerOverviewGeneral
-          customer={paramData}
-          mode={state && state.mode}
-        />
-      ) : null,
+      content: <General value={paramData.id} mode={mode} />,
     },
     {
-      name: "Current Reservations",
-      content:
-        paramData?.email === "hasinichamodi4@gmail.com" ? (
-          <CustomerCurrentReservations email={paramData?.email} />
-        ) : (
-          <p>No reservations found for this customer.</p>
-        ),
+      name: "Companies",
+      content: <Company value={paramData.id} />,
     },
     {
-      name: "History",
-      content:
-        paramData?.email === "hasinichamodi4@gmail.com" ? (
-          <CustomerReservationHistory email={paramData?.email} />
-        ) : (
-          <p>No reservations found for this customer.</p>
-        ),
+      name: "Roles",
+      content: <Roles value={paramData.id} />,
     },
   ];
 
   return (
     <>
       <TitleActionBar
-        Title={"Customer Overview"}
+        Title={"User Overview"}
         isPlusHidden={true}
         isEditHidden={true}
         isSaveHidden={true}
@@ -143,10 +128,10 @@ const CustomerOverview = () => {
       <TabStructure
         tabs={tabs}
         toggleState={toggleState}
-        toggleTab={setToggleState}
+        toggleTab={toggleTab}
       />
     </>
   );
 };
 
-export default CustomerOverview;
+export default ReservationItemManagement;

@@ -400,9 +400,7 @@ input:-webkit-autofill:active {
   flex: 1;
   padding: 20px;
   margin-left: 300px !important;
-  transition:
-    padding 0.3s,
-    margin 0.3s;
+  transition: padding 0.3s, margin 0.3s;
   overflow: auto;
 }
 
@@ -411,9 +409,7 @@ input:-webkit-autofill:active {
   padding: 20px;
   margin-left: 140px;
   margin-right: 60px;
-  transition:
-    padding 0.3s,
-    margin 0.3s;
+  transition: padding 0.3s, margin 0.3s;
   overflow: auto;
 }
 
@@ -490,16 +486,12 @@ input:-webkit-autofill:active {
   box-shadow: $footer-shadow-color !important;
 
   .footer-collapsed {
-    transition:
-      padding 0.3s,
-      margin 0.3s;
+    transition: padding 0.3s, margin 0.3s;
     padding-left: 5dvw;
   }
 
   .footer-expanded {
-    transition:
-      padding 0.3s,
-      margin 0.3s;
+    transition: padding 0.3s, margin 0.3s;
     padding-left: 17dvw;
   }
 }
@@ -790,6 +782,7 @@ select.form-select {
     width: 100%;
     height: 100%;
     display: none;
+    // border: 1px solid $tab_border_color;
     border: none;
     box-shadow: rgba(100, 100, 120, 0.05) 0px 7px 29px 0px !important;
     border-top-right-radius: 0.85rem !important;

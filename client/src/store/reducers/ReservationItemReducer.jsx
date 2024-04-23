@@ -160,18 +160,18 @@ export const getReservationItemReducer = (
   action
 ) => {
   switch (action.type) {
-    case ActionTypes.GET_RESERVATION_ITEM_START:
+    case "GET_RESERVATION_ITEM_START":
       return {
         ...state,
         loading: !initialState.loading,
       };
-    case ActionTypes.GET_RESERVATION_ITEM_SUCCESS:
+    case "GET_RESERVATION_ITEM_SUCCESS":
       return {
         ...state,
         loading: initialState.loading,
         fetchReservationItem: action.payload,
       };
-    case ActionTypes.GET_RESERVATION_ITEM_FAIL:
+    case "GET_RESERVATION_ITEM_FAIL":
       return {
         ...state,
         loading: initialState.loading,

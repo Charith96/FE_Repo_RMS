@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 
 const TextField = ({
+  id,
   label,
   disabled,
   type,
@@ -20,6 +21,7 @@ const TextField = ({
         </Form.Label>
         <Col sm={9}>
           <Form.Control
+            id={id}
             disabled={disabled}
             type={type}
             className={`w-100 ${

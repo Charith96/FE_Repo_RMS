@@ -86,7 +86,7 @@ const FacilityTable = ({
                                 selectableRowsSingle={selectableRowsSingle}
                                 clearSelectedRows={toggledClearRows}
                                 selectableRowDisabled={() => isSingleRecordSelected}
-                                pagination={false} // Disable default pagination                                    
+                                pagination={false}                                
                                 noHeader
                                 onRowClicked={closeContextMenu}
                                 noDataComponent={<div>No data available</div>}
