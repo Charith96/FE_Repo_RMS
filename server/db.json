@@ -303,7 +303,7 @@
     {
       "id": "3885",
       "userID": "hasinichamodi24@gmail.com",
-      "firstName": "hasia",
+      "firstName": "hasiaw",
       "lastName": "ni",
       "defaultCompany": "ABC2",
       "designation": "reservaiton officer",
@@ -312,10 +312,13 @@
       "password": "qwer@12345",
       "validFrom": "2024-04-23T00:13",
       "validTill": "2024-04-25T00:14",
-      "companies": [],
+      "companies": [
+        "ABC1"
+      ],
       "roles": [
         "vcvc",
-        "nmn"
+        "nmn",
+        "n"
       ]
     },
     {
@@ -568,6 +571,35 @@
       "noOfPeople": 9,
       "time1": "2024-04-30T23:01",
       "time2": "2024-05-01T07:00"
+    },
+    {
+      "id": "9c40",
+      "reservationID": "ialxcq",
+      "customerID": "hasinichamodi24@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "dba9",
+      "reservationID": "iowj93",
+      "customerID": "hasinichamodi24@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-30",
+      "noOfPeople": 1,
+      "time1": "2024-04-30T23:01",
+      "time2": "2024-05-01T07:00"
+    },
+    {
+      "id": "cde0",
+      "reservationID": "yyxp5g",
+      "customerID": "hasinichamodi24@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
     }
   ]
 }
