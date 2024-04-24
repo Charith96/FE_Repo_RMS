@@ -43,8 +43,8 @@
       "rolename": "bnhj",
       "privileges": [
         "createAccess",
-        "viewAccess",
-        "deleteAccess"
+        "deleteAccess",
+        "updateAccess"
       ]
     },
     {
@@ -146,6 +146,24 @@
       "rolecode": "778787",
       "rolename": "tst cdf",
       "privileges": []
+    },
+    {
+      "id": "277e",
+      "rolecode": "5646cd",
+      "rolename": "ttttttttttttttt",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "9172",
+      "rolecode": "567cd",
+      "rolename": "view officer",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "viewAccess"
+      ]
     }
   ],
   "groupcreation": [

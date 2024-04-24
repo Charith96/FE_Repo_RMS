@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import TitleActionBar from '../../components/TitleActionsBar';
-import { fetchRoles, updateRole } from '../../store/actions/RolesAction'; 
+import { fetchRoles, updateRole } from '../../store/actions/RolesAction';
 import { toast } from 'react-toastify';
 
 function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
@@ -41,11 +41,11 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
 
     const handleSave = async () => {
         const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update with roleData
-        const roleId = roleData.id; 
+        const roleId = roleData.id;
         try {
-            await updateRole(roleId, updatedRoleData); 
+            await updateRole(roleId, updatedRoleData);
             setIsEditing(false);
-            toast.success('Role Saved successfully'); 
+            toast.success('Role Saved successfully');
         } catch (error) {
             toast.error('Error updating role:', error);
         }
@@ -53,6 +53,9 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
+
+    // Define all access types
+    const accessTypes = ['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'];
 
     return (
         <>
@@ -96,15 +99,15 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'].map(privilege => (
-                                    <tr key={privilege}>
-                                        <td>{`${privilege.charAt(0).toUpperCase() + privilege.slice(1)}`}</td>
+                                {accessTypes.map(access => (
+                                    <tr key={access}>
+                                        <td>{`${access.charAt(0).toUpperCase() + access.slice(1)}`}</td>
                                         <td>
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                name={privilege}
-                                                checked={editingPrivileges.includes(privilege)}
+                                                name={access}
+                                                checked={editingPrivileges.includes(access)}
                                                 onChange={handleCheckboxChange}
                                                 style={{ width: '20px', height: '20px', border: '2px solid black' }}
                                                 disabled={!isEditing}
