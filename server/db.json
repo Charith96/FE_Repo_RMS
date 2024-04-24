@@ -1,21 +1,12 @@
 {
   "Roles": [
     {
-      "id": "c5f8",
-      "rolecode": "67676",
-      "rolename": "zxjjjjjbnnnnn",
-      "privileges": [
-        "createAccess",
-        "deleteAccess",
-        "updateAccess"
-      ]
-    },
-    {
       "id": "521f",
       "rolecode": "nn",
       "rolename": "bn",
       "privileges": [
-        "createAccess"
+        "createAccess",
+        "deleteAccess"
       ]
     },
     {
@@ -134,14 +125,6 @@
       ]
     },
     {
-      "id": "1b67",
-      "rolecode": "78790",
-      "rolename": "test cgdre",
-      "privileges": [
-        "createAccess"
-      ]
-    },
-    {
       "id": "79f2",
       "rolecode": "778787",
       "rolename": "tst cdf",
@@ -163,6 +146,15 @@
         "createAccess",
         "updateAccess",
         "viewAccess"
+      ]
+    },
+    {
+      "id": "055c",
+      "rolecode": "565",
+      "rolename": "test",
+      "privileges": [
+        "createAccess",
+        "deleteAccess"
       ]
     }
   ],
