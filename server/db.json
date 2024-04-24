@@ -6,9 +6,8 @@
       "rolename": "zxjjjjjbnnnnn",
       "privileges": [
         "createAccess",
-        "viewAccess",
-        "updateAccess",
-        "deleteAccess"
+        "deleteAccess",
+        "updateAccess"
       ]
     },
     {
@@ -110,6 +109,43 @@
       "privileges": [
         "viewAccess"
       ]
+    },
+    {
+      "id": "43ab",
+      "rolecode": "455cd",
+      "rolename": "test dfer",
+      "privileges": [
+        "createAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "3334",
+      "rolecode": "56677",
+      "rolename": "tedrwsaqws",
+      "privileges": []
+    },
+    {
+      "id": "41ee",
+      "rolecode": "7787",
+      "rolename": "vbvvnn",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "1b67",
+      "rolecode": "78790",
+      "rolename": "test cgdre",
+      "privileges": [
+        "createAccess"
+      ]
+    },
+    {
+      "id": "79f2",
+      "rolecode": "778787",
+      "rolename": "tst cdf",
+      "privileges": []
     }
   ],
   "groupcreation": [
