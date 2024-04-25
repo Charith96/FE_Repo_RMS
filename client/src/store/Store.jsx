@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
 //import thunk from "redux-thunk";
 import { thunk } from "redux-thunk";
-import customerReducer from "./reducers/CustomerReducers";
+import customerReducer from "./reducers/customerReducers";
 import {
   createReservationGroupReducer,
   editReservationGroupReducer,
@@ -49,6 +49,9 @@ import {
   getToDoByIdReducer,
   deleteToDoReducer,
 } from "./reducers/ToDoReducer";
+import { userReducer } from "./reducers/UserReducers";
+
+import rolesReducer from "./reducers/RolesReducer";
 
 const middleware = [thunk];
 
@@ -87,13 +90,20 @@ const rootReducer = combineReducers({
   getToInfoDoById: getToDoByIdReducer,
   deleteToDoInfo: deleteToDoReducer,
 
+
+ //users
+  user: userReducer,
+
   //reservation
   reservation: reservationReducer,
+
 
   // time slot
   getTimeSlotsByItem: getTimeSlotsByItemIdReducer,
   deleteTimeSlotsByItem: deleteTimeSlotsByItemIdReducer,
   editTimeSlotsByItem: editTimeSlotsByItemIdReducer,
+    //roles
+    roles: rolesReducer,
 });
 
 export const store = createStore(
@@ -101,3 +111,4 @@ export const store = createStore(
   composeWithDevTools(applyMiddleware(...middleware))
 );
 export const selectCustomer = (state) => state.customerData;
+export const selectUserData = (state) => state.user;

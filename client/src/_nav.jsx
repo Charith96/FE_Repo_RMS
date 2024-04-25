@@ -187,16 +187,16 @@ const _nav = [
       },
     ],
   },
-  {
+   {
     component: CNavGroup,
-    name: "Reservation Overview",
-    navPath: "/reservationOverviewPart",
+    name: "User Management",
+    navPath: "/userManagement",
     icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
-        name: "Reservations",
-        to: "/reservationOverviewPart/",
+        name: "Users",
+        to: "/userManagement/",
         quicknavicon: (
           <FontAwesomeIcon
             icon={faUser}
@@ -208,7 +208,7 @@ const _nav = [
         items: [
           {
             component: CNavItem,
-            name: "Resevation Overview",
+            name: "User Creation",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -217,8 +217,60 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservationOverviewPart/ReservationOverview",
+            to: "/userManagement/createUsers",
           },
+          {
+            component: CNavItem,
+            name: "User List",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/userManagement/Userlist",
+          },
+        
+          
+        ],
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "Reservations Management",
+    navPath: "/reservations",
+    icon: <FontAwesomeIcon icon={faTasks} className="nav-icon" />,
+    items: [
+      {
+        component: CNavGroup,
+        name: "Reservations",
+        to: "/reservations/",
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faUser}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        className: "mt-3 ms-2",
+        items: [
+      {
+        component: CNavItem,
+        name: "Create Reservations",
+        icon: <i className="ps-2" />,
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faTasks}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        to: "/reservations/createReservation",
+      },
+         
           {
             component: CNavItem,
             name: "Resevation List",
@@ -230,12 +282,23 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservationOverviewPart/ReservationList",
+            to: "/reservations/ReservationList",
+          }, {
+            component: CNavItem,
+            name: "Resevation Overview",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/reservations/ReservationOverview",
           },
-        ],
-      },
     ],
   },
+    ],},
 ];
 
 export default _nav;

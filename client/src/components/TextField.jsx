@@ -11,6 +11,7 @@ const TextField = ({
   onChange,
   inputMessage,
   maxLength,
+  id,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const TextField = ({
         </Form.Label>
         <Col sm={9}>
           <Form.Control
+          id={id}
             disabled={disabled}
             type={type}
             className={`w-100 ${

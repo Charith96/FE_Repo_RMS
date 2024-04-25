@@ -2,14 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
 
-import {
-  fetchCustomers,
-  deleteCustomer,
-  fetchCustomer,
-} from "../../store/actions/customerActions";
-
+import { fetchData, deleteUser } from "../../store/actions/UserActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -17,20 +11,17 @@ import {
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { selectCustomer } from "../../store/Store";
+import { selectUserData } from "../../store/Store";
 
-const CustomerList = () => {
+const UserList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const customer = useSelector(selectCustomer);
-  const customers = useSelector((state) => state.customerReducer.customers);
-  let { value } = useParams();
+  const userData = useSelector(selectUserData);
 
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -54,33 +45,29 @@ const CustomerList = () => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
-    dispatch(fetchCustomers());
-    if (deleteCustomer) {
-      dispatch(fetchCustomers());
+    dispatch(fetchData());
+    if (deleteUser) {
+      dispatch(fetchData());
     }
   }, []);
 
   useEffect(() => {
-    dispatch(fetchCustomers()).then(() => {
-      if (customers && customers.length > 0 && !isFiltered) {
-        setFilteredData(customers);
+    if (userData.users && userData.users.length > 0 && !isFiltered) {
+      setFilteredData(userData.users);
+    }
 
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = customers?.slice(start, end);
-        setPaginatedData(slicedData);
+    const start = currentPage * perPage;
+    const end = start + perPage;
+    const slicedData = filteredData?.slice(start, end);
+    setPaginatedData(slicedData);
 
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
-      }
-    });
+    if (selectedRows.length === 1) {
+      setIsDeleteDisable(false);
+    } else {
+      setIsDeleteDisable(true);
+    }
+  }, [userData, currentPage, perPage, filteredData, selectedRows, isFiltered]);
 
-  }, [customers, currentPage, perPage, selectedRows, isFiltered]);
-
-  //table columns
   const columns = [
     {
       name: "",
@@ -96,27 +83,33 @@ const CustomerList = () => {
       ),
     },
     {
-      name: "Customer Id",
-      selector: (row) => row.id,
+      name: "First Name",
+      selector: (row) => row.firstName,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Customer Name",
-      selector: (row) => row.fullName,
+      name: "Last Name",
+      selector: (row) => row.lastName,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Identifier",
-      selector: (row) => row.identifier,
+      name: "Default Company",
+      selector: (row) => row.defaultCompany,
       sortable: true,
       grow: 2,
     },
 
     {
-      name: "Address",
-      selector: (row) => row.address,
+      name: "Designation",
+      selector: (row) => row.designation,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Primary Role",
+      selector: (row) => row.primaryRole,
       sortable: true,
       grow: 2,
     },
@@ -127,8 +120,14 @@ const CustomerList = () => {
       grow: 2,
     },
     {
-      name: "Contact Number",
-      selector: (row) => row.contactNo,
+      name: "Valid From",
+      selector: (row) => row.validFrom,
+      sortable: true,
+      grow: 2,
+    },
+    {
+      name: "Valid Till",
+      selector: (row) => row.validTill,
       sortable: true,
       grow: 2,
     },
@@ -141,35 +140,28 @@ const CustomerList = () => {
     setContextMenuRow(row);
   };
 
-  //Edit option's functionality
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { ...contextMenuRow }; // Copy the row data
-      let dataString = JSON.stringify(data); // Convert data to string
+      let data = { id: contextMenuRow.id };
+      let dataString = JSON.stringify(data);
       navigate(
-        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/userManagement/userOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "edit" } }
       );
     }
   };
 
-  //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { ...contextMenuRow };
+      let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/customerManagement/CustomerOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
+        `/userManagement/userOverview?data=${encodeURIComponent(dataString)}`,
         { state: { mode: "view" } }
       );
     }
   };
 
-  //Display Edit and Details options
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
@@ -184,16 +176,19 @@ const CustomerList = () => {
     </div>
   );
 
-  //Search bar
   const handleFilter = () => {
     if (searchTerm === "") {
-      setFilteredData(customers);
+      setFilteredData(userData.users);
     } else {
-      const filtered = customers.filter((item) =>
-        item.id?.toString().toLowerCase().includes(searchTerm?.toLowerCase())
+      const filtered = userData.users.filter((item) =>
+        item.firstName
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm?.toLowerCase())
       );
 
       setIsFiltered(true);
+
       setFilteredData(filtered);
     }
   };
@@ -201,7 +196,7 @@ const CustomerList = () => {
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCustomer(selectedRows[0]?.id));
+        dispatch(deleteUser(selectedRows[0]?.id));
         toast.success("Record Successfully deleted!");
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
@@ -212,7 +207,7 @@ const CustomerList = () => {
   };
 
   const handleCreate = () => {
-    navigate("/customerManagement/CustomerCreation");
+    navigate("/userManagement/createUsers");
   };
 
   const handleDelete = () => {
@@ -229,7 +224,7 @@ const CustomerList = () => {
 
   const clearFilter = () => {
     setSearchTerm("");
-    dispatch(fetchCustomers());
+    dispatch(fetchData());
     setIsFiltered(false);
     setCurrentPage(0);
   };
@@ -239,7 +234,7 @@ const CustomerList = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Customer List"}
+        Title={"User List"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
@@ -286,6 +281,7 @@ const CustomerList = () => {
           </InputGroup>
         </div>
       </Row>
+
       <ReservationGroupTable
         selectableRows={true}
         selectableRowsSingle={true}
@@ -313,7 +309,7 @@ const CustomerList = () => {
         close={cancelDelete}
         title={"Warning"}
         message={
-          "The selected Customer will be deleted. Do you wish to continue?"
+          "The selected Reservation Group will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
         action={() => {
@@ -324,4 +320,4 @@ const CustomerList = () => {
   );
 };
 
-export default CustomerList;
+export default UserList;

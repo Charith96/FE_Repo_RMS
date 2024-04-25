@@ -18,7 +18,25 @@ const CreateCompany = React.lazy(() => import("./pages/company/CreateCompany"));
 const CompanyOverview = React.lazy(
   () => import("./pages/company/CompanyOverview")
 );
+//users
 
+const CreateUsers = React.lazy(() =>
+  import("./pages/userManagement/CreateUser")
+);
+const UserList = React.lazy(() =>
+  import("./pages/userManagement/UserList")
+);
+const UserOverview = React.lazy(() =>
+  import("./pages/userManagement/UserOverview")
+);
+//reservation
+const ReservationCreation=React.lazy(()=>
+ import("./pages/reservation/ReservationCreation")
+ );
+
+ const ResevationTImeSlots=React.lazy(()=>
+ import("./pages/reservation/ReservationTimeslots")
+);
 // reservation item
 const ReservationItemTabView = React.lazy(() =>
   import("./pages/reservationManagement/ReservationItemManagement")
@@ -98,6 +116,47 @@ const routes = [
     name: "Manage Reservation",
     element: ReservationGroupOverview,
   },
+//users
+{
+  path: "/userManagement/createUsers",
+  name: "createUsers",
+  element:CreateUsers,
+},
+{
+  path: "/userManagement/Userlist",
+  name: "Userlist",
+  element:UserList,
+},
+{
+  path:"/userManagement/UserOverview",
+  name: "UserOverview",
+  element:UserOverview,
+},
+//reservation
+{
+  path:"/reservations",
+  name:"createResevation",
+  element:QuickNavigation,
+},
+{
+  path:"/reservations/createReservation",
+  name:"createResevation",
+  element:ReservationCreation,
+},
+ {path:"/reservations/timeSlots",
+name:"reservationTimeSlots",
+  element:ResevationTImeSlots,
+},
+{
+  path: "/reservations/ReservationOverview",
+  name: "ReservationOverview",
+  element:ReservationOverview,
+},
+{
+  path: "/reservations/ReservationList",
+  name: "ReservationList",
+  element:ReservationList,
+},
 
   // reservation item
   {
@@ -144,17 +203,7 @@ const routes = [
 
     
     //Reservation Overview
-    {
-      path: "/reservationOverviewPart/ReservationOverview",
-      name: "ReservationOverview",
-      element:ReservationOverview,
-    },
-    {
-      path: "/reservationOverviewPart/ReservationList",
-      name: "ReservationList",
-      element:ReservationList,
-    },
-
+  
 
 
   // card layouts
@@ -192,7 +241,13 @@ const routes = [
     path: "/reservationManagement/reservation",
     name: "Reservation",
     element: QuickNavigation,
-  }
+  },
+  {
+    path: "/userManagement",
+    name: "User",
+    element: QuickNavigation,
+  },
+  
  
 ];
 
