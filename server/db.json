@@ -31,14 +31,6 @@
       "address": "Australia",
       "email": "hasinichamodi4@gmail.com",
       "contactNo": "078384278"
-    },
-    {
-      "id": "55555555",
-      "fullName": "Amashi",
-      "identifier": "3Dr",
-      "address": "Gampaha",
-      "email": "ama@gmail.com",
-      "contactNo": "07811233344"
     }
   ],
   "groupcreation": [
@@ -87,7 +79,7 @@
     {
       "id": "a529",
       "reservationID": "pey7we",
-      "customerID": "hasinichamodi4@gmail.com",
+      "customerID": "wihanga@gmail.com",
       "group": "restaurant",
       "itemID": "3f85",
       "date": "2024-04-11",
