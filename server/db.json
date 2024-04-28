@@ -1,14 +1,6 @@
 {
   "customers": [
     {
-      "id": "21121132",
-      "fullName": "kelan ferhanss",
-      "identifier": "8789HJ",
-      "address": "India",
-      "email": "kajal@hotmail.com",
-      "contactNo": "21313123"
-    },
-    {
       "id": "92173013",
       "fullName": "Jithmi Monashi",
       "identifier": "99879",
