@@ -85,28 +85,6 @@
   ],
   "reservations": [
     {
-      "id": "a529",
-      "reservationID": "pey7we",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 5,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
-    {
-      "id": "a469",
-      "reservationID": "xey4we",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 5,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
-    {
       "id": "a369",
       "reservationID": "xe27tt",
       "customerID": "hasinichamodi4@gmail.com",
@@ -116,26 +94,6 @@
       "noOfPeople": 1,
       "time1": "2024-04-11T23:01",
       "time2": "2024-04-12T07:00"
-    },
-    {
-      "id": "b192",
-      "reservationID": "6l9oux",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-12",
-      "noOfPeople": "30",
-      "time1": "2024-04-12T23:01",
-      "time2": "2024-04-13T07:00"
-    },
-    {
-      "id": "fdd5",
-      "reservationID": "jbox1b",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
     },
     {
       "id": "d9a9",
@@ -169,26 +127,6 @@
       "noOfPeople": 5,
       "time1": "2024-04-09T23:01",
       "time2": "2024-04-10T07:00"
-    },
-    {
-      "id": "24e5",
-      "reservationID": "m4nd7d",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
-    },
-    {
-      "id": "4b35",
-      "reservationID": "p0gln1",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "cricket ground",
-      "itemID": "6f68",
-      "date": "",
-      "noOfPeople": 50,
-      "time1": "2024-04-28T01:27",
-      "time2": "2024-04-29T01:27"
     },
     {
       "id": "99bc",

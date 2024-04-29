@@ -4,6 +4,7 @@ import {
   fetchReservations,
   deleteReservation,
 } from "../../store/actions/ReservationAction";
+import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +18,7 @@ const CustomerReservationHistory = ({ email }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(true);
   const [isEditDisable, setIsEditDisable] = useState(true);
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
@@ -62,7 +63,6 @@ const CustomerReservationHistory = ({ email }) => {
     });
   }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
 
-
   const columns = [
     {
       name: "Reservation ID",
@@ -106,6 +106,12 @@ const CustomerReservationHistory = ({ email }) => {
 
   return (
     <div className="mb-5 mx-2">
+      <TitleActionBar
+        plustDisabled={isAddDisable}
+        editDisabled={isEditDisable}
+        saveDisabled={isSaveDisable}
+        deleteDisabled={isDeleteDisable}
+      />
       <div className="table-responsive">
         <ReservationGroupTable
           reservations={reservations}

@@ -57,6 +57,11 @@ const CustomerCreation = ({ createCustomer }) => {
   };
 
   return (
+    <div className="mb-5 mx-2">
+      <div>
+          <h4>Customer Creation</h4>
+        </div>
+        <div></div>
     <Row>
       <Col
         xs={12}
@@ -67,9 +72,6 @@ const CustomerCreation = ({ createCustomer }) => {
         xxl={10}
         className="body-content px-5 pt-4 pb-4 mb-5"
       >
-        <div>
-          <h4>Customer Creation</h4>
-        </div>
 
         <form onSubmit={handleSubmit}>
           <TextField
@@ -139,6 +141,7 @@ const CustomerCreation = ({ createCustomer }) => {
         </form>
       </Col>
     </Row>
+    </div>
   );
 };
 
