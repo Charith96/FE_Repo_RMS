@@ -38,11 +38,6 @@ const CustomerCreation = ({ createCustomer }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!formValid) {
-      alert("Please fill in all mandatory fields and provide a valid email.");
-      return;
-    }
-
     const newCustomer = {
       id,
       fullName,

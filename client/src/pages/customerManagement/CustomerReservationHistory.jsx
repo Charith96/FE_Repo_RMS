@@ -5,9 +5,7 @@ import {
   deleteReservation,
 } from "../../store/actions/ReservationAction";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const CustomerReservationHistory = ({ email }) => {
   const dispatch = useDispatch();
@@ -64,41 +62,6 @@ const CustomerReservationHistory = ({ email }) => {
     });
   }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setIsFiltered(e.target.value !== "");
-  };
-
-  const clearFilter = () => {
-    setSearchTerm("");
-    setIsFiltered(false);
-    setCurrentPage(0);
-  };
-
-  const handleCreate = () => {
-    //navigate("/customerManagement/CustomerCreation");
-  };
-
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
-
-  const cancelDelete = () => {
-    setShowConfirmation(false);
-  };
-
-  const confirmDelete = () => {
-    if (selectedRows.length === 1) {
-      try {
-        dispatch(deleteReservation(selectedRows[0]?.id));
-        toast.success("Record Successfully deleted!");
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-      } finally {
-        setShowConfirmation(false);
-      }
-    }
-  };
 
   const columns = [
     {
@@ -139,20 +102,6 @@ const CustomerReservationHistory = ({ email }) => {
     },
   ];
 
-  const handleCellClick = (e, row) => {
-    e.preventDefault();
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
-    setMenuVisible(true);
-    setContextMenuRow(row);
-  };
-
-  const customContextMenu = menuVisible && (
-    <div
-      className="styled-menu"
-      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-    ></div>
-  );
-
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
@@ -179,21 +128,6 @@ const CustomerReservationHistory = ({ email }) => {
         />
       </div>
 
-      {/* Popup menu */}
-      <div>{customContextMenu}</div>
-
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={cancelDelete}
-        title={"Warning"}
-        message={
-          "The selected Reservation will be deleted. Do you wish to continue?"
-        }
-        type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
-      />
     </div>
   );
 };

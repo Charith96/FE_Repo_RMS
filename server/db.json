@@ -23,6 +23,22 @@
       "address": "Australia",
       "email": "hasinichamodi4@gmail.com",
       "contactNo": "078384278"
+    },
+    {
+      "id": "32333333",
+      "fullName": "test01",
+      "identifier": "87999999999",
+      "address": "ggggggggggggg",
+      "email": "",
+      "contactNo": "222222222222222"
+    },
+    {
+      "id": "11111111",
+      "fullName": "test01",
+      "identifier": "87999999999",
+      "address": "ggggggggggggg",
+      "email": "gfgh@gmail.com",
+      "contactNo": "11111"
     }
   ],
   "groupcreation": [
@@ -71,7 +87,7 @@
     {
       "id": "a529",
       "reservationID": "pey7we",
-      "customerID": "wihanga@gmail.com",
+      "customerID": "hasinichamodi4@gmail.com",
       "group": "restaurant",
       "itemID": "3f85",
       "date": "2024-04-11",
