@@ -109,8 +109,6 @@ const CustomerReservationHistory = ({ email }) => {
       <div className="table-responsive">
         <ReservationGroupTable
           reservations={reservations}
-          selectableRows={true}
-          selectableRowsSingle={true}
           setPerPage={setPerPage}
           setCurrentPage={setCurrentPage}
           setSelectedRows={setSelectedRows}
@@ -127,7 +125,6 @@ const CustomerReservationHistory = ({ email }) => {
           isSingleRecordSelected={isSingleRecordSelected}
         />
       </div>
-
     </div>
   );
 };
