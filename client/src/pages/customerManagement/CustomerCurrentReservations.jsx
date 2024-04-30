@@ -4,9 +4,6 @@ import {
   fetchReservations,
   deleteReservation,
 } from "../../store/actions/ReservationAction";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
@@ -34,7 +31,6 @@ const CustomerCurrentReservations = ({ email }) => {
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
@@ -63,10 +59,6 @@ const CustomerCurrentReservations = ({ email }) => {
     }
   }, [reservations, currentPage, perPage, selectedRows, email]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setIsFiltered(e.target.value !== "");
-  };
 
   const handleCreate = () => {
     // navigate("/reservationOverviewPart/CreateReservations");
