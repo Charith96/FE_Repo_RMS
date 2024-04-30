@@ -25,14 +25,6 @@
       "contactNo": "078384278"
     },
     {
-      "id": "32333333",
-      "fullName": "test01",
-      "identifier": "87999999999",
-      "address": "ggggggggggggg",
-      "email": "",
-      "contactNo": "222222222222222"
-    },
-    {
       "id": "11111111",
       "fullName": "test01",
       "identifier": "87999999999",
@@ -84,17 +76,6 @@
     }
   ],
   "reservations": [
-    {
-      "id": "a369",
-      "reservationID": "xe27tt",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": 1,
-      "time1": "2024-04-11T23:01",
-      "time2": "2024-04-12T07:00"
-    },
     {
       "id": "d9a9",
       "reservationID": "rchna6",

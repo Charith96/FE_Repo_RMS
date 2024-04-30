@@ -51,7 +51,7 @@ const CustomerOverview = () => {
 
   return (
     <>
-      {/*// Render TabStructure component with tabs and toggleState */}
+      {/*Render TabStructure component with tabs and toggleState */}
       <TabStructure
         tabs={tabs}
         toggleState={toggleState}
