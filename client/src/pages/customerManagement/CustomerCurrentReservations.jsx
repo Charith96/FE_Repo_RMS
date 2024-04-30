@@ -36,10 +36,12 @@ const CustomerCurrentReservations = ({ email }) => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
+    // Fetch reservations on component mount
     dispatch(fetchReservations());
   }, []);
 
   useEffect(() => {
+    // Update filtered data when reservations or pagination settings change
     if (reservations && reservations.length > 0 && email) {
       const filtered = reservations.filter(
         (reservation) => reservation.customerEmail === email
@@ -58,7 +60,6 @@ const CustomerCurrentReservations = ({ email }) => {
       }
     }
   }, [reservations, currentPage, perPage, selectedRows, email]);
-
 
   const handleCreate = () => {
     // navigate("/reservationOverviewPart/CreateReservations");
@@ -125,6 +126,7 @@ const CustomerCurrentReservations = ({ email }) => {
   ];
 
   const handleCellClick = (e, row) => {
+    // Handle cell click event (context menu)
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
@@ -132,16 +134,19 @@ const CustomerCurrentReservations = ({ email }) => {
   };
 
   const customContextMenu = menuVisible && (
+    // Custom context menu component
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     ></div>
   );
 
+  // Check if single record is selected
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
+      {/* Title and action bar */}
       <TitleActionBar
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
@@ -158,6 +163,7 @@ const CustomerCurrentReservations = ({ email }) => {
       />
 
       <div className="table-responsive">
+        {/* Reservation table component */}
         <ReservationGroupTable
           reservations={reservations}
           selectableRows={true}
@@ -168,7 +174,7 @@ const CustomerCurrentReservations = ({ email }) => {
           setMenuVisible={setMenuVisible}
           paginatedData={paginatedData}
           filteredData={filteredData}
-          totalItems={totalItems}
+          totalItems={reservations.length}
           currentPage={currentPage}
           perPage={perPage}
           columns={columns}
@@ -183,6 +189,7 @@ const CustomerCurrentReservations = ({ email }) => {
       {/* Popup menu */}
       <div>{customContextMenu}</div>
 
+      {/* Delete confirmation modal */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}

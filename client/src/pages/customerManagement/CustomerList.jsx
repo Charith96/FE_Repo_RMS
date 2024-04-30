@@ -57,6 +57,7 @@ const CustomerList = () => {
     // Fetch customers on component mount
     dispatch(fetchCustomers());
     if (deleteCustomer) {
+      // Fetch customers again if deleteCustomer action is dispatched
       dispatch(fetchCustomers());
     }
   }, []);
@@ -137,8 +138,8 @@ const CustomerList = () => {
 
   // Function to handle cell click (context menu)
   const handleCellClick = (e, row) => {
-    e.preventDefault();
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
+    e.preventDefault(); //prevents the default behavior of the click event
+    setContextMenuPosition({ x: e.clientX, y: e.clientY }); //sets the position of the context menu based on the coordinates of the mouse click event
     setMenuVisible(true);
     setContextMenuRow(row);
   };

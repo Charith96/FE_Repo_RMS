@@ -35,13 +35,16 @@ const CustomerReservationHistory = ({ email }) => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
+    // Fetch reservations on component mount
     dispatch(fetchReservations());
     if (deleteReservation) {
+      // Fetch reservations again if deleteReservation action is dispatched
       dispatch(fetchReservations());
     }
   }, []);
 
   useEffect(() => {
+    // Update filtered data when reservations or pagination settings change
     dispatch(fetchReservations()).then(() => {
       if (reservations && reservations.length > 0 && email) {
         const filtered = reservations.filter(
@@ -63,6 +66,7 @@ const CustomerReservationHistory = ({ email }) => {
     });
   }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
 
+  // Table columns definition
   const columns = [
     {
       name: "Reservation ID",
@@ -102,10 +106,12 @@ const CustomerReservationHistory = ({ email }) => {
     },
   ];
 
+  // Check if single record is selected
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
+      {/* Title and action bar */}
       <TitleActionBar
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
@@ -113,13 +119,14 @@ const CustomerReservationHistory = ({ email }) => {
         deleteDisabled={isDeleteDisable}
       />
       <div className="table-responsive">
+        {/* Reservation table component */}
         <ReservationGroupTable
           reservations={reservations}
           setPerPage={setPerPage}
           setCurrentPage={setCurrentPage}
           setSelectedRows={setSelectedRows}
           setMenuVisible={setMenuVisible}
-          paginatedData={reservations}
+          paginatedData={paginatedData}
           filteredData={filteredData}
           totalItems={reservations.length}
           currentPage={currentPage}

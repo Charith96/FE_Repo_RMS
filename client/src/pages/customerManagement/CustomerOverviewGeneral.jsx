@@ -13,7 +13,9 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
 
 const CustomerOverviewGeneral = ({ customer, mode }) => {
+  // Destructuring customer data
   const { id, fullName, identifier, address, email } = customer;
+  // Initializing state variables
   const dispatch = useDispatch();
   const [filteredCustomerData, setFilteredCustomerData] = useState({
     ...customer,
@@ -23,11 +25,13 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch customer data on component mount if not in edit mode
     if (!editMode) {
       fetchCustomerData();
     }
   }, []);
 
+  // Function to fetch customer data
   const fetchCustomerData = async () => {
     try {
       await dispatch(fetchCustomer(id));
@@ -36,15 +40,17 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     }
   };
 
-
+// Function to handle creating a new customer(Plus icon)
   const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
   
+  // Function to handle deleting a customer
   const handleDelete = () => {
     setShowConfirmation(true);
   };
 
+  // Function to confirm and delete a customer
   const confirmDelete = () => {
     try {
       dispatch(deleteCustomer(id));
@@ -57,6 +63,7 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     }
   };
 
+  // Function to handle submitting changes
   const handleSubmit = async () => {
     try {
       await dispatch(updateCustomer(id, filteredCustomerData));
@@ -71,6 +78,7 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     <>
       <Row>
         <Col>
+        {/* Title and action bar */}
           <TitleActionBar
             Title={""}
             EditAction={() => setEditMode(true)}
@@ -81,6 +89,7 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
             }}
           />
           <div style={{ margin: 10, padding: 20 }}>
+            {/* Customer form component */}
             <CustomerForm
               formData={filteredCustomerData}
               setFormData={setFilteredCustomerData}
@@ -89,6 +98,7 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
           </div>
         </Col>
       </Row>
+      {/* Delete confirmation modal */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={() => setShowConfirmation(false)}
