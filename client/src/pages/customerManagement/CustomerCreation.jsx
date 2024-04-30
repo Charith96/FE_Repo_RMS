@@ -8,6 +8,7 @@ import { Row, Col, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const CustomerCreation = ({ createCustomer }) => {
+  //State variables
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [fullName, setFullName] = useState("");
@@ -21,7 +22,10 @@ const CustomerCreation = ({ createCustomer }) => {
     // Function to validate email format
     const isValidEmail = (value) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return !value || emailRegex.test(value); {/* Returns true if the email is valid or empty*/}
+      return !value || emailRegex.test(value);
+      {
+        /* Returns true if the email is valid or empty*/
+      }
     };
 
     // Check whether all mandatory fields are filled and email is valid
@@ -40,6 +44,7 @@ const CustomerCreation = ({ createCustomer }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    //newCustomer-> contains the data of the customer to be created
     const newCustomer = {
       id,
       fullName,
