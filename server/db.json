@@ -23,6 +23,22 @@
       "address": "Australia",
       "email": "hasinichamodi4@gmail.com",
       "contactNo": "078384278"
+    },
+    {
+      "id": "132",
+      "fullName": "harry potter",
+      "identifier": "23",
+      "address": "dfhgh",
+      "email": "gfgh@gmail.com",
+      "contactNo": "143"
+    },
+    {
+      "id": "334",
+      "fullName": "Rihansa",
+      "identifier": "32",
+      "address": "Sri Lanka",
+      "email": "rihansa@uok.lk",
+      "contactNo": "234"
     }
   ],
   "groupcreation": [
