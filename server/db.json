@@ -23,14 +23,6 @@
       "address": "Australia",
       "email": "hasinichamodi4@gmail.com",
       "contactNo": "078384278"
-    },
-    {
-      "id": "11111111",
-      "fullName": "test01",
-      "identifier": "87999999999",
-      "address": "ggggggggggggg",
-      "email": "gfgh@gmail.com",
-      "contactNo": "11111"
     }
   ],
   "groupcreation": [
@@ -76,17 +68,6 @@
     }
   ],
   "reservations": [
-    {
-      "id": "d9a9",
-      "reservationID": "rchna6",
-      "customerID": "hasinichamodi4@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-04-11",
-      "noOfPeople": "10",
-      "time1": "2024-04-11T18:00",
-      "time2": "2024-04-11T19:01"
-    },
     {
       "id": "120b",
       "reservationID": "54ls1z",

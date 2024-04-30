@@ -21,7 +21,7 @@ const CustomerCreation = ({ createCustomer }) => {
     // Function to validate email format
     const isValidEmail = (value) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return !value || emailRegex.test(value); // Returns true if the email is valid or empty
+      return !value || emailRegex.test(value); {/* Returns true if the email is valid or empty*/}
     };
 
     // Check whether all mandatory fields are filled and email is valid
