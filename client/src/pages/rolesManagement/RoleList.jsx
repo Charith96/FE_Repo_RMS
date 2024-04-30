@@ -40,10 +40,12 @@ function RoleList() {
     const roles = useSelector(state => state.roles);
     const { roles: data, loading } = roles;
 
+    // fetch role data and update the redux store with the fetched data
     useEffect(() => {
-        dispatch(fetchRoles());
+        dispatch(fetchRoles()); 
     }, []);
 
+    //fetch roles and update data when roles or paggination settimg change 
     useEffect(() => {
         if (data && data.length > 0 && !isFiltered) {
             setFilteredData(data);
@@ -100,6 +102,7 @@ function RoleList() {
         }
     };
 
+    //Plus icon functionality
     const handleCreate = () => {
         navigate("/rolesManagement/CreateRole");
     };

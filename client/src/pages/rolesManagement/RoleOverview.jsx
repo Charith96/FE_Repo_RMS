@@ -12,13 +12,16 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
     const location = useLocation();
     const roleData = location.state && location.state.roleData;
 
+    // Fetch roles when component mounts
     useEffect(() => {
-        fetchRoles(); // Fetch roles when component mounts
+        fetchRoles(); 
     }, [fetchRoles]);
 
+     // State for editing privileges and edit mode
     const [editingPrivileges, setEditingPrivileges] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
 
+    // Set editing privileges and exit edit mode when roleData changes
     useEffect(() => {
         if (roleData) {
             setEditingPrivileges([...roleData.privileges || []]);
@@ -26,6 +29,8 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
         }
     }, [roleData]);
 
+    
+    // Handle checkbox change event
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setEditingPrivileges((prevPrivileges) =>
@@ -35,15 +40,18 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
         );
     };
 
+     // Handle edit button click
     const handleEdit = () => {
         setIsEditing(true);
     };
 
+     // Handle save button click
     const handleSave = async () => {
-        const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update with roleData
+        const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update role data with edited privileges
         const roleId = roleData.id;
         try {
-            await updateRole(roleId, updatedRoleData);
+             // Dispatch updateRole action to update role in Redux store
+            await updateRole(roleId, updatedRoleData);  
             setIsEditing(false);
             toast.success('Role Saved successfully');
         } catch (error) {
@@ -51,8 +59,9 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+   
+    if (loading) return <div>Loading...</div>;   // If loading, display loading message
+    if (error) return <div>Error: {error.message}</div>;    // If error, display error message
 
     // Define all access types
     const accessTypes = ['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'];

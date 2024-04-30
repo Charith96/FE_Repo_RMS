@@ -1,5 +1,3 @@
-//This part of the code imports various React hooks, components, and libraries that are used within the CreateRole component:
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'; 
 import { useNavigate } from 'react-router-dom'; 
@@ -30,17 +28,17 @@ function CreateRole() {
 
     // Event handler for checkbox change
     const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
+        const { name, checked } = e.target; //destructures the name and checked 
         setPrivileges(prevPrivileges => (
-            checked
+            checked  //indicates whether the checkbox is checked or not
                 ? [...prevPrivileges, name]
-                : prevPrivileges.filter(item => item !== name)
+                : prevPrivileges.filter(item => item !== name)   // ternary expression checks if the checkbox is checked
         ));
     };
 
     // Event handler for form submission
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault();  // prevents the default behavior of form submission, which would typically cause the browser to reload the page
     
         try {
             // Dispatching createRole action with rolecode, rolename, and privileges
