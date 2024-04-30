@@ -45,6 +45,7 @@ const ReservationList = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
+  // Fetch reservations on component mount
   useEffect(() => {
     dispatch(fetchReservations());
     if (deleteReservation) {
@@ -52,6 +53,7 @@ const ReservationList = () => {
     }
   }, []);
 
+  // Filter reservations and update data when reservations or pagination settings change
   useEffect(() => {
     dispatch(fetchReservations()).then(() => {
       if (reservations && reservations.length > 0 && !isFiltered) {
@@ -71,11 +73,13 @@ const ReservationList = () => {
     });
   }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
 
+  // Handler for search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setIsFiltered(e.target.value !== "");
   };
 
+  // Handler for clearing search filter
   const clearFilter = () => {
     setSearchTerm("");
     setIsFiltered(false);
@@ -90,10 +94,12 @@ const ReservationList = () => {
     setShowConfirmation(true);
   };
 
+  // Handler for canceling delete action
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
 
+  // Handler for confirming delete action
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
@@ -107,29 +113,11 @@ const ReservationList = () => {
     }
   };
 
-  const handleEdit = () => {
-    if (selectedRows.length === 1) {
-      let data = {
-        reservationID: contextMenuRow.reservationID,
-        customerID: contextMenuRow.customerID,
-        date: contextMenuRow.date,
-        itemID: contextMenuRow.itemID,
-        noOfPeople: contextMenuRow.noOfPeople,
-        time1_time2: `${contextMenuRow.time1} - ${contextMenuRow.time2}`,
-      };
-
-      let dataString = JSON.stringify(data);
-      navigate(
-        `/reservationOverviewPart/ReservationOverview?data=${encodeURIComponent(
-          dataString
-        )}`,
-        { state: { mode: "edit" } }
-      );
-    }
-  };
-
+  // Handler for viewing reservation details
   const handleDetails = () => {
+    // Check if a single row is selected
     if (selectedRows.length === 1) {
+      // Prepare data for viewing
       let data = {
         reservationID: contextMenuRow.reservationID,
         customerID: contextMenuRow.customerID,
@@ -188,6 +176,7 @@ const ReservationList = () => {
     },
   ];
 
+  // Handler for handling cell click events (for context menu)
   const handleCellClick = (e, row) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
@@ -195,14 +184,12 @@ const ReservationList = () => {
     setContextMenuRow(row);
   };
 
+  // Render custom context menu
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     >
-      {/* <div className="menu-item" onClick={() => handleEdit()}>
-        <FontAwesomeIcon icon={faEdit} /> Edit
-  </div> */}
       <div className="menu-item" onClick={() => handleDetails()}>
         <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> More info
       </div>
@@ -281,6 +268,7 @@ const ReservationList = () => {
       {/* Popup menu */}
       <div>{customContextMenu}</div>
 
+      {/* Delete confirmation modal */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
