@@ -77,6 +77,17 @@ const QuickNavigation = React.lazy(
  import("./pages/reservationOverviewPart/ReservationList")
  );
  
+ //roles
+ const CreateRole = React.lazy(() =>
+ import("./pages/roleManagement/CreateRole")
+ );
+ const RoleList = React.lazy(() =>
+ import("./pages/roleManagement/RoleList")
+ );
+ const RoleOverview= React.lazy(() =>
+ import("./pages/roleManagement/RoleOverview")
+ );
+
 
 const routes = [
   // dashboard
@@ -204,6 +215,22 @@ name:"reservationTimeSlots",
     
     //Reservation Overview
   
+//roles
+{
+  path: "/rolesManagement/CreateRole",
+  name: "CreateRole",
+  element:CreateRole,
+},
+{
+  path: "/rolesManagement/Rolelist",
+  name: "RoleList",
+  element:RoleList,
+},
+{
+  path:`/rolesManagement/RoleOverview`,
+  name: "RoleOverview",
+  element:RoleOverview,
+},
 
 
   // card layouts
@@ -245,6 +272,11 @@ name:"reservationTimeSlots",
   {
     path: "/userManagement",
     name: "User",
+    element: QuickNavigation,
+  },
+  {
+    path: "/rolesManagement",
+    name: "Roles",
     element: QuickNavigation,
   },
   

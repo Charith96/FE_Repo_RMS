@@ -107,15 +107,22 @@ const Main = () => {
     const { id, value } = e.target;
    
     if (id === "defaultCompany") {
-      setFormData((prevState) => ({
-        ...prevState,
-        [id]: value,
-      }));
+      if(value=="label"){
+        return false;
+      }else{
+        setFormData((prevState) => ({
+          ...prevState,
+          [id]: value,
+        }));
+      }
+      
     } else if (id === "primaryRole") {
+      if(value=="label"){
+        return false;}else{
       setFormData((prevState) => ({
         ...prevState,
         [id]: value,
-      }));
+      }));}
     } else if (id === "email") {
       const Checkusers = userData.users.find((user) => user.email === value);
       if (!Checkusers) {
@@ -214,7 +221,7 @@ const Main = () => {
                     value={formData.defaultCompany}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select Company</option>
+                    <option value="label">Select Company</option>
                     {fetchCompanyData.map((company) => (
                       <option key={company.id} value={company.companyName}>
                         {company.companyName}
@@ -241,7 +248,7 @@ const Main = () => {
                     value={formData.primaryRole}
                     onChange={handleInputChange}
                   >
-                        <option value="">Select Roles</option>
+                        <option value="label">Select Roles</option>
                     {roles.roles.map((role) => (
                       <option key={role.id} value={role.rolename}>
                         {role.rolename}
