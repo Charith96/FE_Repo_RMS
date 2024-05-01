@@ -363,54 +363,8 @@
       "noOfPeople": 45,
       "time1": "2024-04-04T10:03",
       "time2": "2024-04-05T10:03"
-    },
-    {
-      "id": "3bee",
-      "reservationID": "68zlwj",
-      "customerID": "kamal@gmail.com",
-      "group": "cricket ground",
-      "itemID": "6f68",
-      "date": "",
-      "noOfPeople": 50,
-      "time1": "2024-04-05T10:06",
-      "time2": "2024-04-06T10:06"
-    },
-    {
-      "id": "09b3",
-      "reservationID": "j0a7to",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
-    },
-    {
-      "id": "ef79",
-      "reservationID": "ovz3ry",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
-    },
-    {
-      "id": "c2e7",
-      "reservationID": "5epiz0",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
-    },
-    {
-      "id": "b670",
-      "reservationID": "bj26mw",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "",
-      "noOfPeople": ""
     }
+    
   ],
   "groupcreation": [
     {

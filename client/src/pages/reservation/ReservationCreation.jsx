@@ -75,6 +75,9 @@ const ReservationGroupList = () => {
     const { id, value } = e.target;
  
     if (id === "group") {
+      if(value === "label"){
+        return false;
+      }else{
       const selectedGroup = groupData.find(
         (group) => group.groupName === value
       );
@@ -86,7 +89,7 @@ const ReservationGroupList = () => {
       setFormData((prevState) => ({
         ...prevState,
         [id]: value,
-      }));
+      }));}
     } else if (id === "customerID") {
     
       const customer = customers.find(
@@ -108,6 +111,9 @@ const ReservationGroupList = () => {
         }));
       }
     } else if (id === "item") {
+      if(value === "label"){
+        return false;
+      }else{
       const selectedItem = selectedItems.find(
         (item) => item.itemName === value
       );
@@ -117,7 +123,7 @@ const ReservationGroupList = () => {
       }));
       if (selectedItem) {
         setItemEntered(true);
-      }
+      }}
     } else {
       setFormData((prevState) => ({
         ...prevState,
@@ -182,7 +188,7 @@ const ReservationGroupList = () => {
                     onChange={handleInputChange}
                     disabled={!emaiEntered}
                   >
-                    <option value="">Select Resevation Group</option>
+                    <option value="label">Select Resevation Group</option>
                     {groupData.map((group) => (
                       <option key={group.id} value={group.groupName}>
                         {group.groupName}
@@ -203,7 +209,7 @@ const ReservationGroupList = () => {
                     onChange={handleInputChange}
                     disabled={!emaiEntered}
                   >
-                    <option value="">Select Reservation Item</option>
+                    <option value="label">Select Reservation Item</option>
                     {selectedItems.map((item) => (
                       <option key={item.id} value={item.itemName}>
                         {item.itemName}
