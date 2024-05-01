@@ -4,10 +4,9 @@ import {
   fetchReservations,
   deleteReservation,
 } from "../../store/actions/ReservationAction";
+import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const CustomerReservationHistory = ({ email }) => {
   const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const CustomerReservationHistory = ({ email }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(true);
   const [isEditDisable, setIsEditDisable] = useState(true);
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
@@ -36,17 +35,20 @@ const CustomerReservationHistory = ({ email }) => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
+    // Fetch reservations on component mount
     dispatch(fetchReservations());
     if (deleteReservation) {
+      // Fetch reservations again if deleteReservation action is dispatched
       dispatch(fetchReservations());
     }
   }, []);
 
   useEffect(() => {
+    // Update filtered data when reservations or pagination settings change
     dispatch(fetchReservations()).then(() => {
       if (reservations && reservations.length > 0 && email) {
         const filtered = reservations.filter(
-          (reservation) => reservation.customerID === email
+          (reservation) => reservation.customerEmail === email
         );
         setFilteredData(filtered);
 
@@ -64,42 +66,7 @@ const CustomerReservationHistory = ({ email }) => {
     });
   }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setIsFiltered(e.target.value !== "");
-  };
-
-  const clearFilter = () => {
-    setSearchTerm("");
-    setIsFiltered(false);
-    setCurrentPage(0);
-  };
-
-  const handleCreate = () => {
-    //navigate("/customerManagement/CustomerCreation");
-  };
-
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
-
-  const cancelDelete = () => {
-    setShowConfirmation(false);
-  };
-
-  const confirmDelete = () => {
-    if (selectedRows.length === 1) {
-      try {
-        dispatch(deleteReservation(selectedRows[0]?.id));
-        toast.success("Record Successfully deleted!");
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-      } finally {
-        setShowConfirmation(false);
-      }
-    }
-  };
-
+  // Table columns definition
   const columns = [
     {
       name: "Reservation ID",
@@ -139,34 +106,27 @@ const CustomerReservationHistory = ({ email }) => {
     },
   ];
 
-  const handleCellClick = (e, row) => {
-    e.preventDefault();
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
-    setMenuVisible(true);
-    setContextMenuRow(row);
-  };
-
-  const customContextMenu = menuVisible && (
-    <div
-      className="styled-menu"
-      style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
-    ></div>
-  );
-
+  // Check if single record is selected
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
+      {/* Title and action bar */}
+      <TitleActionBar
+        plustDisabled={isAddDisable}
+        editDisabled={isEditDisable}
+        saveDisabled={isSaveDisable}
+        deleteDisabled={isDeleteDisable}
+      />
       <div className="table-responsive">
+        {/* Reservation table component */}
         <ReservationGroupTable
           reservations={reservations}
-          selectableRows={true}
-          selectableRowsSingle={true}
           setPerPage={setPerPage}
           setCurrentPage={setCurrentPage}
           setSelectedRows={setSelectedRows}
           setMenuVisible={setMenuVisible}
-          paginatedData={reservations}
+          paginatedData={paginatedData}
           filteredData={filteredData}
           totalItems={reservations.length}
           currentPage={currentPage}
@@ -178,22 +138,6 @@ const CustomerReservationHistory = ({ email }) => {
           isSingleRecordSelected={isSingleRecordSelected}
         />
       </div>
-
-      {/* Popup menu */}
-      <div>{customContextMenu}</div>
-
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={cancelDelete}
-        title={"Warning"}
-        message={
-          "The selected Reservation will be deleted. Do you wish to continue?"
-        }
-        type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
-      />
     </div>
   );
 };

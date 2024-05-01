@@ -4,6 +4,7 @@ import {
   fetchReservations,
   deleteReservation,
 } from "../../store/actions/ReservationAction";
+import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
@@ -19,64 +20,49 @@ const CustomerCurrentReservations = ({ email }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isEditDisable, setIsEditDisable] = useState(true);
+  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
+    // Fetch reservations on component mount
     dispatch(fetchReservations());
-    if (deleteReservation) {
-      dispatch(fetchReservations());
-    }
   }, []);
 
   useEffect(() => {
-    dispatch(fetchReservations()).then(() => {
-      if (reservations && reservations.length > 0 && email) {
-        const filtered = reservations.filter(
-          (reservation) => reservation.customerID === email
-        );
-        setFilteredData(filtered);
+    // Update filtered data when reservations or pagination settings change
+    if (reservations && reservations.length > 0 && email) {
+      const filtered = reservations.filter(
+        (reservation) => reservation.customerEmail === email
+      );
+      setFilteredData(filtered);
 
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = reservations?.slice(start, end);
-        setPaginatedData(slicedData);
+      const start = currentPage * perPage;
+      const end = start + perPage;
+      const slicedData = reservations?.slice(start, end);
+      setPaginatedData(slicedData);
 
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
+      if (selectedRows.length === 1) {
+        setIsDeleteDisable(false);
+      } else {
+        setIsDeleteDisable(true);
       }
-    });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setIsFiltered(e.target.value !== "");
-  };
-
-  const clearFilter = () => {
-    setSearchTerm("");
-    setIsFiltered(false);
-    setCurrentPage(0);
-  };
+    }
+  }, [reservations, currentPage, perPage, selectedRows, email]);
 
   const handleCreate = () => {
-    //navigate("/reservationOverviewPart/CreateReservations");
+    // navigate("/reservationOverviewPart/CreateReservations");
   };
 
   const handleDelete = () => {
@@ -140,6 +126,7 @@ const CustomerCurrentReservations = ({ email }) => {
   ];
 
   const handleCellClick = (e, row) => {
+    // Handle cell click event (context menu)
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
@@ -147,17 +134,36 @@ const CustomerCurrentReservations = ({ email }) => {
   };
 
   const customContextMenu = menuVisible && (
+    // Custom context menu component
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     ></div>
   );
 
+  // Check if single record is selected
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
+      {/* Title and action bar */}
+      <TitleActionBar
+        plustDisabled={isAddDisable}
+        editDisabled={isEditDisable}
+        saveDisabled={isSaveDisable}
+        deleteDisabled={isDeleteDisable}
+        PlusAction={() => {
+          handleCreate();
+        }}
+        EditAction={() => {}}
+        SaveAction={() => {}}
+        DeleteAction={() => {
+          handleDelete();
+        }}
+      />
+
       <div className="table-responsive">
+        {/* Reservation table component */}
         <ReservationGroupTable
           reservations={reservations}
           selectableRows={true}
@@ -168,7 +174,7 @@ const CustomerCurrentReservations = ({ email }) => {
           setMenuVisible={setMenuVisible}
           paginatedData={paginatedData}
           filteredData={filteredData}
-          totalItems={totalItems}
+          totalItems={reservations.length}
           currentPage={currentPage}
           perPage={perPage}
           columns={columns}
@@ -176,11 +182,14 @@ const CustomerCurrentReservations = ({ email }) => {
           contextMenuPosition={contextMenuPosition}
           toggledClearRows={toggledClearRows}
           isSingleRecordSelected={isSingleRecordSelected}
+          onCellClick={handleCellClick}
         />
       </div>
+
       {/* Popup menu */}
       <div>{customContextMenu}</div>
 
+      {/* Delete confirmation modal */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
@@ -189,9 +198,7 @@ const CustomerCurrentReservations = ({ email }) => {
           "The selected Reservation will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
+        action={confirmDelete}
       />
     </div>
   );

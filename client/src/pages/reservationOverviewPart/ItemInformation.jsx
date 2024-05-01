@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  fetchReservations,
-  deleteReservation,
-  updateReservation,
-} from "../../store/actions/ReservationAction";
+import { fetchReservations } from "../../store/actions/ReservationAction";
 import { Row, Col, Table } from "react-bootstrap";
-import TitleActionBar from "../../components/TitleActionsBar";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
-import { toast } from "react-toastify";
 
-const ItemInformation = ({ reservationData, mode }) => {
+const ItemInformation = ({ reservationData }) => {
   const { reservationID } = reservationData || {};
   const dispatch = useDispatch();
-  const [editMode, setEditMode] = useState(mode === "edit");
-  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
-    if (!editMode) {
-      fetchReservationData();
-    }
+    fetchReservationData();
   }, []);
 
   const fetchReservationData = async () => {
@@ -28,32 +17,6 @@ const ItemInformation = ({ reservationData, mode }) => {
       await dispatch(fetchReservations(reservationID));
     } catch (error) {
       console.error("Error fetching data:", error);
-    }
-  };
-
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
-
-  const confirmDelete = () => {
-    try {
-      // Delete reservation based on reservationID
-      dispatch(deleteReservation(reservationID));
-      toast.success("Record Successfully deleted!");
-    } catch (error) {
-      toast.error("Error deleting row. Please try again.");
-    } finally {
-      setShowConfirmation(false);
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      // Update reservation based on reservationID
-      await dispatch(updateReservation(reservationID, reservationData));
-      setEditMode(false);
-    } catch (error) {
-      console.error("Error saving data:", error);
     }
   };
 
@@ -66,13 +29,6 @@ const ItemInformation = ({ reservationData, mode }) => {
     <>
       <Row>
         <Col>
-          <TitleActionBar
-            Title={""}
-            isPlusHidden={true}
-            isEditHidden={true}
-            isSaveHidden={true}
-            isDeleteHidden={true}
-          />
           <div style={{ margin: 10, padding: 20 }}>
             {/* Display Reservation Data in a Table */}
             <Table striped bordered hover>
@@ -96,16 +52,6 @@ const ItemInformation = ({ reservationData, mode }) => {
           </div>
         </Col>
       </Row>
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={() => setShowConfirmation(false)}
-        title={"Warning"}
-        message={
-          "The selected Reservation will be deleted. Do you wish to continue?"
-        }
-        type={"Yes"}
-        action={confirmDelete}
-      />
     </>
   );
 };

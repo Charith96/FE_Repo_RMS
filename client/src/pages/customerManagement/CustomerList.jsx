@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import {
   fetchCustomers,
   deleteCustomer,
-  fetchCustomer,
 } from "../../store/actions/customerActions";
 
 import {
@@ -32,6 +31,7 @@ const CustomerList = () => {
   const customers = useSelector((state) => state.customerReducer.customers);
   let { value } = useParams();
 
+  // State variables
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -54,13 +54,16 @@ const CustomerList = () => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
+    // Fetch customers on component mount
     dispatch(fetchCustomers());
     if (deleteCustomer) {
+      // Fetch customers again if deleteCustomer action is dispatched
       dispatch(fetchCustomers());
     }
   }, []);
 
   useEffect(() => {
+    // Fetch customers and update data when customers or pagination settings change
     dispatch(fetchCustomers()).then(() => {
       if (customers && customers.length > 0 && !isFiltered) {
         setFilteredData(customers);
@@ -77,10 +80,9 @@ const CustomerList = () => {
         }
       }
     });
-
   }, [customers, currentPage, perPage, selectedRows, isFiltered]);
 
-  //table columns
+  // Table columns definition
   const columns = [
     {
       name: "",
@@ -134,9 +136,10 @@ const CustomerList = () => {
     },
   ];
 
+  // Function to handle cell click (context menu)
   const handleCellClick = (e, row) => {
-    e.preventDefault();
-    setContextMenuPosition({ x: e.clientX, y: e.clientY });
+    e.preventDefault(); //prevents the default behavior of the click event
+    setContextMenuPosition({ x: e.clientX, y: e.clientY }); //sets the position of the context menu based on the coordinates of the mouse click event
     setMenuVisible(true);
     setContextMenuRow(row);
   };
@@ -144,6 +147,7 @@ const CustomerList = () => {
   //Edit option's functionality
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
+      // Navigate to edit page if only one row is selected
       let data = { ...contextMenuRow }; // Copy the row data
       let dataString = JSON.stringify(data); // Convert data to string
       navigate(
@@ -158,6 +162,7 @@ const CustomerList = () => {
   //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
+      // Navigate to details page if only one row is selected
       let data = { ...contextMenuRow };
       let dataString = JSON.stringify(data);
       navigate(
@@ -169,7 +174,7 @@ const CustomerList = () => {
     }
   };
 
-  //Display Edit and Details options
+  //Display Edit and Details options(Custom context menu component)
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
@@ -184,7 +189,7 @@ const CustomerList = () => {
     </div>
   );
 
-  //Search bar
+  // Function to handle filtering based on search term
   const handleFilter = () => {
     if (searchTerm === "") {
       setFilteredData(customers);
@@ -198,6 +203,7 @@ const CustomerList = () => {
     }
   };
 
+  // Function to confirm deletion of selected row
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
@@ -211,10 +217,12 @@ const CustomerList = () => {
     }
   };
 
+  // Function to handle create action(Plus icon)
   const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
 
+  // Function to handle delete action
   const handleDelete = () => {
     setShowConfirmation(true);
   };
@@ -223,10 +231,12 @@ const CustomerList = () => {
     setShowConfirmation(false);
   };
 
+  // Function to handle change in search input
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
+  // Function to clear filter
   const clearFilter = () => {
     setSearchTerm("");
     dispatch(fetchCustomers());
@@ -234,10 +244,12 @@ const CustomerList = () => {
     setCurrentPage(0);
   };
 
+  // Check if single record is selected
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
+      {/* Title and action bar */}
       <TitleActionBar
         Title={"Customer List"}
         plustDisabled={isAddDisable}
@@ -255,6 +267,7 @@ const CustomerList = () => {
       />
 
       <Row>
+        {/* Search input */}
         <div className="filter-box mb-5">
           <InputGroup className="w-25">
             <Form.Control
@@ -286,6 +299,8 @@ const CustomerList = () => {
           </InputGroup>
         </div>
       </Row>
+
+      {/* Reservation group table */}
       <ReservationGroupTable
         selectableRows={true}
         selectableRowsSingle={true}
@@ -308,6 +323,7 @@ const CustomerList = () => {
       {/* Popup menu */}
       <div>{customContextMenu}</div>
 
+      {/* Delete confirmation modal */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
