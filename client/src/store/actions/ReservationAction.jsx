@@ -2,6 +2,7 @@
 import axios from "axios";
 import ActionTypes from "../../data/ReduxActionTypes";
 import { BASE_URL, RESERVATION_URL } from "../../utils/Constants";
+import { toastFunction } from "../../components/ToastComponent";
 
 // Action to fetch all reservations
 export const fetchReservations = () => async (dispatch) => {
@@ -28,6 +29,7 @@ export const updateReservation = (id, updatedData) => async (dispatch) => {
   try {
     const response = await axios.put(`${BASE_URL}${RESERVATION_URL}/${id}`, updatedData);
     dispatch({ type: ActionTypes.UPDATE_RESERVATION_SUCCESS, payload: response.data });
+    
   } catch (error) {
     dispatch({ type: ActionTypes.UPDATE_RESERVATION_FAIL, payload: error.message || "An error occurred" });
   }
@@ -95,7 +97,7 @@ export const updateReservationById =
         type: ActionTypes.UPDATE_ReservationById_SUCCESS,
         payload: response.data,
       });
-
+      toastFunction("Created reservation Succesfully", false);
     } catch (error) {
       dispatch({ type: ActionTypes.UPDATE_ReservationById_FAIL, payload: error });
  

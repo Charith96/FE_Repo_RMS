@@ -71,7 +71,7 @@ const ReservationGroupList = () => {
 
   useEffect(() => {
     if (fetchReservationById.length > 0 && editMode === false) {
-    
+  
       setReservationData(fetchReservationById[0]);
       setFormData({
         id: fetchReservationById[0].id,
@@ -162,6 +162,7 @@ const ReservationGroupList = () => {
 
     const reservationsWithinTimeRange = reservationByItem.filter(
       (reservation) => {
+      
         return (
           (reservation.time1 <= time2 && reservation.time2 >= time1) ||
           (reservation.time1 <= time1 && reservation.time2 >= time2)
