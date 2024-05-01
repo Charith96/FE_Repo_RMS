@@ -1,6 +1,5 @@
 const initialState = {
   customers: [],
-  customer:{},
   customer: null,
   error: null,
 };
@@ -46,7 +45,6 @@ const CustomerReducers = (state = initialState, action) => {
         customers: state.customers.map((customer) =>
           customer.id === action.payload.id ? action.payload : customer
         ),
-        customer: action.payload,
         error: null,
       };
     case 'UPDATE_CUSTOMER_FAILURE':
@@ -60,7 +58,6 @@ const CustomerReducers = (state = initialState, action) => {
         customers: state.customers.filter(
           (customer) => customer.id !== action.payload.id
         ),
-        customer: null,
         error: null,
       };
     case 'DELETE_CUSTOMER_FAILURE':
