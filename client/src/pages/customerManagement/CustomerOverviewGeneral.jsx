@@ -32,7 +32,7 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     try {
       await dispatch(fetchCustomer(id));
     } catch (error) {
-      console.error("Error fetching data:", error);
+  
     }
   };
 

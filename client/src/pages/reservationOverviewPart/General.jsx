@@ -30,7 +30,7 @@ const General = ({ reservationData, mode }) => {
       // Fetch reservation data based on reservationID
       await dispatch(fetchReservations(reservationID));
     } catch (error) {
-      console.error("Error fetching data:", error);
+    
     }
   };
 

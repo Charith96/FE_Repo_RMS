@@ -73,7 +73,7 @@ const ReservationGroupList = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    console.log(reservationByItem);
+ 
     if (id === "group") {
       const selectedGroup = groupData.find(
         (group) => group.groupName === value
@@ -136,7 +136,7 @@ const ReservationGroupList = () => {
         state: { reservationID: formData.reservationID, item: formData.itemID },
       });
     } catch (error) {
-      console.error("Error:", error);
+    
       toastFunction("Something went wrong!", true);
     }
   };

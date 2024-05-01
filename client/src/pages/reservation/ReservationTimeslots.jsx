@@ -61,7 +61,7 @@ const ReservationGroupList = () => {
       dispatch(fetchReservationByItemId(item));
 
     } catch (error) {
-      console.error("Error fetching data:", error);
+  
     }
   }, [dispatch, reservationID, item,reservationByItem]);
 
@@ -97,7 +97,7 @@ const ReservationGroupList = () => {
       dispatch(updateReservationById(formData.id, formData));
       setBtnClicked(true);
     } catch (error) {
-      console.error("Error:", error);
+  
     }
   };
 
@@ -162,7 +162,7 @@ const ReservationGroupList = () => {
 
     const reservationsWithinTimeRange = reservationByItem.filter(
       (reservation) => {
-      
+    
         return (
           (reservation.time1 <= time2 && reservation.time2 >= time1) ||
           (reservation.time1 <= time1 && reservation.time2 >= time2)

@@ -105,7 +105,7 @@ const Main = () => {
   };
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-     console.log(e.target);
+   
     if (id === "defaultCompany") {
       setFormData((prevState) => ({
         ...prevState,
@@ -169,7 +169,7 @@ const Main = () => {
       await dispatch(createUser(formData));
       setFormSubmitted(true);
     } catch (error) {
-      console.error("Error:", error);
+
       toastFunction("Something went wrong!", true);
     }
     setFormSubmitted(true);
