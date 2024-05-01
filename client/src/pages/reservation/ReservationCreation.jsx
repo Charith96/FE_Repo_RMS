@@ -4,7 +4,7 @@ import { Row, Form, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastFunction } from "../../components/ToastComponent";
-import { createReservation } from "../../store/actions/ReservationAction";
+import { createReservation ,  fetchReservationByItemId} from "../../store/actions/ReservationAction";
 import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
 import {
   fetchCustomers,
@@ -18,7 +18,9 @@ const ReservationGroupList = () => {
   const fetchReservationGroupData = useSelector(
     (state) => state.getReservationGroup.fetchReservationGroup
   );
-
+  const reservationByItem = useSelector(
+    (state) => state.reservation.reservationsByItem
+  );
   const fetchReservations = useSelector((state) => state.reservation);
 
   const fetchItem = useSelector(
@@ -41,7 +43,7 @@ const ReservationGroupList = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [groupID, setGroupID] = useState("");
-
+ 
   const [formData, setFormData] = useState({
     reservationID: "",
     customerID: "",
@@ -54,6 +56,7 @@ const ReservationGroupList = () => {
     dispatch(fetchReservationGroups());
     dispatch(fetchReservationItems());
     dispatch(fetchCustomers());
+ 
   }, [formData.defaultCompany, dispatch, formData, navigate]);
 
   useEffect(() => {
@@ -70,7 +73,7 @@ const ReservationGroupList = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-
+    console.log(reservationByItem);
     if (id === "group") {
       const selectedGroup = groupData.find(
         (group) => group.groupName === value

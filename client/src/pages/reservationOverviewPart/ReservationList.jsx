@@ -120,7 +120,7 @@ const ReservationList = () => {
 
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationOverviewPart/ReservationOverview?data=${encodeURIComponent(
+        `/reservations/ReservationOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "edit" } }
@@ -140,7 +140,7 @@ const ReservationList = () => {
       };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationOverviewPart/ReservationOverview?data=${encodeURIComponent(
+        `/reservations/ReservationOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "view" } }

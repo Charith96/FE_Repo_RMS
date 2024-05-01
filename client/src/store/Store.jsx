@@ -94,7 +94,7 @@ const rootReducer = combineReducers({
  //users
   user: userReducer,
 
-  //reservation
+    //reservation
   reservation: reservationReducer,
 
 

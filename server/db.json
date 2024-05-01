@@ -7,6 +7,14 @@
       "address": "kandy road, kurunegala",
       "email": "kamal@gmail.com",
       "contactNo": "0734474732"
+    },
+    {
+      "id": "22",
+      "fullName": "hasi ni",
+      "identifier": "111",
+      "address": "uom,motatuwa",
+      "email": "hasinichamodi4@gmail.com",
+      "contactNo": "111"
     }
   ],
   "companies": [
@@ -270,8 +278,8 @@
   "users": [
     {
       "id": "3885",
-      "userID": "hasinichamodi24@gmail.com",
-      "firstName": "hasia",
+      "userID": "hasinichamodi4@gmail.com",
+      "firstName": "hasinnii",
       "lastName": "ni",
       "defaultCompany": "ABC2",
       "designation": "reservaiton officer",
@@ -282,9 +290,23 @@
       "validTill": "2024-04-25T00:14",
       "companies": [],
       "roles": [
-        "vcvc",
-        "nmn"
+        "vcvc"
       ]
+    },
+    {
+      "id": "e478",
+      "firstName": "hasi",
+      "lastName": "ni",
+      "defaultCompany": "ABC1",
+      "designation": "Receptionist",
+      "primaryRole": "vcvc",
+      "email": "hasinichamodi54@gmail.com",
+      "password": "qwer@!2345",
+      "validFrom": "2024-04-02T11:29",
+      "validTill": "2024-04-05T11:29",
+      "companies": [],
+      "roles": [],
+      "userID": "hasinichamodi54@gmail.com"
     }
   ],
   "countries": [],
@@ -405,7 +427,7 @@
     {
       "id": "6344",
       "reservationID": "d2dcyy",
-      "customerID": "hasinichamodi4@gmail.com",
+      "customerID": "kamal@gmail.com",
       "group": "cricket ground",
       "itemID": "6f68",
       "date": "",
@@ -530,6 +552,134 @@
       "itemID": "6f68",
       "date": "",
       "noOfPeople": ""
+    },
+    {
+      "id": "a75a",
+      "reservationID": "718q9w",
+      "customerID": "kamal@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "1592",
+      "reservationID": "98wxoi",
+      "customerID": "kamal@gmail.com",
+      "group": "cricket ground",
+      "itemID": "6f68",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "823b",
+      "reservationID": "2j9o9h",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "0d3c",
+      "reservationID": "dqgl7q",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "4f4e",
+      "reservationID": "0xoahj",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "a571",
+      "reservationID": "skkkws",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "1d1e",
+      "reservationID": "e26ue1",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "d0f8",
+      "reservationID": "vzovy1",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "56d1",
+      "reservationID": "44k1y3",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "4856",
+      "reservationID": "83mnzf",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "60e2",
+      "reservationID": "augjdx",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "326e",
+      "reservationID": "7ovs67",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "a48b",
+      "reservationID": "m790t0",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "f629",
+      "reservationID": "lh49yd",
+      "customerID": "kamal@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-05-01",
+      "noOfPeople": 30,
+      "time1": "2024-05-01T23:01",
+      "time2": "2024-05-02T07:00"
     }
   ],
   "groupcreation": [

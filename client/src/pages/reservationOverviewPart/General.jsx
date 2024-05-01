@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   fetchReservations,
   deleteReservation,
-  updateReservationData,
+  updateReservation,
 } from "../../store/actions/ReservationAction";
 import { Row, Col } from "react-bootstrap";
 import TextField from "../../components/TextField";
@@ -53,7 +53,7 @@ const General = ({ reservationData, mode }) => {
   const handleSubmit = async () => {
     try {
       // Update reservation based on reservationID
-      await dispatch( updateReservationData(reservationID, filteredReservationData));
+      await dispatch(updateReservation(reservationID, filteredReservationData));
       setEditMode(false);
     } catch (error) {
       console.error("Error saving data:", error);

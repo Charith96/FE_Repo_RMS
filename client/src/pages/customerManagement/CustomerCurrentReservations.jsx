@@ -46,7 +46,7 @@ const CustomerCurrentReservations = ({ email }) => {
     dispatch(fetchReservations()).then(() => {
       if (reservations && reservations.length > 0 && email) {
         const filtered = reservations.filter(
-          (reservation) => reservation.customerEmail === email
+          (reservation) => reservation.customerID === email
         );
         setFilteredData(filtered);
 

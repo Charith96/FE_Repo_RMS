@@ -4,6 +4,8 @@ import ActionTypes from "../../data/ReduxActionTypes";
 const initialState = {
   loading: false,
   reservations: [],
+  reservationsByItem: [],
+  reservationsById:[],
   error: null,
 };
 
@@ -24,6 +26,43 @@ export const reservationReducer = (state = initialState, action) => {
         reservation.id === action.payload.id ? action.payload : reservation
       );
       return { ...state, reservations: updatedReservations, error: null };
+      case ActionTypes.UPDATE_ReservationById_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          reservations: action.payload,
+          error: null,
+        };
+        case ActionTypes.GET_ReservationByItem_SUCCESSID: return{
+          ...state,
+          loading:false,
+          reservationsByItem:action.payload,
+          error:null
+        };
+        case ActionTypes.GET_ReservationByItem_FAILID:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+        case ActionTypes.GET_Reservation_SUCCESSID: return{
+          ...state,
+          loading:false,
+          reservationsById:action.payload,
+          error:null
+        };
+        case ActionTypes.GET_Reservation_FAILID:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      case ActionTypes.UPDATE_ReservationById_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
     case ActionTypes.UPDATE_RESERVATION_FAIL:
       return { ...state, error: action.payload };
     case ActionTypes.DELETE_RESERVATION_SUCCESS:

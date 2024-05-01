@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   fetchReservations,
   deleteReservation,
-  updateReservationData,
+  updateReservation,
 } from "../../store/actions/ReservationAction";
 import { Row, Col, Table } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -50,7 +50,7 @@ const ItemInformation = ({ reservationData, mode }) => {
   const handleSubmit = async () => {
     try {
       // Update reservation based on reservationID
-      await dispatch( updateReservationData(reservationID, reservationData));
+      await dispatch(updateReservation(reservationID, reservationData));
       setEditMode(false);
     } catch (error) {
       console.error("Error saving data:", error);

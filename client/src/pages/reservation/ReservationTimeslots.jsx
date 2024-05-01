@@ -4,7 +4,8 @@ import {
   fetchReservationId,
   deleteReservation,
   fetchReservationByItemId,
-  updateReservationData,
+  updateReservationById,
+  
 } from "../../store/actions/ReservationAction";
 import {
   fetchReservationItemsById,
@@ -50,7 +51,7 @@ const ReservationGroupList = () => {
     (state) => state.getTimeSlotsByItem.timeSlotsByItemId
   );
   const reservationByItem = useSelector(
-    (state) => state.reservation.reservationByItem
+    (state) => state.reservation.reservationsByItem
   );
   const fetchData = useCallback(() => {
     try {
@@ -58,10 +59,11 @@ const ReservationGroupList = () => {
       dispatch(fetchTimeSlotsByItemId(item));
       dispatch(fetchReservationId(reservationID));
       dispatch(fetchReservationByItemId(item));
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [dispatch, reservationID, item]);
+  }, [dispatch, reservationID, item,reservationByItem]);
 
   useEffect(() => {
     fetchData();
@@ -69,6 +71,7 @@ const ReservationGroupList = () => {
 
   useEffect(() => {
     if (fetchReservationById.length > 0 && editMode === false) {
+    
       setReservationData(fetchReservationById[0]);
       setFormData({
         id: fetchReservationById[0].id,
@@ -91,7 +94,7 @@ const ReservationGroupList = () => {
     e.preventDefault();
 
     try {
-      dispatch(updateReservationData(formData.id, formData));
+      dispatch(updateReservationById(formData.id, formData));
       setBtnClicked(true);
     } catch (error) {
       console.error("Error:", error);
