@@ -45,8 +45,8 @@
       "companyCode": "1245",
       "companyName": "ABC3",
       "description": "This is Abc3 group",
-      "country": "Germany",
-      "currency": "AUD",
+      "country": "Sri Lanka",
+      "currency": "SLR",
       "address01": "No5",
       "address02": "No6",
       "defaultCompany": false
@@ -309,8 +309,86 @@
       "roles": []
     }
   ],
-  "countries": [],
-  "currencies": [],
+  "countries": [
+    {
+      "id": "1",
+      "Cname": "Arab Emirates (UAE)"
+    },
+    {
+      "id": "2",
+      "Cname": "Australia"
+    },
+    {
+      "id": "3",
+      "Cname": "China"
+    },
+    {
+      "id": "4",
+      "Cname": "France"
+    },
+    {
+      "id": "5",
+      "Cname": "Germany"
+    },
+    {
+      "id": "6",
+      "Cname": "India"
+    },
+    {
+      "id": "7",
+      "Cname": "Japan"
+    },
+    {
+      "id": "8",
+      "Cname": "Qatar"
+    },
+    {
+      "id": "9",
+      "Cname": "Russia"
+    },
+    {
+      "id": "10",
+      "Cname": "Saudi Arabia"
+    },
+    {
+      "id": "11",
+      "Cname": "Sri Lanka"
+    },
+    {
+      "id": "12",
+      "Cname": "United Kingdom"
+    },
+    {
+      "id": "13",
+      "Cname": "United States"
+    }
+  ],
+  "currencies": [
+    {
+      "id": "1",
+      "C_name": "SLR"
+    },
+    {
+      "id": "2",
+      "C_name": "USD"
+    },
+    {
+      "id": "3",
+      "C_name": "EUR"
+    },
+    {
+      "id": "4",
+      "C_name": "AUD"
+    },
+    {
+      "id": "5",
+      "C_name": "GBP"
+    },
+    {
+      "id": "6",
+      "C_name": "JPY"
+    }
+  ],
   "todos": [
     {
       "id": "1",
@@ -364,7 +442,6 @@
       "time1": "2024-04-04T10:03",
       "time2": "2024-04-05T10:03"
     }
-    
   ],
   "groupcreation": [
     {
