@@ -11,12 +11,10 @@ import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { selectUserData } from "../../store/Store";
-
 const OverviewTable = ({ value }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector(selectUserData);
+  const userData = useSelector((state) => state.userById.userById);
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
   );
@@ -44,9 +42,9 @@ const OverviewTable = ({ value }) => {
   useEffect(() => {
     dispatch(fetchCompanies());
     dispatch(fetchUserData(value));
-    if (userData.users && fetchCompanyData) {
+    if (userData && fetchCompanyData) {
       const userCompanies = fetchCompanyData;
-      const userI = userData.users;
+      const userI = userData;
       setUser(userI);
       setFilteredCompanies(userCompanies);
     }
@@ -100,10 +98,10 @@ const OverviewTable = ({ value }) => {
       name: "Status",
       cell: (row) => {
         const defaultStatus =
-          userData.users.defaultCompany === row.companyName ? "default" : " ";
+          userData.defaultCompany === row.companyName ? "default" : " ";
         const status =
-          Array.isArray(userData.users.companies) &&
-          userData.users.companies.includes(row.companyName)
+          Array.isArray(userData.companies) &&
+          userData.companies.includes(row.companyName)
             ? "granted"
             : defaultStatus;
         return status;
@@ -130,18 +128,19 @@ const OverviewTable = ({ value }) => {
   const handleDelete = async () => {
     if (selectedRows.length === 1) {
       const companyName = selectedRows[0].companyName;
-      if (companyName === userData.users.defaultCompany) {
+      if (companyName === userData.defaultCompany) {
         return;
       }
-      if (userData.users.companies.includes(companyName)) {
-        const updatedCompanies = userData.users.companies.filter(
+      if (userData.companies.includes(companyName)) {
+        const updatedCompanies = userData.companies.filter(
           (company) => company !== companyName
         );
         const updatedUserData = {
-          ...userData.users,
+          ...userData,
           companies: updatedCompanies,
         };
         await dispatch(updateUserData(value, updatedUserData));
+        dispatch(fetchUserData(value));
       } else {
       }
     }
@@ -150,17 +149,18 @@ const OverviewTable = ({ value }) => {
   const handleSave = async () => {
     if (selectedRows.length === 1) {
       const companyName = selectedRows[0].companyName;
-      if (companyName === userData.users.defaultCompany) {
+      if (companyName === userData.defaultCompany) {
         return;
       }
 
-      if (!userData.users.companies.includes(companyName)) {
-        const updatedCompanies = [...userData.users.companies, companyName];
+      if (!userData.companies.includes(companyName)) {
+        const updatedCompanies = [...userData.companies, companyName];
         const updatedUserData = {
-          ...userData.users,
+          ...userData,
           companies: updatedCompanies,
         };
         await dispatch(updateUserData(value, updatedUserData));
+        dispatch(fetchUserData(value));
       } else {
       }
     }

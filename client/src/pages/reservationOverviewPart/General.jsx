@@ -1,31 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  fetchReservations,
-} from "../../store/actions/ReservationAction";
+import { fetchReservations } from "../../store/actions/ReservationAction";
 import { Row, Col } from "react-bootstrap";
 import TextField from "../../components/TextField";
 
 const General = ({ reservationData, mode }) => {
-  const { reservationID, customerID } = reservationData || {}; // Destructure reservationID and customerID
+  const { reservationID, customerID } = reservationData || {};
   const dispatch = useDispatch();
-    useState(reservationData);
+  useState(reservationData);
 
   useEffect(() => {
-      fetchReservationData();
+    fetchReservationData();
   }, []);
 
   const fetchReservationData = async () => {
     try {
-      // Fetch reservation data based on reservationID
       await dispatch(fetchReservations(reservationID));
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    } catch (error) {}
   };
 
-
-  // Check if reservationData exists
   if (!reservationData) {
     return <div>No reservation data available.</div>;
   }
@@ -41,11 +34,7 @@ const General = ({ reservationData, mode }) => {
               label="Reservation ID :"
               value={reservationID}
             />
-            <TextField
-              id="customerID"
-              label="Customer ID"
-              value={customerID}
-            />
+            <TextField id="customerID" label="Customer ID" value={customerID} />
           </div>
         </Col>
       </Row>

@@ -4,11 +4,12 @@ import { Row, Form, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastFunction } from "../../components/ToastComponent";
-import { createReservation ,  fetchReservationByItemId} from "../../store/actions/ReservationAction";
-import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
 import {
-  fetchCustomers,
-} from "../../store/actions/customerActions";
+  createReservation,
+  fetchReservationByItemId,
+} from "../../store/actions/ReservationAction";
+import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
+import { fetchCustomers } from "../../store/actions/customerActions";
 import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
 
@@ -18,10 +19,6 @@ const ReservationGroupList = () => {
   const fetchReservationGroupData = useSelector(
     (state) => state.getReservationGroup.fetchReservationGroup
   );
-  const reservationByItem = useSelector(
-    (state) => state.reservation.reservationsByItem
-  );
-  const fetchReservations = useSelector((state) => state.reservation);
 
   const fetchItem = useSelector(
     (state) => state.getReservationItem.fetchReservationItem
@@ -38,12 +35,11 @@ const ReservationGroupList = () => {
 
   const [itemEntered, setItemEntered] = useState(false);
 
-
   const customers = useSelector((state) => state.customerReducer.customers);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [groupID, setGroupID] = useState("");
- 
+
   const [formData, setFormData] = useState({
     reservationID: "",
     customerID: "",
@@ -56,7 +52,6 @@ const ReservationGroupList = () => {
     dispatch(fetchReservationGroups());
     dispatch(fetchReservationItems());
     dispatch(fetchCustomers());
- 
   }, [formData.defaultCompany, dispatch, formData, navigate]);
 
   useEffect(() => {
@@ -65,7 +60,6 @@ const ReservationGroupList = () => {
   }, [
     fetchReservationGroupData,
     groupData,
-    fetchReservations,
     selectedRows,
     fetchItem,
     groupItem,
@@ -73,28 +67,26 @@ const ReservationGroupList = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
- 
+
     if (id === "group") {
-      if(value === "label"){
+      if (value === "label") {
         return false;
-      }else{
-      const selectedGroup = groupData.find(
-        (group) => group.groupName === value
-      );
-      setGroupID(value);
-      const selectItems = groupItem.filter(
-        (item) => item.reservationGroup === selectedGroup.id
-      );
-      setSelectedItems(selectItems);
-      setFormData((prevState) => ({
-        ...prevState,
-        [id]: value,
-      }));}
+      } else {
+        const selectedGroup = groupData.find(
+          (group) => group.groupName === value
+        );
+        setGroupID(value);
+        const selectItems = groupItem.filter(
+          (item) => item.reservationGroup === selectedGroup.id
+        );
+        setSelectedItems(selectItems);
+        setFormData((prevState) => ({
+          ...prevState,
+          [id]: value,
+        }));
+      }
     } else if (id === "customerID") {
-    
-      const customer = customers.find(
-        (customer) => customer.email=== value
-      );
+      const customer = customers.find((customer) => customer.email === value);
 
       if (!customer) {
         setShowMessage(true);
@@ -111,19 +103,20 @@ const ReservationGroupList = () => {
         }));
       }
     } else if (id === "item") {
-      if(value === "label"){
+      if (value === "label") {
         return false;
-      }else{
-      const selectedItem = selectedItems.find(
-        (item) => item.itemName === value
-      );
-      setFormData((prevState) => ({
-        ...prevState,
-        itemID: selectedItem ? selectedItem.id : "",
-      }));
-      if (selectedItem) {
-        setItemEntered(true);
-      }}
+      } else {
+        const selectedItem = selectedItems.find(
+          (item) => item.itemName === value
+        );
+        setFormData((prevState) => ({
+          ...prevState,
+          itemID: selectedItem ? selectedItem.id : "",
+        }));
+        if (selectedItem) {
+          setItemEntered(true);
+        }
+      }
     } else {
       setFormData((prevState) => ({
         ...prevState,
@@ -142,7 +135,6 @@ const ReservationGroupList = () => {
         state: { reservationID: formData.reservationID, item: formData.itemID },
       });
     } catch (error) {
-    
       toastFunction("Something went wrong!", true);
     }
   };

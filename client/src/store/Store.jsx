@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
-//import thunk from "redux-thunk";
+
 import { thunk } from "redux-thunk";
 import customerReducer from "./reducers/customerReducers";
 import {
@@ -11,12 +11,8 @@ import {
   getReservationGroupByIdReducer,
   editReservationGroupFlagReducer,
   checkForDuplicatesReducer,
-  fetchReservationItemByGroupReducer
+  fetchReservationItemByGroupReducer,
 } from "./reducers/ReservationGroupReducer";
-//import {
-//createReservationItemReducer,
-// createTimeSlotReducer,
-//} from "./reducers/ReservationItemReducer";
 
 import {
   createReservationItemReducer,
@@ -41,7 +37,14 @@ import {
   currenciesReducer,
 } from "./reducers/CompanyReducer";
 
-import { reservationReducer } from "./reducers/ReservationReducer";
+import {
+  getReservationsReducer,
+  createReservationReducer,
+  updateReservationReducer,
+  getReservationsByIdReducer,
+  deleteReservationReducer,
+  getReservationsByItemReducer,
+} from "./reducers/ReservationReducer";
 
 import {
   manageTodoReducer,
@@ -49,9 +52,20 @@ import {
   getToDoByIdReducer,
   deleteToDoReducer,
 } from "./reducers/ToDoReducer";
-import { userReducer } from "./reducers/UserReducers";
+import {
+  getUsersReducer,
+  createUserReducer,
+  updateUserReducer,
+  deleteUserReducer,
+  getUserByIdReducer,
+} from "./reducers/UserReducers";
 
-import rolesReducer from "./reducers/RolesReducer";
+import {
+  fetchRolesReducer,
+  createRoleReducer,
+  updateRoleReducer,
+  deleteRoleReducer,
+} from "./reducers/RolesReducer";
 
 const middleware = [thunk];
 
@@ -72,7 +86,7 @@ const rootReducer = combineReducers({
   // reservation item
   createReservationItem: createReservationItemReducer,
   createTimeSlot: createTimeSlotReducer,
-  editReservationItem:editReservationItemReducer,
+  editReservationItem: editReservationItemReducer,
   getReservationItemById: getReservationItemByIdReducer,
   getReservationItem: getReservationItemReducer,
   createCompany: createCompanyReducer,
@@ -90,20 +104,30 @@ const rootReducer = combineReducers({
   getToInfoDoById: getToDoByIdReducer,
   deleteToDoInfo: deleteToDoReducer,
 
+  //users
+  users: getUsersReducer,
+  createUser: createUserReducer,
+  updateUser: updateUserReducer,
+  deleteUser: deleteUserReducer,
+  userById: getUserByIdReducer,
+  //reservation
 
- //users
-  user: userReducer,
-
-    //reservation
-  reservation: reservationReducer,
-
+  reservations: getReservationsReducer,
+  createReservation: createReservationReducer,
+  updateReservation: updateReservationReducer,
+  reservationByItem: getReservationsByItemReducer,
+  reservationById: getReservationsByIdReducer,
+  deleteReservation: deleteReservationReducer,
 
   // time slot
   getTimeSlotsByItem: getTimeSlotsByItemIdReducer,
   deleteTimeSlotsByItem: deleteTimeSlotsByItemIdReducer,
   editTimeSlotsByItem: editTimeSlotsByItemIdReducer,
-    //roles
-    roles: rolesReducer,
+  //roles
+  fetchRoles: fetchRolesReducer,
+  createRole: createRoleReducer,
+  updateRole: updateRoleReducer,
+  deleteRole: deleteRoleReducer,
 });
 
 export const store = createStore(
@@ -111,4 +135,3 @@ export const store = createStore(
   composeWithDevTools(applyMiddleware(...middleware))
 );
 export const selectCustomer = (state) => state.customerData;
-export const selectUserData = (state) => state.user;

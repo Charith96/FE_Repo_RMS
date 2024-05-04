@@ -51,9 +51,8 @@ const CreateReservationGroup = () => {
       }
   }, [dispatch, navigate, reservationGroupData, isValueMounted]);
 
-
   //to handle submit button functionality
-  const handleSubmit = async (e) => { 
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (groupId && groupName) {

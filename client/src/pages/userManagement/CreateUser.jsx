@@ -1,5 +1,4 @@
 import { toastFunction } from "../../components/ToastComponent";
-import { selectUserData } from "../../store/Store";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
@@ -11,15 +10,18 @@ import { fetchCompanies } from "../../store/actions/CompanyActions";
 import { fetchRoles } from "../../store/actions/RolesAction";
 const Main = () => {
   const dispatch = useDispatch();
-  const userData = useSelector(selectUserData);
+
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
+  const [btndisable, setBtnDisable] = useState(false);
   const [checkUser, setCheckUser] = useState(false);
 
+  const userData = useSelector((state) => state.users.users);
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
   );
-  const roles = useSelector((state) => state.roles);
+  const roles = useSelector((state) => state.fetchRoles.roles);
+
   const [formData, setFormData] = useState({
     // userID: "",
     firstName: "",
@@ -105,26 +107,27 @@ const Main = () => {
   };
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-   
+
     if (id === "defaultCompany") {
-      if(value=="label"){
+      if (value === "label") {
         return false;
-      }else{
+      } else {
         setFormData((prevState) => ({
           ...prevState,
           [id]: value,
         }));
       }
-      
     } else if (id === "primaryRole") {
-      if(value=="label"){
-        return false;}else{
-      setFormData((prevState) => ({
-        ...prevState,
-        [id]: value,
-      }));}
+      if (value === "label") {
+        return false;
+      } else {
+        setFormData((prevState) => ({
+          ...prevState,
+          [id]: value,
+        }));
+      }
     } else if (id === "email") {
-      const Checkusers = userData.users.find((user) => user.email === value);
+      const Checkusers = userData.find((user) => user.email === value);
       if (!Checkusers) {
         setCheckUser(false);
         setFormData((prevState) => ({
@@ -175,8 +178,8 @@ const Main = () => {
     try {
       await dispatch(createUser(formData));
       setFormSubmitted(true);
+      setBtnDisable(true);
     } catch (error) {
-
       toastFunction("Something went wrong!", true);
     }
     setFormSubmitted(true);
@@ -240,7 +243,7 @@ const Main = () => {
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column md={3}>
-                  Default Role
+                  Primary Role
                 </Form.Label>
                 <Col md={9}>
                   <Form.Select
@@ -248,8 +251,8 @@ const Main = () => {
                     value={formData.primaryRole}
                     onChange={handleInputChange}
                   >
-                        <option value="label">Select Roles</option>
-                    {roles.roles.map((role) => (
+                    <option value="label">Select Roles</option>
+                    {roles.map((role) => (
                       <option key={role.id} value={role.rolename}>
                         {role.rolename}
                       </option>
@@ -296,6 +299,7 @@ const Main = () => {
                       type="submit"
                       text="Create"
                       className="form-btn"
+                      disabled={btndisable}
                     />
                   </Col>
                 </Form.Group>

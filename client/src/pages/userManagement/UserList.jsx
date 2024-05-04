@@ -16,13 +16,11 @@ import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { selectUserData } from "../../store/Store";
 
 const UserList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector(selectUserData);
-
+  const userData = useSelector((state) => state.users.users);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -52,8 +50,8 @@ const UserList = () => {
   }, []);
 
   useEffect(() => {
-    if (userData.users && userData.users.length > 0 && !isFiltered) {
-      setFilteredData(userData.users);
+    if (userData && userData.length > 0 && !isFiltered) {
+      setFilteredData(userData);
     }
 
     const start = currentPage * perPage;
@@ -178,9 +176,9 @@ const UserList = () => {
 
   const handleFilter = () => {
     if (searchTerm === "") {
-      setFilteredData(userData.users);
+      setFilteredData(userData);
     } else {
-      const filtered = userData.users.filter((item) =>
+      const filtered = userData.filter((item) =>
         item.firstName
           ?.toString()
           .toLowerCase()
@@ -301,7 +299,6 @@ const UserList = () => {
         isSingleRecordSelected={isSingleRecordSelected}
       />
 
-      {/* Popup menu */}
       <div>{customContextMenu}</div>
 
       <DeleteConfirmModel

@@ -187,7 +187,7 @@ const _nav = [
       },
     ],
   },
-   {
+  {
     component: CNavGroup,
     name: "User Management",
     navPath: "/userManagement",
@@ -232,8 +232,6 @@ const _nav = [
             ),
             to: "/userManagement/Userlist",
           },
-        
-          
         ],
       },
     ],
@@ -257,20 +255,20 @@ const _nav = [
         ),
         className: "mt-3 ms-2",
         items: [
-      {
-        component: CNavItem,
-        name: "Create Reservations",
-        icon: <i className="ps-2" />,
-        quicknavicon: (
-          <FontAwesomeIcon
-            icon={faTasks}
-            size="2x"
-            className="nav-icon pb-0 pt-3"
-          />
-        ),
-        to: "/reservations/createReservation",
-      },
-         
+          {
+            component: CNavItem,
+            name: "Create Reservations",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faTasks}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/reservations/createReservation",
+          },
+
           {
             component: CNavItem,
             name: "Resevation List",
@@ -283,9 +281,33 @@ const _nav = [
               />
             ),
             to: "/reservations/ReservationList",
-          }, {
+          },
+        ],
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "Roles Management",
+    navPath: "/rolesManagement",
+    icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
+    items: [
+      {
+        component: CNavGroup,
+        name: "Roles",
+        to: "/rolesManagement/",
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faUser}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        className: "mt-3 ms-2",
+        items: [
+          {
             component: CNavItem,
-            name: "Resevation Overview",
+            name: "Roles Creation",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -294,74 +316,25 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservations/ReservationOverview",
+            to: "/rolesManagement/CreateRole",
           },
+          {
+            component: CNavItem,
+            name: "Roles List",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faUser}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/rolesManagement/RoleList",
+          },
+        ],
+      },
     ],
   },
-    ],}, {
-      component: CNavGroup,
-      name: "Roles Management",
-      navPath: "/rolesManagement",
-      icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
-      items: [
-        {
-          component: CNavGroup,
-          name: "Roles",
-          to: "/rolesManagement/",
-          quicknavicon: (
-            <FontAwesomeIcon
-              icon={faUser}
-              size="2x"
-              className="nav-icon pb-0 pt-3"
-            />
-          ),
-          className: "mt-3 ms-2",
-          items: [
-            {
-              component: CNavItem,
-              name: "Roles Creation",
-              icon: <i className="ps-2" />,
-              quicknavicon: (
-                <FontAwesomeIcon
-                  icon={faUser}
-                  size="2x"
-                  className="nav-icon pb-0 pt-3"
-                />
-              ),
-              to: "/rolesManagement/CreateRole",
-            },
-            {
-              component: CNavItem,
-              name: "Roles List",
-              icon: <i className="ps-2" />,
-              quicknavicon: (
-                <FontAwesomeIcon
-                  icon={faUser}
-                  size="2x"
-                  className="nav-icon pb-0 pt-3"
-                />
-              ),
-              to: "/rolesManagement/RoleList",
-            },
-            //{
-              //component: CNavItem,
-              //name: "Roles Overview",
-              //icon: <i className="ps-2" />,
-              //quicknavicon: (
-                //<FontAwesomeIcon
-                  //icon={faUser}
-                  //size="2x"
-                  //className="nav-icon pb-0 pt-3"
-                ///>
-              //),
-              //to: "/rolesManagement/RoleOverview",
-            //},
-  
-            
-          ],
-        },
-      ],
-    },
 ];
 
 export default _nav;

@@ -35,16 +35,14 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
   const fetchCustomerData = async () => {
     try {
       await dispatch(fetchCustomer(id));
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    } catch (error) {}
   };
 
-// Function to handle creating a new customer(Plus icon)
+  // Function to handle creating a new customer(Plus icon)
   const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
-  
+
   // Function to handle deleting a customer
   const handleDelete = () => {
     setShowConfirmation(true);
@@ -78,7 +76,7 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     <>
       <Row>
         <Col>
-        {/* Title and action bar */}
+          {/* Title and action bar */}
           <TitleActionBar
             Title={""}
             EditAction={() => setEditMode(true)}

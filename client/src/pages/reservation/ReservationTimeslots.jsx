@@ -5,7 +5,7 @@ import {
   deleteReservation,
   fetchReservationByItemId,
   updateReservationById,
-  
+  createReservation,
 } from "../../store/actions/ReservationAction";
 import {
   fetchReservationItemsById,
@@ -16,6 +16,8 @@ import TextField from "../../components/TextField";
 import { Col, Row, Form } from "react-bootstrap";
 import FormButton from "../../components/FormButton";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { toastFunction } from "../../components/ToastComponent";
 
 const ReservationGroupList = () => {
   const location = useLocation();
@@ -33,25 +35,21 @@ const ReservationGroupList = () => {
   const [capacity, setCapacity] = useState(false);
   const [reservation, setReservation] = useState(false);
   const [dateSelected, setDateSelected] = useState(false);
+  const [DeletedPrevious, setDeletedPrevious] = useState(false);
 
-  window.addEventListener("beforeunload", function (event) {
-    if (!btnClicked) {
-      dispatch(deleteReservation(reservationData.id));
-    }
-  });
   const fetchItem = useSelector(
     (state) => state.getReservationItemById.fetchReservationItemId
   );
 
   const fetchReservationById = useSelector(
-    (state) => state.reservation.reservationsById
+    (state) => state.reservationById.reservationsById
   );
 
   const timeSlots = useSelector(
     (state) => state.getTimeSlotsByItem.timeSlotsByItemId
   );
   const reservationByItem = useSelector(
-    (state) => state.reservation.reservationsByItem
+    (state) => state.reservationByItem.reservationsByItem
   );
   const fetchData = useCallback(() => {
     try {
@@ -59,30 +57,30 @@ const ReservationGroupList = () => {
       dispatch(fetchTimeSlotsByItemId(item));
       dispatch(fetchReservationId(reservationID));
       dispatch(fetchReservationByItemId(item));
-
-    } catch (error) {
-  
-    }
-  }, [dispatch, reservationID, item,reservationByItem]);
+    } catch (error) {}
+  }, [dispatch, reservationID, item, reservationByItem]);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, reservationID, formData]);
+  }, [fetchData, reservationID, formData, reservationByItem]);
 
   useEffect(() => {
     if (fetchReservationById.length > 0 && editMode === false) {
-  
       setReservationData(fetchReservationById[0]);
-      setFormData({
-        id: fetchReservationById[0].id,
-        reservationID: fetchReservationById[0].reservationID,
-        customerID: fetchReservationById[0].customerID,
-        group: fetchReservationById[0].group,
-        itemID: fetchReservationById[0].itemID,
-        time: fetchReservationById[0].time,
-        date: fetchReservationById[0].date,
-        noOfPeople: fetchReservationById[0].noOfPeople,
-      });
+      if (DeletedPrevious === false) {
+        setFormData({
+          id: fetchReservationById[0].id,
+          reservationID: fetchReservationById[0].reservationID,
+          customerID: fetchReservationById[0].customerID,
+          group: fetchReservationById[0].group,
+          itemID: fetchReservationById[0].itemID,
+          time: fetchReservationById[0].time,
+          date: fetchReservationById[0].date,
+          noOfPeople: fetchReservationById[0].noOfPeople,
+        });
+        dispatch(deleteReservation(fetchReservationById[0].id));
+        setDeletedPrevious(true);
+      }
     }
   }, [fetchReservationById, editMode]);
 
@@ -94,10 +92,12 @@ const ReservationGroupList = () => {
     e.preventDefault();
 
     try {
-      dispatch(updateReservationById(formData.id, formData));
+      dispatch(createReservation(formData));
+      toast.success("Reservation Created Successfully!");
       setBtnClicked(true);
+      setBtnDisable(true);
     } catch (error) {
-  
+      toast.error("Error Creating Reservation. Please Try Again.");
     }
   };
 
@@ -112,9 +112,7 @@ const ReservationGroupList = () => {
           [id]: value,
         });
         setDateSelected(true);
-      } catch (error) {
-      
-      }
+      } catch (error) {}
     } else if (id === "time") {
       const [startTime, endTime] = value.split("-");
       const startDate = new Date(formData.date);
@@ -162,7 +160,6 @@ const ReservationGroupList = () => {
 
     const reservationsWithinTimeRange = reservationByItem.filter(
       (reservation) => {
-    
         return (
           (reservation.time1 <= time2 && reservation.time2 >= time1) ||
           (reservation.time1 <= time1 && reservation.time2 >= time2)

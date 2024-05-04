@@ -12,13 +12,12 @@ import { Row } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectUserData } from "../../store/Store";
 import { fetchRoles } from "../../store/actions/RolesAction";
 
 const OverviewTable = ({ value }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = useSelector(selectUserData);
+  const userData = useSelector((state) => state.userById.userById);
 
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -38,15 +37,16 @@ const OverviewTable = ({ value }) => {
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
-  const roles = useSelector((state) => state.roles);
+  const roles = useSelector((state) => state.fetchRoles.roles);
+
   useEffect(() => {
     dispatch(fetchRoles());
     dispatch(fetchUserData(value));
   }, [dispatch]);
 
   useEffect(() => {
-    if (roles.roles && roles.roles.length > 0) {
-      setFilteredData(roles.roles);
+    if (roles && roles.length > 0) {
+      setFilteredData(roles);
     }
 
     const start = currentPage * perPage;
@@ -60,7 +60,7 @@ const OverviewTable = ({ value }) => {
     } else {
       setIsDeleteDisable(true);
     }
-  }, [roles, currentPage, perPage, filteredData, selectedRows]);
+  }, [roles, currentPage, perPage, filteredData, selectedRows, userData]);
 
   const columns = [
     {
@@ -92,10 +92,9 @@ const OverviewTable = ({ value }) => {
       name: "Status",
       cell: (row) => {
         const defaultStatus =
-          userData.users.primaryRole === row.rolename ? "default" : " ";
+          userData.primaryRole === row.rolename ? "default" : " ";
         const status =
-          Array.isArray(userData.users.roles) &&
-          userData.users.roles.includes(row.rolename)
+          Array.isArray(userData.roles) && userData.roles.includes(row.rolename)
             ? "granted"
             : defaultStatus;
         return status;
@@ -139,14 +138,15 @@ const OverviewTable = ({ value }) => {
   const handleSave = async () => {
     if (selectedRows.length === 1) {
       const roleName = selectedRows[0].rolename;
-      if (roleName === userData.users.primaryRole) {
+      if (roleName === userData.primaryRole) {
         return;
       }
 
-      if (!userData.users.roles.includes(roleName)) {
-        const updatedRoles = [...userData.users.roles, roleName];
-        const updatedUserData = { ...userData.users, roles: updatedRoles };
+      if (!userData.roles.includes(roleName)) {
+        const updatedRoles = [...userData.roles, roleName];
+        const updatedUserData = { ...userData, roles: updatedRoles };
         await dispatch(updateUserData(value, updatedUserData));
+        dispatch(fetchUserData(value));
       } else {
       }
     }
@@ -155,15 +155,14 @@ const OverviewTable = ({ value }) => {
   const handleDelete = async () => {
     if (selectedRows.length === 1) {
       const roleName = selectedRows[0].rolename;
-      if (roleName === userData.users.primaryRole) {
+      if (roleName === userData.primaryRole) {
         return;
       }
-      if (userData.users.roles.includes(roleName)) {
-        const updatedRoles = userData.users.roles.filter(
-          (role) => role !== roleName
-        );
-        const updatedUserData = { ...userData.users, roles: updatedRoles };
+      if (userData.roles.includes(roleName)) {
+        const updatedRoles = userData.roles.filter((role) => role !== roleName);
+        const updatedUserData = { ...userData, roles: updatedRoles };
         await dispatch(updateUserData(value, updatedUserData));
+        dispatch(fetchUserData(value));
       } else {
       }
     }

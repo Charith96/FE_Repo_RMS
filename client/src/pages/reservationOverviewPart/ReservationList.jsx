@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 const ReservationList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const reservations = useSelector((state) => state.reservation.reservations);
+  const reservations = useSelector((state) => state.reservations.reservations);
   const [loading, setLoading] = useState(true);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);

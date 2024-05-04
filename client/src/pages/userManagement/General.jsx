@@ -13,12 +13,12 @@ import TextField from "../../components/TextField";
 
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
-import { selectUserData } from "../../store/Store";
 
 const UserDetailsPage = ({ value, mode }) => {
   const id = value;
   const dispatch = useDispatch();
-  const userData = useSelector(selectUserData);
+  const userData = useSelector((state) => state.users.users);
+  const userDataById = useSelector((state) => state.userById.userById);
   const [filteredUserData, setFilteredUserData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
@@ -28,28 +28,28 @@ const UserDetailsPage = ({ value, mode }) => {
   const [checkUser, setCheckUser] = useState(false);
   useEffect(() => {
     setTimeout(() => fetchData(), 100);
-  }, [dispatch, id, userData.users, editMode]);
+  }, [dispatch, id, userData, editMode]);
 
   const fetchData = async () => {
     try {
-      if (editMode === false) {
-        await dispatch(fetchUserData(id));
-        const user = userData.users;
-        setFilteredUserData({
-          userID: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          defaultCompany: user.defaultCompany,
-          designation: user.designation,
-          primaryRole: user.primaryRole,
-          email: user.email,
-          password: user.password,
-          validFrom: user.validFrom,
-          validTill: user.validTill,
-          companies: user.companies,
-          roles: user.roles,
-        });
-      }
+      await dispatch(fetchUserData(id));
+      const user = userDataById;
+
+      setFilteredUserData({
+        userID: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        defaultCompany: user.defaultCompany,
+        designation: user.designation,
+        primaryRole: user.primaryRole,
+        email: user.email,
+        password: user.password,
+        validFrom: user.validFrom,
+        validTill: user.validTill,
+        companies: user.companies,
+        roles: user.roles,
+      });
+
       if (modea) {
         if (modea === "edit") {
           setEditMode(true);
@@ -57,15 +57,13 @@ const UserDetailsPage = ({ value, mode }) => {
           setIsViewMode(true);
         }
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    } catch (error) {}
   };
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === "email") {
-      const Checkusers = userData.users.find((user) => user.email === value);
+      const Checkusers = userData.find((user) => user.email === value);
       if (!Checkusers) {
         setCheckUser(false);
         setFilteredUserData({
@@ -118,13 +116,11 @@ const UserDetailsPage = ({ value, mode }) => {
         ...filteredUserData,
       };
       await dispatch(updateUserData(id, updatedUserData));
-
+      await dispatch(fetchUserData(id));
       setIsViewMode(true);
-      setEditMode(false); // Turn off edit mode after successfully saving
+      setEditMode(false);
       setMode("view");
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -209,12 +205,13 @@ const UserForm = ({ formData, onChange, editMode, isViewMode }) => {
             onChange={onChange}
             disabled={false}
           />
+
           <TextField
             id="email"
             label="Email:"
             value={formData.email}
             onChange={onChange}
-            disabled={false}
+            disabled={true}
           />
           <TextField
             id="validFrom"

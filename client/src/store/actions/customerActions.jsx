@@ -7,9 +7,7 @@ export const fetchCustomers = () => async (dispatch) => {
   try {
     const response = await axios.get(`${BASE_URL}${CUSTOMER_URL}`);
     dispatch({ type: "FETCH_CUSTOMERS_SUCCESS", payload: response.data });
-    console.log("Data :", response.data);
   } catch (error) {
-    console.error("Error fetching customers:", error);
     dispatch({ type: "FETCH_CUSTOMERS_FAILURE", payload: error.message });
   }
 };
@@ -21,7 +19,6 @@ export const fetchCustomer = (customerId) => async (dispatch) => {
     );
     dispatch({ type: "FETCH_CUSTOMER_SUCCESS", payload: response.data });
   } catch (error) {
-    console.error("Error fetching customer:", error);
     dispatch({ type: "FETCH_CUSTOMER_FAILURE", payload: error.message });
   }
 };
@@ -39,7 +36,6 @@ export const updateCustomer = (customerId, updatedData) => async (dispatch) => {
     );
     dispatch({ type: "UPDATE_CUSTOMER_SUCCESS", payload: response.data });
   } catch (error) {
-    console.error("Error updating customer:", error);
     dispatch({ type: "UPDATE_CUSTOMER_FAILURE", payload: error.message });
   }
 };
@@ -49,7 +45,6 @@ export const deleteCustomer = (customerId) => async (dispatch) => {
     await axios.delete(`${BASE_URL}${CUSTOMER_URL}/${customerId}`);
     dispatch({ type: "DELETE_CUSTOMER_SUCCESS", payload: customerId });
   } catch (error) {
-    console.error("Error deleting customer:", error);
     dispatch({ type: "DELETE_CUSTOMER_FAILURE", payload: error.message });
   }
 };
@@ -63,7 +58,6 @@ export const createCustomer = (customer) => async (dispatch) => {
     });
     dispatch({ type: "CREATE_CUSTOMER_SUCCESS", payload: response.data });
   } catch (error) {
-    console.error("Error creating customer:", error);
     dispatch({ type: "CREATE_CUSTOMER_FAILURE", payload: error.message });
   }
 };
