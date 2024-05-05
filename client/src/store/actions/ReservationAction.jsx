@@ -1,7 +1,8 @@
 import axios from "axios";
 import ActionTypes from "../../data/ReduxActionTypes";
-import { BASE_URL, RESERVATION_URL } from "../../utils/Constants";
+import { RESERVATION_URL } from "../../utils/Constants";
 import { toastFunction } from "../../components/ToastComponent";
+export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchReservations = () => async (dispatch) => {
   try {

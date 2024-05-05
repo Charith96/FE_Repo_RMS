@@ -9,7 +9,7 @@ import {
   fetchReservationByItemId,
 } from "../../store/actions/ReservationAction";
 import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
-import { fetchCustomers } from "../../store/actions/customerActions";
+import { fetchCustomers } from "../../store/actions/CustomerActions";
 import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
 

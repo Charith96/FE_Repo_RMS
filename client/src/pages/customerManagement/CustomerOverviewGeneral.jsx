@@ -1,46 +1,140 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-  fetchCustomer,
-  updateCustomer,
+  fetchCustomersById,
+  editCustomer,
   deleteCustomer,
-} from "../../store/actions/customerActions";
-import { Container, Row, Col, Form } from "react-bootstrap";
+} from "../../store/actions/CustomerActions";
 import TextField from "../../components/TextField";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { Form } from "react-bootstrap";
 
-const CustomerOverviewGeneral = ({ customer, mode }) => {
-  // Destructuring customer data
-  const { id, fullName, identifier, address, email } = customer;
-  // Initializing state variables
+const CustomerOverviewGeneral = () => {
   const dispatch = useDispatch();
-  const [filteredCustomerData, setFilteredCustomerData] = useState({
-    ...customer,
-  });
-  const [editMode, setEditMode] = useState(mode === "edit");
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const fetchCustomerData = useSelector(
+    (state) => state.getCustomerById.fetchCustomerId
+  );
+  const editFlagData = useSelector(
+    (state) => state.editCustomerFlag.editCustomerFlag
+  );
+
+  const dataForSearch = useSelector((state) => state.getCustomer.fetchCustomer);
+  const [recordId, setRecordId] = useState("");
+
+  const [id, setId] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [identifier, setIdentifier] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNo, setContactNo] = useState("");
+
+  const [isViewMode, setIsViewMode] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isEditDisable, setIsEditDisable] = useState(true);
+  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const [isDeleteDisable, setIsDeleteDisable] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [count, setCount] = useState(0);
+  const searchParams = new URLSearchParams(useLocation().search);
+  const data = searchParams.get("data");
+  const paramData = JSON.parse(data);
+  const mode = state ? state.mode : null;
 
   useEffect(() => {
-    // Fetch customer data on component mount if not in edit mode
-    if (!editMode) {
-      fetchCustomerData();
+    if (paramData && recordId) {
+      dispatch(fetchCustomersById(recordId));
     }
-  }, []);
+  }, [dispatch, recordId]);
 
-  // Function to fetch customer data
-  const fetchCustomerData = async () => {
+  const fetchData = () => {
+    if (fetchCustomerData) {
+      let filterData = fetchCustomerData;
+      if (filterData) {
+        if (count === 0) {
+          setId(filterData?.id ?? "");
+          setFullName(filterData?.fullName ?? "");
+          setIdentifier(filterData?.identifier ?? "");
+          setAddress(filterData?.address ?? "");
+          setEmail(filterData?.email ?? "");
+          setContactNo(filterData?.contactNo ?? "");
+          if (mode) {
+            if (mode === "edit") {
+              setIsViewMode(false);
+              setIsEditDisable(true);
+              setIsSaveDisable(false);
+            } else if (mode === "view") {
+              setIsViewMode(true);
+              setIsEditDisable(false);
+              setIsSaveDisable(true);
+            }
+          }
+        }
+      } else {
+        handleNavigate();
+      }
+      setCount(1);
+    }
+  };
+
+  useEffect(() => {
+    if (paramData && paramData.id && paramData.id !== "") {
+      setRecordId(paramData.id);
+    }
+    if (recordId) {
+      setTimeout(() => fetchData(), 100);
+    }
+  }, [isSaveDisable, recordId, fetchData]);
+
+  const handleEdit = () => {
+    setIsAddDisable(true);
+    setIsEditDisable(true);
+    setIsDeleteDisable(true);
+    setIsViewMode(false);
+    setIsSaveDisable(false);
+  };
+
+  const handleSave = async () => {
     try {
-      await dispatch(fetchCustomer(id));
-    } catch (error) {}
+      if (paramData && recordId) {
+        const formData = {
+          id: recordId,
+          id: id,
+          fullName: fullName,
+          identifier: identifier,
+          address: address,
+          email: email,
+          contactNo: contactNo,
+        };
+        dispatch(editCustomer(recordId, formData));
+        handleNavigate();
+        toast.success("Data saved successfully");
+      } else {
+        // Handle the case where saving failed
+        toast.error("Failed to save changes. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Error saving data. Please try again.");
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmation(false);
   };
 
   // Function to handle creating a new customer(Plus icon)
-  const handleCreate = () => {
+  const navigateToCreate = () => {
     navigate("/customerManagement/CustomerCreation");
+  };
+
+  const handleNavigate = () => {
+    navigate("/customerManagement/Customerlist");
   };
 
   // Function to handle deleting a customer
@@ -61,101 +155,95 @@ const CustomerOverviewGeneral = ({ customer, mode }) => {
     }
   };
 
-  // Function to handle submitting changes
-  const handleSubmit = async () => {
-    try {
-      await dispatch(updateCustomer(id, filteredCustomerData));
-      setEditMode(false);
-      toast.success("Changes saved successfully");
-    } catch (error) {
-      toast.error("Error saving data:", error);
-    }
-  };
-
   return (
     <>
       <Row>
-        <Col>
-          {/* Title and action bar */}
+        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+        <Col
+          xs={12}
+          sm={12}
+          md={8}
+          lg={8}
+          xl={8}
+          xxl={10}
+          className="body-content px-5 pt-4 pb-4 mb-5"
+        >
           <TitleActionBar
-            Title={""}
-            EditAction={() => setEditMode(true)}
-            DeleteAction={handleDelete}
-            SaveAction={handleSubmit}
+            Title={"CustomerForm"}
+            plustDisabled={isAddDisable}
+            editDisabled={isEditDisable}
+            saveDisabled={isSaveDisable}
+            deleteDisabled={isDeleteDisable}
             PlusAction={() => {
-              handleCreate();
+              navigateToCreate();
+            }}
+            EditAction={() => {
+              handleEdit();
+            }}
+            SaveAction={() => {
+              handleSave();
+            }}
+            DeleteAction={() => {
+              handleDelete();
             }}
           />
-          <div style={{ margin: 10, padding: 20 }}>
-            {/* Customer form component */}
-            <CustomerForm
-              formData={filteredCustomerData}
-              setFormData={setFilteredCustomerData}
-              editMode={editMode}
-            />
+          <div>
+            <Form>
+              <TextField
+                label="Customer ID :"
+                disabled={isViewMode}
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+              />
+              <TextField
+                label="Full Name"
+                value={fullName}
+                disabled={isViewMode}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+              <TextField
+                label="Identifier"
+                value={identifier}
+                disabled={isViewMode}
+                onChange={(e) => setIdentifier(e.target.value)}
+              />
+              <TextField
+                label="Address"
+                value={address}
+                disabled={isViewMode}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <TextField
+                label="Email"
+                value={email}
+                disabled={isViewMode}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label="Contact No"
+                value={contactNo}
+                disabled={isViewMode}
+                onChange={(e) => setContactNo(e.target.value)}
+              />
+            </Form>
           </div>
+
+          <DeleteConfirmModel
+            show={showConfirmation}
+            close={cancelDelete}
+            title={"Warning"}
+            message={
+              "The selected Customer will be deleted. Do you wish to continue?"
+            }
+            type={"Yes"}
+            action={() => {
+              confirmDelete();
+            }}
+          />
         </Col>
+        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
       </Row>
-      {/* Delete confirmation modal */}
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={() => setShowConfirmation(false)}
-        title={"Warning"}
-        message={
-          "The selected Customer will be deleted. Do you wish to continue?"
-        }
-        type={"Yes"}
-        action={confirmDelete}
-      />
     </>
   );
 };
-
-const CustomerForm = ({ formData, setFormData, editMode }) => (
-  <>
-    <TextField
-      id="id"
-      label="Customer ID :"
-      value={formData.id}
-      onChange={(e) => setFormData({ ...formData, id: e.target.value })}
-      disabled={!editMode}
-    />
-    <TextField
-      id="fullName"
-      label="Full Name"
-      value={formData.fullName}
-      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-      disabled={!editMode}
-    />
-    <TextField
-      id="identifier"
-      label="Identifier"
-      value={formData.identifier}
-      onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
-      disabled={!editMode}
-    />
-    <TextField
-      id="address"
-      label="Address"
-      value={formData.address}
-      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-      disabled={!editMode}
-    />
-    <TextField
-      id="email"
-      label="Email"
-      value={formData.email}
-      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-      disabled={!editMode}
-    />
-    <TextField
-      id="contactNo"
-      label="Contact No"
-      value={formData.contactNo}
-      onChange={(e) => setFormData({ ...formData, contactNo: e.target.value })}
-      disabled={!editMode}
-    />
-  </>
-);
-
 export default CustomerOverviewGeneral;

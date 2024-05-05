@@ -2,12 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
+
+// import {
+//   fetchCustomers,
+//   deleteCustomer,
+//   resetCustomerState,
+// } from "../../store/actions/CustomerActions";
 
 import {
   fetchCustomers,
   deleteCustomer,
-} from "../../store/actions/customerActions";
+  resetCustomerState,
+} from "../../store/actions/CustomerActions";
 
 import {
   faArrowUpRightFromSquare,
@@ -16,20 +22,22 @@ import {
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { selectCustomer } from "../../store/Store";
 
 const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const customer = useSelector(selectCustomer);
-  const customers = useSelector((state) => state.customerReducer.customers);
-  let { value } = useParams();
+
+  const fetchCustomerData = useSelector(
+    (state) => state.getCustomer.fetchCustomer
+  );
+  const deleteCustomerData = useSelector(
+    (state) => state.deleteCustomer.deleteCustomer
+  );
 
   // State variables
   const [paginatedData, setPaginatedData] = useState([]);
@@ -54,33 +62,28 @@ const CustomerList = () => {
   const toggledClearRows = useRef(false);
 
   useEffect(() => {
-    // Fetch customers on component mount
     dispatch(fetchCustomers());
-    if (deleteCustomer) {
-      // Fetch customers again if deleteCustomer action is dispatched
+    if (deleteCustomerData) {
       dispatch(fetchCustomers());
     }
-  }, []);
+  }, [dispatch, deleteCustomerData]);
 
   useEffect(() => {
     // Fetch customers and update data when customers or pagination settings change
-    dispatch(fetchCustomers()).then(() => {
-      if (customers && customers.length > 0 && !isFiltered) {
-        setFilteredData(customers);
+    if (fetchCustomerData && fetchCustomerData.length > 0 && !isFiltered) {
+      setFilteredData(fetchCustomerData);
+    }
+    const start = currentPage * perPage;
+    const end = start + perPage;
+    const slicedData = filteredData?.slice(start, end);
+    setPaginatedData(slicedData);
 
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = customers?.slice(start, end);
-        setPaginatedData(slicedData);
-
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
-      }
-    });
-  }, [customers, currentPage, perPage, selectedRows, isFiltered]);
+    if (selectedRows.length === 1) {
+      setIsDeleteDisable(false);
+    } else {
+      setIsDeleteDisable(true);
+    }
+  }, [fetchCustomerData, currentPage, perPage, filteredData, selectedRows]);
 
   // Table columns definition
   const columns = [
@@ -148,7 +151,7 @@ const CustomerList = () => {
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       // Navigate to edit page if only one row is selected
-      let data = { ...contextMenuRow }; // Copy the row data
+      let data = { id: contextMenuRow.id }; // Copy the row data
       let dataString = JSON.stringify(data); // Convert data to string
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -162,8 +165,7 @@ const CustomerList = () => {
   //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      // Navigate to details page if only one row is selected
-      let data = { ...contextMenuRow };
+      let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -192,13 +194,14 @@ const CustomerList = () => {
   // Function to handle filtering based on search term
   const handleFilter = () => {
     if (searchTerm === "") {
-      setFilteredData(customers);
+      setFilteredData(fetchCustomerData);
     } else {
-      const filtered = customers.filter((item) =>
+      const filtered = fetchCustomerData.filter((item) =>
         item.id?.toString().toLowerCase().includes(searchTerm?.toLowerCase())
       );
 
       setIsFiltered(true);
+      dispatch(resetCustomerState(filtered));
       setFilteredData(filtered);
     }
   };

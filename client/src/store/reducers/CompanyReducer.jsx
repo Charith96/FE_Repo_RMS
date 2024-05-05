@@ -1,25 +1,24 @@
 import ActionTypes from "../../data/ReduxActionTypes";
+
+// Define the initial state
 const initialState = {
   loading: false,
-
   createError: null,
   editError: null,
   deleteError: null,
   getError: null,
   getByIdError: null,
-
-  //new
   fetchCompany: [],
   fetchCompanyId: [],
   createCompany: null,
   editCompany: null,
   deleteCompany: null,
   editCompanyFlag: false,
-
   countries: [],
   currencies: [],
 };
 
+// Reducer for creating a company
 export const createCompanyReducer = (
   state = {
     loading: initialState.loading,
@@ -51,6 +50,7 @@ export const createCompanyReducer = (
   }
 };
 
+// Reducer for editing a company
 export const editCompanyReducer = (
   state = {
     loading: initialState.loading,
@@ -82,6 +82,7 @@ export const editCompanyReducer = (
   }
 };
 
+// Reducer for handling the edit company flag
 export const editCompanyFlagReducer = (
   state = initialState.editCompanyFlag,
   action
@@ -102,6 +103,7 @@ export const editCompanyFlagReducer = (
   }
 };
 
+// Reducer for deleting a company
 export const deleteCompanyReducer = (
   state = {
     loading: initialState.loading,
@@ -133,37 +135,7 @@ export const deleteCompanyReducer = (
   }
 };
 
-// export const getCompanyReducer = (
-//   state = {
-//     loading: initialState.loading,
-//     fetchCompany: initialState.fetchCompany,
-//     getError: initialState.getError,
-//   },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case "GET_COMPANY_START":
-//       return {
-//         ...state,
-//         loading: !initialState.loading,
-//       };
-//     case "GET_COMPANY_SUCCESS":
-//       return {
-//         ...state,
-//         loading: initialState.loading,
-//         fetchCompany: action.payload,
-//       };
-//     case "GET_COMPANY_FAIL":
-//       return {
-//         ...state,
-//         loading: initialState.loading,
-//         getError: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
+// Reducer for fetching all companies
 export const getCompanyReducer = (
   state = {
     loading: initialState.loading,
@@ -195,6 +167,7 @@ export const getCompanyReducer = (
   }
 };
 
+// Reducer for fetching a company by ID
 export const getCompanyByIdReducer = (
   state = {
     loading: initialState.loading,
@@ -232,6 +205,7 @@ export const getCompanyByIdReducer = (
   }
 };
 
+// Reducer for fetching countries
 export const countriesReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_COUNTRIES_START:
@@ -245,6 +219,7 @@ export const countriesReducer = (state = initialState, action) => {
   }
 };
 
+// Reducer for fetching currencies
 export const currenciesReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_CURRENCIES_START:

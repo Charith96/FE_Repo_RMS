@@ -1,22 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
-import { createCustomer } from "../../store/actions/customerActions";
+import {
+  createCustomer,
+  resetManageCustomerState,
+} from "../../store/actions/CustomerActions";
+import { useDispatch, useSelector } from "react-redux";
 import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
 import { Row, Col, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-const CustomerCreation = ({ createCustomer }) => {
-  //State variables
+const CustomerCreation = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const customerData = useSelector((state) => state.createCustomer);
   const [id, setId] = useState("");
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [contactNo, setContactNo] = useState("");
+  const [buttonFlag, setButtonFlag] = useState(false);
+  const isValueMounted = useRef(false);
   const [formValid, setFormValid] = useState(false); // Indicates if the form is valid or not
+
+  useEffect(() => {
+    if (!isValueMounted.current)
+      if (
+        customerData &&
+        customerData.createCustomer !== null &&
+        customerData.createError === null
+      ) {
+        isValueMounted.current = true;
+        toast.success("Customer created successfully");
+        setTimeout(() => {
+          dispatch(resetManageCustomerState());
+          navigate("/customerManagement/CustomerList");
+        }, 200);
+        clearTextFields();
+      }
+  }, [dispatch, navigate, customerData, isValueMounted]);
 
   useEffect(() => {
     // Function to validate email format
@@ -41,35 +65,38 @@ const CustomerCreation = ({ createCustomer }) => {
   }, [id, fullName, identifier, address, email, contactNo]); // Re-run effect when form fields change
 
   // Function to handle form submission
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     //newCustomer-> contains the data of the customer to be created
-    const newCustomer = {
-      id,
-      fullName,
-      identifier,
-      address,
-      email,
-      contactNo,
-    };
-
-    try {
-      await createCustomer(newCustomer); // Dispatch action to create new customer
-      navigate("/customerManagement/CustomerList"); // Redirect to customer list page after successful creation
-      toast.success("Customer created successfully");
-    } catch (error) {
-      toast.error("Error creating customer. Please try again."); // Notify user if an error occurs during customer creation
+    if (id && fullName && identifier && address && contactNo) {
+      const newCustomer = {
+        id: id,
+        fullName: fullName,
+        identifier: identifier,
+        address: address,
+        email: email,
+        contactNo: contactNo,
+      };
+      dispatch(createCustomer(newCustomer));
+    } else {
+      toast.error("Please fill out all required fields.");
     }
   };
 
+  const clearTextFields = () => {
+    setId("");
+    setFullName("");
+    setIdentifier("");
+    setAddress("");
+    setEmail("");
+    setContactNo("");
+  };
+
   return (
-    <div className="mb-5 mx-2">
-      <div>
-        <h4>Customer Creation</h4>
-      </div>
-      <div></div>
+    <>
       <Row>
+        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
         <Col
           xs={12}
           sm={12}
@@ -79,61 +106,52 @@ const CustomerCreation = ({ createCustomer }) => {
           xxl={10}
           className="body-content px-5 pt-4 pb-4 mb-5"
         >
-          <form onSubmit={handleSubmit}>
-            {/* Form fields */}
-            <TextField
-              label="Customer ID"
-              type="text"
-              value={id}
-              onChange={(e) => setId(e.target.value)}
-              maxLength={8}
-              isMandatory={true}
-            />
+          <div>
+            <h3 className="mb-5">Customer Creation</h3>
+            <Form onSubmit={handleSubmit}>
+              {/* Form fields */}
 
-            <TextField
-              label="Full Name"
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              maxLength={50}
-              isMandatory={true}
-            />
+              <TextField
+                label="Customer ID"
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+                maxLength={8}
+              />
 
-            <TextField
-              label="Identifier"
-              type="text"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              maxLength={20}
-              isMandatory={true}
-            />
+              <TextField
+                label="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                maxLength={50}
+              />
 
-            <TextField
-              label="Address"
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              maxLength={50}
-              isMandatory={true}
-            />
+              <TextField
+                label="Identifier"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                maxLength={20}
+              />
 
-            <TextField
-              label="Email"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+              <TextField
+                label="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                maxLength={50}
+              />
 
-            <TextField
-              label="Contact No"
-              type="text"
-              value={contactNo}
-              onChange={(e) => setContactNo(e.target.value)}
-              maxLength={15}
-              isMandatory={true}
-            />
+              <TextField
+                label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-            <div>
+              <TextField
+                label="Contact No"
+                value={contactNo}
+                onChange={(e) => setContactNo(e.target.value)}
+                maxLength={15}
+              />
+
               {/* Submit button */}
               <Form.Group as={Row} className="mb-3">
                 <Col className="d-flex justify-content-end">
@@ -141,17 +159,24 @@ const CustomerCreation = ({ createCustomer }) => {
                     type="submit"
                     text="Create"
                     className="form-btn"
-                    disabled={!formValid} // Disable button if form is invalid
+                    disabled={
+                      !id ||
+                      !fullName ||
+                      !identifier ||
+                      !address ||
+                      !contactNo ||
+                      buttonFlag
+                    } // Disable button if form is invalid
                   />
                 </Col>
               </Form.Group>
-            </div>
-          </form>
+            </Form>
+          </div>
         </Col>
+        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
       </Row>
-    </div>
+    </>
   );
 };
 
-// Connect component to Redux store and map dispatch to props
-export default connect(null, { createCustomer })(CustomerCreation);
+export default CustomerCreation;

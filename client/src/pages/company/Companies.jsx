@@ -24,14 +24,15 @@ const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //new
+  // Retrieve state from Redux store
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
   );
   const deleteCompanyData = useSelector(
     (state) => state.deleteCompany.deleteCompany
   );
-  //new
+
+  // State variables
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -54,16 +55,15 @@ const Companies = () => {
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-  //new
+  // Fetch companies and update filteredData on component mount and when deleteCompanyData changes
   useEffect(() => {
     dispatch(fetchCompanies());
     if (deleteCompanyData) {
       dispatch(fetchCompanies());
     }
   }, [dispatch, deleteCompanyData]);
-  //new
 
-  //new
+  // Update paginatedData, filteredData, and deleteDisable state based on fetchCompanyData and selectedRows
   useEffect(() => {
     if (fetchCompanyData && fetchCompanyData.length > 0) {
       setFilteredData(fetchCompanyData);
@@ -75,14 +75,13 @@ const Companies = () => {
     setPaginatedData(slicedData);
 
     if (selectedRows.length === 1) {
-      
       setIsDeleteDisable(false);
     } else {
       setIsDeleteDisable(true);
     }
   }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
-  //new
 
+  // Table column definitions
   const columns = [
     {
       name: "",
@@ -123,13 +122,15 @@ const Companies = () => {
     },
   ];
 
+  // Handle cell click and show context menu
   const handleCellClick = (e, row) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
     setContextMenuRow(row);
   };
-  //handle edit button click
+
+  // Handle edit button click in context menu
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
@@ -140,7 +141,8 @@ const Companies = () => {
       );
     }
   };
-  //handle detail button click
+
+  // Handle detail button click in context menu
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
       let data = { id: contextMenuRow.id };
@@ -152,6 +154,7 @@ const Companies = () => {
     }
   };
 
+  // Render context menu
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
@@ -166,7 +169,7 @@ const Companies = () => {
     </div>
   );
 
-  //new
+  // Handle filter function
   const handleFilter = () => {
     if (fetchCompanyData && fetchCompanyData.length > 0) {
       if (searchTerm === "") {
@@ -185,9 +188,8 @@ const Companies = () => {
       }
     }
   };
-  //new
 
-  //new
+  // Confirm delete action
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
@@ -200,37 +202,40 @@ const Companies = () => {
       }
     }
   };
-  //new
 
+  // Handle create button click
   const handleCreate = () => {
     navigate("/company/createCompany");
   };
 
+  // Handle delete button click
   const handleDelete = () => {
     setShowConfirmation(true);
   };
 
+  // Cancel delete confirmation
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
 
+  // Handle search term change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  //new
+ // Clear search filter
   const clearFilter = () => {
     setSearchTerm("");
     dispatch(fetchCompanies());
     setIsFiltered(false);
     setCurrentPage(0);
   };
-  //new
 
   const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
+      {/* TitleActionBar component with props */}
       <TitleActionBar
         Title={"Company List"}
         plustDisabled={isAddDisable}
@@ -250,6 +255,7 @@ const Companies = () => {
       <Row>
         <div className="filter-box mb-5">
           <InputGroup className="w-25">
+            {/* Search input field */}
             <Form.Control
               className="bg-white form-control-filter"
               placeholder="Search Company"
@@ -280,6 +286,7 @@ const Companies = () => {
         </div>
       </Row>
 
+      {/* CompanyTable component with props */}
       <CompanyTable
         selectableRows={true}
         selectableRowsSingle={true}
@@ -302,6 +309,7 @@ const Companies = () => {
       {/* Popup menu */}
       <div>{customContextMenu}</div>
 
+      {/* DeleteConfirmModel component with props */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}

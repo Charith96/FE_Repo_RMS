@@ -1,8 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
-
 import { thunk } from "redux-thunk";
-import customerReducer from "./reducers/customerReducers";
+import {
+  createCustomerReducer,
+  editCustomerReducer,
+  deleteCustomerReducer,
+  getCustomerByIdReducer,
+  getCustomerReducer,
+  editCustomerFlagReducer
+} from "./reducers/CustomerReducer";
 import {
   createReservationGroupReducer,
   editReservationGroupReducer,
@@ -47,12 +53,6 @@ import {
 } from "./reducers/ReservationReducer";
 
 import {
-  manageTodoReducer,
-  getToDoListReducer,
-  getToDoByIdReducer,
-  deleteToDoReducer,
-} from "./reducers/ToDoReducer";
-import {
   getUsersReducer,
   createUserReducer,
   updateUserReducer,
@@ -70,8 +70,24 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
+
+    //company
+    createCompany: createCompanyReducer,
+    editCompany: editCompanyReducer,
+    deleteCompany: deleteCompanyReducer,
+    getCompany: getCompanyReducer,
+    getCompanyById: getCompanyByIdReducer,
+    editCompanyFlag: editCompanyFlagReducer,
+    countries: countriesReducer,
+    currencies: currenciesReducer,
+
   //customer
-  customerReducer,
+  createCustomer: createCustomerReducer,
+  editCustomer: editCustomerReducer,
+  deleteCustomer: deleteCustomerReducer,
+  getCustomer: getCustomerReducer,
+  getCustomerById: getCustomerByIdReducer,
+  editCustomerFlag: editCustomerFlagReducer, 
 
   // reservation group
   createReservationGroup: createReservationGroupReducer,
@@ -83,26 +99,13 @@ const rootReducer = combineReducers({
   checkForDuplicates: checkForDuplicatesReducer,
   deleteReservationItem: deleteReservationItemReducer,
   fetchReservationItemByGroup: fetchReservationItemByGroupReducer,
+
   // reservation item
   createReservationItem: createReservationItemReducer,
   createTimeSlot: createTimeSlotReducer,
   editReservationItem: editReservationItemReducer,
   getReservationItemById: getReservationItemByIdReducer,
   getReservationItem: getReservationItemReducer,
-  createCompany: createCompanyReducer,
-  editCompany: editCompanyReducer,
-  deleteCompany: deleteCompanyReducer,
-  getCompany: getCompanyReducer,
-  getCompanyById: getCompanyByIdReducer,
-  editCompanyFlag: editCompanyFlagReducer,
-  countries: countriesReducer,
-  currencies: currenciesReducer,
-
-  // todos
-  manageTodo: manageTodoReducer,
-  getToDoList: getToDoListReducer,
-  getToInfoDoById: getToDoByIdReducer,
-  deleteToDoInfo: deleteToDoReducer,
 
   //users
   users: getUsersReducer,
@@ -110,8 +113,8 @@ const rootReducer = combineReducers({
   updateUser: updateUserReducer,
   deleteUser: deleteUserReducer,
   userById: getUserByIdReducer,
-  //reservation
 
+  //reservation
   reservations: getReservationsReducer,
   createReservation: createReservationReducer,
   updateReservation: updateReservationReducer,
@@ -123,6 +126,7 @@ const rootReducer = combineReducers({
   getTimeSlotsByItem: getTimeSlotsByItemIdReducer,
   deleteTimeSlotsByItem: deleteTimeSlotsByItemIdReducer,
   editTimeSlotsByItem: editTimeSlotsByItemIdReducer,
+
   //roles
   fetchRoles: fetchRolesReducer,
   createRole: createRoleReducer,

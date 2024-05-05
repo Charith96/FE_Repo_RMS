@@ -19,10 +19,12 @@ const CreateCompany = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Retrieve data from the Redux store
   const companyData = useSelector((state) => state.createCompany);
   const countries = useSelector((state) => state.countries.countries);
   const currencies = useSelector((state) => state.currencies.currencies);
 
+  // State variables for form fields
   const [companyCode, setCompanyCode] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
@@ -34,6 +36,7 @@ const CreateCompany = () => {
   const [buttonFlag, setButtonFlag] = useState(false);
   const isValueMounted = useRef(false);
 
+  // Handle successful company creation
   useEffect(() => {
     if (!isValueMounted.current)
       if (
@@ -51,6 +54,7 @@ const CreateCompany = () => {
       }
   }, [dispatch, navigate, companyData, isValueMounted]);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,19 +75,19 @@ const CreateCompany = () => {
     }
   };
 
+  // Fetch countries and currencies when the component mounts
   useEffect(() => {
     dispatch(fetchCountries());
     dispatch(fetchCurrencies());
   }, [dispatch]);
 
+  // Clear text fields
   const clearTextFields = () => {
     setCompanyCode("");
     setCompanyName("");
     setDescription("");
-
     setCountry([]);
     setCurrency([]);
-
     setAddress01("");
     setAddress02("");
     setDefaultCompany(false);
@@ -92,6 +96,7 @@ const CreateCompany = () => {
   return (
     <>
       <Row>
+        {/* Columns for spacing */}
         <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
         <Col
           xs={12}
@@ -105,29 +110,31 @@ const CreateCompany = () => {
           <div>
             <h3 className="mb-5">Create Company</h3>
             <Form onSubmit={handleSubmit}>
+              {/* TextField component for Company Code */}
               <TextField
                 label="Company Code"
                 // className={`${companyCode ? "is-invalid" : "bg-white"}`}
                 value={companyCode}
                 onChange={(e) => {
                   setCompanyCode(e.target.value);
-                  //dispatch(checkForDuplicate(e.target.value));
                 }}
                 maxLength={8}
-                //inputMessage={"Group ID already exists"}
               />
+              {/* TextField component for Company Name */}
               <TextField
                 value={companyName}
                 label="Company Name"
                 onChange={(e) => setCompanyName(e.target.value)}
               />
 
+              {/* TextField component for Description */}
               <TextField
                 value={description}
                 label="Description"
                 onChange={(e) => setDescription(e.target.value)}
               />
 
+              {/* DropdownField component for Country */}
               <DropdownField
                 label="Country"
                 value={country}
@@ -141,6 +148,7 @@ const CreateCompany = () => {
                 ]}
               />
 
+              {/* DropdownField component for Currency */}
               <DropdownField
                 label="Currency"
                 value={currency}
@@ -154,18 +162,21 @@ const CreateCompany = () => {
                 ]}
               />
 
+              {/* TextField component for Address01 */}
               <TextField
                 value={address01}
                 label="Address01"
                 onChange={(e) => setAddress01(e.target.value)}
               />
 
+              {/* TextField component for Address02 */}
               <TextField
                 value={address02}
                 label="Address02"
                 onChange={(e) => setAddress02(e.target.value)}
               />
 
+              {/* CheckboxField component for Default Company */}
               <CheckboxField
                 checked={defaultCompany}
                 onChange={(e) => setDefaultCompany(e.target.checked)}
@@ -174,6 +185,7 @@ const CreateCompany = () => {
                 label="Default Company"
               />
 
+              {/* Form Button */}
               <Form.Group as={Row} className="mb-3">
                 <Col className="d-flex justify-content-end">
                   <FormButton

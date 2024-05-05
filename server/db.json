@@ -15,6 +15,22 @@
       "address": "uom,motatuwa",
       "email": "hasinichamodi4@gmail.com",
       "contactNo": "111"
+    },
+    {
+      "id": "14",
+      "fullName": "saw",
+      "identifier": "zxf",
+      "address": "vvc",
+      "email": "cvgn@gmail.com",
+      "contactNo": "zxv"
+    },
+    {
+      "id": "14789635",
+      "fullName": "Ishara J",
+      "identifier": "214089X",
+      "address": "No31,",
+      "email": "Sup@gmail.com",
+      "contactNo": "017485946"
     }
   ],
   "companies": [
@@ -52,17 +68,6 @@
       "defaultCompany": false
     },
     {
-      "id": "7",
-      "companyCode": "72",
-      "companyName": "ABC4",
-      "description": "This is Abc4 group",
-      "country": "Russia",
-      "currency": "GBP",
-      "address01": "No7",
-      "address02": "No8",
-      "defaultCompany": false
-    },
-    {
       "id": "c420",
       "companyCode": "65",
       "companyName": "ABC5",
@@ -74,17 +79,6 @@
       "defaultCompany": ""
     },
     {
-      "id": "08c6",
-      "companyCode": "654",
-      "companyName": "Abc6",
-      "description": "This is Abc group",
-      "country": "China",
-      "currency": "GBP",
-      "address01": "no a2",
-      "address02": "54",
-      "defaultCompany": true
-    },
-    {
       "id": "f822",
       "companyCode": "1654",
       "companyName": "Supun1",
@@ -94,6 +88,39 @@
       "address01": "@2,a1",
       "address02": "@1,a23",
       "defaultCompany": false
+    },
+    {
+      "id": "bcf2",
+      "companyCode": "11223344",
+      "companyName": "My Company1",
+      "description": "Integration test",
+      "country": "Australia",
+      "currency": "AUD",
+      "address01": "Address1",
+      "address02": "Address2",
+      "defaultCompany": true
+    },
+    {
+      "id": "5964",
+      "companyCode": "44588666",
+      "companyName": "ddff",
+      "description": "45457",
+      "country": "United States",
+      "currency": "JPY",
+      "address01": "fgghg",
+      "address02": "fgh",
+      "defaultCompany": true
+    },
+    {
+      "id": "15cb",
+      "companyCode": "3874",
+      "companyName": "ACDS X",
+      "description": "My Test",
+      "country": "China",
+      "currency": "GBP",
+      "address01": "11N1",
+      "address02": "N11Q",
+      "defaultCompany": true
     }
   ],
   "Roles": [
@@ -277,91 +304,36 @@
   ],
   "users": [
     {
-      "id": "543a",
-      "userID": "hasinichamwodi4@gmail.com",
-      "firstName": "Hasni",
-      "lastName": "Sarah",
-      "defaultCompany": "ABC1",
-      "designation": "aaaaaaaaaaaa",
-      "primaryRole": "nmn",
-      "email": "hasinichamwodi4@gmail.com",
-      "password": "qwer@12345",
-      "validFrom": "2024-05-01T09:36",
-      "validTill": "2024-05-02T09:36",
-      "companies": [
-        "ABC2"
-      ],
-      "roles": [
-        "vcvc"
-      ]
-    },
-    {
-      "id": "157c",
-      "userID": "hasisnichamodi4@gmail.com",
-      "firstName": "hasini",
+      "id": "3885",
+      "userID": "hasinichamodi4@gmail.com",
+      "firstName": "hasinnii",
       "lastName": "ni",
-      "defaultCompany": "ABC1",
+      "defaultCompany": "ABC2",
       "designation": "reservaiton officer",
-      "primaryRole": "nmn",
-      "email": "hasisnichamodi4@gmail.com",
-      "password": "qqwer@123456",
-      "validFrom": "2024-05-01T13:42",
-      "validTill": "2024-05-02T13:42",
+      "primaryRole": "nb",
+      "email": "hasinichamodi4@gmail.com",
+      "password": "qwer@12345",
+      "validFrom": "2024-04-23T00:13",
+      "validTill": "2024-04-25T00:14",
       "companies": [],
       "roles": [
         "vcvc"
       ]
     },
     {
-      "id": "ab5d",
-      "userID": "hasinitchamodi4@gmail.com",
-      "firstName": "EMMA",
-      "lastName": "ni",
-      "defaultCompany": "ABC1",
-      "designation": "reservaiton officer",
-      "primaryRole": "m,mnmn",
-      "email": "hasinitchamodi4@gmail.com",
-      "password": "qwertyy@1234567",
-      "validFrom": "2024-04-29T14:17",
-      "validTill": "2024-04-30T14:17",
-      "companies": [
-        "ABC2"
-      ],
-      "roles": [
-        "vcvc"
-      ]
-    },
-    {
-      "id": "fb75",
+      "id": "e478",
+      "userID": "hasinichamodi54@gmail.com",
       "firstName": "hasi",
       "lastName": "ni",
       "defaultCompany": "ABC1",
-      "designation": "fffffffffffffg",
-      "primaryRole": "Test 20000000",
-      "email": "hasinichamodi64@gmail.com",
-      "password": "QWERT@12345",
-      "validFrom": "2024-05-01T02:47",
-      "validTill": "2024-05-02T02:47",
+      "designation": "Receptionist",
+      "primaryRole": "vcvc",
+      "email": "hasinichamodi54@gmail.com",
+      "password": "qwer@!2345",
+      "validFrom": "2024-04-02T11:29",
+      "validTill": "2024-04-05T11:29",
       "companies": [],
-      "roles": [],
-      "userID": "hasinichamodi64@gmail.com"
-    },
-    {
-      "id": "2373",
-      "userID": "hasinichamodi4@gmail.com",
-      "firstName": "Emma",
-      "lastName": "ni",
-      "defaultCompany": "ABC1",
-      "designation": "reservaiton officer",
-      "primaryRole": "nmn",
-      "email": "hasinichamodi4@gmail.com",
-      "password": "qwer@123456",
-      "validFrom": "2024-05-01T03:12",
-      "validTill": "2024-05-02T03:12",
-      "companies": [],
-      "roles": [
-        "vcvc"
-      ]
+      "roles": []
     }
   ],
   "countries": [
@@ -444,15 +416,18 @@
       "C_name": "JPY"
     }
   ],
-  "todos": [
-    {
-      "id": "1",
-      "title": "presentation",
-      "description": "Complete presentation prep for Aurelia presentation",
-      "completed": true
-    }
-  ],
   "reservations": [
+    {
+      "id": "8327",
+      "reservationID": "f0a0y9",
+      "customerID": "hasinichamodi4@gmail.com",
+      "group": "restaurant",
+      "itemID": "3f85",
+      "date": "2024-04-03",
+      "noOfPeople": 5,
+      "time1": "2024-04-03T23:01",
+      "time2": "2024-04-04T07:00"
+    },
     {
       "id": "e361",
       "reservationID": "zvqsiv",
@@ -476,48 +451,15 @@
       "time2": "2024-04-18T07:00"
     },
     {
-      "id": "ca8a",
-      "reservationID": "5exsdy",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-05-01",
-      "noOfPeople": 10,
-      "time1": "2024-05-01T23:01",
-      "time2": "2024-05-02T07:00"
-    },
-    {
-      "id": "4675",
-      "reservationID": "w9ch3y",
+      "id": "e236",
+      "reservationID": "q887vi",
       "customerID": "kamal@gmail.com",
       "group": "cricket ground",
       "itemID": "6f68",
-      "date": "2024-05-01",
-      "noOfPeople": 30,
-      "time1": "2024-05-01T23:01",
-      "time2": "2024-05-02T07:00"
-    },
-    {
-      "id": "69b5",
-      "reservationID": "l2wf4b",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-05-15",
-      "noOfPeople": 50,
-      "time1": "2024-05-15T23:01",
-      "time2": "2024-05-16T07:00"
-    },
-    {
-      "id": "b625",
-      "reservationID": "q579rt",
-      "customerID": "kamal@gmail.com",
-      "group": "restaurant",
-      "itemID": "3f85",
-      "date": "2024-05-01",
-      "noOfPeople": 10,
-      "time1": "2024-05-01T23:01",
-      "time2": "2024-05-02T07:00"
+      "date": "",
+      "noOfPeople": 45,
+      "time1": "2024-04-04T10:03",
+      "time2": "2024-04-05T10:03"
     }
   ],
   "groupcreation": [
