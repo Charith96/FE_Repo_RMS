@@ -4,10 +4,7 @@ import { Row, Form, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastFunction } from "../../components/ToastComponent";
-import {
-  createReservation,
-  fetchReservationByItemId,
-} from "../../store/actions/ReservationAction";
+import { createReservation } from "../../store/actions/ReservationAction";
 import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
 import { fetchCustomers } from "../../store/actions/CustomerActions";
 import TextField from "../../components/TextField";
@@ -35,7 +32,7 @@ const ReservationGroupList = () => {
 
   const [itemEntered, setItemEntered] = useState(false);
 
-  const customers = useSelector((state) => state.customerReducer.customers);
+  const customers = useSelector((state) => state.getCustomer.fetchCustomer);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [groupID, setGroupID] = useState("");
@@ -62,6 +59,7 @@ const ReservationGroupList = () => {
     groupData,
     selectedRows,
     fetchItem,
+    customers,
     groupItem,
   ]);
 

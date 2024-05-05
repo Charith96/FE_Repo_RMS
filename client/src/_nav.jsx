@@ -167,7 +167,7 @@ const _nav = [
       },
       {
         component: CNavGroup,
-        name: "Reservations",
+        name: "Reservation1",
         to: "/reservations/",
         quicknavicon: (
           <FontAwesomeIcon
