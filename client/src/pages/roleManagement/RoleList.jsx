@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'; // Importing useSelector hook
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, InputGroup, Row } from "react-bootstrap";
 import { faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -31,18 +31,15 @@ function RoleList() {
     const [perPage, setPerPage] = useState(5);
     const totalItems = filteredData.length;
     const toggledClearRows = useRef(false);
-
-    const [editingRow, setEditingRow] = useState(null);
-    const [editedRoleName, setEditedRoleName] = useState('');
     const [searchValue, setSearchValue] = useState("");
-    
+
     // Redux state
-    const roles = useSelector(state => state.roles);
+    const roles = useSelector(state => state.fetchRoles); // Accessing the fetchRoles state from the Redux store
     const { roles: data, loading } = roles;
 
     // fetch role data and update the redux store with the fetched data
     useEffect(() => {
-        dispatch(fetchRoles()); 
+        dispatch(fetchRoles());
     }, []);
 
     //fetch roles and update data when roles or paggination settimg change 
@@ -115,51 +112,6 @@ function RoleList() {
         setShowConfirmation(false);
     };
 
-    // Function to handle editing of role name
-    const handleEdit = (rowId, rolename) => {
-        setEditingRow(rowId);
-        setEditedRoleName(rolename);
-        setIsEditDisable(true);
-        setIsSaveDisable(false);
-    };
-
-
-    // Function to handle saving of edited role name
-    const handleSave = async () => {
-        if (editedRoleName.trim() === "") {
-            toast.error("Role name cannot be empty");
-            return;
-        }
-
-        try {
-            await dispatch(updateRole(editingRow, { rolename: editedRoleName }));
-            toast.success("Role name updated successfully");
-            setIsEditDisable(false);
-            setIsSaveDisable(true);
-            setEditingRow(null);
-        } catch (error) {
-            toast.error("Error updating role name. Please try again.");
-        }
-    };
-
-    const toggleRowSelection = (rowId) => {
-        const isSelected = selectedRows.includes(rowId);
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== rowId));
-        } else {
-            setSelectedRows([...selectedRows, rowId]);
-        }
-    };
-
-    // Function to handle clicking the Edit icon
-    const handleEditIconClick = () => {
-        if (selectedRows.length === 1) {
-            const selectedIndex = data.findIndex(item => item.id === selectedRows[0]);
-            if (selectedIndex !== -1) {
-                handleEdit(selectedRows[0], data[selectedIndex].rolename);
-            }
-        }
-    };
 
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
@@ -208,8 +160,6 @@ function RoleList() {
                 saveDisabled={isSaveDisable}
                 deleteDisabled={isDeleteDisable}
                 PlusAction={handleCreate}
-                EditAction={handleEdit}
-                SaveAction={handleSave}
                 DeleteAction={handleDelete}
 
             />
@@ -237,7 +187,7 @@ function RoleList() {
                     </InputGroup>
                 </div>
             </Row>
-            
+
             {/* Reservation group table */}
             <ReservationGroupTable
                 selectableRows={true}

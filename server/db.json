@@ -129,29 +129,14 @@
       "rolecode": "5656",
       "rolename": "vcvc",
       "privileges": [
-        "createAccess"
-      ]
-    },
-    {
-      "id": "c8d4",
-      "rolecode": "ui",
-      "rolename": "n",
-      "privileges": [
-        "createAccess"
+        "viewAccess",
+        "deleteAccess"
       ]
     },
     {
       "id": "3c71",
       "rolecode": "78",
       "rolename": "nb",
-      "privileges": [
-        "updateAccess"
-      ]
-    },
-    {
-      "id": "acaa",
-      "rolecode": "89",
-      "rolename": "nmn",
       "privileges": [
         "updateAccess"
       ]
@@ -223,6 +208,25 @@
       "privileges": [
         "createAccess",
         "deleteAccess"
+      ]
+    },
+    {
+      "id": "a93c",
+      "rolecode": "42332222",
+      "rolename": "dddddddddddddddddddd",
+      "privileges": [
+        "createAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "3ce4",
+      "rolecode": "3424",
+      "rolename": "gggggggggggggggggggg",
+      "privileges": [
+        "createAccess",
+        "viewAccess",
+        "updateAccess"
       ]
     }
   ],

@@ -28,26 +28,26 @@ function CreateRole() {
 
   // Event handler for checkbox change
   const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target; //destructures the name and checked
+    const { name, checked } = e.target;
     setPrivileges(
       (prevPrivileges) =>
-        checked //indicates whether the checkbox is checked or not
+        checked
           ? [...prevPrivileges, name]
-          : prevPrivileges.filter((item) => item !== name) // ternary expression checks if the checkbox is checked
+          : prevPrivileges.filter((item) => item !== name)
     );
   };
 
   // Event handler for form submission
   const handleSubmit = async (event) => {
-    event.preventDefault(); // prevents the default behavior of form submission, which would typically cause the browser to reload the page
+    event.preventDefault();
 
     try {
       // Dispatching createRole action with rolecode, rolename, and privileges
       await dispatch(createRole(rolecode, rolename, privileges));
-      toast.success("Role created successfully"); // Show success toast
-      navigate("/rolesManagement/RoleList", { state: { roleName: rolename } }); // Navigate to RoleList page
+      toast.success("Role created successfully");
+      navigate("/rolesManagement/RoleList", { state: { roleName: rolename } });
     } catch (error) {
-      toast.error("Error creating role"); // Show error toast
+      toast.error("Error creating role");
     }
   };
 
