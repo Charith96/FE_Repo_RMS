@@ -169,7 +169,6 @@ const CustomerOverviewGeneral = () => {
           className="body-content px-5 pt-4 pb-4 mb-5"
         >
           <TitleActionBar
-            Title={"CustomerForm"}
             plustDisabled={isAddDisable}
             editDisabled={isEditDisable}
             saveDisabled={isSaveDisable}
