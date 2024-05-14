@@ -38,7 +38,7 @@
       "id": "1",
       "companyCode": "554",
       "companyName": "ABC1",
-      "description": "This is a CRUD_22",
+      "description": "",
       "country": "Sri Lanka",
       "currency": "SLR",
       "address01": "No1",
@@ -120,6 +120,17 @@
       "currency": "GBP",
       "address01": "11N1",
       "address02": "N11Q",
+      "defaultCompany": true
+    },
+    {
+      "id": "419a",
+      "companyCode": "123qas",
+      "companyName": "aw",
+      "description": "",
+      "country": "United Kingdom",
+      "currency": "SLR",
+      "address01": "af",
+      "address02": "",
       "defaultCompany": true
     }
   ],

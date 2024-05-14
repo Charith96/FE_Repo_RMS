@@ -14,9 +14,14 @@ const ReservationGroupOverview = React.lazy(
 );
 
 //company
-const Companies = React.lazy(() => import("./pages/company/Companies"));
-const CreateCompany = React.lazy(() => import("./pages/company/CreateCompany"));
-const CompanyOverview = React.lazy(() => import("./pages/company/CompanyOverview")
+const Companies = React.lazy(
+  () => import("./pages/company/Companies")
+);
+const CreateCompany = React.lazy(
+  () => import("./pages/company/CreateCompany")
+);
+const CompanyOverview = React.lazy(
+  () => import("./pages/company/CompanyOverview")
 );
 
 //users
@@ -28,12 +33,12 @@ const UserOverview = React.lazy(
   () => import("./pages/userManagement/UserOverview")
 );
 //reservation
-const ReservationCreation = React.lazy(() =>
-  import("./pages/reservation/ReservationCreation")
+const ReservationCreation = React.lazy(
+  () => import("./pages/reservation/ReservationCreation")
 );
 
-const ResevationTImeSlots = React.lazy(() =>
-  import("./pages/reservation/ReservationTimeslots")
+const ResevationTImeSlots = React.lazy(
+  () => import("./pages/reservation/ReservationTimeslots")
 );
 // reservation item
 const ReservationItemTabView = React.lazy(
@@ -90,14 +95,14 @@ const routes = [
 
   // company
   {
-    path: "/company/companies",
-    name: "Companies",
-    element: Companies,
-  },
-  {
     path: "/company/createCompany",
     name: "Create Company",
     element: CreateCompany,
+  },
+  {
+    path: "/company/companies",
+    name: "Companies",
+    element: Companies,
   },
   {
     path: "/company/companyOverview",
@@ -138,7 +143,7 @@ const routes = [
     name: "UserOverview",
     element: UserOverview,
   },
-  
+
   //reservation
   {
     path: "/reservations",

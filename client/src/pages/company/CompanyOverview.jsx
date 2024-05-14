@@ -228,7 +228,7 @@ const CompanyOverview = () => {
               <TextField
                 label="Company Code"
                 className={`${!companyCode ? "is-invalid" : ""}`}
-                disabled={isViewMode}
+                disabled={true}   //Always disable
                 value={companyCode}
                 onChange={(e) => setCompanyCode(e.target.value)}
               />
@@ -237,7 +237,10 @@ const CompanyOverview = () => {
                 className={`${!companyName ? "is-invalid" : ""}`}
                 value={companyName}
                 disabled={isViewMode}
-                onChange={(e) => setCompanyName(e.target.value)}
+                onChange={(e) => {
+                  setCompanyName(e.target.value)
+                }}
+                maxLength={50}
               />
 
               <TextField
@@ -245,7 +248,10 @@ const CompanyOverview = () => {
                 className={`${!description ? "is-invalid" : ""}`}
                 value={description}
                 disabled={isViewMode}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescription(e.target.value)
+                }}
+                maxLength={50}
               />
               <DropdownField
                 label="Country"
@@ -280,7 +286,10 @@ const CompanyOverview = () => {
                 className={`${!address01 ? "is-invalid" : ""}`}
                 value={address01}
                 disabled={isViewMode}
-                onChange={(e) => setAddress01(e.target.value)}
+                onChange={(e) => {
+                  setAddress01(e.target.value)
+                }}
+                maxLength={50}
               />
 
               <TextField
@@ -288,7 +297,10 @@ const CompanyOverview = () => {
                 className={`${!address02 ? "is-invalid" : ""}`}
                 value={address02}
                 disabled={isViewMode}
-                onChange={(e) => setAddress02(e.target.value)}
+                onChange={(e) => {
+                  setAddress02(e.target.value)
+                }}
+                maxLength={50}
               />
 
               <CheckboxField

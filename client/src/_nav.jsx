@@ -13,6 +13,19 @@ const _nav = [
     icon: <FontAwesomeIcon icon={faCalendarDays} className="nav-icon" />,
     items: [
       {
+        component: CNavGroup,
+        name: "Company",
+        to: "/company/",
+        quicknavicon: (
+          <FontAwesomeIcon
+            icon={faCalendarDays}
+            size="2x"
+            className="nav-icon pb-0 pt-3"
+          />
+        ),
+        className: "mt-3 ms-2",
+        items: [
+      {
         component: CNavItem,
         name: "Create Company",
         icon: <i className="ps-2" />,
@@ -40,6 +53,8 @@ const _nav = [
       },
     ],
   },
+],
+},
 
   {
     component: CNavGroup,

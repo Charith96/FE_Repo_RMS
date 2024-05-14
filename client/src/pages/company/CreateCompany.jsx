@@ -124,14 +124,20 @@ const CreateCompany = () => {
               <TextField
                 value={companyName}
                 label="Company Name"
-                onChange={(e) => setCompanyName(e.target.value)}
+                onChange={(e) => {
+                  setCompanyName(e.target.value)
+                }}
+                maxLength={50}
               />
 
               {/* TextField component for Description */}
               <TextField
                 value={description}
                 label="Description"
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescription(e.target.value)
+                }}
+                maxLength={50}
               />
 
               {/* DropdownField component for Country */}
@@ -166,14 +172,20 @@ const CreateCompany = () => {
               <TextField
                 value={address01}
                 label="Address01"
-                onChange={(e) => setAddress01(e.target.value)}
+                onChange={(e) => {
+                  setAddress01(e.target.value)
+                }}
+                maxLength={50}
               />
 
               {/* TextField component for Address02 */}
               <TextField
                 value={address02}
                 label="Address02"
-                onChange={(e) => setAddress02(e.target.value)}
+                onChange={(e) => {
+                  setAddress02(e.target.value)
+                }}
+                maxLength={50}
               />
 
               {/* CheckboxField component for Default Company */}
