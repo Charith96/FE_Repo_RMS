@@ -7,7 +7,6 @@ import { toastFunction } from "../../components/ToastComponent";
 import { createReservation } from "../../store/actions/ReservationAction";
 import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
 import { fetchCustomers } from "../../store/actions/CustomerActions";
-import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
 
 const ReservationGroupList = () => {
@@ -24,18 +23,12 @@ const ReservationGroupList = () => {
   const [groupData, setGroupData] = useState([]);
   const [groupItem, setGroupItem] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const [showMessage, setShowMessage] = useState(false);
 
   const [emaiEntered, setemaiEntered] = useState(false);
 
   const [itemEntered, setItemEntered] = useState(false);
 
   const customers = useSelector((state) => state.getCustomer.fetchCustomer);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
-  const [groupID, setGroupID] = useState("");
 
   const [formData, setFormData] = useState({
     reservationID: "",
@@ -54,14 +47,7 @@ const ReservationGroupList = () => {
   useEffect(() => {
     setGroupData(fetchReservationGroupData);
     setGroupItem(fetchItem);
-  }, [
-    fetchReservationGroupData,
-    groupData,
-    selectedRows,
-    fetchItem,
-    customers,
-    groupItem,
-  ]);
+  }, [fetchReservationGroupData, groupData, fetchItem, customers, groupItem]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -73,7 +59,7 @@ const ReservationGroupList = () => {
         const selectedGroup = groupData.find(
           (group) => group.groupName === value
         );
-        setGroupID(value);
+
         const selectItems = groupItem.filter(
           (item) => item.reservationGroup === selectedGroup.id
         );
@@ -84,12 +70,9 @@ const ReservationGroupList = () => {
         }));
       }
     } else if (id === "customerID") {
-      const customer = customers.find((customer) => customer.email === value);
-
-      if (!customer) {
-        setShowMessage(true);
+      if (value === "label") {
+        return false;
       } else {
-        setShowMessage(false);
         setemaiEntered(true);
         const randomString = Math.random().toString(36).substring(2, 8);
 
@@ -128,7 +111,6 @@ const ReservationGroupList = () => {
 
     try {
       dispatch(createReservation(formData));
-      setFormSubmitted(true);
       navigate(`/reservations/timeSlots?data=${formData.reservationID}`, {
         state: { reservationID: formData.reservationID, item: formData.itemID },
       });
@@ -152,20 +134,21 @@ const ReservationGroupList = () => {
           <div>
             <h3 className="mb-5">Create Reservations</h3>
             <Form onSubmit={handleSubmit}>
-              <TextField
-                id="customerID"
-                label="Customer ID:"
-                onChange={handleInputChange}
-                value={formData.userID}
-                disabled={false}
-                type="email"
-              />
-              {showMessage && (
-                <>
-                  <span id="message">Customer not found</span>
-                  <br></br>
-                </>
-              )}
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column md={3}>
+                  Customer ID
+                </Form.Label>
+                <Col md={9}>
+                  <Form.Select id="customerID" onChange={handleInputChange}>
+                    <option value="label">Select Customer ID</option>
+                    {customers.map((customer) => (
+                      <option key={customer.id} value={customer.id}>
+                        {customer.id}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Col>
+              </Form.Group>
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column md={3}>
