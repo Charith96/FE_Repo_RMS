@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { deleteReservationItem } from "../../store/actions/ReservationItemActions";
+import { deleteTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
+import { fetchTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import ReservationItemTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,6 +33,10 @@ const ReservationItemList = () => {
 
   const deleteReservationItemData = useSelector(
     (state) => state.deleteReservationItem.deleteReservationItem
+  );
+
+  const fetchTimeSlotsByItemIdData = useSelector(
+    (state) => state.getTimeSlotsByItem.timeSlotsByItemId
   );
 
   const [paginatedData, setPaginatedData] = useState([]);
@@ -72,6 +78,7 @@ const ReservationItemList = () => {
 
       if (selectedRows.length === 1) {
         setIsDeleteDisable(false);
+        dispatch(fetchTimeSlotsByItemId(selectedRows[0]?.id));
       } else {
         setIsDeleteDisable(true);
       }
@@ -105,19 +112,19 @@ const ReservationItemList = () => {
       grow: 2,
     },
     {
-      name: "ItemId",
+      name: "Item ID",
       selector: (row) => row.itemId,
       sortable: true,
       grow: 2,
     },
     {
-      name: "ItemName",
+      name: "Item Name",
       selector: (row) => row.itemName,
       sortable: true,
       grow: 2,
     },
     {
-      name: "NoOfReservations",
+      name: "No of Reservations",
       selector: (row) => row.noOfReservations,
       sortable: true,
       grow: 2,
@@ -202,6 +209,9 @@ const ReservationItemList = () => {
     if (selectedRows.length === 1) {
       try {
         dispatch(deleteReservationItem(selectedRows[0]?.id));
+        fetchTimeSlotsByItemIdData.forEach((value) => {
+          dispatch(deleteTimeSlotsByItemId(value.id));
+        });
         toast.success("Record Successfully deleted!");
       } catch (error) {
         toast.error("Error deleting row. Please try again.");

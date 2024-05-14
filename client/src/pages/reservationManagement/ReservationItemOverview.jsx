@@ -32,21 +32,21 @@ const ManageReservationItems = ({
           <div>
             <Form>
               <TextField
-                label="GroupName"
+                label="Group Name"
                 className={`${!groupName ? "is-invalid" : ""}`}
                 disabled
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
               />
               <TextField
-                label="ItemID"
+                label="Item ID"
                 className={`${!itemId ? "is-invalid" : ""}`}
                 disabled
                 value={itemId}
                 onChange={(e) => setItemId(e.target.value)}
               />
               <TextField
-                label="ItemName"
+                label="Item Name"
                 className={`${!itemName ? "is-invalid" : "bg-white"}`}
                 value={itemName}
                 disabled={isViewMode}

@@ -194,18 +194,19 @@ const ManageReservationGroups = () => {
           <div>
             <Form>
               <TextField
-                label="GroupId"
+                label="Group ID"
                 className={`${!groupId ? "is-invalid" : ""}`}
                 disabled
                 value={groupId}
                 onChange={(e) => setGroupId(e.target.value)}
               />
               <TextField
-                label="GroupName"
+                label="Group Name"
                 className={`${!groupName ? "is-invalid" : "bg-white"}`}
                 value={groupName}
                 disabled={isViewMode}
                 onChange={(e) => setGroupName(e.target.value)}
+                maxLength={20}
               />
             </Form>
           </div>

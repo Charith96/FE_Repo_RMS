@@ -107,17 +107,17 @@ const routes = [
 
   // reservation group
   {
-    path: "/reservationManagement/reservation/reservationGroups",
+    path: "/reservationManagement/reservation/reservationGroup/reservationGroups",
     name: "Reservations",
     element: ReservationGroupList,
   },
   {
-    path: "/reservationManagement/reservation/createReservationGroup",
+    path: "/reservationManagement/reservation/reservationGroup/createReservationGroup",
     name: "Create Reservation Group",
     element: CreateReservationGroup,
   },
   {
-    path: "/reservationManagement/reservation/reservationGroups/reservationGroupOverview",
+    path: "/reservationManagement/reservation/reservationGroup/reservationGroups/reservationGroupOverview",
     name: "Manage Reservation",
     element: ReservationGroupOverview,
   },
@@ -168,17 +168,17 @@ const routes = [
 
   // reservation item
   {
-    path: "/reservationManagement/reservation/createReservationItem",
+    path: "/reservationManagement/reservation/reservationItem/createReservationItem",
     name: "Create Reservation Item",
     element: ReservationItemTabView,
   },
   {
-    path: "/reservationManagement/reservation/reservationItems/reservationItemOverview",
+    path: "/reservationManagement/reservation/reservationItem/reservationItems/reservationItemOverview",
     name: "Manage Reservation",
     element: ReservationItemOverview,
   },
   {
-    path: "/reservationManagement/reservation/reservationItems",
+    path: "/reservationManagement/reservation/reservationItem/reservationItems",
     name: "Reservation Items",
     element: ReservationItemList,
   },
@@ -253,6 +253,16 @@ const routes = [
   {
     path: "/reservationManagement/reservation",
     name: "Reservation",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationManagement/reservation/reservationGroup",
+    name: "Reservation Group",
+    element: QuickNavigation,
+  },
+  {
+    path: "/reservationManagement/reservation/reservationItem",
+    name: "Reservation Item",
     element: QuickNavigation,
   },
   {

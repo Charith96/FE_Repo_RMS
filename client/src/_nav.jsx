@@ -111,9 +111,10 @@ const _nav = [
         className: "mt-3 ms-2",
         items: [
           {
-            component: CNavItem,
-            name: "Create Reservation Group",
-            icon: <i className="ps-2" />,
+            component: CNavGroup,
+            name: "Reservation Group",
+            to: "/reservationManagement/reservation/reservationGroup",
+            
             quicknavicon: (
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -121,12 +122,41 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservationManagement/reservation/createReservationGroup",
+            className: "mt-3 ms-2",
+            items: [
+              {
+                component: CNavItem,
+                name: "Create Reservation Group",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservationManagement/reservation/reservationGroup/createReservationGroup",
+              },
+              {
+                component: CNavItem,
+                name: "Reservation Group List",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservationManagement/reservation/reservationGroup/reservationGroups",
+              },
+            ]
           },
           {
-            component: CNavItem,
-            name: "Reservation Groups",
-            icon: <i className="ps-2" />,
+            component: CNavGroup,
+            name: "Reservation Item",
+            to: "/reservationManagement/reservation/reservationItem",
+            
             quicknavicon: (
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -134,35 +164,36 @@ const _nav = [
                 className="nav-icon pb-0 pt-3"
               />
             ),
-            to: "/reservationManagement/reservation/reservationGroups",
-          },
-          {
-            component: CNavItem,
-            name: "Create Reservation Item",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-            ),
-            to: "/reservationManagement/reservation/createReservationItem",
-          },
-
-          {
-            component: CNavItem,
-            name: "Reservation Items",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-            ),
-            to: "/reservationManagement/reservation/reservationItems",
-          },
+            className: "mt-3 ms-2",
+            items: [
+              {
+                component: CNavItem,
+                name: "Create Reservation Item",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservationManagement/reservation/reservationItem/createReservationItem",
+              },
+              {
+                component: CNavItem,
+                name: "Reservation Item List",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservationManagement/reservation/reservationItem/reservationItems",
+              },
+            ]
+          }
         ],
       },
       {

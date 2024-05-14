@@ -17,7 +17,7 @@ const CreateReservationItem = ({
   duration,
   setDuration,
   isOverlapping,
-  isValuesEqual
+  isValuesEqual,
 }) => {
   const dispatch = useDispatch();
   const fetchReservationGroupDataForTheForm = useSelector(
@@ -37,10 +37,8 @@ const CreateReservationItem = ({
   const [reservationGroup, setReservationGroup] = useState("");
   const [isFlexible, setIsFlexible] = useState(true);
   const [isNoOfSlots, setIsNoOfSlots] = useState(true);
-  
+
   const [isDurationPerSlot, setIsDurationPerSlot] = useState(true);
-  
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,10 +93,13 @@ const CreateReservationItem = ({
   const handleSelectChange = (e) => {
     setReservationGroup(e.target.value);
   };
-  
+
   const handleNavigate = () => {
-    navigate("/reservationManagement/reservation/reservationItems");
-  };
+    setTimeout(() => {
+        navigate("/reservationManagement/reservation/reservationItems");
+    }, 200);
+};
+
 
   //to handle the submit click
   const handleSubmit = async (e) => {
@@ -126,7 +127,7 @@ const CreateReservationItem = ({
         value.endTime.trim() !== ""
       );
     });
-    
+
     try {
       if (
         itemId &&
@@ -239,6 +240,7 @@ const CreateReservationItem = ({
                   onChange={(e) => {
                     setItemName(e.target.value);
                   }}
+                  maxLength={20}
                 />
               </Col>
             </Form.Group>
@@ -320,15 +322,24 @@ const CreateReservationItem = ({
               </Form.Label>
               <Col md={9}>
                 <Form.Control
-                  type="text"
+                  type="number"
                   className="w-100"
                   value={noOfSlots}
                   onChange={(e) => {
-                    setNoOfSlots(e.target.value);
-                    setIsNoOfSlots(e.target.value === "");
-                    handleInputChange(e.target.value);
+                    let value = e.target.value;
+                    // Ensure value doesn't exceed 20
+                    if (
+                      value !== "" &&
+                      (parseInt(value) > 20 || parseInt(value) < 0)
+                    ) {
+                      value = 20; // Set value to maximum if it exceeds 20
+                    }
+                    setNoOfSlots(value);
+                    setIsNoOfSlots(value === "");
+                    handleInputChange(value);
                   }}
                   disabled={isFlexible}
+                  max={20} // Set the maximum allowed value
                 />
               </Col>
             </Form.Group>

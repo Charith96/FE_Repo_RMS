@@ -88,7 +88,7 @@ const CreateReservationGroup = () => {
             <h3 className="mb-5">Create Reservation Group</h3>
             <Form onSubmit={handleSubmit}>
               <TextField
-                label="GroupId"
+                label="Group ID"
                 className={`${
                   groupId && isDuplicated ? "is-invalid" : "bg-white"
                 }`}
@@ -102,8 +102,9 @@ const CreateReservationGroup = () => {
               />
               <TextField
                 value={groupName}
-                label="GroupName"
+                label="Group Name"
                 onChange={(e) => setGroupName(e.target.value)}
+                maxLength={20}
               />
 
               <Form.Group as={Row} className="mb-3">
