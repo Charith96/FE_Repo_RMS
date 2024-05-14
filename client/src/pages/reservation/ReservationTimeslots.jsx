@@ -4,7 +4,6 @@ import {
   fetchReservationId,
   deleteReservation,
   fetchReservationByItemId,
-  updateReservationById,
   createReservation,
 } from "../../store/actions/ReservationAction";
 import {
@@ -17,7 +16,6 @@ import { Col, Row, Form } from "react-bootstrap";
 import FormButton from "../../components/FormButton";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { toastFunction } from "../../components/ToastComponent";
 
 const ReservationGroupList = () => {
   const location = useLocation();
@@ -31,11 +29,11 @@ const ReservationGroupList = () => {
   const [reservationData, setReservationData] = useState({});
   const [showMessage, setShowMessage] = useState(false);
   const [btndisable, setBtnDisable] = useState(false);
-  const [btnClicked, setBtnClicked] = useState(false);
   const [capacity, setCapacity] = useState(false);
   const [reservation, setReservation] = useState(false);
   const [dateSelected, setDateSelected] = useState(false);
   const [DeletedPrevious, setDeletedPrevious] = useState(false);
+  const [viewBtn, setViewBtn] = useState(false);
 
   const fetchItem = useSelector(
     (state) => state.getReservationItemById.fetchReservationItemId
@@ -58,7 +56,7 @@ const ReservationGroupList = () => {
       dispatch(fetchReservationId(reservationID));
       dispatch(fetchReservationByItemId(item));
     } catch (error) {}
-  }, [dispatch, reservationID, item, reservationByItem]);
+  }, [dispatch, reservationID, item]);
 
   useEffect(() => {
     fetchData();
@@ -82,7 +80,12 @@ const ReservationGroupList = () => {
         setDeletedPrevious(true);
       }
     }
-  }, [fetchReservationById, editMode]);
+    if (formData.noOfPeople && formData.time1 && formData.time2) {
+      setViewBtn(true);
+    } else {
+      setViewBtn(false);
+    }
+  }, [fetchReservationById, editMode, dispatch, DeletedPrevious, formData]);
 
   useEffect(() => {
     setSlotType(fetchItem.timeSlotType);
@@ -94,7 +97,6 @@ const ReservationGroupList = () => {
     try {
       dispatch(createReservation(formData));
       toast.success("Reservation Created Successfully!");
-      setBtnClicked(true);
       setBtnDisable(true);
     } catch (error) {
       toast.error("Error Creating Reservation. Please Try Again.");
@@ -114,6 +116,14 @@ const ReservationGroupList = () => {
         setDateSelected(true);
       } catch (error) {}
     } else if (id === "time") {
+      if (value === "label") {
+        setFormData({
+          ...formData,
+          time1: "",
+          time2: "",
+        });
+        return false;
+      }
       const [startTime, endTime] = value.split("-");
       const startDate = new Date(formData.date);
       let endDate = new Date(formData.date);
@@ -296,7 +306,7 @@ const ReservationGroupList = () => {
                         </Form.Label>
                         <Col md={9}>
                           <Form.Select id="time" onChange={handleInputChange}>
-                            <option value="">Select Time Slot</option>
+                            <option value="label">Select Time Slot</option>
                             {timeSlots.map((item) => (
                               <option
                                 key={item.id}
@@ -390,7 +400,9 @@ const ReservationGroupList = () => {
                       type="submit"
                       text="Create"
                       className="form-btn"
-                      disabled={btndisable || capacity || reservation}
+                      disabled={
+                        btndisable || capacity || reservation || !viewBtn
+                      }
                     />
                   </div>
                 </Form.Group>
