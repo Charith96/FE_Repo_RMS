@@ -107,7 +107,7 @@ const CustomerCreation = () => {
           className="body-content px-5 pt-4 pb-4 mb-5"
         >
           <div>
-            <h3 className="mb-5">Customer Creation</h3>
+            <h3 className="mb-5">Create Customer</h3>
             <Form onSubmit={handleSubmit}>
               {/* Form fields */}
 
@@ -159,14 +159,7 @@ const CustomerCreation = () => {
                     type="submit"
                     text="Create"
                     className="form-btn"
-                    disabled={
-                      !id ||
-                      !fullName ||
-                      !identifier ||
-                      !address ||
-                      !contactNo ||
-                      buttonFlag
-                    } // Disable button if form is invalid
+                    disabled={!formValid} // Disable button if form is invalid
                   />
                 </Col>
               </Form.Group>

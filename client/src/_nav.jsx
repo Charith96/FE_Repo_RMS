@@ -77,7 +77,7 @@ const _nav = [
         items: [
           {
             component: CNavItem,
-            name: "Customer Creation",
+            name: "Create Customer",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -90,7 +90,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Customer List",
+            name: "Customers",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -327,7 +327,7 @@ const _nav = [
         items: [
           {
             component: CNavItem,
-            name: "Roles Creation",
+            name: "Create Role",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -340,7 +340,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Roles List",
+            name: "Roles",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
