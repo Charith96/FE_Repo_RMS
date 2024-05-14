@@ -96,7 +96,7 @@ const CreateReservationItem = ({
 
   const handleNavigate = () => {
     setTimeout(() => {
-        navigate("/reservationManagement/reservation/reservationItems");
+        navigate("/reservationManagement/reservation/reservationItem/reservationItems");
     }, 200);
 };
 

@@ -150,7 +150,7 @@ const ReservationItemList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationItems/reservationItemOverview?data=${encodeURIComponent(
+        `/reservationManagement/reservation/reservationItem/reservationItems/reservationItemOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "edit" } }
@@ -164,7 +164,7 @@ const ReservationItemList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationItems/reservationItemOverview?data=${encodeURIComponent(
+        `/reservationManagement/reservation/reservationItem/reservationItems/reservationItemOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "view" } }
@@ -222,7 +222,7 @@ const ReservationItemList = () => {
   };
 
   const handleCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationItem");
+    navigate("/reservationManagement/reservation/reservationItem/createReservationItem");
   };
 
   const handleDelete = () => {

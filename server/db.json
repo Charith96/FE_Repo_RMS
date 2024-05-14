@@ -273,30 +273,24 @@
       "startTime": "19:01",
       "endTime": "21:01",
       "itemId": "1ceb"
+    },
+    {
+      "id": "5ff9",
+      "startTime": "16:10",
+      "endTime": "19:10",
+      "itemId": "627b"
     }
   ],
   "itemcreation": [
-    {
-      "id": "6641",
-      "itemId": "1001",
-      "itemName": "gym",
-      "timeSlotType": "Defined",
-      "noOfSlots": "5",
-      "slotDurationType": "Customized",
-      "durationPerSlot": "1",
-      "noOfReservations": "2",
-      "capacity": "50",
-      "reservationGroup": "1ceb"
-    },
     {
       "id": "3f85",
       "itemId": "1002",
       "itemName": "table",
       "timeSlotType": "Defined",
-      "noOfSlots": 5,
+      "noOfSlots": 2,
       "slotDurationType": "Customized",
       "durationPerSlot": 1,
-      "noOfReservations": 10,
+      "noOfReservations": 100,
       "capacity": 50,
       "reservationGroup": "3e7e"
     },
@@ -323,6 +317,18 @@
       "noOfReservations": 12,
       "capacity": 12,
       "reservationGroup": "3e7e"
+    },
+    {
+      "id": "627b",
+      "itemId": "1234",
+      "itemName": "cric",
+      "timeSlotType": "Defined",
+      "noOfSlots": 1,
+      "slotDurationType": "Customized",
+      "duration": "",
+      "noOfReservations": 12,
+      "capacity": 12,
+      "reservationGroup": "4372"
     }
   ],
   "users": [
@@ -489,7 +495,7 @@
     {
       "id": "3e7e",
       "groupId": "1006",
-      "groupName": "restaurant"
+      "groupName": "restaurant1"
     },
     {
       "id": "4372",
@@ -505,6 +511,16 @@
       "id": "d082",
       "groupId": "1012",
       "groupName": "New"
+    },
+    {
+      "id": "e53e",
+      "groupId": "1234",
+      "groupName": "group 1"
+    },
+    {
+      "id": "0bcf",
+      "groupId": "1111",
+      "groupName": "group 2"
     }
   ]
 }
