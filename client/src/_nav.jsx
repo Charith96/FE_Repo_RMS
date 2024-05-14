@@ -64,7 +64,7 @@ const _nav = [
     items: [
       {
         component: CNavGroup,
-        name: "Customers",
+        name: "Customer",
         to: "/customerManagement/",
         quicknavicon: (
           <FontAwesomeIcon
@@ -313,7 +313,7 @@ const _nav = [
     items: [
       {
         component: CNavGroup,
-        name: "Roles",
+        name: "Role",
         to: "/rolesManagement/",
         quicknavicon: (
           <FontAwesomeIcon
