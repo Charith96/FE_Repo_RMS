@@ -11,9 +11,7 @@ import { fetchRoles } from "../../store/actions/RolesAction";
 const Main = () => {
   const dispatch = useDispatch();
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
-  const [btndisable, setBtnDisable] = useState(false);
   const [checkUser, setCheckUser] = useState(false);
 
   const userData = useSelector((state) => state.users.users);
@@ -72,18 +70,7 @@ const Main = () => {
     dispatch(fetchData());
   }, [dispatch]);
   const validateForm = () => {
-    const {
-      // userId,
-      firstName,
-      lastName,
-      defaultCompany,
-      designation,
-      primaryRole,
-      email,
-      password,
-      validFrom,
-      validTill,
-    } = formData;
+    const { password, validFrom, validTill } = formData;
 
     // Password validation
     const passwordRegex = /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -177,12 +164,11 @@ const Main = () => {
     if (!validateForm()) return;
     try {
       await dispatch(createUser(formData));
-      setFormSubmitted(true);
-      setBtnDisable(true);
+
+      toastFunction("Create user Succesfully", false);
     } catch (error) {
       toastFunction("Something went wrong!", true);
     }
-    setFormSubmitted(true);
   };
 
   return (
@@ -206,12 +192,14 @@ const Main = () => {
                 label="First Name:"
                 onChange={handleInputChange}
                 type="text"
+                maxlength={40}
               />
               <TextField
                 id="lastName"
                 label="Last Name:"
                 onChange={handleInputChange}
                 type="text"
+                maxlength={40}
               />
 
               <Form.Group as={Row} className="mb-3">
@@ -292,18 +280,17 @@ const Main = () => {
                 label="Valid Till:"
                 onChange={handleInputChange}
               />
-              {viewBtn && (
-                <Form.Group as={Row} className="mb-3">
-                  <Col className="d-flex justify-content-end">
-                    <FormButton
-                      type="submit"
-                      text="Create"
-                      className="form-btn"
-                      disabled={btndisable}
-                    />
-                  </Col>
-                </Form.Group>
-              )}
+
+              <Form.Group as={Row} className="mb-3">
+                <Col className="d-flex justify-content-end">
+                  <FormButton
+                    type="submit"
+                    text="Create"
+                    className="form-btn"
+                    disabled={!viewBtn}
+                  />
+                </Col>
+              </Form.Group>
             </Form>
           </div>
         </Col>

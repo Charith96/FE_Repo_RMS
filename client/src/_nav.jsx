@@ -264,7 +264,7 @@ const _nav = [
     items: [
       {
         component: CNavGroup,
-        name: "Users",
+        name: "User",
         to: "/userManagement/",
         quicknavicon: (
           <FontAwesomeIcon
@@ -277,7 +277,7 @@ const _nav = [
         items: [
           {
             component: CNavItem,
-            name: "User Creation",
+            name: "Create User",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -290,7 +290,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "User List",
+            name: "Users",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
@@ -305,7 +305,6 @@ const _nav = [
       },
     ],
   },
-  
   {
     component: CNavGroup,
     name: "Roles Management",
