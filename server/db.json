@@ -156,6 +156,17 @@
       "address01": "af",
       "address02": "",
       "defaultCompany": true
+    },
+    {
+      "id": "33c1",
+      "companyCode": "456",
+      "companyName": "SIJ",
+      "description": "",
+      "country": "Qatar",
+      "currency": "EUR",
+      "address01": "1",
+      "address02": "4",
+      "defaultCompany": true
     }
   ],
   "Roles": [
