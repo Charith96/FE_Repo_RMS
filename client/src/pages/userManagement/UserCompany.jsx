@@ -18,22 +18,21 @@ const OverviewTable = ({ value }) => {
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
   );
-  const [filteredCompanies, setFilteredCompanies] = useState({});
-  const [filteredUser, setUser] = useState({});
+
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
+  const [isAddDisable] = useState(false);
+  const [isEditDisable] = useState(true);
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
-  const [contextMenuRow, setContextMenuRow] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
@@ -42,13 +41,7 @@ const OverviewTable = ({ value }) => {
   useEffect(() => {
     dispatch(fetchCompanies());
     dispatch(fetchUserData(value));
-    if (userData && fetchCompanyData) {
-      const userCompanies = fetchCompanyData;
-      const userI = userData;
-      setUser(userI);
-      setFilteredCompanies(userCompanies);
-    }
-  }, [dispatch]);
+  }, [dispatch, value]);
 
   useEffect(() => {
     if (fetchCompanyData && fetchCompanyData.length > 0) {
@@ -116,7 +109,6 @@ const OverviewTable = ({ value }) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
-    setContextMenuRow(row);
   };
 
   const confirmDelete = () => {};
@@ -230,3 +222,4 @@ const OverviewTable = ({ value }) => {
 };
 
 export default OverviewTable;
+
