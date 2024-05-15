@@ -10,10 +10,10 @@ import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const CustomerCurrentReservations = ({ email }) => {
+const CustomerCurrentReservations = ({ customerId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const reservations = useSelector((state) => state.reservation.reservations);
+  const reservations = useSelector((state) => state.reservations.reservations);
   const [loading, setLoading] = useState(true);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -42,9 +42,9 @@ const CustomerCurrentReservations = ({ email }) => {
 
   useEffect(() => {
     // Update filtered data when reservations or pagination settings change
-    if (reservations && reservations.length > 0 && email) {
+    if (reservations && reservations.length > 0 && customerId) {
       const filtered = reservations.filter(
-        (reservation) => reservation.customerEmail === email
+        (reservations) => reservations.customerID === customerId
       );
       setFilteredData(filtered);
 
@@ -59,7 +59,7 @@ const CustomerCurrentReservations = ({ email }) => {
         setIsDeleteDisable(true);
       }
     }
-  }, [reservations, currentPage, perPage, selectedRows, email]);
+  }, [reservations, currentPage, perPage, selectedRows, customerId]);
 
   const handleCreate = () => {
     // navigate("/reservationOverviewPart/CreateReservations");

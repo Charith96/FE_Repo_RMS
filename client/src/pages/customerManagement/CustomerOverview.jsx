@@ -14,6 +14,8 @@ const CustomerOverview = () => {
   // Extract data from the search parameters and parse it as JSON
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
+  // Pass customer id instead of email to CustomerCurrentReservations component
+  const customerId = paramData ? paramData.id : null;
 
   // Define tabs with their respective content
   const tabs = [
@@ -29,21 +31,19 @@ const CustomerOverview = () => {
     },
     {
       name: "Current Reservations",
-      // Render CustomerCurrentReservations component if customer email matches a specific value
-      content:
-        paramData?.email === "hasinichamodi4@gmail.com" ? (
-          <CustomerCurrentReservations email={paramData?.email} />
-        ) : (
-          <p>No reservations found for this customer.</p>
-        ),
+      // Pass customerId to CustomerCurrentReservations component
+      content: customerId ? (
+        <CustomerCurrentReservations customerId={customerId} />
+      ) : (
+        <p>No customer data found.</p>
+      ),
     },
     {
       name: "History",
       // Render CustomerReservationHistory component if customer email matches a specific value
-      content:
-        paramData?.email === "hasinichamodi4@gmail.com" ? (
-          <CustomerReservationHistory email={paramData?.email} />
-        ) : (
+      content: customerId ? (
+        <CustomerReservationHistory customerId={customerId} />
+      ) : (
           <p>No reservations found for this customer.</p> // Render a message if no reservations found for this customer
         ),
     },

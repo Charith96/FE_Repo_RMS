@@ -8,24 +8,15 @@ import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { useNavigate } from "react-router-dom";
 
-const CustomerReservationHistory = ({ email }) => {
+const CustomerReservationHistory = ({ customerId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const reservations = useSelector((state) => state.reservation.reservations);
+  const reservations = useSelector((state) => state.reservations.reservations);
   const [loading, setLoading] = useState(true);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(true);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [menuVisible, setMenuVisible] = useState(true);
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -46,9 +37,9 @@ const CustomerReservationHistory = ({ email }) => {
   useEffect(() => {
     // Update filtered data when reservations or pagination settings change
     dispatch(fetchReservations()).then(() => {
-      if (reservations && reservations.length > 0 && email) {
+      if (reservations && reservations.length > 0 && customerId) {
         const filtered = reservations.filter(
-          (reservation) => reservation.customerEmail === email
+          (reservations) => reservations.customerID === customerId
         );
         setFilteredData(filtered);
 
@@ -57,14 +48,9 @@ const CustomerReservationHistory = ({ email }) => {
         const slicedData = reservations?.slice(start, end);
         setPaginatedData(slicedData);
 
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
       }
     });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered, email]);
+  }, [reservations, currentPage, perPage, selectedRows, isFiltered, customerId]);
 
   // Table columns definition
   const columns = [
@@ -113,10 +99,10 @@ const CustomerReservationHistory = ({ email }) => {
     <div className="mb-5 mx-2">
       {/* Title and action bar */}
       <TitleActionBar
-        plustDisabled={isAddDisable}
-        editDisabled={isEditDisable}
-        saveDisabled={isSaveDisable}
-        deleteDisabled={isDeleteDisable}
+        plustDisabled={true}
+        editDisabled={true}
+        saveDisabled={true}
+        deleteDisabled={true}
       />
       <div className="table-responsive">
         {/* Reservation table component */}
@@ -133,7 +119,6 @@ const CustomerReservationHistory = ({ email }) => {
           perPage={perPage}
           columns={columns}
           menuVisible={menuVisible}
-          contextMenuPosition={contextMenuPosition}
           toggledClearRows={toggledClearRows}
           isSingleRecordSelected={isSingleRecordSelected}
         />
