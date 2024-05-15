@@ -24,15 +24,15 @@ const OverviewTable = ({ value }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
+  const isAddDisable = false;
+  const isEditDisable = true;
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
-  const [contextMenuRow, setContextMenuRow] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
@@ -109,7 +109,6 @@ const OverviewTable = ({ value }) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
     setMenuVisible(true);
-    setContextMenuRow(row);
   };
 
   const handleEditNavigation = () => {};
@@ -234,3 +233,4 @@ const OverviewTable = ({ value }) => {
 };
 
 export default OverviewTable;
+
