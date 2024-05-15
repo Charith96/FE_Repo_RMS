@@ -138,6 +138,7 @@ const CreateCompany = () => {
                   setDescription(e.target.value)
                 }}
                 maxLength={50}
+                mandatory={false} // Not mandatory field
               />
 
               {/* DropdownField component for Country */}
@@ -186,6 +187,7 @@ const CreateCompany = () => {
                   setAddress02(e.target.value)
                 }}
                 maxLength={50}
+                mandatory={false} // Not mandatory field
               />
 
               {/* CheckboxField component for Default Company */}

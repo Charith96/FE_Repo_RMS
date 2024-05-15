@@ -252,6 +252,7 @@ const CompanyOverview = () => {
                   setDescription(e.target.value)
                 }}
                 maxLength={50}
+                mandatory={false} // Not mandatory field
               />
               <DropdownField
                 label="Country"
@@ -301,6 +302,7 @@ const CompanyOverview = () => {
                   setAddress02(e.target.value)
                 }}
                 maxLength={50}
+                mandatory={false} // Not mandatory field
               />
 
               <CheckboxField
