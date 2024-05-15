@@ -44,10 +44,7 @@ export const createReservationReducer = (state = initialState, action) => {
 export const updateReservationReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.UPDATE_RESERVATION_SUCCESS:
-      const updatedReservations = state.reservations.map((reservation) =>
-        reservation.id === action.payload.id ? action.payload : reservation
-      );
-      return { ...state, reservations: updatedReservations, error: null };
+      return { ...state, reservations: action.payload, error: null };
     case ActionTypes.UPDATE_RESERVATION_FAIL:
       return { ...state, error: action.payload };
     default:
