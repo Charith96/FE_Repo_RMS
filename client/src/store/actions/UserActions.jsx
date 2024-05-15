@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toastFunction } from "../../components/ToastComponent";
 import { USER_URL } from "../../utils/Constants";
 import ActionTypes from "../../data/ReduxActionTypes";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -36,10 +35,8 @@ export const createUser = (userData) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}${USER_URL}`, userData);
     dispatch({ type: ActionTypes.CREATE_USER_SUCCESS, payload: response.data });
-    toastFunction("Create user Succesfully", false);
   } catch (error) {
     dispatch({ type: ActionTypes.CREATE_USER_FAIL, payload: error });
-    toastFunction("Error creating User", true);
   }
 };
 
@@ -64,3 +61,4 @@ export const deleteUser = (id) => async (dispatch) => {
     dispatch({ type: ActionTypes.DELETE_USER_FAIL, payload: error });
   }
 };
+
