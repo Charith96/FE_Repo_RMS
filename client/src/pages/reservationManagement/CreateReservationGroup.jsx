@@ -45,7 +45,7 @@ const CreateReservationGroup = () => {
         toast.success("Reservation group created successfully");
         setTimeout(() => {
           dispatch(resetManageReservationGroupState());
-          navigate("/reservationManagement/reservation/reservationGroups");
+          navigate("/reservationManagement/reservation/reservationGroup/reservationGroups");
         }, 200);
         clearTextFields();
       }

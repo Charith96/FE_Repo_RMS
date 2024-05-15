@@ -134,7 +134,7 @@ const ReservationGroupList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
+        `/reservationManagement/reservation/reservationGroup/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "edit" } }
@@ -147,7 +147,7 @@ const ReservationGroupList = () => {
       let data = { id: contextMenuRow.id };
       let dataString = JSON.stringify(data);
       navigate(
-        `/reservationManagement/reservation/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
+        `/reservationManagement/reservation/reservationGroup/reservationGroups/reservationGroupOverview?data=${encodeURIComponent(
           dataString
         )}`,
         { state: { mode: "view" } }
@@ -208,7 +208,7 @@ const ReservationGroupList = () => {
   };
 
   const handleCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationGroup");
+    navigate("/reservationManagement/reservation/reservationGroup/createReservationGroup");
   };
 
   const handleDelete = () => {

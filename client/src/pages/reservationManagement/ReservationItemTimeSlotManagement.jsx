@@ -255,11 +255,11 @@ const ReservationItemTimeSlotManagement = () => {
   };
 
   const navigateToCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationItem");
+    navigate("/reservationManagement/reservation/reservationItem/createReservationItem");
   };
 
   const handleNavigate = () => {
-    navigate("/reservationManagement/reservation/reservationItems");
+    navigate("/reservationManagement/reservation/reservationItem/reservationItems");
   };
 
   // tab view content

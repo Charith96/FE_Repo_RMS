@@ -151,11 +151,11 @@ const ManageReservationGroups = () => {
   };
 
   const navigateToCreate = () => {
-    navigate("/reservationManagement/reservation/createReservationGroup");
+    navigate("/reservationManagement/reservation/reservationGroup/createReservationGroup");
   };
 
   const handleNavigate = () => {
-    navigate("/reservationManagement/reservation/reservationGroups");
+    navigate("/reservationManagement/reservation/reservationGroup/reservationGroups");
   };
 
   return (
