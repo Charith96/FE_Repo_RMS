@@ -143,6 +143,7 @@ const CustomerCreation = () => {
                 label="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                mandatory={false} // Not mandatory field
               />
 
               <TextField
