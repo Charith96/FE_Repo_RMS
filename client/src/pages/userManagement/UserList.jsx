@@ -26,9 +26,9 @@ const UserList = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const isAddDisable = false;
+  const isEditDisable = true;
+  const isSaveDisable = true;
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -318,3 +318,4 @@ const UserList = () => {
 };
 
 export default UserList;
+
