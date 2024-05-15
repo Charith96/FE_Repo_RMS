@@ -25,36 +25,36 @@ const _nav = [
         ),
         className: "mt-3 ms-2",
         items: [
-      {
-        component: CNavItem,
-        name: "Create Company",
-        icon: <i className="ps-2" />,
-        quicknavicon: (
-          <FontAwesomeIcon
-            icon={faCalendarDays}
-            size="2x"
-            className="nav-icon pb-0 pt-3"
-          />
-        ),
-        to: "/company/createCompany",
-      },
-      {
-        component: CNavItem,
-        name: "Compaies",
-        icon: <i className="ps-2" />,
-        quicknavicon: (
-          <FontAwesomeIcon
-            icon={faCalendarDays}
-            size="2x"
-            className="nav-icon pb-0 pt-3"
-          />
-        ),
-        to: "/company/companies",
+          {
+            component: CNavItem,
+            name: "Create Company",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/company/createCompany",
+          },
+          {
+            component: CNavItem,
+            name: "Compaies",
+            icon: <i className="ps-2" />,
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
+            ),
+            to: "/company/companies",
+          },
+        ],
       },
     ],
   },
-],
-},
 
   {
     component: CNavGroup,
@@ -129,7 +129,7 @@ const _nav = [
             component: CNavGroup,
             name: "Reservation Group",
             to: "/reservationManagement/reservation/reservationGroup",
-            
+
             quicknavicon: (
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -165,13 +165,13 @@ const _nav = [
                 ),
                 to: "/reservationManagement/reservation/reservationGroup/reservationGroups",
               },
-            ]
+            ],
           },
           {
             component: CNavGroup,
             name: "Reservation Item",
             to: "/reservationManagement/reservation/reservationItem",
-            
+
             quicknavicon: (
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -207,18 +207,18 @@ const _nav = [
                 ),
                 to: "/reservationManagement/reservation/reservationItem/reservationItems",
               },
-            ]
+            ],
           },
           {
             component: CNavGroup,
-        name: "Reservation",
-        to: "/reservations/",
-        quicknavicon: (
-          <FontAwesomeIcon
-            icon={faUser}
-            size="2x"
-            className="nav-icon pb-0 pt-3"
-          />
+            name: "Reservation",
+            to: "/reservations/",
+            quicknavicon: (
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                size="2x"
+                className="nav-icon pb-0 pt-3"
+              />
             ),
             className: "mt-3 ms-2",
             items: [
@@ -235,27 +235,27 @@ const _nav = [
                 ),
                 to: "/reservations/createReservation",
               },
-    
+
               {
                 component: CNavItem,
                 name: "Resevations",
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
-                    icon={faUser}
+                    icon={faCalendarDays}
                     size="2x"
                     className="nav-icon pb-0 pt-3"
                   />
                 ),
                 to: "/reservations/ReservationList",
               },
-            ]
-          }
+            ],
+          },
         ],
       },
     ],
   },
- 
+
   {
     component: CNavGroup,
     name: "User Management",

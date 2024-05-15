@@ -1,76 +1,94 @@
 import React, { useState, useEffect } from "react";
+import { toastFunction } from "../../components/ToastComponent";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import {
   fetchUserData,
   updateUserData,
   deleteUser,
 } from "../../store/actions/UserActions";
 import TitleActionBar from "../../components/TitleActionsBar";
-
 import TextField from "../../components/TextField";
-
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { toast } from "react-toastify";
+import { fetchCompanies } from "../../store/actions/CompanyActions";
+import { fetchRoles } from "../../store/actions/RolesAction";
 
 const UserDetailsPage = ({ value, mode }) => {
+  const userData = useSelector((state) => state.users.users);
   const id = value;
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.users.users);
+  const navigate = useNavigate();
   const userDataById = useSelector((state) => state.userById.userById);
   const [filteredUserData, setFilteredUserData] = useState({});
-
   const [isViewMode, setIsViewMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const navigate = useNavigate();
   const [modea, setMode] = useState(mode);
+  const fetchCompanyData = useSelector(
+    (state) => state.getCompany.fetchCompany
+  );
+  const roles = useSelector((state) => state.fetchRoles.roles);
 
   useEffect(() => {
-    setTimeout(() => fetchData(), 100);
-  }, [dispatch]);
-  const fetchData = async () => {
-    try {
-      await dispatch(fetchUserData(id));
-      const user = userDataById;
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchUserData(id));
+      } catch (error) {
+        toast.error("Error fetching user data. Please try again.");
+      }
+    };
 
+    fetchData();
+  }, [dispatch, id]);
+  const validateForm = () => {
+    if (filteredUserData.validTillDate <= filteredUserData.validFromDate) {
+      toastFunction("Valid Till should be later than Valid From", true);
+      return false;
+    }
+
+    return true;
+  };
+  useEffect(() => {
+    dispatch(fetchCompanies());
+    dispatch(fetchRoles());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userDataById) {
       setFilteredUserData({
-        userID: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        defaultCompany: user.defaultCompany,
-        designation: user.designation,
-        primaryRole: user.primaryRole,
-        email: user.email,
-        password: user.password,
-        validFrom: user.validFrom,
-        validTill: user.validTill,
-        companies: user.companies,
-        roles: user.roles,
+        userID: userDataById.email,
+        firstName: userDataById.firstName,
+        lastName: userDataById.lastName,
+        defaultCompany: userDataById.defaultCompany,
+        designation: userDataById.designation,
+        primaryRole: userDataById.primaryRole,
+        email: userDataById.email,
+        password: userDataById.password,
+        validFrom: userDataById.validFrom,
+        validTill: userDataById.validTill,
+        companies: userDataById.companies,
+        roles: userDataById.roles,
       });
 
       if (modea) {
-        if (modea === "edit") {
-          setIsViewMode(false);
-        } else if (modea === "view") {
-          setIsViewMode(true);
-        }
+        setIsViewMode(modea === "view");
       }
-    } catch (error) {}
-  };
+    }
+  }, [userDataById, modea]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-
-    setFilteredUserData({
-      ...filteredUserData,
+    setFilteredUserData((prevData) => ({
+      ...prevData,
       [id]: value,
-    });
+    }));
   };
 
   const handleCreate = () => {
     navigate("/userManagement/createUsers");
   };
+
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
@@ -79,19 +97,20 @@ const UserDetailsPage = ({ value, mode }) => {
     setShowConfirmation(true);
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = async (id) => {
     try {
-      dispatch(deleteUser(id));
-      toast.success("Record Successfully deleted!");
+      await dispatch(deleteUser(id));
+      toast.success("Record successfully deleted!");
+      navigate("/userManagement/Userlist");
     } catch (error) {
-      toast.error("Error deleting row. Please try again.");
+      toast.error("Error deleting user. Please try again.");
     } finally {
       setShowConfirmation(false);
     }
-    navigate("/userManagement/Userlist");
   };
 
   const handleSubmit = async () => {
+    if (!validateForm()) return;
     try {
       const updatedUserData = {
         id: id,
@@ -127,6 +146,8 @@ const UserDetailsPage = ({ value, mode }) => {
               onChange={handleInputChange}
               editMode={!isViewMode}
               userData={userData}
+              fetchCompanyData={fetchCompanyData}
+              roles={roles}
             />
           </div>
         </Col>
@@ -147,7 +168,14 @@ const UserDetailsPage = ({ value, mode }) => {
   );
 };
 
-const UserForm = ({ formData, onChange, editMode, isViewMode }) => {
+const UserForm = ({
+  formData,
+  onChange,
+  editMode,
+  isViewMode,
+  fetchCompanyData,
+  roles,
+}) => {
   return (
     <>
       {editMode ? (
@@ -166,13 +194,26 @@ const UserForm = ({ formData, onChange, editMode, isViewMode }) => {
             onChange={onChange}
             disabled={false}
           />
-          <TextField
-            id="defaultCompany"
-            label="Default Company:"
-            value={formData.defaultCompany}
-            onChange={onChange}
-            disabled={false}
-          />
+
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column md={3}>
+              Default Company
+            </Form.Label>
+            <Col md={9}>
+              <Form.Select
+                id="defaultCompany"
+                value={formData.defaultCompany}
+                onChange={onChange}
+              >
+                <option value="label">Select Company</option>
+                {fetchCompanyData.map((company) => (
+                  <option key={company.id} value={company.companyName}>
+                    {company.companyName}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+          </Form.Group>
           <TextField
             id="designation"
             label="Designation:"
@@ -180,13 +221,26 @@ const UserForm = ({ formData, onChange, editMode, isViewMode }) => {
             onChange={onChange}
             disabled={false}
           />
-          <TextField
-            id="primaryRole"
-            label="Primary Role:"
-            value={formData.primaryRole}
-            onChange={onChange}
-            disabled={false}
-          />
+
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column md={3}>
+              Primary Role
+            </Form.Label>
+            <Col md={9}>
+              <Form.Select
+                id="primaryRole"
+                value={formData.primaryRole}
+                onChange={onChange}
+              >
+                <option value="label">Select Roles</option>
+                {roles.map((role) => (
+                  <option key={role.id} value={role.rolename}>
+                    {role.rolename}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+          </Form.Group>
 
           <TextField
             id="email"
