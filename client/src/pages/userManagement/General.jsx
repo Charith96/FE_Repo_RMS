@@ -20,16 +20,15 @@ const UserDetailsPage = ({ value, mode }) => {
   const userData = useSelector((state) => state.users.users);
   const userDataById = useSelector((state) => state.userById.userById);
   const [filteredUserData, setFilteredUserData] = useState({});
-  const [editMode, setEditMode] = useState(false);
+
   const [isViewMode, setIsViewMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
   const [modea, setMode] = useState(mode);
-  const [checkUser, setCheckUser] = useState(false);
+
   useEffect(() => {
     setTimeout(() => fetchData(), 100);
-  }, [dispatch, id, userData, editMode]);
-
+  }, [dispatch]);
   const fetchData = async () => {
     try {
       await dispatch(fetchUserData(id));
@@ -52,7 +51,7 @@ const UserDetailsPage = ({ value, mode }) => {
 
       if (modea) {
         if (modea === "edit") {
-          setEditMode(true);
+          setIsViewMode(false);
         } else if (modea === "view") {
           setIsViewMode(true);
         }
@@ -62,24 +61,7 @@ const UserDetailsPage = ({ value, mode }) => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id === "email") {
-      const Checkusers = userData.find((user) => user.email === value);
-      if (!Checkusers) {
-        setCheckUser(false);
-        setFilteredUserData({
-          ...filteredUserData,
-          email: value,
-          userID: value,
-        });
-      } else {
-        setCheckUser(true);
 
-        setFilteredUserData({
-          ...filteredUserData,
-          [id]: value,
-        });
-      }
-    }
     setFilteredUserData({
       ...filteredUserData,
       [id]: value,
@@ -118,7 +100,7 @@ const UserDetailsPage = ({ value, mode }) => {
       await dispatch(updateUserData(id, updatedUserData));
       await dispatch(fetchUserData(id));
       setIsViewMode(true);
-      setEditMode(false);
+
       setMode("view");
     } catch (error) {}
   };
@@ -130,7 +112,7 @@ const UserDetailsPage = ({ value, mode }) => {
           <TitleActionBar
             Title={""}
             // plustDisabled={isAddDisable}
-            EditAction={() => setEditMode(true)}
+            EditAction={() => setIsViewMode(false)}
             SaveAction={handleSubmit}
             PlusAction={() => {
               handleCreate();
@@ -143,7 +125,7 @@ const UserDetailsPage = ({ value, mode }) => {
             <UserForm
               formData={filteredUserData}
               onChange={handleInputChange}
-              editMode={editMode}
+              editMode={!isViewMode}
               userData={userData}
             />
           </div>
