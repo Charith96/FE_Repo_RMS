@@ -189,14 +189,14 @@ const Main = () => {
             <Form onSubmit={handleSubmit}>
               <TextField
                 id="firstName"
-                label="First Name:"
+                label="First Name"
                 onChange={handleInputChange}
                 type="text"
                 maxlength={40}
               />
               <TextField
                 id="lastName"
-                label="Last Name:"
+                label="Last Name"
                 onChange={handleInputChange}
                 type="text"
                 maxlength={40}
@@ -224,7 +224,7 @@ const Main = () => {
               <TextField
                 id="designation"
                 type="text"
-                label="Designation:"
+                label="Designation"
                 onChange={handleInputChange}
                 maxlength={40}
               />
@@ -251,7 +251,7 @@ const Main = () => {
               <TextField
                 id="email"
                 type="email"
-                label="Email:"
+                label="Email"
                 onChange={handleInputChange}
                 maxlength={50}
               />
@@ -265,19 +265,19 @@ const Main = () => {
               <TextField
                 id="password"
                 type="password"
-                label="Password:"
+                label="Password"
                 onChange={handleInputChange}
               />
               <TextField
                 id="validFrom"
                 type="datetime-local"
-                label="Valid From:"
+                label="Valid From"
                 onChange={handleInputChange}
               />
               <TextField
                 id="validTill"
                 type="datetime-local"
-                label="Valid Till:"
+                label="Valid Till"
                 onChange={handleInputChange}
               />
 
