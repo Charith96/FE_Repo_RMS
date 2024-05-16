@@ -70,7 +70,7 @@ const Main = () => {
     dispatch(fetchData());
   }, [dispatch]);
   const validateForm = () => {
-    const { password, validFrom, validTill } = formData;
+ const { password, validFrom, validTill, email } = formData;
 
     // Password validation
     const passwordRegex = /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -81,7 +81,11 @@ const Main = () => {
       );
       return false;
     }
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toastFunction("Please enter a valid email address", true);
+      return;
+    }
     // Valid From and Valid Till validation
     const validFromDate = new Date(validFrom);
     const validTillDate = new Date(validTill);
