@@ -40,7 +40,7 @@ const _nav = [
           },
           {
             component: CNavItem,
-            name: "Compaies",
+            name: "Companies",
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
