@@ -9,14 +9,7 @@ const ReservationItemTimeSlotList = ({
   setInputValues,
   isCustomized,
   duration,
-  setDuration,
-  setIsCustomized,
-  isAdd,
-  isEdit,
-  isSave,
-  isDelete,
-  resetStates,
-  setSelectedRecords,
+
   uniqueId,
 
   newlyAddedSlots,

@@ -8,13 +8,6 @@ const ReservationItemTimeSlot = ({
   isCustomized,
   duration,
 
-  isAdd,
-  isEdit,
-  isSave,
-  isDelete,
-  resetStates,
-  setSelectedRecords,
-
   setIsOverlapping,
 
   setIsValuesEqual,
