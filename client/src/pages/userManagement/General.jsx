@@ -182,14 +182,14 @@ const UserForm = ({
         <>
           <TextField
             id="firstName"
-            label="First Name:"
+            label="First Name"
             value={formData.firstName}
             onChange={onChange}
             disabled={isViewMode}
           />
           <TextField
             id="lastName"
-            label="Last Name:"
+            label="Last Name"
             value={formData.lastName}
             onChange={onChange}
             disabled={false}
@@ -216,7 +216,7 @@ const UserForm = ({
           </Form.Group>
           <TextField
             id="designation"
-            label="Designation:"
+            label="Designation"
             value={formData.designation}
             onChange={onChange}
             disabled={false}
@@ -244,14 +244,14 @@ const UserForm = ({
 
           <TextField
             id="email"
-            label="Email:"
+            label="Email"
             value={formData.email}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="validFrom"
-            label="Valid From:"
+            label="Valid From"
             type="datetime-local"
             value={formData.validFrom}
             onChange={onChange}
@@ -259,7 +259,7 @@ const UserForm = ({
           />
           <TextField
             id="validTill"
-            label="Valid Till:"
+            label="Valid Till"
             type="datetime-local"
             value={formData.validTill}
             onChange={onChange}
@@ -270,49 +270,49 @@ const UserForm = ({
         <>
           <TextField
             id="firstName"
-            label="First Name:"
+            label="First Name"
             value={formData.firstName}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="lastName"
-            label="Last Name:"
+            label="Last Name"
             value={formData.lastName}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="defaultCompany"
-            label="Default Company:"
+            label="Default Company"
             value={formData.defaultCompany}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="designation"
-            label="Designation:"
+            label="Designation"
             value={formData.designation}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="primaryRole"
-            label="Primary Role:"
+            label="Primary Role"
             value={formData.primaryRole}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="email"
-            label="Email:"
+            label="Email"
             value={formData.email}
             onChange={onChange}
             disabled={true}
           />
           <TextField
             id="validFrom"
-            label="Valid From:"
+            label="Valid From"
             type="datetime-local"
             value={formData.validFrom}
             onChange={onChange}
@@ -320,7 +320,7 @@ const UserForm = ({
           />
           <TextField
             id="validTill"
-            label="Valid Till:"
+            label="Valid Till"
             type="datetime-local"
             value={formData.validTill}
             onChange={onChange}
