@@ -154,7 +154,7 @@ const _nav = [
               },
               {
                 component: CNavItem,
-                name: "Reservation Group List",
+                name: "Reservation Groups",
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
@@ -196,7 +196,7 @@ const _nav = [
               },
               {
                 component: CNavItem,
-                name: "Reservation Item List",
+                name: "Reservation Items",
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon

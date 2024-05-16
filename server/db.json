@@ -380,19 +380,82 @@
       ]
     },
     {
-      "id": "e478",
-      "userID": "hasinichamodi54@gmail.com",
-      "firstName": "hasi",
-      "lastName": "ni",
+      "id": "a719",
+      "firstName": "chathuka",
+      "lastName": "malitha",
       "defaultCompany": "ABC1",
-      "designation": "Receptionist",
-      "primaryRole": "vcvc",
-      "email": "hasinichamodi54@gmail.com",
-      "password": "qwer@!2345",
-      "validFrom": "2024-04-02T11:29",
-      "validTill": "2024-04-05T11:29",
+      "designation": "ceo",
+      "primaryRole": "Test 20000000",
+      "email": "kamal@gmail.com",
+      "password": "hii@12345",
+      "validFrom": "2024-05-20T10:45",
+      "validTill": "2024-05-22T10:45",
+      "companies": [
+        "ABC2",
+        "ABC3"
+      ],
+      "roles": [],
+      "userID": "kamal@gmail.com"
+    },
+    {
+      "id": "645e",
+      "firstName": "Jhon",
+      "lastName": "Doe",
+      "defaultCompany": "ABC5",
+      "designation": "manager",
+      "primaryRole": "rerwqwqwqw",
+      "email": "tester@gmail.com",
+      "password": "hii@12345",
+      "validFrom": "2024-05-16T11:10",
+      "validTill": "2026-07-16T11:10",
       "companies": [],
-      "roles": []
+      "roles": [],
+      "userID": "tester@gmail.com"
+    },
+    {
+      "id": "3005",
+      "firstName": "Jhon",
+      "lastName": "Doe",
+      "defaultCompany": "ABC5",
+      "designation": "manager",
+      "primaryRole": "rerwqwqwqw",
+      "email": "tester@gmail.com",
+      "password": "hii@12345",
+      "validFrom": "2024-05-16T11:10",
+      "validTill": "2026-07-16T11:10",
+      "companies": [],
+      "roles": [],
+      "userID": "tester@gmail.com"
+    },
+    {
+      "id": "e374",
+      "firstName": "Jhon",
+      "lastName": "Doe",
+      "defaultCompany": "ABC5",
+      "designation": "manager",
+      "primaryRole": "rerwqwqwqw",
+      "email": "tester@xyz.com",
+      "password": "hii@12345",
+      "validFrom": "2024-05-16T11:10",
+      "validTill": "2026-07-16T11:10",
+      "companies": [],
+      "roles": [],
+      "userID": "tester@xyz.com"
+    },
+    {
+      "id": "38de",
+      "firstName": "Jhon",
+      "lastName": "Doe",
+      "defaultCompany": "ABC5",
+      "designation": "manager",
+      "primaryRole": "rerwqwqwqw",
+      "email": "tester@xyz",
+      "password": "hii@12345",
+      "validFrom": "2024-05-16T11:10",
+      "validTill": "2026-07-16T11:10",
+      "companies": [],
+      "roles": [],
+      "userID": "tester@xyz"
     }
   ],
   "countries": [
@@ -875,11 +938,6 @@
       "id": "e53e",
       "groupId": "1234",
       "groupName": "group 1"
-    },
-    {
-      "id": "0bcf",
-      "groupId": "1111",
-      "groupName": "group 2"
     }
   ]
 }
