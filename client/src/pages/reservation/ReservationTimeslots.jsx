@@ -32,7 +32,6 @@ const ReservationGroupList = () => {
   const [capacity, setCapacity] = useState(false);
   const [reservation, setReservation] = useState(false);
   const [dateSelected, setDateSelected] = useState(false);
-  const [DeletedPrevious, setDeletedPrevious] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
 
   const fetchItem = useSelector(
@@ -65,37 +64,34 @@ const ReservationGroupList = () => {
   useEffect(() => {
     if (fetchReservationById.length > 0 && editMode === false) {
       setReservationData(fetchReservationById[0]);
-      if (DeletedPrevious === false) {
-        setFormData({
-          id: fetchReservationById[0].id,
-          reservationID: fetchReservationById[0].reservationID,
-          customerID: fetchReservationById[0].customerID,
-          group: fetchReservationById[0].group,
-          itemID: fetchReservationById[0].itemID,
-          time: fetchReservationById[0].time,
-          date: fetchReservationById[0].date,
-          noOfPeople: fetchReservationById[0].noOfPeople,
-        });
-        dispatch(deleteReservation(fetchReservationById[0].id));
-        setDeletedPrevious(true);
-      }
+
+      setFormData({
+        id: fetchReservationById[0].id,
+        reservationID: fetchReservationById[0].reservationID,
+        customerID: fetchReservationById[0].customerID,
+        group: fetchReservationById[0].group,
+        itemID: fetchReservationById[0].itemID,
+        time: fetchReservationById[0].time,
+        date: fetchReservationById[0].date,
+        noOfPeople: fetchReservationById[0].noOfPeople,
+      });
     }
     if (formData.noOfPeople && formData.time1 && formData.time2) {
       setViewBtn(true);
     } else {
       setViewBtn(false);
     }
-  }, [fetchReservationById, editMode, dispatch, DeletedPrevious, formData]);
+  }, [fetchReservationById, editMode, dispatch, formData]);
 
   useEffect(() => {
     setSlotType(fetchItem.timeSlotType);
   }, [fetchItem]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     try {
-      await dispatch(createReservation(formData));
+      dispatch(createReservation(formData));
       toast.success("Reservation Created Successfully!");
       setBtnDisable(true);
     } catch (error) {
@@ -417,3 +413,4 @@ const ReservationGroupList = () => {
 };
 
 export default ReservationGroupList;
+
