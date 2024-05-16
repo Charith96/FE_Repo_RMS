@@ -208,12 +208,10 @@ const _nav = [
                 to: "/reservationManagement/reservation/reservationItem/reservationItems",
               },
             ]
-          }
-        ],
-      },
-      {
-        component: CNavGroup,
-        name: "Reservation1",
+          },
+          {
+            component: CNavGroup,
+        name: "Reservation",
         to: "/reservations/",
         quicknavicon: (
           <FontAwesomeIcon
@@ -221,36 +219,38 @@ const _nav = [
             size="2x"
             className="nav-icon pb-0 pt-3"
           />
-        ),
-        className: "mt-3 ms-2",
-        items: [
-          {
-            component: CNavItem,
-            name: "Create Reservations",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faTasks}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
             ),
-            to: "/reservations/createReservation",
-          },
-
-          {
-            component: CNavItem,
-            name: "Resevation List",
-            icon: <i className="ps-2" />,
-            quicknavicon: (
-              <FontAwesomeIcon
-                icon={faUser}
-                size="2x"
-                className="nav-icon pb-0 pt-3"
-              />
-            ),
-            to: "/reservations/ReservationList",
-          },
+            className: "mt-3 ms-2",
+            items: [
+              {
+                component: CNavItem,
+                name: "Create Reservations",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faTasks}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservations/createReservation",
+              },
+    
+              {
+                component: CNavItem,
+                name: "Resevations",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservations/ReservationList",
+              },
+            ]
+          }
         ],
       },
     ],
