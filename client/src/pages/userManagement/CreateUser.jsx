@@ -164,7 +164,7 @@ const Main = () => {
     if (!validateForm()) return;
     try {
       await dispatch(createUser(formData));
-
+      setViewBtn(false);
       toastFunction("Create user Succesfully", false);
     } catch (error) {
       toastFunction("Something went wrong!", true);
