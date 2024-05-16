@@ -91,13 +91,12 @@ const ReservationGroupList = () => {
     setSlotType(fetchItem.timeSlotType);
   }, [fetchItem]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      dispatch(createReservation(formData));
+      await dispatch(createReservation(formData));
       toast.success("Reservation Created Successfully!");
-
       setBtnDisable(true);
     } catch (error) {
       toast.error("Error Creating Reservation. Please Try Again.");
