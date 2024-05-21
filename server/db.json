@@ -61,9 +61,9 @@
     {
       "id": "1",
       "companyCode": "554",
-      "companyName": "ABC1",
+      "companyName": "ABC15",
       "description": "",
-      "country": "Sri Lanka",
+      "country": "Japan",
       "currency": "SLR",
       "address01": "No1",
       "address02": "No2",
@@ -160,7 +160,7 @@
     {
       "id": "33c1",
       "companyCode": "456",
-      "companyName": "SIJ",
+      "companyName": "SIJw",
       "description": "",
       "country": "Qatar",
       "currency": "EUR",

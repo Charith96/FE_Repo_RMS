@@ -33,7 +33,7 @@ const CreateCompany = () => {
   const [address01, setAddress01] = useState("");
   const [address02, setAddress02] = useState("");
   const [defaultCompany, setDefaultCompany] = useState(false);
-  const [buttonFlag, setButtonFlag] = useState(false);
+  const buttonFlag = useState(false)?.current;
   const isValueMounted = useRef(false);
 
   // Handle successful company creation

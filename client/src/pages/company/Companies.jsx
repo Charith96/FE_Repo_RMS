@@ -38,15 +38,14 @@ const Companies = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const isAddDisable = useState(false)?.current;
+  const isEditDisable = useState(true)?.current;
+  const isSaveDisable = useState(true)?.current;
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
-  const [itemsExist, setItemsExist] = useState(false);
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -223,7 +222,7 @@ const Companies = () => {
     setSearchTerm(e.target.value);
   };
 
- // Clear search filter
+  // Clear search filter
   const clearFilter = () => {
     setSearchTerm("");
     dispatch(fetchCompanies());
