@@ -33,7 +33,7 @@ const UserDetailsPage = ({ value, mode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchUserData(id));
+        dispatch(fetchUserData(id));
       } catch (error) {
         toast.error("Error fetching user data. Please try again.");
       }
@@ -99,7 +99,7 @@ const UserDetailsPage = ({ value, mode }) => {
 
   const confirmDelete = async (id) => {
     try {
-      await dispatch(deleteUser(id));
+      dispatch(deleteUser(id));
       toast.success("Record successfully deleted!");
       navigate("/userManagement/Userlist");
     } catch (error) {
@@ -116,8 +116,8 @@ const UserDetailsPage = ({ value, mode }) => {
         id: id,
         ...filteredUserData,
       };
-      await dispatch(updateUserData(id, updatedUserData));
-      await dispatch(fetchUserData(id));
+      dispatch(updateUserData(id, updatedUserData));
+      dispatch(fetchUserData(id));
       setIsViewMode(true);
 
       setMode("view");

@@ -372,26 +372,6 @@
   ],
   "users": [
     {
-      "id": "3885",
-      "userID": "hasinichamodi4@gmail.com",
-      "firstName": "Jhon",
-      "lastName": "Doe",
-      "defaultCompany": "ABC1",
-      "designation": "view Officer",
-      "primaryRole": "tesrdaw",
-      "email": "hasinichamodi4@gmail.com",
-      "password": "qwer@12345",
-      "validFrom": "2024-04-01T00:13",
-      "validTill": "2024-06-13T00:14",
-      "companies": [
-        "ACDS X",
-        "ABC1"
-      ],
-      "roles": [
-        "vcvc"
-      ]
-    },
-    {
       "id": "a719",
       "firstName": "chathuka",
       "lastName": "malitha",
@@ -410,36 +390,6 @@
       "userID": "kamal@gmail.com"
     },
     {
-      "id": "645e",
-      "firstName": "Jhon",
-      "lastName": "Doe",
-      "defaultCompany": "ABC5",
-      "designation": "manager",
-      "primaryRole": "rerwqwqwqw",
-      "email": "tester@gmail.com",
-      "password": "hii@12345",
-      "validFrom": "2024-05-16T11:10",
-      "validTill": "2026-07-16T11:10",
-      "companies": [],
-      "roles": [],
-      "userID": "tester@gmail.com"
-    },
-    {
-      "id": "3005",
-      "firstName": "Jhon",
-      "lastName": "Doe",
-      "defaultCompany": "ABC5",
-      "designation": "manager",
-      "primaryRole": "rerwqwqwqw",
-      "email": "tester@gmail.com",
-      "password": "hii@12345",
-      "validFrom": "2024-05-16T11:10",
-      "validTill": "2026-07-16T11:10",
-      "companies": [],
-      "roles": [],
-      "userID": "tester@gmail.com"
-    },
-    {
       "id": "e374",
       "firstName": "Jhon",
       "lastName": "Doe",
@@ -450,7 +400,9 @@
       "password": "hii@12345",
       "validFrom": "2024-05-16T11:10",
       "validTill": "2026-07-16T11:10",
-      "companies": [],
+      "companies": [
+        "ABC15"
+      ],
       "roles": [],
       "userID": "tester@xyz.com"
     },
@@ -465,8 +417,14 @@
       "password": "hii@12345",
       "validFrom": "2024-05-16T11:10",
       "validTill": "2026-07-16T11:10",
-      "companies": [],
-      "roles": [],
+      "companies": [
+        "ABC15",
+        "ABC3",
+        "Supun1"
+      ],
+      "roles": [
+        "m,mnmn"
+      ],
       "userID": "tester@xyz"
     }
   ],
@@ -934,6 +892,26 @@
       "noOfPeople": 5,
       "time1": "2024-05-09T23:01",
       "time2": "2024-05-10T07:00"
+    },
+    {
+      "id": "a299",
+      "reservationID": "jty3gu",
+      "customerID": "1234",
+      "group": "restaurant1",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "a299",
+      "reservationID": "jty3gu",
+      "customerID": "1234",
+      "group": "restaurant1",
+      "itemID": "3f85",
+      "date": "2024-05-24",
+      "noOfPeople": 45,
+      "time1": "2024-05-24T23:01",
+      "time2": "2024-05-25T07:00"
     }
   ],
   "groupcreation": [

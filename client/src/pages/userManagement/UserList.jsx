@@ -26,9 +26,9 @@ const UserList = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const isAddDisable = false;
-  const isEditDisable = true;
-  const isSaveDisable = true;
+  const [isAddDisable, setisAddDisable] = useState(false);
+  const isEditDisable = useRef(true)?.current;
+  const isSaveDisable = useRef(true)?.current;
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -47,7 +47,7 @@ const UserList = () => {
     if (deleteUser) {
       dispatch(fetchData());
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (userData && userData.length > 0 && !isFiltered) {
@@ -205,6 +205,7 @@ const UserList = () => {
   };
 
   const handleCreate = () => {
+    setisAddDisable(true);
     navigate("/userManagement/createUsers");
   };
 
@@ -318,4 +319,3 @@ const UserList = () => {
 };
 
 export default UserList;
-

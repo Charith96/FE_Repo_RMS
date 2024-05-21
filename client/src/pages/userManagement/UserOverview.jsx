@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import TitleActionBar from "../../components/TitleActionsBar";
 import TabStructure from "../../components/TabStructure";
 import { useLocation } from "react-router-dom";
@@ -16,7 +16,7 @@ const ReservationItemManagement = () => {
   const [disableSave, setDisableSave] = useState(true);
   const [disableEdit, setDisableEdit] = useState(true);
   const [disableDelete, setDisableDelete] = useState(true);
-  const [selectedRecords, setSelectedRecords] = useState(0);
+  const selectedRecords = useRef(0);
   const { state } = useLocation();
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");

@@ -70,7 +70,7 @@ const Main = () => {
     dispatch(fetchData());
   }, [dispatch]);
   const validateForm = () => {
- const { password, validFrom, validTill, email } = formData;
+    const { password, validFrom, validTill, email } = formData;
 
     // Password validation
     const passwordRegex = /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -167,7 +167,7 @@ const Main = () => {
     e.preventDefault();
     if (!validateForm()) return;
     try {
-      await dispatch(createUser(formData));
+      dispatch(createUser(formData));
       setViewBtn(false);
       toastFunction("Create user Succesfully", false);
     } catch (error) {

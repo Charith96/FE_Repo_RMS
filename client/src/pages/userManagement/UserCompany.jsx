@@ -24,8 +24,8 @@ const OverviewTable = ({ value }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable] = useState(false);
-  const [isEditDisable] = useState(true);
+  const isAddDisable = useRef(false)?.current;
+  const isEditDisable = useRef(true)?.current;
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
@@ -222,4 +222,3 @@ const OverviewTable = ({ value }) => {
 };
 
 export default OverviewTable;
-

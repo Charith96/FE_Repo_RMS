@@ -24,8 +24,8 @@ const OverviewTable = ({ value }) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const isAddDisable = false;
-  const isEditDisable = true;
+  const isAddDisable = useRef(false)?.current;
+  const isEditDisable = useRef(true)?.current;
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
@@ -42,7 +42,7 @@ const OverviewTable = ({ value }) => {
   useEffect(() => {
     dispatch(fetchRoles());
     dispatch(fetchUserData(value));
-  }, [dispatch]);
+  }, [dispatch, value]);
 
   useEffect(() => {
     if (roles && roles.length > 0) {
@@ -233,4 +233,3 @@ const OverviewTable = ({ value }) => {
 };
 
 export default OverviewTable;
-
