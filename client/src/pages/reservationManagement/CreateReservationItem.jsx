@@ -36,9 +36,9 @@ const CreateReservationItem = ({
   const [capacity, setCapacity] = useState("");
   const [reservationGroup, setReservationGroup] = useState("");
   const [isFlexible, setIsFlexible] = useState(true);
-  const [isNoOfSlots, setIsNoOfSlots] = useState(true);
+  const [setIsNoOfSlots] = useState(true);
 
-  const [isDurationPerSlot, setIsDurationPerSlot] = useState(true);
+  const [setIsDurationPerSlot] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
