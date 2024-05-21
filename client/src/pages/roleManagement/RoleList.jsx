@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'; // Importing useSelector hook
+import { useDispatch, useSelector } from 'react-redux'; 
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, InputGroup, Row } from "react-bootstrap";
 import { faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { fetchRoles, deleteRole, updateRole } from '../../store/actions/RolesAction';
+import { fetchRoles, deleteRole } from '../../store/actions/RolesAction';
 
 function RoleList() {
     const dispatch = useDispatch();
@@ -19,19 +19,17 @@ function RoleList() {
     const [selectedRows, setSelectedRows] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
-    const [isAddDisable, setIsAddDisable] = useState(false);
-    const [isEditDisable, setIsEditDisable] = useState(true);
-    const [isSaveDisable, setIsSaveDisable] = useState(true);
-    const [isDeleteDisable, setIsDeleteDisable] = useState(true);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-    const [contextMenuRow, setContextMenuRow] = useState(null);
-    const [isFiltered, setIsFiltered] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
     const [perPage, setPerPage] = useState(5);
     const totalItems = filteredData.length;
+    const isAddDisable = useRef(false).current;
+    const isEditDisable = useRef(true).current;
+    const isSaveDisable = useRef(true).current;
+    const isFiltered = useRef(false).current;
+    const [isDeleteDisable, setIsDeleteDisable] = useState(true);
     const toggledClearRows = useRef(false);
-    const [searchValue, setSearchValue] = useState("");
 
     // Redux state
     const roles = useSelector(state => state.fetchRoles); // Accessing the fetchRoles state from the Redux store
@@ -40,7 +38,7 @@ function RoleList() {
     // fetch role data and update the redux store with the fetched data
     useEffect(() => {
         dispatch(fetchRoles());
-    }, []);
+    }, [dispatch]);
 
     //fetch roles and update data when roles or paggination settimg change 
     useEffect(() => {
@@ -49,7 +47,7 @@ function RoleList() {
 
             const start = currentPage * perPage;
             const end = start + perPage;
-            const slicedData = data?.slice(start, end);
+            const slicedData = data.slice(start, end);
             setPaginatedData(slicedData);
 
             if (selectedRows.length === 1) {
@@ -116,7 +114,6 @@ function RoleList() {
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
         setSearchTerm(inputValue);
-        setSearchValue(inputValue);
         setIsFiltered(inputValue !== "");
 
         const filteredRoles = data.filter(role =>
@@ -132,7 +129,6 @@ function RoleList() {
     };
 
     const clearFilter = () => {
-        setSearchValue("");
         setSearchTerm("");
         setIsFiltered(false);
         setFilteredData(data);

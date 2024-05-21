@@ -200,14 +200,7 @@
       "rolecode": "78nmnm",
       "rolename": "m,mnmn",
       "privileges": [
-        "viewAccess"
-      ]
-    },
-    {
-      "id": "521f",
-      "rolecode": "nn",
-      "rolename": "bn",
-      "privileges": [
+        "viewAccess",
         "createAccess"
       ]
     },
@@ -272,6 +265,24 @@
       "privileges": [
         "createAccess",
         "viewAccess",
+        "updateAccess"
+      ]
+    },
+    {
+      "id": "5098",
+      "rolecode": "78cdc",
+      "rolename": "test 789",
+      "privileges": [
+        "createAccess",
+        "updateAccess",
+        "deleteAccess"
+      ]
+    },
+    {
+      "id": "8c28",
+      "rolecode": "55555555",
+      "rolename": "rghhjh",
+      "privileges": [
         "updateAccess"
       ]
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
@@ -7,7 +7,7 @@ import TitleActionBar from '../../components/TitleActionsBar';
 import { fetchRoles, updateRole } from '../../store/actions/RolesAction';
 import { toast } from 'react-toastify';
 
-function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
+function RoleOverview({ loading, error, fetchRoles, updateRole }) {
     const navigate = useNavigate();
     const location = useLocation();
     const roleData = location.state && location.state.roleData;
@@ -17,7 +17,7 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
         fetchRoles(); 
     }, [fetchRoles]);
 
-     // State for editing privileges and edit mode
+    // State for editing privileges and edit mode
     const [editingPrivileges, setEditingPrivileges] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
 
@@ -29,7 +29,6 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
         }
     }, [roleData]);
 
-    
     // Handle checkbox change event
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
@@ -40,26 +39,25 @@ function RoleOverview({ roles, loading, error, fetchRoles, updateRole }) {
         );
     };
 
-     // Handle edit button click
+    // Handle edit button click
     const handleEdit = () => {
         setIsEditing(true);
     };
 
-     // Handle save button click
+    // Handle save button click
     const handleSave = async () => {
         const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update role data with edited privileges
         const roleId = roleData.id;
         try {
-             // Dispatch updateRole action to update role in Redux store
+            // Dispatch updateRole action to update role in Redux store
             await updateRole(roleId, updatedRoleData);  
             setIsEditing(false);
             toast.success('Role Saved successfully');
         } catch (error) {
-            toast.error('Error updating role:', error);
+            toast.error('Error updating role:', error.message);
         }
     };
 
-   
     if (loading) return <div>Loading...</div>;   // If loading, display loading message
     if (error) return <div>Error: {error.message}</div>;    // If error, display error message
 
