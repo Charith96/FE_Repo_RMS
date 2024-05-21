@@ -27,7 +27,7 @@ function RoleList() {
     const isAddDisable = useRef(false).current;
     const isEditDisable = useRef(true).current;
     const isSaveDisable = useRef(true).current;
-    const isFiltered = useRef(false).current;
+    const [isFiltered, setIsFiltered] = useState(false);
     const [isDeleteDisable, setIsDeleteDisable] = useState(true);
     const toggledClearRows = useRef(false);
 

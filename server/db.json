@@ -171,15 +171,6 @@
   ],
   "Roles": [
     {
-      "id": "b678",
-      "rolecode": "5656",
-      "rolename": "vcvc",
-      "privileges": [
-        "viewAccess",
-        "deleteAccess"
-      ]
-    },
-    {
       "id": "3c71",
       "rolecode": "78",
       "rolename": "nb",
@@ -209,7 +200,8 @@
       "rolecode": "666",
       "rolename": "nn",
       "privileges": [
-        "createAccess"
+        "createAccess",
+        "viewAccess"
       ]
     },
     {
@@ -284,6 +276,15 @@
       "rolename": "rghhjh",
       "privileges": [
         "updateAccess"
+      ]
+    },
+    {
+      "id": "3acd",
+      "rolecode": "6767",
+      "rolename": "nmnm",
+      "privileges": [
+        "createAccess",
+        "viewAccess"
       ]
     }
   ],
