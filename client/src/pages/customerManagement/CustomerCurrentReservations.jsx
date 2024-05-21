@@ -14,7 +14,6 @@ const CustomerCurrentReservations = ({ customerId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reservations = useSelector((state) => state.reservations.reservations);
-  const [loading, setLoading] = useState(true);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -25,10 +24,9 @@ const CustomerCurrentReservations = ({ customerId }) => {
     y: 0,
   });
   const [contextMenuRow, setContextMenuRow] = useState(null);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const isAddDisable = useRef(false)?.current;
+  const isEditDisable = useRef(true)?.current;
+  const isSaveDisable = useRef(true)?.current;
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
