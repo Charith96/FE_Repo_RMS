@@ -21,7 +21,6 @@ const CustomerCreation = () => {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [contactNo, setContactNo] = useState("");
-  const [buttonFlag, setButtonFlag] = useState(false);
   const isValueMounted = useRef(false);
   const [formValid, setFormValid] = useState(false); // Indicates if the form is valid or not
 

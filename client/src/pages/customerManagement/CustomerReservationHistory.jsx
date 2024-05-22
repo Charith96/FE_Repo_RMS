@@ -12,17 +12,13 @@ const CustomerReservationHistory = ({ customerId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reservations = useSelector((state) => state.reservations.reservations);
-  const [loading, setLoading] = useState(true);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [menuVisible, setMenuVisible] = useState(true);
-  const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
-  const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
   useEffect(() => {

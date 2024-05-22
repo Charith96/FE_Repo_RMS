@@ -21,10 +21,6 @@ const CustomerOverviewGeneral = () => {
   const fetchCustomerData = useSelector(
     (state) => state.getCustomerById.fetchCustomerId
   );
-  const editFlagData = useSelector(
-    (state) => state.editCustomerFlag.editCustomerFlag
-  );
-
   const dataForSearch = useSelector((state) => state.getCustomer.fetchCustomer);
   const [recordId, setRecordId] = useState("");
 
