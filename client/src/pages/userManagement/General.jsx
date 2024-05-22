@@ -31,15 +31,7 @@ const UserDetailsPage = ({ value, mode }) => {
   const roles = useSelector((state) => state.fetchRoles.roles);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch(fetchUserData(id));
-      } catch (error) {
-        toast.error("Error fetching user data. Please try again.");
-      }
-    };
-
-    fetchData();
+    dispatch(fetchUserData(id));
   }, [dispatch, id]);
   const validateForm = () => {
     if (filteredUserData.validTillDate <= filteredUserData.validFromDate) {
@@ -116,7 +108,7 @@ const UserDetailsPage = ({ value, mode }) => {
         id: id,
         ...filteredUserData,
       };
-      dispatch(updateUserData(id, updatedUserData));
+      await dispatch(updateUserData(id, updatedUserData));
       dispatch(fetchUserData(id));
       setIsViewMode(true);
 
