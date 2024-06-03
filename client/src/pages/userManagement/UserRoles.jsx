@@ -26,8 +26,8 @@ const OverviewTable = ({ value }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const isAddDisable = useRef(false)?.current;
   const isEditDisable = useRef(true)?.current;
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
+  const [isSaveDisable, setIsSaveDisable] = useState(false);
+  const [isDeleteDisable, setIsDeleteDisable] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,

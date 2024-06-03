@@ -13,7 +13,6 @@ const Main = () => {
 
   const [viewBtn, setViewBtn] = useState(false);
   const [checkUser, setCheckUser] = useState(false);
-
   const userData = useSelector((state) => state.users.users);
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
@@ -39,7 +38,6 @@ const Main = () => {
       firstName,
       lastName,
       defaultCompany,
-      designation,
       primaryRole,
       email,
       password,
@@ -52,7 +50,6 @@ const Main = () => {
       firstName &&
       lastName &&
       defaultCompany &&
-      designation &&
       primaryRole &&
       email &&
       password &&
@@ -164,6 +161,8 @@ const Main = () => {
   };
 
   const handleSubmit = async (e) => {
+    if (!viewBtn) {
+    }
     e.preventDefault();
     if (!validateForm()) return;
     try {
@@ -197,6 +196,8 @@ const Main = () => {
                 onChange={handleInputChange}
                 type="text"
                 maxlength={40}
+                value={formData.firstName}
+                mandatory={true}
               />
               <TextField
                 id="lastName"
@@ -204,6 +205,8 @@ const Main = () => {
                 onChange={handleInputChange}
                 type="text"
                 maxlength={40}
+                value={formData.lastName}
+                mandatory={true}
               />
 
               <Form.Group as={Row} className="mb-3">
@@ -215,6 +218,9 @@ const Main = () => {
                     id="defaultCompany"
                     value={formData.defaultCompany}
                     onChange={handleInputChange}
+                    className={`w-100 ${
+                      !formData.defaultCompany ? "mandatory-field" : "bg-white"
+                    }`}
                   >
                     <option value="label">Select Company</option>
                     {fetchCompanyData.map((company) => (
@@ -231,6 +237,8 @@ const Main = () => {
                 label="Designation"
                 onChange={handleInputChange}
                 maxlength={40}
+                value={formData.designation}
+                mandatory={false}
               />
 
               <Form.Group as={Row} className="mb-3">
@@ -242,6 +250,9 @@ const Main = () => {
                     id="primaryRole"
                     value={formData.primaryRole}
                     onChange={handleInputChange}
+                    className={`w-100 ${
+                      !formData.primaryRole ? "mandatory-field" : "bg-white"
+                    }`}
                   >
                     <option value="label">Select Roles</option>
                     {roles.map((role) => (
@@ -258,6 +269,8 @@ const Main = () => {
                 label="Email"
                 onChange={handleInputChange}
                 maxlength={50}
+                value={formData.email}
+                mandatory={true}
               />
               {checkUser && (
                 <>
@@ -271,18 +284,24 @@ const Main = () => {
                 type="password"
                 label="Password"
                 onChange={handleInputChange}
+                value={formData.password}
+                mandatory={true}
               />
               <TextField
                 id="validFrom"
                 type="datetime-local"
                 label="Valid From"
                 onChange={handleInputChange}
+                value={formData.validFrom}
+                mandatory={true}
               />
               <TextField
                 id="validTill"
                 type="datetime-local"
                 label="Valid Till"
                 onChange={handleInputChange}
+                value={formData.validTill}
+                mandatory={true}
               />
 
               <Form.Group as={Row} className="mb-3">

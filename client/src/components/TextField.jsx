@@ -12,7 +12,7 @@ const TextField = ({
   inputMessage,
   maxLength,
   id,
-  mandatory = true, // Default value for mandatory
+  mandatory,
 }) => {
   return (
     <>

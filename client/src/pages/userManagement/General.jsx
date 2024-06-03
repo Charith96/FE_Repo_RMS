@@ -24,6 +24,7 @@ const UserDetailsPage = ({ value, mode }) => {
   const [filteredUserData, setFilteredUserData] = useState({});
   const [isViewMode, setIsViewMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [validate, setValidate] = useState(true);
   const [modea, setMode] = useState(mode);
   const fetchCompanyData = useSelector(
     (state) => state.getCompany.fetchCompany
@@ -33,14 +34,7 @@ const UserDetailsPage = ({ value, mode }) => {
   useEffect(() => {
     dispatch(fetchUserData(id));
   }, [dispatch, id]);
-  const validateForm = () => {
-    if (filteredUserData.validTillDate <= filteredUserData.validFromDate) {
-      toastFunction("Valid Till should be later than Valid From", true);
-      return false;
-    }
 
-    return true;
-  };
   useEffect(() => {
     dispatch(fetchCompanies());
     dispatch(fetchRoles());
@@ -102,18 +96,53 @@ const UserDetailsPage = ({ value, mode }) => {
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
-    try {
-      const updatedUserData = {
-        id: id,
-        ...filteredUserData,
-      };
-      await dispatch(updateUserData(id, updatedUserData));
-      dispatch(fetchUserData(id));
+    let isValid = true;
+    if (
+      filteredUserData.firstName &&
+      filteredUserData.lastName &&
+      filteredUserData.defaultCompany &&
+      filteredUserData.primaryRole &&
+      filteredUserData.validFrom &&
+      filteredUserData.validTill
+    ) {
+      setValidate(true);
       setIsViewMode(true);
+    } else {
+      isValid = false;
+      setValidate(false);
+      setIsViewMode(false);
+    }
 
-      setMode("view");
-    } catch (error) {}
+    // Valid From and Valid Till validation
+    const validFromDate = new Date(filteredUserData.validFrom);
+    const validTillDate = new Date(filteredUserData.validTill);
+    if (validTillDate <= validFromDate) {
+      toastFunction("Valid Till should be later than Valid From", true);
+      isValid = false;
+      setIsViewMode(false);
+      setValidate(false);
+    }
+    if (
+      filteredUserData.defaultCompany === "label" ||
+      filteredUserData.primaryRole === "label"
+    ) {
+      isValid = false;
+      setIsViewMode(false);
+      setValidate(false);
+    }
+    if (isValid) {
+      try {
+        const updatedUserData = {
+          id: id,
+          ...filteredUserData,
+        };
+        await dispatch(updateUserData(id, updatedUserData));
+        dispatch(fetchUserData(id));
+        setIsViewMode(true);
+
+        setMode("view");
+      } catch (error) {}
+    }
   };
 
   return (
@@ -131,6 +160,8 @@ const UserDetailsPage = ({ value, mode }) => {
             DeleteAction={() => {
               handleDelete();
             }}
+            saveDisabled={isViewMode}
+            editDisabled={!isViewMode}
           />
           <div style={{ margin: 10, padding: 20 }}>
             <UserForm
@@ -140,6 +171,7 @@ const UserDetailsPage = ({ value, mode }) => {
               userData={userData}
               fetchCompanyData={fetchCompanyData}
               roles={roles}
+              Validate={validate}
             />
           </div>
         </Col>
@@ -167,9 +199,19 @@ const UserForm = ({
   isViewMode,
   fetchCompanyData,
   roles,
+  Validate,
 }) => {
   return (
     <>
+      {!Validate && (
+        <>
+          <span id="message">
+            Validation Error: Verify that all mandatory fields are filled and
+            both the default company and primary role are selected.
+          </span>
+          <br></br>
+        </>
+      )}
       {editMode ? (
         <>
           <TextField
@@ -178,6 +220,7 @@ const UserForm = ({
             value={formData.firstName}
             onChange={onChange}
             disabled={isViewMode}
+            mandatory={true}
           />
           <TextField
             id="lastName"
@@ -185,6 +228,7 @@ const UserForm = ({
             value={formData.lastName}
             onChange={onChange}
             disabled={false}
+            mandatory={true}
           />
 
           <Form.Group as={Row} className="mb-3">
@@ -196,6 +240,12 @@ const UserForm = ({
                 id="defaultCompany"
                 value={formData.defaultCompany}
                 onChange={onChange}
+                className={`w-100 ${
+                  !formData.defaultCompany ||
+                  formData.defaultCompany === "label"
+                    ? "mandatory-field"
+                    : "bg-white"
+                }`}
               >
                 <option value="label">Select Company</option>
                 {fetchCompanyData.map((company) => (
@@ -223,6 +273,11 @@ const UserForm = ({
                 id="primaryRole"
                 value={formData.primaryRole}
                 onChange={onChange}
+                className={`w-100 ${
+                  !formData.primaryRole || formData.primaryRole === "label"
+                    ? "mandatory-field"
+                    : "bg-white"
+                }`}
               >
                 <option value="label">Select Roles</option>
                 {roles.map((role) => (
@@ -240,6 +295,7 @@ const UserForm = ({
             value={formData.email}
             onChange={onChange}
             disabled={true}
+            mandatory={true}
           />
           <TextField
             id="validFrom"
@@ -248,6 +304,7 @@ const UserForm = ({
             value={formData.validFrom}
             onChange={onChange}
             disabled={false}
+            mandatory={true}
           />
           <TextField
             id="validTill"
@@ -256,6 +313,7 @@ const UserForm = ({
             value={formData.validTill}
             onChange={onChange}
             disabled={false}
+            mandatory={true}
           />
         </>
       ) : (
