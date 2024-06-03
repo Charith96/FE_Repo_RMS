@@ -12,7 +12,7 @@ const TextField = ({
   inputMessage,
   maxLength,
   id,
-  mandatory,
+  mandatory=true,
 }) => {
   return (
     <>
