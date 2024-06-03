@@ -262,6 +262,7 @@ const UserForm = ({
             value={formData.designation}
             onChange={onChange}
             disabled={false}
+            mandatory={false}
           />
 
           <Form.Group as={Row} className="mb-3">
