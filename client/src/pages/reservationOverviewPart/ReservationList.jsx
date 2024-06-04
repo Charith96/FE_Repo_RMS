@@ -87,7 +87,7 @@ const ReservationList = () => {
   };
 
   const handleCreate = () => {
-    //navigate("/customerManagement/CustomerCreation");
+    navigate("/Reservations/CreateReservation");
   };
 
   const handleDelete = () => {

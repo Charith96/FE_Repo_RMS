@@ -5,7 +5,6 @@ import ItemInformation from "./ItemInformation";
 import { useLocation } from "react-router-dom";
 
 const ReservationOverview = () => {
-  // State variables
   const [toggleState, setToggleState] = useState(0);
   const [disableEdit, setDisableEdit] = useState(true);
   // Extracting data from the URL
@@ -14,7 +13,7 @@ const ReservationOverview = () => {
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
 
-// tabs with their corresponding content
+  // tabs with their corresponding content
   const tabs = [
     {
       name: "General",
@@ -28,6 +27,7 @@ const ReservationOverview = () => {
         <ItemInformation
           reservationData={paramData}
           mode={state && state.mode}
+          setDisableEdit={setDisableEdit}
         />
       ) : null,
     },

@@ -238,7 +238,7 @@ const _nav = [
 
               {
                 component: CNavItem,
-                name: "Resevations",
+                name: "Reservations",
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
