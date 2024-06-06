@@ -186,9 +186,9 @@ const CustomerOverviewGeneral = () => {
             <Form>
               <TextField
                 label="Customer ID :"
-                disabled={isViewMode}
+                disabled={true}
                 value={id}
-                onChange={(e) => setId(e.target.value)}
+                
               />
               <TextField
                 label="Full Name"

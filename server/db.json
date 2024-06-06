@@ -2,31 +2,31 @@
   "customers": [
     {
       "id": "1234",
-      "fullName": "kamal",
-      "identifier": "11117",
-      "address": "kandy road, kurunegala",
-      "email": "kamal@gmail.com",
-      "contactNo": "0734474732"
+      "fullName": "kamal silva",
+      "identifier": "11118",
+      "address": "kandy ",
+      "email": "kamal@hotmail.com",
+      "contactNo": "0734474731"
     },
     {
       "id": "22",
-      "fullName": "hasi ni",
-      "identifier": "111",
-      "address": "uom,motatuwa7",
+      "fullName": "hasini",
+      "identifier": "1113",
+      "address": "Moratuwa",
       "email": "hasinichamodi4@gmail.com",
-      "contactNo": "111"
+      "contactNo": "0782222111"
     },
     {
       "id": "14",
-      "fullName": "saw",
-      "identifier": "zxf",
-      "address": "vvc",
+      "fullName": "sawindi",
+      "identifier": "zxfy",
+      "address": "Jaffna",
       "email": "cvgn@gmail.com",
-      "contactNo": "zxv"
+      "contactNo": "972131231"
     },
     {
       "id": "14789635",
-      "fullName": "Ishara J",
+      "fullName": "Ishara Jiyara",
       "identifier": "214089X",
       "address": "No31,",
       "email": "Sup@gmail.com",
