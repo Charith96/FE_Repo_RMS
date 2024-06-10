@@ -67,10 +67,10 @@ const AppHeaderDropdown = () => {
               <Dropdown.Item as={Link} to={`#`} className="bg-light fw-semibold py-2"  >
                 Account
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to={`/login`} className="text-muted">
+              <Dropdown.Item as={Link} to={`/login`}>
                 <CIcon icon={cilAccountLogout} />&emsp;Logout
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to={`/reset-password`} className="text-muted">
+              <Dropdown.Item as={Link} to={`/reset-password`}>
                 <CIcon icon={cilReload} />&emsp;Reset Password
               </Dropdown.Item>
             </Dropdown.Menu>
