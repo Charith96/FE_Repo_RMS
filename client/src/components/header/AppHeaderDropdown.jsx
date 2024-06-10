@@ -6,12 +6,12 @@ import {
 } from '@coreui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { tempProfileImg } from '../../assets/images';
 import { Dropdown, Image } from 'react-bootstrap';
-import CIcon from '@coreui/icons-react'
-import { Link } from 'react-router-dom'
+import CIcon from '@coreui/icons-react';
+import { Link } from 'react-router-dom';
 
 const AppHeaderDropdown = () => {
-  const [imagePath, setImagePath] = useState('https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
   const [selectedUser, setSelectedUser] = useState('Rixano Silva');
   const [selectedCompany, setSelectedCompany] = useState('Default Company');
 
@@ -20,9 +20,7 @@ const AppHeaderDropdown = () => {
   }, [])
 
   useEffect(() => {
-
     // message handling
-    
   }, [])
 
   const handleActiveCompany = (value) => {
@@ -41,10 +39,10 @@ const AppHeaderDropdown = () => {
             <form>
               <Dropdown align={'end'} className='company-selection'>
                 <Dropdown.Toggle className='text-info compay'>
-                {selectedCompany}&ensp;
+                  {selectedCompany}&ensp;
                 </Dropdown.Toggle>
                 <Dropdown.Menu className='company-menu'>
-                  {(selectedCompany) ?(
+                  {(selectedCompany) ? (
                     <Dropdown.Item href="#" onClick={() => handleActiveCompany('companyid')}>
                       <span className='d-flex align-items-center'>
                         <small>{selectedCompany}</small>&ensp;
@@ -61,18 +59,18 @@ const AppHeaderDropdown = () => {
           </div>
           <Dropdown align="end">
             <Dropdown.Toggle placement="bottom-end" className="ms-2 me-2 rounded-circle custom-dropdown-toggle p-0">
-              {!imagePath ?
+              {!tempProfileImg ?
                 (<CIcon icon={cilUser} size='lg' className="profile-image text-white p-2" />) :
-                (<Image src={imagePath} className='profile-image' alt='profile' draggable="false" />)}
+                (<Image src={tempProfileImg} className='profile-image' alt='profile' draggable="false" />)}
             </Dropdown.Toggle>
             <Dropdown.Menu className="mt-2 profile-dropdown-item" placement="bottom-end">
               <Dropdown.Item as={Link} to={`#`} className="bg-light fw-semibold py-2"  >
                 Account
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to={`/login`} className="text-muted"  >
+              <Dropdown.Item as={Link} to={`/login`} className="text-muted">
                 <CIcon icon={cilAccountLogout} />&emsp;Logout
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to={`/reset-password`} className="text-muted"  >
+              <Dropdown.Item as={Link} to={`/reset-password`} className="text-muted">
                 <CIcon icon={cilReload} />&emsp;Reset Password
               </Dropdown.Item>
             </Dropdown.Menu>

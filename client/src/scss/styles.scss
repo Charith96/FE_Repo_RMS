@@ -872,3 +872,306 @@ select.form-select {
     }
   }
 }
+
+
+
+// login & logout
+.login-container {
+  background-image: url($login-background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  box-shadow: $outer-shadow-color;
+
+  @media screen and (min-width: 1000px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 270px) and (max-width: 999px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  // login
+  .login-card {
+    border-radius: 0.85rem;
+
+    @media screen and (min-width: 1000px) {
+      .left-card {
+        width: 50% !important;
+        border-top-left-radius: 0.85rem;
+        border-bottom-left-radius: 0.85rem;
+        background-color: $medium-light-color;
+        box-shadow: $card-shadow-color !important;
+
+        .logo {
+          width: 250px;
+        }
+      }
+
+      .right-card {
+        width: 50% !important;
+        border-top-right-radius: 0.85rem;
+        border-bottom-right-radius: 0.85rem;
+        background-color: $default_white;
+        box-shadow: $card-shadow-lighter-color !important;
+
+        .checkbox-left {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          .form-checkbox{
+            outline: 0;
+            margin-right: 10px;
+            box-shadow: none !important;
+            border-color: $medium-light-color !important;
+
+            &:checked{
+              background-color: $medium-light-color !important;
+            }
+          }
+        }
+
+        .checkbox-right {
+          display: flex;
+          justify-content: flex-end;          
+        }
+
+        .title {
+          display: block;
+          margin-top: 20px;
+          margin-left: 10px;
+          margin-right: auto;
+          color: $medium-light-color;
+          font-size: 28px !important;
+          border: none !important;
+          background-color: transparent !important;
+        }
+      }
+    }
+
+    @media screen and (min-width: 270px) and (max-width: 999px) {
+      .left-card {
+        border-top-left-radius: 0.85rem;
+        border-top-right-radius: 0.85rem;
+        background-color: $medium-light-color;
+        box-shadow: $card-shadow-color !important;
+
+        .logo {
+          width: 150px;
+        }
+      }
+
+      .right-card {
+        border-bottom-left-radius: 0.85rem;
+        border-bottom-right-radius: 0.85rem;
+        background-color: $default_white;
+        box-shadow: $card-shadow-lighter-color !important;
+
+        .title {
+          font-size: 20px !important;
+        }
+      }
+    }
+  }
+
+  // logout
+  .logout-card {
+    border-radius: 0.85rem;
+    background-color: $default_white;
+    text-align: center;
+    border-radius: 0.85rem !important;
+    box-shadow: $card-shadow-lighter-color !important;
+
+    .message-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px !important;
+      margin: 30px 0px !important;
+
+      .message-text {
+        text-align: center;
+        width: 400px;
+        text-wrap: wrap;
+        color: $gray-color;
+        font-size: 18px;
+      }
+    }
+
+    @media screen and (min-width: 270px) and (max-width: 840px) {
+      .login-footer {
+        display: flex;
+        border: none;
+        justify-content: center !important;
+        align-items: center;
+        margin: 15px 15px;
+        background-color: $default_white;
+      }
+    }
+
+    .login-footer {
+      display: flex;
+      border: none;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 15px;
+      margin-left: 15px;
+      background-color: $default_white;
+    }
+  }
+}
+
+// login & logout button
+.login-button {
+  display: block !important;
+  margin-top: 20px;
+  margin-left: auto !important;
+  font-size: 14px;
+  border-radius: 0.5rem;
+  border-color: $medium-light-color !important;
+  background-color: $medium-light-color !important;
+  color: $default_white;
+
+  &:hover {
+    border-color: $medium-dark-theme-color !important;
+    background-color: $medium-dark-theme-color !important;
+  }
+}
+
+// password-reset
+.card-container {
+  background-image: url($login-background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $outer-shadow-color;
+}
+
+//
+.common-card-container {
+  background-image: url($login-background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $outer-shadow-color;
+
+  .card-layout {
+    min-height: 40dvh;
+    border-radius: 0.85rem !important;
+
+    @media screen and (min-width: 1000px) {
+      box-shadow: $card-shadow-color !important;
+    }
+
+    .card-row {
+      border-radius: 0.85rem !important;
+
+      @media screen and (min-width: 1000px) {
+        min-height: 40dvh;
+
+        .logo-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px 0px;
+          color: $default_white;
+          border-top-left-radius: 0.85rem;
+          border-bottom-left-radius: 0.85rem;
+          background-color: $medium-light-color;
+
+          .logo {
+            width: 250px !important;
+            background-repeat: repeat;
+            background-size: cover;
+          }
+        }
+      }
+
+      @media screen and (min-width: 270px) and (max-width: 999px) {
+        .logo-container {
+          height: auto;
+          text-align: justify;
+          padding: 1rem 0;
+          color: $default_white;
+          border-top-left-radius: 0.85rem;
+          border-top-right-radius: 0.85rem;
+          background-color: $medium-light-color;
+          box-shadow: $card-shadow-color !important;
+
+          .logo {
+            width: 200px !important;
+            background-repeat: repeat;
+            background-size: cover;
+          }
+        }
+      }
+    }
+
+    .card-content-layout {
+      background-color: $default_white !important;
+      border-top-right-radius: 0.85rem;
+      border-bottom-right-radius: 0.85rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .card-title {
+        color: $medium-light-color;
+        margin-bottom: 35px;
+        font-size: 28px !important;
+
+        @media screen and (min-width: 270px) and (max-width: 999px) {
+          font-size: 20px !important;
+        }
+      }
+
+      .card-form {
+        margin-bottom: 20px !important;
+      }
+
+      .reset-button {
+        display: block;
+        margin-top: 20px;
+        margin-left: auto;
+        font-size: 14px;
+        border-radius: 0.5rem;
+        border-color: $medium-light-color;
+        background-color: $medium-light-color;
+        color: $default_white;
+
+        &:hover {
+          border-color: $medium-dark-theme-color;
+          background-color: $medium-dark-theme-color;
+        }
+      }
+    }
+  }
+}
+
+.btn-style {
+  background-color: $medium-light-color !important;
+  border-color: $medium-light-color !important;
+  border-radius: 0.5rem;
+  width: 100%;
+
+  &:hover {
+    background-color: $medium-dark-theme-color !important;
+    border-color: $medium-dark-theme-color !important;
+  }
+}

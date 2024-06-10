@@ -4,7 +4,7 @@ import { CFooter } from '@coreui/react'
 const AppFooter = ({ isExpanded }) => {
   return (
     <CFooter className='app-footer'>
-      <small className={`${isExpanded ? 'footer-expanded' : 'footer-collapsed'}`}>Copyright &copy; {new Date().getFullYear()} [Company]. All Rights Reserved. | Version 1.1.0</small>
+      <small className={`${isExpanded ? 'footer-expanded' : 'footer-collapsed'}`}>Copyright &copy; {new Date().getFullYear()} Conifs. All Rights Reserved. | Version 1.1.0</small>
     </CFooter>
   )
 }
