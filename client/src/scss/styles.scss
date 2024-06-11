@@ -40,6 +40,11 @@ input:-webkit-autofill:active {
   border-color: $input-border-color !important;
 }
 
+// overwrite bg-light color
+.bg-light {
+  background-color: $light-bg-color !important;
+}
+
 // header
 .header {
   padding: 0px !important;
@@ -220,7 +225,8 @@ input:-webkit-autofill:active {
               max-height: 200px !important;
               overflow: auto;
               overflow-x: hidden;
-              :hover{
+
+              :hover {
                 background-color: $light-bg-color !important;
               }
             }
@@ -420,7 +426,27 @@ input:-webkit-autofill:active {
   overflow: auto;
 }
 
-// breadcrumbs
+@media screen and (min-width: 1300px) {
+  .content-collapsed {
+    margin-left: 8dvw;
+    margin-right: 4dvw;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1299px) {
+  .content-collapsed {
+    margin-left: 12dvw;
+    margin-right: 6dvw;
+  }
+}
+
+@media screen and (min-width: 270px) and (max-width: 799px) {
+  .content-collapsed {
+    margin-left: 10dvw;
+    margin-right: 5dvw;
+  }
+}
+
 
 // breadcrumbs
 .app-breadcrumb {
@@ -878,7 +904,6 @@ select.form-select {
 }
 
 
-
 // login & logout
 .login-container {
   background-image: url($login-background-image);
@@ -955,8 +980,6 @@ select.form-select {
           margin-right: auto;
           color: $medium-light-color;
           font-size: 28px !important;
-          border: none !important;
-          background-color: transparent !important;
         }
       }
     }
@@ -981,6 +1004,7 @@ select.form-select {
 
         .title {
           font-size: 20px !important;
+          margin-left: 15px !important;
         }
       }
     }
@@ -1166,20 +1190,4 @@ select.form-select {
       }
     }
   }
-}
-
-.btn-style {
-  background-color: $medium-light-color !important;
-  border-color: $medium-light-color !important;
-  border-radius: 0.5rem;
-  width: 100%;
-
-  &:hover {
-    background-color: $medium-dark-theme-color !important;
-    border-color: $medium-dark-theme-color !important;
-  }
-}
-
-.bg-light {
-  background-color: $bg-light !important;
 }
