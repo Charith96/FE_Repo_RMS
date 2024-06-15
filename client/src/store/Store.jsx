@@ -67,6 +67,10 @@ import {
   deleteRoleReducer,
 } from "./reducers/RolesReducer";
 
+import {
+  createAdminReducer
+} from "./reducers/AdminReducer";
+
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
@@ -132,6 +136,9 @@ const rootReducer = combineReducers({
   createRole: createRoleReducer,
   updateRole: updateRoleReducer,
   deleteRole: deleteRoleReducer,
+
+  //admin
+  createAdmin: createAdminReducer,
 });
 
 export const store = createStore(

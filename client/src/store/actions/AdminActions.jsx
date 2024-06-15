@@ -1,0 +1,28 @@
+import axios from "axios";
+import ActionTypes from "../../data/ReduxActionTypes.jsx";
+import { ADMIN_URL } from "../../utils/Constants.jsx";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+export const createAdmin = (data) => async (dispatch) => {
+    try {
+      dispatch({ type: ActionTypes.CREATE_ADMIN_START });
+  
+      const response = await axios.post(`${BASE_URL}${ADMIN_URL}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (response.status === 201) {
+        dispatch({
+          type: ActionTypes.CREATE_ADMIN_SUCCESS,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: ActionTypes.CREATE_ADMIN_FAIL,
+        payload: error.message,
+      });
+    }
+  };

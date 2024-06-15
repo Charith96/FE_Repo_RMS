@@ -8,3 +8,4 @@ export const COUNTRY_URL='/countries';
 export const CURRENCY_URL='/currencies';
 export const USER_URL = '/users';
 export const ROLE_URL = '/Roles';
+export const ADMIN_URL = '/admincreation';
