@@ -173,9 +173,10 @@
     {
       "id": "3c71",
       "rolecode": "78",
-      "rolename": "nb",
+      "rolename": "test 34",
       "privileges": [
-        "updateAccess"
+        "updateAccess",
+        "viewAccess"
       ]
     },
     {
