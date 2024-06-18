@@ -8,8 +8,12 @@ export const COUNTRY_URL='/countries';
 export const CURRENCY_URL='/currencies';
 export const USER_URL = '/users';
 export const ROLE_URL = '/Roles';
+<<<<<<< HEAD
  //const BASE_URL = 'https://localhost:7291/api/Company';
 
 //  export const COMPANY_DETAILS='/Company';
 //  export const COUNTRY_URL='/Country';
 //  export const CURRENCY_URL='/Currency';
+=======
+export const ADMIN_URL = '/admincreation';
+>>>>>>> origin/integration
