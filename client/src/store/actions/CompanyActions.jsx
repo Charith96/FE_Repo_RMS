@@ -134,35 +134,50 @@ export const resetManageCompanyState = () => (dispatch) => {
 };
 
 // Action creator for fetching countries
-export const fetchCountries = () => {
-  return async (dispatch) => {
+export const fetchCountries = () => async (dispatch) => {
+  try {
+    //return async (dispatch) => {
     dispatch({ type: ActionTypes.FETCH_COUNTRIES_START }); // Dispatch action to indicate start of fetching countries
-    try {
-      const response = await fetch(`${BASE_URL}${COUNTRY_URL}`); // Assuming db.json is served at this URL
-      const data = await response.json();
-      dispatch({ type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: data }); // Dispatch action with successful response data
-    } catch (error) {
+    const response = await axios.get(`${BASE_URL}${COUNTRY_URL}`, {
+      // Assuming db.json is served at this URL
+      //const data = await response.json();
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.status === 200) {
       dispatch({
-        type: ActionTypes.FETCH_COUNTRIES_FAIL,
-        error: error.message,
-      }); // Dispatch action with error message
+        type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
+        payload: response.data,
+      }); // Dispatch action with successful response data
     }
-  };
+  } catch (error) {
+    dispatch({
+      type: ActionTypes.FETCH_COUNTRIES_FAIL,
+      error: error.message,
+    }); // Dispatch action with error message
+  }
 };
 
 // Action creator for fetching currencies
-export const fetchCurrencies = () => {
-  return async (dispatch) => {
+export const fetchCurrencies = () => async (dispatch) => {
+  //return async (dispatch) => {
+  try {
     dispatch({ type: ActionTypes.FETCH_CURRENCIES_START }); // Dispatch action to indicate start of fetching currencies
-    try {
-      const response = await fetch(`${BASE_URL}${CURRENCY_URL}`); // Assuming db.json is served at this URL
-      const data = await response.json();
-      dispatch({ type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: data }); // Dispatch action with successful response data
-    } catch (error) {
+
+    const response = await axios.get(`${BASE_URL}${CURRENCY_URL}`, {
+      // Assuming db.json is served at this URL
+      headers: { "Content-Type": "application/json" },
+    });
+    // const data = await response.json();
+    if (response.status === 200) {
       dispatch({
-        type: ActionTypes.FETCH_CURRENCIES_FAIL,
-        error: error.message,
-      }); // Dispatch action with error message
+        type: ActionTypes.FETCH_CURRENCIES_SUCCESS,
+        payload: response.data,
+      }); // Dispatch action with successful response data
     }
-  };
+  } catch (error) {
+    dispatch({
+      type: ActionTypes.FETCH_CURRENCIES_FAIL,
+      error: error.message,
+    }); // Dispatch action with error message
+  }
 };

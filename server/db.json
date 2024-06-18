@@ -63,8 +63,8 @@
       "companyCode": "554",
       "companyName": "ABC15",
       "description": "",
-      "country": "Japan",
-      "currency": "SLR",
+      "country": "Germany",
+      "currency": "AUD",
       "address01": "No1",
       "address02": "No2",
       "defaultCompany": true
@@ -166,6 +166,28 @@
       "currency": "EUR",
       "address01": "1",
       "address02": "4",
+      "defaultCompany": true
+    },
+    {
+      "id": "ec99",
+      "companyCode": "665",
+      "companyName": "cbc",
+      "description": "v",
+      "country": "Russia",
+      "currency": "GBP",
+      "address01": "xvn",
+      "address02": "",
+      "defaultCompany": false
+    },
+    {
+      "id": "6a49",
+      "companyCode": "2we43",
+      "companyName": "xvn",
+      "description": "hm",
+      "country": "Saudi Arabia",
+      "currency": "SLR",
+      "address01": "cng",
+      "address02": "",
       "defaultCompany": true
     }
   ],
