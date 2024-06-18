@@ -26,3 +26,23 @@ export const createAdmin = (data) => async (dispatch) => {
       });
     }
   };
+
+  export const fetchAdmins = () => async (dispatch) => {
+    try {
+      dispatch({ type: ActionTypes.GET_ADMIN_START });
+      const response = await axios.get(`${BASE_URL}${ADMIN_URL}`, {
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status === 200) {
+        dispatch({
+          type: ActionTypes.GET_ADMIN_SUCCESS,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: ActionTypes.GET_ADMIN_FAIL,
+        payload: error.message,
+      });
+    }
+  };

@@ -658,32 +658,18 @@
   ],
   "admincreation": [
     {
-      "id": "6bc9",
+      "id": "7840",
       "firstName": "chathuka",
-      "lastName": "malitha",
-      "email": "tester@gmail.com",
-      "password": "hii@12345"
+      "lastName": "Doe",
+      "email": "chathukamalitha@gmail.com",
+      "password": "ttpw"
     },
     {
-      "id": "f1fc",
-      "firstName": "john",
-      "lastName": "cena",
-      "email": "tester@gmail.com",
-      "password": "hii@12345"
-    },
-    {
-      "id": "2747",
-      "firstName": "",
-      "lastName": "smith",
-      "email": "tester@gmail.com",
-      "password": "hii@12345"
-    },
-    {
-      "id": "5e67",
-      "firstName": "chathuka",
-      "lastName": "smith",
-      "email": "tester@gmail.com",
-      "password": "hii@12345"
+      "id": "5c59",
+      "firstName": "jake",
+      "lastName": "fraser",
+      "email": "jakefraser@gmail.com",
+      "password": "jakejake1"
     }
   ]
 }
