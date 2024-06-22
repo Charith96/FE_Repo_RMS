@@ -1,14 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteCompany } from "../../store/actions/CompanyActions";
-import CompanyTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  fetchCompanies,
-  resetCompanyState,
-  fetchCountries,
-  fetchCurrencies,
-} from "../../store/actions/CompanyActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -16,23 +11,25 @@ import {
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
+
+import {
+  deleteCompany,
+  fetchCompanies,
+  resetCompanyState,
+  fetchCountries,
+  fetchCurrencies,
+} from "../../store/actions/CompanyActions";
+import CompanyTable from "../../components/table/DataTableComponent";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Retrieve state from Redux store
-  const fetchCompanyData = useSelector(
-    (state) => state.getCompany.fetchCompany
-  );
-  const deleteCompanyData = useSelector(
-    (state) => state.deleteCompany.deleteCompany
-  );
+  const fetchCompanyData = useSelector((state) => state.getCompany.fetchCompany);
+  const deleteCompanyData = useSelector((state) => state.deleteCompany.deleteCompany);
   const countriesData = useSelector((state) => state.countries.countries);
   const currenciesData = useSelector((state) => state.currencies.currencies);
 
@@ -42,33 +39,26 @@ const Companies = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const isAddDisable = useState(false)?.current;
-  const isEditDisable = useState(true)?.current;
-  const isSaveDisable = useState(true)?.current;
+  const isAddDisable = useRef(false);
+  const isEditDisable = useRef(true);
+  const isSaveDisable = useRef(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
-  const totalItems = filteredData.length;
-  const toggledClearRows = useRef(false);
   const [countries, setCountries] = useState({});
   const [currencies, setCurrencies] = useState({});
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // Fetch companies and countries on component mount and when deleteCompanyData changes
+  // Fetch companies, countries, and currencies on component mount
   useEffect(() => {
     dispatch(fetchCompanies());
     dispatch(fetchCountries());
     dispatch(fetchCurrencies());
-    if (deleteCompanyData) {
-      dispatch(fetchCompanies());
-    }
-  }, [dispatch, deleteCompanyData]);
+  }, [dispatch]);
 
   // Create a mapping of country IDs to country names
   useEffect(() => {
@@ -81,6 +71,7 @@ const Companies = () => {
     }
   }, [countriesData]);
 
+  // Create a mapping of currency IDs to currency names
   useEffect(() => {
     if (currenciesData) {
       const currencyMap = {};
@@ -91,7 +82,7 @@ const Companies = () => {
     }
   }, [currenciesData]);
 
-  // Update paginatedData, filteredData, and deleteDisable state based on fetchCompanyData and selectedRows
+  // Update paginatedData, filteredData, and deleteDisable state
   useEffect(() => {
     if (fetchCompanyData && fetchCompanyData.length > 0) {
       setFilteredData(fetchCompanyData);
@@ -102,11 +93,7 @@ const Companies = () => {
     const slicedData = filteredData?.slice(start, end);
     setPaginatedData(slicedData);
 
-    if (selectedRows.length === 1) {
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
-    }
+    setIsDeleteDisable(selectedRows.length !== 1);
   }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
 
   // Table column definitions
@@ -218,15 +205,25 @@ const Companies = () => {
   };
 
   // Confirm delete action
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCompany(selectedRows[0]?.companyID));
+        // Optimistic update
+        setFilteredData(prevData => prevData.filter(item => item.companyID !== selectedRows[0].companyID));
+        
+        await dispatch(deleteCompany(selectedRows[0]?.companyID));
         toast.success("Record Successfully deleted!");
+        
+        // Force re-fetch and re-render
+        dispatch(fetchCompanies());
+        setRefreshKey(prevKey => prevKey + 1);
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
+        // Revert optimistic update if delete fails
+        dispatch(fetchCompanies());
       } finally {
         setShowConfirmation(false);
+        setSelectedRows([]);
       }
     }
   };
@@ -259,24 +256,23 @@ const Companies = () => {
     setCurrentPage(0);
   };
 
-  const isSingleRecordSelected = selectedRows.length === 1 && false;
+  // Handle row selection
+  const handleRowSelected = (state) => {
+    setSelectedRows(state.selectedRows);
+  };
 
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
         Title={"Company List"}
-        plustDisabled={isAddDisable}
+        plustDisabled={isAddDisable.current}
         editDisabled={true}
         saveDisabled={true}
         deleteDisabled={isDeleteDisable}
-        PlusAction={() => {
-          handleCreate();
-        }}
+        PlusAction={handleCreate}
         EditAction={() => {}}
         SaveAction={() => {}}
-        DeleteAction={() => {
-          handleDelete();
-        }}
+        DeleteAction={handleDelete}
       />
 
       <Row>
@@ -313,6 +309,7 @@ const Companies = () => {
       </Row>
 
       <CompanyTable
+        key={refreshKey}
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}
@@ -321,14 +318,13 @@ const Companies = () => {
         setMenuVisible={setMenuVisible}
         paginatedData={paginatedData}
         filteredData={filteredData}
-        totalItems={totalItems}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         perPage={perPage}
         columns={columns}
         menuVisible={menuVisible}
         contextMenuPosition={contextMenuPosition}
-        toggledClearRows={toggledClearRows}
-        isSingleRecordSelected={isSingleRecordSelected}
+        onSelectedRowsChange={handleRowSelected}
       />
 
       <div>{customContextMenu}</div>
@@ -341,9 +337,7 @@ const Companies = () => {
           "The selected Company will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
+        action={confirmDelete}
       />
     </div>
   );

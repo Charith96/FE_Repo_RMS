@@ -71,7 +71,6 @@ export const deleteCompany = (id) => async (dispatch) => {
       return { type: ActionTypes.DELETE_COMPANY_SUCCESS, payload: response.data };
     }
   } catch (error) {
-    console.error("Error deleting company:", error);
     dispatch({
       type: ActionTypes.DELETE_COMPANY_FAIL,
       payload: error.message,
@@ -158,7 +157,6 @@ export const fetchCountries = () => async (dispatch) => {
         type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
         payload: response.data,
       });
-      console.log("Fetched countries:", response.data);
       return { type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: response.data };
     }
   } catch (error) {
@@ -183,7 +181,6 @@ export const fetchCurrencies = () => async (dispatch) => {
         type: ActionTypes.FETCH_CURRENCIES_SUCCESS,
         payload: response.data,
       });
-      console.log("Fetched currencies:", response.data);
       return { type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: response.data };
     }
   } catch (error) {

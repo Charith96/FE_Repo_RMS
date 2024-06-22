@@ -4,16 +4,15 @@ import {
   fetchCountries,
   fetchCurrencies,
   editCompany,
+  deleteCompany
 } from "../../store/actions/CompanyActions";
-import { deleteCompany } from "../../store/actions/CompanyActions";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import TextField from "../../components/TextField";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Form, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { Form } from "react-bootstrap";
 import CheckboxField from "../../components/CheckboxField";
 import DropdownField from "../../components/DropdownField";
 
@@ -26,12 +25,11 @@ const CompanyOverview = () => {
   const fetchCompanyData = useSelector(
     (state) => state.getCompanyById.fetchCompanyId
   );
-
-  const [recordId, setRecordId] = useState("");
   const countries = useSelector((state) => state.countries.countries);
   const currencies = useSelector((state) => state.currencies.currencies);
 
   // State variables for form fields
+  const [recordId, setRecordId] = useState("");
   const [companyCode, setCompanyCode] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
@@ -48,7 +46,8 @@ const CompanyOverview = () => {
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Get the data and mode from the URL search params and location state
   const searchParams = new URLSearchParams(useLocation().search);
@@ -58,7 +57,7 @@ const CompanyOverview = () => {
 
   // Fetch company data by ID when recordId changes
   useEffect(() => {
-    if (paramData && recordId) {
+    if (recordId) {
       dispatch(fetchCompaniesById(recordId));
     }
   }, [dispatch, recordId]);
@@ -69,55 +68,55 @@ const CompanyOverview = () => {
     dispatch(fetchCurrencies());
   }, [dispatch]);
 
-  // Log countries and currencies when they change
-  useEffect(() => {
-    console.log("Countries in state:", countries);
-    console.log("Currencies in state:", currencies);
-  }, [countries, currencies]);
-
-  // Function to fetch and populate the form fields with data
-  const fetchData = () => {
-    if (fetchCompanyData) {
-      console.log("Fetched company data:", fetchCompanyData);
-      let filterData = fetchCompanyData;
-      if (filterData) {
-        if (count === 0) {
-          setCompanyCode(filterData?.companyCode ?? "");
-          setCompanyName(filterData?.companyName ?? "");
-          setDescription(filterData?.description ?? "");
-          setCountryId(filterData?.countryID ?? "");
-          setCurrencyId(filterData?.currencyID ?? "");
-          setAddress01(filterData?.address01 ?? "");
-          setAddress02(filterData?.address02 ?? "");
-          setDefaultCompany(filterData?.defaultCompany ?? false);
-          if (mode) {
-            if (mode === "edit") {
-              setIsViewMode(false);
-              setIsEditDisable(true);
-              setIsSaveDisable(false);
-            } else if (mode === "view") {
-              setIsViewMode(true);
-              setIsEditDisable(false);
-              setIsSaveDisable(true);
-            }
-          }
-        }
-      } else {
-        handleNavigate();
-      }
-      setCount(1);
-    }
-  };
-
-  // Set the recordId when paramData changes, and call fetchData after a delay
+  // Set the recordId when paramData changes
   useEffect(() => {
     if (paramData && paramData.companyID && paramData.companyID !== "") {
       setRecordId(paramData.companyID);
     }
-    if (recordId) {
-      setTimeout(() => fetchData(), 100);
+  }, [paramData]);
+
+  // Function to fetch and populate the form fields with data
+  const fetchData = () => {
+    setIsLoading(true);
+    setError(null);
+    if (fetchCompanyData) {
+      let filterData = fetchCompanyData;
+      if (filterData) {
+        setCompanyCode(filterData?.companyCode ?? "");
+        setCompanyName(filterData?.companyName ?? "");
+        setDescription(filterData?.description ?? "");
+        setCountryId(filterData?.countryID ?? "");
+        setCurrencyId(filterData?.currencyID ?? "");
+        setAddress01(filterData?.address01 ?? "");
+        setAddress02(filterData?.address02 ?? "");
+        setDefaultCompany(filterData?.defaultCompany ?? false);
+        if (mode) {
+          if (mode === "edit") {
+            setIsViewMode(false);
+            setIsEditDisable(true);
+            setIsSaveDisable(false);
+          } else if (mode === "view") {
+            setIsViewMode(true);
+            setIsEditDisable(false);
+            setIsSaveDisable(true);
+          }
+        }
+      } else {
+        setError("No company data found");
+        handleNavigate();
+      }
+    } else {
+      setError("Failed to fetch company data");
     }
-  }, [isSaveDisable, recordId]);
+    setIsLoading(false);
+  };
+
+  // Call fetchData when fetchCompanyData changes
+  useEffect(() => {
+    if (fetchCompanyData) {
+      fetchData();
+    }
+  }, [fetchCompanyData]);
 
   // Handle edit button click
   const handleEdit = () => {
@@ -143,9 +142,7 @@ const CompanyOverview = () => {
           address02: address02,
           defaultCompany: defaultCompany,
         };
-        console.log("Saving company data:", formData);
         const result = await dispatch(editCompany(recordId, formData));
-        console.log("Save result:", result);
         if (result.type.includes("_SUCCESS")) {
           toast.success("Data saved successfully");
           handleNavigate();
@@ -156,7 +153,6 @@ const CompanyOverview = () => {
         toast.error("Invalid company data or ID.");
       }
     } catch (error) {
-      console.error("Error saving data:", error);
       toast.error("Error saving data. Please try again.");
     }
   };
@@ -165,19 +161,15 @@ const CompanyOverview = () => {
   const confirmDelete = async () => {
     try {
       if (paramData && paramData.companyID) {
-        const result = await dispatch(deleteCompany(paramData.companyID));
-        if (result.type.includes("_SUCCESS")) {
-          toast.success("Data deleted successfully");
-          handleNavigate();
-        } else {
-          toast.error("Failed to delete. Please try again.");
-        }
+        await dispatch(deleteCompany(paramData.companyID));
+        toast.success("Company successfully deleted");
+        handleNavigate();
       } else {
-        toast.error("Cannot delete. ID is undefined.");
+        toast.error("Cannot delete. Company ID is undefined.");
       }
     } catch (error) {
-      console.error("Error deleting data:", error);
-      toast.error("Error deleting data. Please try again.");
+      console.error("Error deleting company:", error);
+      toast.error("Failed to delete company. Please try again.");
     } finally {
       setShowConfirmation(false);
     }
@@ -202,6 +194,24 @@ const CompanyOverview = () => {
   const handleNavigate = () => {
     navigate("/company/companies");
   };
+
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{height: "100vh"}}>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <>
