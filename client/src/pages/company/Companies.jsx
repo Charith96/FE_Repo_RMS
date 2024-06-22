@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   fetchCompanies,
   resetCompanyState,
+  fetchCountries,
+  fetchCurrencies,
 } from "../../store/actions/CompanyActions";
 import {
   faArrowUpRightFromSquare,
@@ -31,6 +33,8 @@ const Companies = () => {
   const deleteCompanyData = useSelector(
     (state) => state.deleteCompany.deleteCompany
   );
+  const countriesData = useSelector((state) => state.countries.countries);
+  const currenciesData = useSelector((state) => state.currencies.currencies);
 
   // State variables
   const [paginatedData, setPaginatedData] = useState([]);
@@ -53,14 +57,39 @@ const Companies = () => {
   const [perPage, setPerPage] = useState(5);
   const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
+  const [countries, setCountries] = useState({});
+  const [currencies, setCurrencies] = useState({});
 
-  // Fetch companies and update filteredData on component mount and when deleteCompanyData changes
+  // Fetch companies and countries on component mount and when deleteCompanyData changes
   useEffect(() => {
     dispatch(fetchCompanies());
+    dispatch(fetchCountries());
+    dispatch(fetchCurrencies());
     if (deleteCompanyData) {
       dispatch(fetchCompanies());
     }
   }, [dispatch, deleteCompanyData]);
+
+  // Create a mapping of country IDs to country names
+  useEffect(() => {
+    if (countriesData) {
+      const countryMap = {};
+      countriesData.forEach(country => {
+        countryMap[country.countryID] = country.countryName;
+      });
+      setCountries(countryMap);
+    }
+  }, [countriesData]);
+
+  useEffect(() => {
+    if (currenciesData) {
+      const currencyMap = {};
+      currenciesData.forEach(currency => {
+        currencyMap[currency.currencyID] = currency.currencyName;
+      });
+      setCurrencies(currencyMap);
+    }
+  }, [currenciesData]);
 
   // Update paginatedData, filteredData, and deleteDisable state based on fetchCompanyData and selectedRows
   useEffect(() => {
@@ -109,13 +138,13 @@ const Companies = () => {
     },
     {
       name: "Country",
-      selector: (row) => row.country,
+      selector: (row) => countries[row.countryID] || "Unknown",
       sortable: true,
       grow: 2,
     },
     {
       name: "Currency",
-      selector: (row) => row.currency,
+      selector: (row) => currencies[row.currencyID] || "Unknown",
       sortable: true,
       grow: 2,
     },
@@ -132,7 +161,7 @@ const Companies = () => {
   // Handle edit button click in context menu
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { companyID: contextMenuRow.companyID };
       let dataString = JSON.stringify(data);
       navigate(
         `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
@@ -144,7 +173,7 @@ const Companies = () => {
   // Handle detail button click in context menu
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { companyID: contextMenuRow.companyID };
       let dataString = JSON.stringify(data);
       navigate(
         `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
@@ -176,7 +205,7 @@ const Companies = () => {
         setFilteredData(fetchCompanyData);
       } else {
         const filtered = fetchCompanyData.filter((item) =>
-          item.companyCode
+          item.companyID
             ?.toString()
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())
@@ -192,7 +221,7 @@ const Companies = () => {
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCompany(selectedRows[0]?.id));
+        dispatch(deleteCompany(selectedRows[0]?.companyID));
         toast.success("Record Successfully deleted!");
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
@@ -234,12 +263,11 @@ const Companies = () => {
 
   return (
     <div className="mb-5 mx-2">
-      {/* TitleActionBar component with props */}
       <TitleActionBar
         Title={"Company List"}
         plustDisabled={isAddDisable}
-        editDisabled={isEditDisable}
-        saveDisabled={isSaveDisable}
+        editDisabled={true}
+        saveDisabled={true}
         deleteDisabled={isDeleteDisable}
         PlusAction={() => {
           handleCreate();
@@ -254,7 +282,6 @@ const Companies = () => {
       <Row>
         <div className="filter-box mb-5">
           <InputGroup className="w-25">
-            {/* Search input field */}
             <Form.Control
               className="bg-white form-control-filter"
               placeholder="Search Company"
@@ -285,7 +312,6 @@ const Companies = () => {
         </div>
       </Row>
 
-      {/* CompanyTable component with props */}
       <CompanyTable
         selectableRows={true}
         selectableRowsSingle={true}
@@ -305,10 +331,8 @@ const Companies = () => {
         isSingleRecordSelected={isSingleRecordSelected}
       />
 
-      {/* Popup menu */}
       <div>{customContextMenu}</div>
 
-      {/* DeleteConfirmModel component with props */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
