@@ -1,7 +1,8 @@
 import axios from "axios";
 import { RESERVATION_GROUP, RESERVATION_ITEM } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+//const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "https://localhost:7219/api";
 
 export const createReservationGroup = (data) => async (dispatch) => {
   try {
@@ -13,7 +14,7 @@ export const createReservationGroup = (data) => async (dispatch) => {
       },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       dispatch({
         type: ActionTypes.CREATE_RESERVATION_GROUP_SUCCESS,
         payload: response.data,
@@ -30,7 +31,7 @@ export const createReservationGroup = (data) => async (dispatch) => {
 export const editReservationGroup = (id, data) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.EDIT_RESERVATION_GROUP_START });
-    const url = `${BASE_URL}${RESERVATION_GROUP}/${id}`;
+    const url = `${BASE_URL}${RESERVATION_GROUP}`;
 
     const response = await axios.put(url, data, {
       headers: {
@@ -146,7 +147,7 @@ export const resetManageReservationGroupState = () => (dispatch) => {
 export const fetchReservationItemByGroupId = (id) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}${RESERVATION_ITEM}?reservationGroup=${id}`
+      `${BASE_URL}${RESERVATION_ITEM}?groupId=${id}`
     );
     
     if (response.status === 200){

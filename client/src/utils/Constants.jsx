@@ -1,8 +1,8 @@
 export const CUSTOMER_URL = '/customers';
 export const RESERVATION_URL='/reservations';
-export const RESERVATION_GROUP='/groupcreation';
-export const RESERVATION_ITEM='/itemcreation';
-export const TIME_SLOT='/timeslotsitem';
+export const RESERVATION_GROUP='/ReservationGroup';
+export const RESERVATION_ITEM='/ReservationItem';
+export const TIME_SLOT='/TimeSlot';
 export const COMPANY_DETAILS='/companies';
 export const COUNTRY_URL='/countries';
 export const CURRENCY_URL='/currencies';

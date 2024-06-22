@@ -64,6 +64,7 @@ const ReservationItemTimeSlotManagement = () => {
     if (paramData && recordId) {
       dispatch(fetchReservationItemsById(recordId));
       dispatch(fetchTimeSlotsByItemId(recordId));
+      
       if (fetchReservationItemData.slotDurationType === "Customized") {
         setIsCustomized(true);
       } else {
@@ -98,13 +99,29 @@ const ReservationItemTimeSlotManagement = () => {
       if (filterData) {
         if (count === 0) {
           setItemId(filterData?.itemId ?? "");
-          setGroupName(filterData?.reservationGroup ?? "");
+          setGroupName(filterData?.groupId ?? "");
           setItemName(filterData?.itemName ?? "");
           setNoOfSlots(filterData?.noOfSlots ?? "");
           setNoOfReservations(filterData?.noOfReservations ?? "");
           setCapacity(filterData?.capacity ?? "");
-          setDuration(filterData?.duration ?? "00:00");
-          setInputValues(fetchTimeSlotsByItemIdData);
+          setDuration(filterData?.durationPerSlot ?? "00:00");
+          // Trim time values in HH:MM format
+          const trimmedTimeSlots = fetchTimeSlotsByItemIdData.map((slot) => ({
+            ...slot,
+            startTime: new Date(slot.startTime).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              hourCycle: 'h23'
+            }),
+            endTime: new Date(slot.endTime).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              hourCycle: 'h23'
+            }),
+          }));
+          
+          console.log(fetchReservationItemData);
+          setInputValues(trimmedTimeSlots);
           if (mode) {
             if (mode === "edit") {
               setIsViewMode(false);
@@ -148,6 +165,7 @@ const ReservationItemTimeSlotManagement = () => {
           noOfReservations: noOfReservations,
           capacity: capacity,
         };
+  
         if (inputValues.length > 0) {
           inputValues.forEach((value) => {
             if (
@@ -158,21 +176,22 @@ const ReservationItemTimeSlotManagement = () => {
             ) {
               flagOld = false;
             }
-            if (newlyAddedSlots.length > 0) {
-              newlyAddedSlots.forEach((value) => {
-                if (
-                  value.startTime === "NaN:NaN" ||
-                  value.endTime === "NaN:NaN" ||
-                  value.startTime === "" ||
-                  value.endTime === ""
-                ) {
-                  flagNew = false;
-                }
-              });
-            }
           });
+  
+          if (newlyAddedSlots.length > 0) {
+            newlyAddedSlots.forEach((value) => {
+              if (
+                value.startTime === "NaN:NaN" ||
+                value.endTime === "NaN:NaN" ||
+                value.startTime === "" ||
+                value.endTime === ""
+              ) {
+                flagNew = false;
+              }
+            });
+          }
         }
-
+  
         if (
           itemName &&
           noOfReservations &&
@@ -182,21 +201,31 @@ const ReservationItemTimeSlotManagement = () => {
           !isOverlapping &&
           !isValuesEqual
         ) {
-          dispatch(editReservationItem(recordId, formData));
-
+          const today = new Date();
+          const dateString = today.toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+  
           const data = inputValues.map((value) => ({
             ...value,
+            startTime: `${dateString}T${value.startTime}:00.000Z`,
+            endTime: `${dateString}T${value.endTime}:00.000Z`,
           }));
-          data.forEach((value) => {
-            dispatch(editTimeSlotsByItemId(value.id, value));
-          });
-
+  
           const dataNew = newlyAddedSlots.map((value) => ({
             ...value,
+            startTime: `${dateString}T${value.startTime}:00.000Z`,
+            endTime: `${dateString}T${value.endTime}:00.000Z`,
           }));
+  
+          dispatch(editReservationItem(formData));
+  
+          data.forEach((value) => {
+            dispatch(editTimeSlotsByItemId(value));
+          });
+  
           dataNew.forEach((value) => {
             dispatch(createTimeSlots(value));
           });
+  
           handleNavigate();
           toast.success("Data saved successfully");
         } else {
@@ -217,7 +246,7 @@ const ReservationItemTimeSlotManagement = () => {
       dispatch(fetchTimeSlotsByItemId(recordId));
     }
   };
-
+  
   const handleEdit = () => {
     setIsAddDisable(true);
     setIsEditDisable(true);
@@ -255,11 +284,15 @@ const ReservationItemTimeSlotManagement = () => {
   };
 
   const navigateToCreate = () => {
-    navigate("/reservationManagement/reservation/reservationItem/createReservationItem");
+    navigate(
+      "/reservationManagement/reservation/reservationItem/createReservationItem"
+    );
   };
 
   const handleNavigate = () => {
-    navigate("/reservationManagement/reservation/reservationItem/reservationItems");
+    navigate(
+      "/reservationManagement/reservation/reservationItem/reservationItems"
+    );
   };
 
   // tab view content

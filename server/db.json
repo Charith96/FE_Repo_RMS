@@ -289,7 +289,7 @@
       ]
     }
   ],
-  "timeslotsitem": [
+  "TimeSlot": [
     {
       "id": "5fa5",
       "startTime": "23:01",
@@ -670,6 +670,24 @@
       "lastName": "fraser",
       "email": "jakefraser@gmail.com",
       "password": "jakejake1"
+    }
+  ],
+  "privileges":[
+    {
+      "id": "1",
+      "privilegeName": "createAccess"
+    },
+    {
+      "id": "2",
+      "privilegeName": "updateAccess"
+    },
+    {
+      "id": "3",
+      "privilegeName": "viewAccess"
+    },
+    {
+      "id": "4",
+      "privilegeName": "deleteAccess"
     }
   ]
 }

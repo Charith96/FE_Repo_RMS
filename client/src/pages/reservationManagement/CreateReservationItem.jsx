@@ -36,9 +36,9 @@ const CreateReservationItem = ({
   const [capacity, setCapacity] = useState("");
   const [reservationGroup, setReservationGroup] = useState("");
   const [isFlexible, setIsFlexible] = useState(true);
-  const [setIsNoOfSlots] = useState(true);
+  const [IsNoOfSlots, setIsNoOfSlots] = useState(true);
 
-  const [setIsDurationPerSlot] = useState(true);
+  const [isDurationPerSlot, setIsDurationPerSlot] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,16 +53,31 @@ const CreateReservationItem = ({
   }, [dispatch]);
 
   useEffect(() => {
-    if (!(itemIdForTheTimeSlots === "")) {
+    if (itemIdForTheTimeSlots !== "") {
       const data = inputValues.map((value) => ({
         ...value,
         itemId: itemIdForTheTimeSlots,
       }));
+
+      const updatedValue = []; // Initialize as an array
+
       data.forEach((value) => {
-        dispatch(createTimeSlots(value));
+        // Assuming value.startTime and value.endTime are in "HH:MM" format
+        const today = new Date();
+        const dateString = today.toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+
+        const startTimeString = `${dateString}T${value.startTime}:00.000Z`;
+        const endTimeString = `${dateString}T${value.endTime}:00.000Z`;
+
+        var timeSlot = {
+          itemId: itemIdForTheTimeSlots,
+          startTime: startTimeString,
+          endTime: endTimeString,
+        };
+        dispatch(createTimeSlots(timeSlot));
       });
     }
-  }, [dispatch, itemIdForTheTimeSlots]);
+  }, [dispatch, itemIdForTheTimeSlots]); // Ensure all dependencies are included
 
   //after submission reset the form
   const setToInitialState = () => {
@@ -96,10 +111,11 @@ const CreateReservationItem = ({
 
   const handleNavigate = () => {
     setTimeout(() => {
-        navigate("/reservationManagement/reservation/reservationItem/reservationItems");
+      navigate(
+        "/reservationManagement/reservation/reservationItem/reservationItems"
+      );
     }, 200);
-};
-
+  };
 
   //to handle the submit click
   const handleSubmit = async (e) => {
@@ -108,13 +124,13 @@ const CreateReservationItem = ({
     const data = {
       itemId: itemId.toString(),
       itemName: itemName,
+      groupId: reservationGroup,
       timeSlotType: timeSlotType,
-      noOfSlots: parseInt(noOfSlots, 10),
       slotDurationType: slotDurationType,
-      duration: duration,
+      durationPerSlot: duration,
+      noOfSlots :parseInt(noOfSlots, 10) || 0,
       noOfReservations: noOfReservations,
       capacity: capacity,
-      reservationGroup: reservationGroup,
     };
 
     const isValidInput = inputValues.every((value) => {
@@ -139,7 +155,9 @@ const CreateReservationItem = ({
       ) {
         if (isFlexible) {
           dispatch(createReservationItem(data));
-          handleNavigate();
+          //setTimeout(() => {
+          //handleNavigate();
+          //}, 200);
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else if (
@@ -150,7 +168,7 @@ const CreateReservationItem = ({
           !isValuesEqual
         ) {
           dispatch(createReservationItem(data));
-          handleNavigate();
+          //handleNavigate();
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else if (
@@ -160,7 +178,7 @@ const CreateReservationItem = ({
           !isValuesEqual
         ) {
           dispatch(createReservationItem(data));
-          handleNavigate();
+          //handleNavigate();
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else {
@@ -379,7 +397,8 @@ const CreateReservationItem = ({
                       if (inputValue === "*" || inputValue === "") {
                         setNoOfReservations(inputValue);
                       } else if (!isNaN(inputValue)) {
-                        setNoOfReservations(parseInt(inputValue, 10));
+                        //setNoOfReservations(parseInt(inputValue, 10));
+                        setNoOfReservations(inputValue);
                       } else {
                         setNoOfReservations("");
                       }
@@ -408,7 +427,8 @@ const CreateReservationItem = ({
                       if (inputValue === "-" || inputValue === "") {
                         setCapacity(inputValue);
                       } else {
-                        setCapacity(parseInt(inputValue, 10));
+                        //setCapacity(parseInt(inputValue, 10));
+                        setCapacity(inputValue);
                       }
                     } else {
                       setCapacity("");
