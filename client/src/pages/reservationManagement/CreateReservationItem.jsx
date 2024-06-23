@@ -59,7 +59,7 @@ const CreateReservationItem = ({
         itemId: itemIdForTheTimeSlots,
       }));
 
-      const updatedValue = []; // Initialize as an array
+      
 
       data.forEach((value) => {
         // Assuming value.startTime and value.endTime are in "HH:MM" format
