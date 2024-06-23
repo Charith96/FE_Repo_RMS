@@ -28,8 +28,8 @@ const CreateCompany = () => {
   const [companyCode, setCompanyCode] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
-  const [country, setCountry] = useState([]);
-  const [currency, setCurrency] = useState([]);
+  const [countryId, setCountryId] = useState("");
+  const [currencyId, setCurrencyId] = useState("");
   const [address01, setAddress01] = useState("");
   const [address02, setAddress02] = useState("");
   const [defaultCompany, setDefaultCompany] = useState(false);
@@ -58,13 +58,13 @@ const CreateCompany = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (companyCode && companyName && country && currency && address01) {
+    if (companyCode && companyName && countryId && currencyId && address01) {
       const data = {
         companyCode: companyCode.toString(),
         companyName: companyName,
         description: description,
-        country: country,
-        currency: currency,
+        countryID: countryId,
+        currencyID: currencyId,
         address01: address01,
         address02: address02,
         defaultCompany: defaultCompany,
@@ -86,8 +86,8 @@ const CreateCompany = () => {
     setCompanyCode("");
     setCompanyName("");
     setDescription("");
-    setCountry([]);
-    setCurrency([]);
+    setCountryId("");
+    setCurrencyId("");
     setAddress01("");
     setAddress02("");
     setDefaultCompany(false);
@@ -125,7 +125,7 @@ const CreateCompany = () => {
                 value={companyName}
                 label="Company Name"
                 onChange={(e) => {
-                  setCompanyName(e.target.value)
+                  setCompanyName(e.target.value);
                 }}
                 maxLength={50}
               />
@@ -135,7 +135,7 @@ const CreateCompany = () => {
                 value={description}
                 label="Description"
                 onChange={(e) => {
-                  setDescription(e.target.value)
+                  setDescription(e.target.value);
                 }}
                 maxLength={50}
                 mandatory={false} // Not mandatory field
@@ -144,13 +144,13 @@ const CreateCompany = () => {
               {/* DropdownField component for Country */}
               <DropdownField
                 label="Country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
+                value={countryId}
+                onChange={(e) => setCountryId(e.target.value)}
                 options={[
                   { label: "Select Country", value: "" }, // Add an empty option as the default
                   ...countries.map((country) => ({
-                    label: country.Cname,
-                    value: country.Cname,
+                    label: country.countryName,
+                    value: country.countryID,
                   })),
                 ]}
               />
@@ -158,13 +158,13 @@ const CreateCompany = () => {
               {/* DropdownField component for Currency */}
               <DropdownField
                 label="Currency"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
+                value={currencyId}
+                onChange={(e) => setCurrencyId(e.target.value)}
                 options={[
                   { label: "Select Currency", value: "" }, // Add an empty option as the default
                   ...currencies.map((currency) => ({
-                    label: currency.C_name,
-                    value: currency.C_name,
+                    label: currency.currencyName,
+                    value: currency.currencyID,
                   })),
                 ]}
               />
@@ -174,7 +174,7 @@ const CreateCompany = () => {
                 value={address01}
                 label="Address01"
                 onChange={(e) => {
-                  setAddress01(e.target.value)
+                  setAddress01(e.target.value);
                 }}
                 maxLength={50}
               />
@@ -184,7 +184,7 @@ const CreateCompany = () => {
                 value={address02}
                 label="Address02"
                 onChange={(e) => {
-                  setAddress02(e.target.value)
+                  setAddress02(e.target.value);
                 }}
                 maxLength={50}
                 mandatory={false} // Not mandatory field
@@ -209,8 +209,8 @@ const CreateCompany = () => {
                     disabled={
                       !companyCode ||
                       !companyName ||
-                      !country ||
-                      !currency ||
+                      !countryId ||
+                      !currencyId ||
                       !address01 ||
                       buttonFlag
                     }

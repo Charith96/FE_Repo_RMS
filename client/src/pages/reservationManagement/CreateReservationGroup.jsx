@@ -28,7 +28,7 @@ const CreateReservationGroup = () => {
 
   useEffect(() => {
     if (isDuplicated) {
-      setButtonFlag(true);
+      setButtonFlag(false);
     } else {
       setButtonFlag(false);
     }
@@ -95,7 +95,7 @@ const CreateReservationGroup = () => {
                 value={groupId}
                 onChange={(e) => {
                   setGroupId(e.target.value);
-                  dispatch(checkForDuplicate(e.target.value));
+                  //dispatch(checkForDuplicate(e.target.value));
                 }}
                 maxLength={8}
                 inputMessage={"Group ID already exists"}
@@ -113,7 +113,7 @@ const CreateReservationGroup = () => {
                     type="submit"
                     text="Create"
                     className="form-btn"
-                    disabled={!groupId || !groupName || buttonFlag}
+                    disabled={!groupId || !groupName}
                   />
                 </Col>
               </Form.Group>

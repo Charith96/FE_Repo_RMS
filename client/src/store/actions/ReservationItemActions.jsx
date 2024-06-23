@@ -1,7 +1,8 @@
 import axios from "axios";
 import { RESERVATION_ITEM, TIME_SLOT } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+//const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "https://localhost:7219/api";
 
 export const createReservationItem = (data) => async (dispatch) => {
   try {
@@ -13,7 +14,7 @@ export const createReservationItem = (data) => async (dispatch) => {
       },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       dispatch({
         type: ActionTypes.CREATE_RESERVATION_ITEM_SUCCESS,
         payload: response.data,
@@ -51,10 +52,10 @@ export const createTimeSlots = (data) => async (dispatch) => {
   }
 };
 
-export const editReservationItem = (id, data) => async (dispatch) => {
+export const editReservationItem = (data) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.EDIT_RESERVATION_ITEM_START });
-    const url = `${BASE_URL}${RESERVATION_ITEM}/${id}`;
+    const url = `${BASE_URL}${RESERVATION_ITEM}`;
 
     const response = await axios.put(url, data, {
       headers: {
@@ -203,10 +204,10 @@ export const deleteTimeSlotsByItemId = (id) => async (dispatch) => {
   }
 };
 
-export const editTimeSlotsByItemId = (id, data) => async (dispatch) => {
+export const editTimeSlotsByItemId = (data) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.EDIT_TIME_SLOTS_BY_ITEM_ID_START });
-    const url = `${BASE_URL}${TIME_SLOT}/${id}`;
+    const url = `${BASE_URL}${TIME_SLOT}`;
 
     const response = await axios.put(url, data, {
       headers: {

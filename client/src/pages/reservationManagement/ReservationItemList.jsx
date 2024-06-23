@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { deleteReservationItem } from "../../store/actions/ReservationItemActions";
 import { deleteTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
+import { fetchReservationGroupsById } from "../../store/actions/ReservationGroupActions";
 import { fetchTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import ReservationItemTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
@@ -29,6 +30,10 @@ const ReservationItemList = () => {
 
   const fetchReservationItemData = useSelector(
     (state) => state.getReservationItem?.fetchReservationItem || []
+  );
+
+  const fetchReservationGroupData = useSelector(
+    (state) => state.getReservationGroupById.fetchReservationGroupId
   );
 
   const deleteReservationItemData = useSelector(
@@ -62,8 +67,10 @@ const ReservationItemList = () => {
 
   useEffect(() => {
     dispatch(fetchReservationItems());
+    dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
     if (deleteReservationItemData) {
       dispatch(fetchReservationItems());
+      dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
     }
   }, [dispatch, deleteReservationItemData]);
 
@@ -107,7 +114,7 @@ const ReservationItemList = () => {
     },
     {
       name: "Group",
-      selector: (row) => row.reservationGroup,
+      selector: (row) => (row.groupId),
       sortable: true,
       grow: 2,
     },
@@ -222,7 +229,9 @@ const ReservationItemList = () => {
   };
 
   const handleCreate = () => {
-    navigate("/reservationManagement/reservation/reservationItem/createReservationItem");
+    navigate(
+      "/reservationManagement/reservation/reservationItem/createReservationItem"
+    );
   };
 
   const handleDelete = () => {

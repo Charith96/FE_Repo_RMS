@@ -1,24 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchReservations } from "../../store/actions/ReservationAction";
-import { Row, Col, Table } from "react-bootstrap";
+import { fetchReservations, updateReservation } from "../../store/actions/ReservationAction";
+import { Row, Col, Table, Button, Form } from "react-bootstrap";
+import TitleActionBar from "../../components/TitleActionsBar";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const ItemInformation = ({ reservationData }) => {
+const ItemInformation = ({ reservationData, setDisableEdit }) => {
   const { reservationID } = reservationData || {};
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState(reservationData);
 
   useEffect(() => {
     fetchReservationData();
+    // Load editedData from localStorage if available
+    const storedData = localStorage.getItem("editedReservation");
+    if (storedData) {
+      setEditedData(JSON.parse(storedData));
+    }
   }, []);
 
   const fetchReservationData = async () => {
     try {
-      // Fetch reservation data based on reservationID
       await dispatch(fetchReservations(reservationID));
-    } catch (error) {}
+    } catch (error) {
+      // Handle error
+    }
   };
 
-  // Check if reservationData exists
+  const handleCreate = () => {
+    navigate("/Reservations/CreateReservation");
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setDisableEdit(false);
+  };
+
+  const handleSave = async () => {
+    try {
+      await dispatch(updateReservation(editedData));
+      toast.success("Reservation successfully updated!");
+      setIsEditing(false);
+      setDisableEdit(true);
+
+      // Save editedData to localStorage
+      localStorage.setItem("editedReservation", JSON.stringify(editedData));
+    } catch (error) {
+      toast.error("Error saving changes. Please try again.");
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedData({ ...editedData, [name]: value });
+  };
+
   if (!reservationData) {
     return <div>No reservation data available.</div>;
   }
@@ -27,8 +66,17 @@ const ItemInformation = ({ reservationData }) => {
     <>
       <Row>
         <Col>
+          <TitleActionBar
+            plustDisabled={false}
+            editDisabled={false}
+            saveDisabled={false}
+            deleteDisabled={true}
+            PlusAction={handleCreate}
+            EditAction={handleEdit}
+            SaveAction={handleSave}
+            DeleteAction={() => {}}
+          />
           <div style={{ margin: 10, padding: 20 }}>
-            {/* Display Reservation Data in a Table */}
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -40,10 +88,54 @@ const ItemInformation = ({ reservationData }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{reservationData.itemID}</td>
-                  <td>{reservationData.date}</td>
-                  <td>{reservationData.noOfPeople}</td>
-                  <td>{reservationData.time1_time2}</td>
+                  <td>
+                    {isEditing ? (
+                      <Form.Control
+                        type="text"
+                        name="itemID"
+                        value={editedData.itemID}
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      editedData.itemID
+                    )}
+                  </td>
+                  <td>
+                    {isEditing ? (
+                      <Form.Control
+                        type="text"
+                        name="date"
+                        value={editedData.date}
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      editedData.date
+                    )}
+                  </td>
+                  <td>
+                    {isEditing ? (
+                      <Form.Control
+                        type="number"
+                        name="noOfPeople"
+                        value={editedData.noOfPeople}
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      editedData.noOfPeople
+                    )}
+                  </td>
+                  <td>
+                    {isEditing ? (
+                      <Form.Control
+                        type="text"
+                        name="time1_time2"
+                        value={editedData.time1_time2}
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      editedData.time1_time2
+                    )}
+                  </td>
                 </tr>
               </tbody>
             </Table>

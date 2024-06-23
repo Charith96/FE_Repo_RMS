@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { deleteCompany } from "../../store/actions/CompanyActions";
-import CompanyTable from "../../components/table/DataTableComponent";
-import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  fetchCompanies,
-  resetCompanyState,
-} from "../../store/actions/CompanyActions";
 import {
   faArrowUpRightFromSquare,
   faEdit,
@@ -14,23 +11,27 @@ import {
   faMagnifyingGlass,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { Row, Button, Form, InputGroup } from "react-bootstrap";
+
+import {
+  deleteCompany,
+  fetchCompanies,
+  resetCompanyState,
+  fetchCountries,
+  fetchCurrencies,
+} from "../../store/actions/CompanyActions";
+import CompanyTable from "../../components/table/DataTableComponent";
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const Companies = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Retrieve state from Redux store
-  const fetchCompanyData = useSelector(
-    (state) => state.getCompany.fetchCompany
-  );
-  const deleteCompanyData = useSelector(
-    (state) => state.deleteCompany.deleteCompany
-  );
+  const fetchCompanyData = useSelector((state) => state.getCompany.fetchCompany);
+  const deleteCompanyData = useSelector((state) => state.deleteCompany.deleteCompany);
+  const countriesData = useSelector((state) => state.countries.countries);
+  const currenciesData = useSelector((state) => state.currencies.currencies);
 
   // State variables
   const [paginatedData, setPaginatedData] = useState([]);
@@ -38,31 +39,50 @@ const Companies = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const isAddDisable = useState(false)?.current;
-  const isEditDisable = useState(true)?.current;
-  const isSaveDisable = useState(true)?.current;
+  const isAddDisable = useRef(false);
+  const isEditDisable = useRef(true);
+  const isSaveDisable = useRef(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
-  const totalItems = filteredData.length;
-  const toggledClearRows = useRef(false);
+  const [countries, setCountries] = useState({});
+  const [currencies, setCurrencies] = useState({});
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // Fetch companies and update filteredData on component mount and when deleteCompanyData changes
+  // Fetch companies, countries, and currencies on component mount
   useEffect(() => {
     dispatch(fetchCompanies());
-    if (deleteCompanyData) {
-      dispatch(fetchCompanies());
-    }
-  }, [dispatch, deleteCompanyData]);
+    dispatch(fetchCountries());
+    dispatch(fetchCurrencies());
+  }, [dispatch]);
 
-  // Update paginatedData, filteredData, and deleteDisable state based on fetchCompanyData and selectedRows
+  // Create a mapping of country IDs to country names
+  useEffect(() => {
+    if (countriesData) {
+      const countryMap = {};
+      countriesData.forEach(country => {
+        countryMap[country.countryID] = country.countryName;
+      });
+      setCountries(countryMap);
+    }
+  }, [countriesData]);
+
+  // Create a mapping of currency IDs to currency names
+  useEffect(() => {
+    if (currenciesData) {
+      const currencyMap = {};
+      currenciesData.forEach(currency => {
+        currencyMap[currency.currencyID] = currency.currencyName;
+      });
+      setCurrencies(currencyMap);
+    }
+  }, [currenciesData]);
+
+  // Update paginatedData, filteredData, and deleteDisable state
   useEffect(() => {
     if (fetchCompanyData && fetchCompanyData.length > 0) {
       setFilteredData(fetchCompanyData);
@@ -73,11 +93,7 @@ const Companies = () => {
     const slicedData = filteredData?.slice(start, end);
     setPaginatedData(slicedData);
 
-    if (selectedRows.length === 1) {
-      setIsDeleteDisable(false);
-    } else {
-      setIsDeleteDisable(true);
-    }
+    setIsDeleteDisable(selectedRows.length !== 1);
   }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
 
   // Table column definitions
@@ -109,13 +125,13 @@ const Companies = () => {
     },
     {
       name: "Country",
-      selector: (row) => row.country,
+      selector: (row) => countries[row.countryID] || "Unknown",
       sortable: true,
       grow: 2,
     },
     {
       name: "Currency",
-      selector: (row) => row.currency,
+      selector: (row) => currencies[row.currencyID] || "Unknown",
       sortable: true,
       grow: 2,
     },
@@ -132,7 +148,7 @@ const Companies = () => {
   // Handle edit button click in context menu
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { companyID: contextMenuRow.companyID };
       let dataString = JSON.stringify(data);
       navigate(
         `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
@@ -144,7 +160,7 @@ const Companies = () => {
   // Handle detail button click in context menu
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { companyID: contextMenuRow.companyID };
       let dataString = JSON.stringify(data);
       navigate(
         `/company/companyOverview?data=${encodeURIComponent(dataString)}`,
@@ -176,7 +192,7 @@ const Companies = () => {
         setFilteredData(fetchCompanyData);
       } else {
         const filtered = fetchCompanyData.filter((item) =>
-          item.companyCode
+          item.companyID
             ?.toString()
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())
@@ -189,15 +205,25 @@ const Companies = () => {
   };
 
   // Confirm delete action
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCompany(selectedRows[0]?.id));
+        // Optimistic update
+        setFilteredData(prevData => prevData.filter(item => item.companyID !== selectedRows[0].companyID));
+        
+        await dispatch(deleteCompany(selectedRows[0]?.companyID));
         toast.success("Record Successfully deleted!");
+        
+        // Force re-fetch and re-render
+        dispatch(fetchCompanies());
+        setRefreshKey(prevKey => prevKey + 1);
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
+        // Revert optimistic update if delete fails
+        dispatch(fetchCompanies());
       } finally {
         setShowConfirmation(false);
+        setSelectedRows([]);
       }
     }
   };
@@ -230,31 +256,28 @@ const Companies = () => {
     setCurrentPage(0);
   };
 
-  const isSingleRecordSelected = selectedRows.length === 1 && false;
+  // Handle row selection
+  const handleRowSelected = (state) => {
+    setSelectedRows(state.selectedRows);
+  };
 
   return (
     <div className="mb-5 mx-2">
-      {/* TitleActionBar component with props */}
       <TitleActionBar
         Title={"Company List"}
-        plustDisabled={isAddDisable}
-        editDisabled={isEditDisable}
-        saveDisabled={isSaveDisable}
+        plustDisabled={isAddDisable.current}
+        editDisabled={true}
+        saveDisabled={true}
         deleteDisabled={isDeleteDisable}
-        PlusAction={() => {
-          handleCreate();
-        }}
+        PlusAction={handleCreate}
         EditAction={() => {}}
         SaveAction={() => {}}
-        DeleteAction={() => {
-          handleDelete();
-        }}
+        DeleteAction={handleDelete}
       />
 
       <Row>
         <div className="filter-box mb-5">
           <InputGroup className="w-25">
-            {/* Search input field */}
             <Form.Control
               className="bg-white form-control-filter"
               placeholder="Search Company"
@@ -285,8 +308,8 @@ const Companies = () => {
         </div>
       </Row>
 
-      {/* CompanyTable component with props */}
       <CompanyTable
+        key={refreshKey}
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}
@@ -295,20 +318,17 @@ const Companies = () => {
         setMenuVisible={setMenuVisible}
         paginatedData={paginatedData}
         filteredData={filteredData}
-        totalItems={totalItems}
+        totalItems={filteredData.length}
         currentPage={currentPage}
         perPage={perPage}
         columns={columns}
         menuVisible={menuVisible}
         contextMenuPosition={contextMenuPosition}
-        toggledClearRows={toggledClearRows}
-        isSingleRecordSelected={isSingleRecordSelected}
+        onSelectedRowsChange={handleRowSelected}
       />
 
-      {/* Popup menu */}
       <div>{customContextMenu}</div>
 
-      {/* DeleteConfirmModel component with props */}
       <DeleteConfirmModel
         show={showConfirmation}
         close={cancelDelete}
@@ -317,9 +337,7 @@ const Companies = () => {
           "The selected Company will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
+        action={confirmDelete}
       />
     </div>
   );

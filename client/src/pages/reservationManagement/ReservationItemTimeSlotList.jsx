@@ -123,11 +123,13 @@ const ReservationItemTimeSlotList = ({
                   const newValues = [...inputValues];
                   newValues[index].startTime = e.target.value;
                   //update endTime using addDurationToStartTime function
+                  
                   !isCustomized &&
                     (newValues[index].endTime = addDurationToStartTime(
                       e.target.value,
                       duration
                     ));
+                    
                   setInputValues(newValues);
                 }}
                 className="mr-2"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
@@ -17,14 +17,16 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
         fetchRoles(); 
     }, [fetchRoles]);
 
-    // State for editing privileges and edit mode
+    // State for editing privileges, role name, and edit mode
     const [editingPrivileges, setEditingPrivileges] = useState([]);
+    const [roleName, setRoleName] = useState('');
     const [isEditing, setIsEditing] = useState(false);
 
-    // Set editing privileges and exit edit mode when roleData changes
+    // Set editing privileges, role name, and exit edit mode when roleData changes
     useEffect(() => {
         if (roleData) {
             setEditingPrivileges([...roleData.privileges || []]);
+            setRoleName(roleData.rolename);
             setIsEditing(false);
         }
     }, [roleData]);
@@ -39,6 +41,11 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
         );
     };
 
+    // Handle role name change event
+    const handleRoleNameChange = (e) => {
+        setRoleName(e.target.value);
+    };
+
     // Handle edit button click
     const handleEdit = () => {
         setIsEditing(true);
@@ -46,7 +53,7 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
 
     // Handle save button click
     const handleSave = async () => {
-        const updatedRoleData = { ...roleData, privileges: editingPrivileges }; // Update role data with edited privileges
+        const updatedRoleData = { ...roleData, rolename: roleName, privileges: editingPrivileges }; // Update role data with edited privileges and name
         const roleId = roleData.id;
         try {
             // Dispatch updateRole action to update role in Redux store
@@ -94,7 +101,8 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
                     />
                     <TextField
                         label="Role Name:"
-                        value={roleData.rolename}
+                        value={roleName}
+                        onChange={handleRoleNameChange}
                         disabled={!isEditing}
                     />
                     <div className="mb-3">

@@ -63,8 +63,8 @@
       "companyCode": "554",
       "companyName": "ABC15",
       "description": "",
-      "country": "Japan",
-      "currency": "SLR",
+      "country": "Germany",
+      "currency": "AUD",
       "address01": "No1",
       "address02": "No2",
       "defaultCompany": true
@@ -167,15 +167,38 @@
       "address01": "1",
       "address02": "4",
       "defaultCompany": true
+    },
+    {
+      "id": "ec99",
+      "companyCode": "665",
+      "companyName": "cbc",
+      "description": "v",
+      "country": "Russia",
+      "currency": "GBP",
+      "address01": "xvn",
+      "address02": "",
+      "defaultCompany": false
+    },
+    {
+      "id": "6a49",
+      "companyCode": "2we43",
+      "companyName": "xvn",
+      "description": "hm",
+      "country": "Saudi Arabia",
+      "currency": "SLR",
+      "address01": "cng",
+      "address02": "",
+      "defaultCompany": true
     }
   ],
   "Roles": [
     {
       "id": "3c71",
       "rolecode": "78",
-      "rolename": "nb",
+      "rolename": "test 34",
       "privileges": [
-        "updateAccess"
+        "updateAccess",
+        "viewAccess"
       ]
     },
     {
@@ -288,7 +311,7 @@
       ]
     }
   ],
-  "timeslotsitem": [
+  "TimeSlot": [
     {
       "id": "5fa5",
       "startTime": "23:01",
@@ -606,6 +629,26 @@
       "noOfPeople": 5,
       "time1": "2024-05-10T23:01",
       "time2": "2024-05-11T07:00"
+    },
+    {
+      "id": "8420",
+      "reservationID": "ecj36b",
+      "customerID": "14",
+      "group": "restaurant1",
+      "itemID": "3f85",
+      "date": "",
+      "noOfPeople": ""
+    },
+    {
+      "id": "8420",
+      "reservationID": "ecj36b",
+      "customerID": "14",
+      "group": "restaurant1",
+      "itemID": "3f85",
+      "date": "2024-06-16",
+      "noOfPeople": 5,
+      "time1": "2024-06-16T23:01",
+      "time2": "2024-06-17T07:00"
     }
   ],
   "groupcreation": [
@@ -635,5 +678,42 @@
       "groupName": "group 1"
     }
   ],
-  "userCompaines":[],"userRoles":[]
+
+  "userCompaines":[],"userRoles":[],
+
+  "admincreation": [
+    {
+      "id": "7840",
+      "firstName": "chathuka",
+      "lastName": "Doe",
+      "email": "chathukamalitha@gmail.com",
+      "password": "ttpw"
+    },
+    {
+      "id": "5c59",
+      "firstName": "jake",
+      "lastName": "fraser",
+      "email": "jakefraser@gmail.com",
+      "password": "jakejake1"
+    }
+  ],
+  "privileges":[
+    {
+      "id": "1",
+      "privilegeName": "createAccess"
+    },
+    {
+      "id": "2",
+      "privilegeName": "updateAccess"
+    },
+    {
+      "id": "3",
+      "privilegeName": "viewAccess"
+    },
+    {
+      "id": "4",
+      "privilegeName": "deleteAccess"
+    }
+  ]
+
 }
