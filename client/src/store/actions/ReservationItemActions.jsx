@@ -72,13 +72,10 @@ export const editReservationItem = (id, data) => async (dispatch) => {
   }
 };
 
-
 export const deleteReservationItem = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_RESERVATION_ITEM_START });
-    const response = await axios.delete(
-      `${BASE_URL}${RESERVATION_ITEM}/${id}`
-    );
+    const response = await axios.delete(`${BASE_URL}${RESERVATION_ITEM}/${id}`);
     if (response.status === 200) {
       dispatch({
         type: ActionTypes.DELETE_RESERVATION_ITEM_SUCCESS,
@@ -92,7 +89,6 @@ export const deleteReservationItem = (id) => async (dispatch) => {
     });
   }
 };
-
 
 export const fetchReservationItemsById = (id) => async (dispatch) => {
   try {
@@ -133,6 +129,25 @@ export const fetchReservationItems = () => async (dispatch) => {
     });
   }
 };
+export const fetchTimeSlots = () => async (dispatch) => {
+  try {
+    dispatch({ type: ActionTypes.GET_RESERVATION_TIMESLOT });
+    const response = await axios.get(`${BASE_URL}${TIME_SLOT}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.status === 200) {
+      dispatch({
+        type: ActionTypes.GET_RESERVATION_TIMESLOT_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: ActionTypes.GET_RESERVATION_TIMESLOT_FAIL,
+      payload: error.message,
+    });
+  }
+};
 
 export const resetReservationItemState = (data) => (dispatch) => {
   dispatch({
@@ -141,7 +156,6 @@ export const resetReservationItemState = (data) => (dispatch) => {
   });
   dispatch({ type: ActionTypes.GET_RESERVATION_ITEM_FAIL, payload: null });
 };
-
 
 export const resetManageReservationItemState = () => (dispatch) => {
   dispatch({
@@ -154,7 +168,7 @@ export const resetManageReservationItemState = () => (dispatch) => {
 export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.GET_TIME_SLOTS_BY_ITEM_ID_START });
-    const response = await axios.get(`${BASE_URL}${TIME_SLOT}?itemId=${id}`, {
+    const response = await axios.get(`${BASE_URL}${TIME_SLOT}/${id}`, {
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
@@ -174,9 +188,7 @@ export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
 export const deleteTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_TIME_SLOTS_BY_ITEM_ID_START });
-    const response = await axios.delete(
-      `${BASE_URL}${TIME_SLOT}/${id}`
-    );
+    const response = await axios.delete(`${BASE_URL}${TIME_SLOT}/${id}`);
     if (response.status === 200) {
       dispatch({
         type: ActionTypes.DELETE_TIME_SLOTS_BY_ITEM_ID_SUCCESS,
@@ -208,6 +220,9 @@ export const editTimeSlotsByItemId = (id, data) => async (dispatch) => {
       });
     }
   } catch (error) {
-    dispatch({ type: ActionTypes.EDIT_TIME_SLOTS_BY_ITEM_ID_FAIL, payload: error });
+    dispatch({
+      type: ActionTypes.EDIT_TIME_SLOTS_BY_ITEM_ID_FAIL,
+      payload: error,
+    });
   }
 };

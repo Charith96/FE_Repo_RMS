@@ -1,36 +1,34 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchReservationId,
-  deleteReservation,
   fetchReservationByItemId,
   createReservation,
 } from "../../store/actions/ReservationAction";
 import {
   fetchReservationItemsById,
-  fetchTimeSlotsByItemId,
+  fetchTimeSlots,
 } from "../../store/actions/ReservationItemActions";
 import { useLocation } from "react-router-dom";
 import TextField from "../../components/TextField";
 import { Col, Row, Form } from "react-bootstrap";
 import FormButton from "../../components/FormButton";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import FlexibleTimeSlots from "./ReservationTimeFlexible";
+import { useNavigate } from "react-router-dom";
 const ReservationGroupList = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const reservationID = location.state ? location.state.reservationID : null;
   const item = location.state ? location.state.item : null;
+  const group = location.state ? location.state.group : null;
+  const customer = location.state ? location.state.customerid : null;
   const [slotType, setSlotType] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
-  const [reservationData, setReservationData] = useState({});
   const [showMessage, setShowMessage] = useState(false);
   const [btndisable, setBtnDisable] = useState(false);
   const [capacity, setCapacity] = useState(false);
-  const [reservation, setReservation] = useState(false);
   const [dateSelected, setDateSelected] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
 
@@ -38,42 +36,29 @@ const ReservationGroupList = () => {
     (state) => state.getReservationItemById.fetchReservationItemId
   );
 
-  const fetchReservationById = useSelector(
-    (state) => state.reservationById.reservationsById
-  );
-
-  const timeSlots = useSelector(
-    (state) => state.getTimeSlotsByItem.timeSlotsByItemId
-  );
+  const timeSlots = useSelector((state) => state.getTimeSlotsReducer.timeSlots);
   const reservationByItem = useSelector(
     (state) => state.reservationByItem.reservationsByItem
   );
   const fetchData = useCallback(() => {
     try {
       dispatch(fetchReservationItemsById(item));
-      dispatch(fetchTimeSlotsByItemId(item));
-      dispatch(fetchReservationId(reservationID));
       dispatch(fetchReservationByItemId(item));
+      dispatch(fetchTimeSlots());
     } catch (error) {}
-  }, [dispatch, reservationID, item]);
+  }, [dispatch, item]);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, reservationID, formData, reservationByItem]);
+  }, [fetchData, formData, reservationByItem]);
 
   useEffect(() => {
-    if (fetchReservationById.length > 0 && editMode === false) {
-      setReservationData(fetchReservationById[0]);
-
+    if (editMode === false) {
       setFormData({
-        id: fetchReservationById[0].id,
-        reservationID: fetchReservationById[0].reservationID,
-        customerID: fetchReservationById[0].customerID,
-        group: fetchReservationById[0].group,
-        itemID: fetchReservationById[0].itemID,
-        time: fetchReservationById[0].time,
-        date: fetchReservationById[0].date,
-        noOfPeople: fetchReservationById[0].noOfPeople,
+        reservationID: reservationID,
+        customerID: customer,
+        group: group,
+        itemID: item,
       });
     }
     if (formData.noOfPeople && formData.time1 && formData.time2) {
@@ -81,7 +66,7 @@ const ReservationGroupList = () => {
     } else {
       setViewBtn(false);
     }
-  }, [fetchReservationById, editMode, dispatch, formData]);
+  }, [editMode, dispatch, formData, reservationID, group, customer, item]);
 
   useEffect(() => {
     setSlotType(fetchItem.timeSlotType);
@@ -160,28 +145,6 @@ const ReservationGroupList = () => {
     }
   };
   //calculating available reservations according to the date and time range
-  const calculateAvailableReservations = () => {
-    const time1 = formData.time1;
-    const time2 = formData.time2;
-
-    const reservationsWithinTimeRange = reservationByItem.filter(
-      (reservation) => {
-        return (
-          (reservation.time1 <= time2 && reservation.time2 >= time1) ||
-          (reservation.time1 <= time1 && reservation.time2 >= time2)
-        );
-      }
-    );
-
-    const totalreservationsWithinTimeRange = reservationsWithinTimeRange.length;
-
-    const availableReservation =
-      fetchItem.noOfReservations - totalreservationsWithinTimeRange;
-
-    return availableReservation > 0
-      ? availableReservation
-      : "Reservations filled.";
-  };
 
   //calculating available Capacity according to the date and time range
   const calculateAvailableCapacity = () => {
@@ -232,6 +195,7 @@ const ReservationGroupList = () => {
       return availableCapacity > 0 ? availableCapacity : "Capacity Reached.";
     }
   };
+
   //calling avialable capacity function
   const callCalculateAvailableCapacity = () => {
     const availableCapacity = calculateAvailableCapacity();
@@ -248,169 +212,111 @@ const ReservationGroupList = () => {
     return availableCapacity;
   };
   //calling avialable reservation function
-  const callcalculateAvailableReservations = () => {
-    const availableReservations = calculateAvailableReservations();
-
-    if (availableReservations === "Reservations filled.") {
-      if (!reservation) {
-        setReservation(true);
-      }
-    } else {
-      if (reservation) {
-        setReservation(false);
-      }
-    }
-    return availableReservations;
-  };
 
   const handleDiscard = () => {
-    if (reservationData.id) {
-      dispatch(deleteReservation(reservationData.id));
-      navigate(`/reservations/createReservation`);
-    }
+    navigate(`/reservations/createReservation`);
   };
 
   return (
     <>
-      <Row>
-        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
-        <Col
-          xs={12}
-          sm={12}
-          md={8}
-          lg={8}
-          xl={8}
-          xxl={10}
-          className="body-content px-5 pt-4 pb-4 mb-5"
-        >
-          <div>
-            <Form onSubmit={handleSubmit}>
-              <Col xs={12} md={12}>
-                {slotType === "Defined" && (
+      {slotType === "Flexible" && <FlexibleTimeSlots />}
+      {slotType === "Defined" && (
+        <Row>
+          <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+          <Col
+            xs={12}
+            sm={12}
+            md={8}
+            lg={8}
+            xl={8}
+            xxl={10}
+            className="body-content px-5 pt-4 pb-4 mb-5"
+          >
+            <div>
+              <Form onSubmit={handleSubmit}>
+                <Col xs={12} md={12}>
+                  {slotType === "Defined" && (
+                    <>
+                      {" "}
+                      <TextField
+                        id="date"
+                        type="date"
+                        label="Date:"
+                        onChange={handleInputChange}
+                      />
+                      {dateSelected === true && (
+                        <Form.Group as={Row} className="mb-3">
+                          <Form.Label column md={3}>
+                            Time Slot
+                          </Form.Label>
+                          <Col md={9}>
+                            <Form.Select id="time" onChange={handleInputChange}>
+                              <option value="label">Select Time Slot</option>
+                              {timeSlots.map((item) => (
+                                <option
+                                  key={item.id}
+                                  value={`${item.startTime}-${item.endTime}`}
+                                >
+                                  {item.startTime} - {item.endTime}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Col>
+                        </Form.Group>
+                      )}
+                    </>
+                  )}
+                </Col>
+
+                <TextField
+                  id="capacity"
+                  label="Available Capacity :"
+                  type="text"
+                  value={callCalculateAvailableCapacity()}
+                  disabled={true}
+                  onChange={handleInputChange}
+                />
+
+                <TextField
+                  id="noOfPeople"
+                  label="No of People :"
+                  type="text"
+                  onChange={handleInputChange}
+                />
+                {showMessage && (
                   <>
-                    {" "}
-                    <TextField
-                      id="date"
-                      type="date"
-                      label="Date:"
-                      onChange={handleInputChange}
-                    />
-                    {dateSelected === true && (
-                      <Form.Group as={Row} className="mb-3">
-                        <Form.Label column md={3}>
-                          Time Slot
-                        </Form.Label>
-                        <Col md={9}>
-                          <Form.Select id="time" onChange={handleInputChange}>
-                            <option value="label">Select Time Slot</option>
-                            {timeSlots.map((item) => (
-                              <option
-                                key={item.id}
-                                value={`${item.startTime}-${item.endTime}`}
-                              >
-                                {item.startTime} - {item.endTime}
-                              </option>
-                            ))}
-                          </Form.Select>
-                        </Col>
-                      </Form.Group>
-                    )}
+                    <span id="message">More than available Capacity</span>
+                    <br></br>
                   </>
                 )}
-              </Col>
-              {slotType === "Flexible" && (
-                <Row>
-                  <Col xs={12} md={6}>
-                    <TextField
-                      id="time1"
-                      type="datetime-local"
-                      label="From:"
-                      onChange={handleInputChange}
-                    />
-                  </Col>
 
-                  <Col xs={12} md={6}>
-                    <TextField
-                      id="time2"
-                      type="datetime-local"
-                      label="To:"
-                      onChange={handleInputChange}
-                    />
-                  </Col>
-                </Row>
-              )}
-
-              <TextField
-                id="capacity"
-                label="Available Capacity :"
-                type="text"
-                value={callCalculateAvailableCapacity()}
-                disabled={true}
-                onChange={handleInputChange}
-              />
-              {slotType !== "Flexible" && (
-                <TextField
-                  id="flexibleReservations"
-                  label="Available Reservations :"
-                  type="text"
-                  value={callcalculateAvailableReservations()}
-                  disabled={true}
-                  onChange={handleInputChange}
-                />
-              )}
-              {slotType === "Flexible" && (
-                <TextField
-                  id="limitedReservations"
-                  label="Available Reservations :"
-                  type="text"
-                  value={"No Limit"}
-                  disabled={true}
-                  onChange={handleInputChange}
-                />
-              )}
-
-              <TextField
-                id="noOfPeople"
-                label="No of People :"
-                type="text"
-                onChange={handleInputChange}
-              />
-              {showMessage && (
-                <>
-                  <span id="message">More than available Capacity</span>
-                  <br></br>
-                </>
-              )}
-
-              {
-                <Form.Group as={Row} className="mb-3">
-                  <div className="d-flex justify-content-end">
-                    <FormButton
-                      type="button"
-                      text="Discard"
-                      className="form-btn mr-2"
-                      onClick={handleDiscard}
-                      id="reservationBtn"
-                    />
-                    <FormButton
-                      type="submit"
-                      text="Create"
-                      className="form-btn"
-                      disabled={
-                        btndisable || capacity || reservation || !viewBtn
-                      }
-                    />
-                  </div>
-                </Form.Group>
-              }
-            </Form>
-          </div>
-        </Col>
-        <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
-      </Row>
+                {
+                  <Form.Group as={Row} className="mb-3">
+                    <div className="d-flex justify-content-end">
+                      <FormButton
+                        type="button"
+                        text="Discard"
+                        className="form-btn mr-2"
+                        onClick={handleDiscard}
+                        id="reservationBtn"
+                      />
+                      <FormButton
+                        type="submit"
+                        text="Create"
+                        className="form-btn"
+                        disabled={btndisable || capacity || !viewBtn}
+                      />
+                    </div>
+                  </Form.Group>
+                }
+              </Form>
+            </div>
+          </Col>
+          <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
+        </Row>
+      )}
     </>
   );
 };
 
 export default ReservationGroupList;
-

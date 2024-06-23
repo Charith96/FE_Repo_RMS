@@ -95,7 +95,7 @@ const CustomerList = () => {
     },
     {
       name: "Customer Id",
-      selector: (row) => row.id,
+      selector: (row) => row.customerID,
       sortable: true,
       grow: 2,
     },
@@ -144,7 +144,7 @@ const CustomerList = () => {
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       // Navigate to edit page if only one row is selected
-      let data = { id: contextMenuRow.id }; // Copy the row data
+      let data = { customerCode: contextMenuRow.customerCode }; // Copy the row data
       let dataString = JSON.stringify(data); // Convert data to string
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -158,7 +158,7 @@ const CustomerList = () => {
   //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { customerCode: contextMenuRow.customerCode };
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -190,7 +190,10 @@ const CustomerList = () => {
       setFilteredData(fetchCustomerData);
     } else {
       const filtered = fetchCustomerData.filter((item) =>
-        item.id?.toString().toLowerCase().includes(searchTerm?.toLowerCase())
+        item.customerID
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm?.toLowerCase())
       );
 
       setIsFiltered(true);
@@ -203,7 +206,7 @@ const CustomerList = () => {
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCustomer(selectedRows[0]?.id));
+        dispatch(deleteCustomer(selectedRows[0]?.customerCode));
         toast.success("Record Successfully deleted!");
       } catch (error) {
         toast.error("Error deleting row. Please try again.");

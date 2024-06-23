@@ -43,10 +43,16 @@ const CustomerReservationHistory = ({ customerId }) => {
         const end = start + perPage;
         const slicedData = reservations?.slice(start, end);
         setPaginatedData(slicedData);
-
       }
     });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered, customerId]);
+  }, [
+    reservations,
+    currentPage,
+    perPage,
+    selectedRows,
+    isFiltered,
+    customerId,
+  ]);
 
   // Table columns definition
   const columns = [

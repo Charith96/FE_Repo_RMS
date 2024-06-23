@@ -111,7 +111,7 @@ const CustomerCurrentReservations = ({ customerId }) => {
     },
     {
       name: "Item ID",
-      selector: (row) => row.itemID,
+      selector: (row) => row.itemId,
       sortable: true,
       grow: 2,
     },

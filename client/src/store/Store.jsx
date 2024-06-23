@@ -7,7 +7,7 @@ import {
   deleteCustomerReducer,
   getCustomerByIdReducer,
   getCustomerReducer,
-  editCustomerFlagReducer
+  editCustomerFlagReducer,
 } from "./reducers/CustomerReducer";
 import {
   createReservationGroupReducer,
@@ -30,6 +30,7 @@ import {
   deleteTimeSlotsByItemIdReducer,
   editTimeSlotsByItemIdReducer,
   getReservationItemReducer,
+  timeSlotsReducer,
 } from "./reducers/ReservationItemReducer";
 
 import {
@@ -70,16 +71,15 @@ import {
 const middleware = [thunk];
 
 const rootReducer = combineReducers({
-
-    //company
-    createCompany: createCompanyReducer,
-    editCompany: editCompanyReducer,
-    deleteCompany: deleteCompanyReducer,
-    getCompany: getCompanyReducer,
-    getCompanyById: getCompanyByIdReducer,
-    editCompanyFlag: editCompanyFlagReducer,
-    countries: countriesReducer,
-    currencies: currenciesReducer,
+  //company
+  createCompany: createCompanyReducer,
+  editCompany: editCompanyReducer,
+  deleteCompany: deleteCompanyReducer,
+  getCompany: getCompanyReducer,
+  getCompanyById: getCompanyByIdReducer,
+  editCompanyFlag: editCompanyFlagReducer,
+  countries: countriesReducer,
+  currencies: currenciesReducer,
 
   //customer
   createCustomer: createCustomerReducer,
@@ -87,7 +87,7 @@ const rootReducer = combineReducers({
   deleteCustomer: deleteCustomerReducer,
   getCustomer: getCustomerReducer,
   getCustomerById: getCustomerByIdReducer,
-  editCustomerFlag: editCustomerFlagReducer, 
+  editCustomerFlag: editCustomerFlagReducer,
 
   // reservation group
   createReservationGroup: createReservationGroupReducer,
@@ -126,6 +126,7 @@ const rootReducer = combineReducers({
   getTimeSlotsByItem: getTimeSlotsByItemIdReducer,
   deleteTimeSlotsByItem: deleteTimeSlotsByItemIdReducer,
   editTimeSlotsByItem: editTimeSlotsByItemIdReducer,
+  getTimeSlotsReducer: timeSlotsReducer,
 
   //roles
   fetchRoles: fetchRolesReducer,

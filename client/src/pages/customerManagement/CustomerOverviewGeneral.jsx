@@ -24,7 +24,7 @@ const CustomerOverviewGeneral = () => {
   const dataForSearch = useSelector((state) => state.getCustomer.fetchCustomer);
   const [recordId, setRecordId] = useState("");
 
-  const [id, setId] = useState("");
+  const [customerID, setId] = useState("");
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [address, setAddress] = useState("");
@@ -37,6 +37,7 @@ const CustomerOverviewGeneral = () => {
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
   const [count, setCount] = useState(0);
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");
@@ -54,7 +55,7 @@ const CustomerOverviewGeneral = () => {
       let filterData = fetchCustomerData;
       if (filterData) {
         if (count === 0) {
-          setId(filterData?.id ?? "");
+          setId(filterData?.customerID ?? "");
           setFullName(filterData?.fullName ?? "");
           setIdentifier(filterData?.identifier ?? "");
           setAddress(filterData?.address ?? "");
@@ -80,8 +81,8 @@ const CustomerOverviewGeneral = () => {
   };
 
   useEffect(() => {
-    if (paramData && paramData.id && paramData.id !== "") {
-      setRecordId(paramData.id);
+    if (paramData && paramData.customerCode && paramData.customerCode !== "") {
+      setRecordId(paramData.customerCode);
     }
     if (recordId) {
       setTimeout(() => fetchData(), 100);
@@ -100,8 +101,8 @@ const CustomerOverviewGeneral = () => {
     try {
       if (paramData && recordId) {
         const formData = {
-          id: recordId,
-          id: id,
+          customerCode: recordId,
+          customerID: customerID,
           fullName: fullName,
           identifier: identifier,
           address: address,
@@ -141,7 +142,7 @@ const CustomerOverviewGeneral = () => {
   // Function to confirm and delete a customer
   const confirmDelete = () => {
     try {
-      dispatch(deleteCustomer(id));
+      dispatch(deleteCustomer(recordId));
       toast.success("Record Successfully deleted!");
     } catch (error) {
       toast.error("Error deleting row. Please try again.");
@@ -187,8 +188,7 @@ const CustomerOverviewGeneral = () => {
               <TextField
                 label="Customer ID :"
                 disabled={true}
-                value={id}
-                
+                value={customerID}
               />
               <TextField
                 label="Full Name"

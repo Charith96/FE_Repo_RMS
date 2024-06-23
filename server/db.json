@@ -634,5 +634,6 @@
       "groupId": "1234",
       "groupName": "group 1"
     }
-  ]
+  ],
+  "userCompaines":[],"userRoles":[]
 }
