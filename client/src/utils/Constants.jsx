@@ -5,7 +5,10 @@ export const RESERVATION_ITEM='/ReservationItem';
 export const TIME_SLOT='/TimeSlot';
 
 export const USER_URL = '/users';
-export const ROLE_URL = '/Roles';
+
+export const ROLE_URL = '/Role';
+export const PRIVILEGE_URL = '/Privilege';
+export const ROLE_PRIVILEGE_URL = '/Role/GetRolePrivileges';
 
 /* Company */
  export const COMPANY_DETAILS='/Company';

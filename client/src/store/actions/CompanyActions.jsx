@@ -22,7 +22,10 @@ export const createCompany = (data) => async (dispatch) => {
         type: ActionTypes.CREATE_COMPANY_SUCCESS,
         payload: response.data,
       });
-      return { type: ActionTypes.CREATE_COMPANY_SUCCESS, payload: response.data };
+      return {
+        type: ActionTypes.CREATE_COMPANY_SUCCESS,
+        payload: response.data,
+      };
     }
   } catch (error) {
     console.error("Error creating company:", error);
@@ -52,7 +55,7 @@ export const editCompany = (id, data) => async (dispatch) => {
       return { type: ActionTypes.EDIT_COMPANY_SUCCESS, payload: response.data };
     }
   } catch (error) {
-    console.error("Error editing company:", error);
+    //console.error("Error editing company:", error);
     dispatch({ type: ActionTypes.EDIT_COMPANY_FAIL, payload: error.message });
     return { type: ActionTypes.EDIT_COMPANY_FAIL, payload: error.message };
   }
@@ -68,7 +71,10 @@ export const deleteCompany = (id) => async (dispatch) => {
         type: ActionTypes.DELETE_COMPANY_SUCCESS,
         payload: response.data,
       });
-      return { type: ActionTypes.DELETE_COMPANY_SUCCESS, payload: response.data };
+      return {
+        type: ActionTypes.DELETE_COMPANY_SUCCESS,
+        payload: response.data,
+      };
     }
   } catch (error) {
     dispatch({
@@ -115,7 +121,10 @@ export const fetchCompaniesById = (id) => async (dispatch) => {
         type: ActionTypes.GET_COMPANY_SUCCESS_BY_ID,
         payload: response.data,
       });
-      return { type: ActionTypes.GET_COMPANY_SUCCESS_BY_ID, payload: response.data };
+      return {
+        type: ActionTypes.GET_COMPANY_SUCCESS_BY_ID,
+        payload: response.data,
+      };
     }
   } catch (error) {
     console.error("Error fetching company by ID:", error);
@@ -157,7 +166,10 @@ export const fetchCountries = () => async (dispatch) => {
         type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
         payload: response.data,
       });
-      return { type: ActionTypes.FETCH_COUNTRIES_SUCCESS, payload: response.data };
+      return {
+        type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
+        payload: response.data,
+      };
     }
   } catch (error) {
     console.error("Error fetching countries:", error);
@@ -181,7 +193,10 @@ export const fetchCurrencies = () => async (dispatch) => {
         type: ActionTypes.FETCH_CURRENCIES_SUCCESS,
         payload: response.data,
       });
-      return { type: ActionTypes.FETCH_CURRENCIES_SUCCESS, payload: response.data };
+      return {
+        type: ActionTypes.FETCH_CURRENCIES_SUCCESS,
+        payload: response.data,
+      };
     }
   } catch (error) {
     console.error("Error fetching currencies:", error);

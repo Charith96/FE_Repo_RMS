@@ -192,7 +192,7 @@ const Companies = () => {
         setFilteredData(fetchCompanyData);
       } else {
         const filtered = fetchCompanyData.filter((item) =>
-          item.companyID
+          item.companyCode
             ?.toString()
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())
