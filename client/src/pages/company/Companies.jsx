@@ -112,7 +112,7 @@ const Companies = () => {
       ),
     },
     {
-      name: "Company Code",
+      name: "Company ID",
       selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,

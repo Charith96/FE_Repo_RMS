@@ -16,6 +16,31 @@ const initialState = {
   editCompanyFlag: false,
   countries: [],
   currencies: [],
+
+};
+
+export const companiesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionTypes.GET_COMPANY_START:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ActionTypes.GET_COMPANY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        fetchCompany: action.payload,
+      };
+    case ActionTypes.GET_COMPANY_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
 };
 
 // Reducer for creating a company
@@ -209,11 +234,22 @@ export const getCompanyByIdReducer = (
 export const countriesReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_COUNTRIES_START:
-      return { ...state, loading: true };
+      return { 
+        ...state, 
+        loading: true 
+      };
     case ActionTypes.FETCH_COUNTRIES_SUCCESS:
-      return { ...state, loading: false, countries: action.payload };
+      return { 
+        ...state, 
+        loading: false, 
+        countries: action.payload 
+      };
     case ActionTypes.FETCH_COUNTRIES_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { 
+        ...state, 
+        loading: false, 
+        error: action.error 
+      };
     default:
       return state;
   }
@@ -223,11 +259,21 @@ export const countriesReducer = (state = initialState, action) => {
 export const currenciesReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_CURRENCIES_START:
-      return { ...state, loading: true };
+      return { 
+        ...state, 
+        loading: true 
+      };
     case ActionTypes.FETCH_CURRENCIES_SUCCESS:
-      return { ...state, loading: false, currencies: action.payload };
+      return { 
+        ...state, 
+        loading: false, 
+        currencies: action.payload };
     case ActionTypes.FETCH_CURRENCIES_FAIL:
-      return { ...state, loading: false, error: action.error };
+      return { 
+        ...state, 
+        loading: false, 
+        error: action.error 
+      };
     default:
       return state;
   }

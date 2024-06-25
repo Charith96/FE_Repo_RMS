@@ -28,7 +28,7 @@ export const createCompany = (data) => async (dispatch) => {
       };
     }
   } catch (error) {
-    console.error("Error creating company:", error);
+  //  console.error("Error creating company:", error);
     dispatch({
       type: ActionTypes.CREATE_COMPANY_FAIL,
       payload: error.message,
@@ -207,3 +207,5 @@ export const fetchCurrencies = () => async (dispatch) => {
     return { type: ActionTypes.FETCH_CURRENCIES_FAIL, payload: error.message };
   }
 };
+
+

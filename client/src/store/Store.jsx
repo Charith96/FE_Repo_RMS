@@ -41,6 +41,7 @@ import {
   editCompanyFlagReducer,
   countriesReducer,
   currenciesReducer,
+  companiesReducer,
 } from "./reducers/CompanyReducer";
 
 import {
@@ -85,6 +86,7 @@ const rootReducer = combineReducers({
     editCompanyFlag: editCompanyFlagReducer,
     countries: countriesReducer,
     currencies: currenciesReducer,
+    companies: companiesReducer,
 
   //customer
   createCustomer: createCustomerReducer,
