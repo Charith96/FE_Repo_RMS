@@ -41,7 +41,8 @@ const ReservationGroupList = () => {
     dispatch(fetchReservationGroups());
     dispatch(fetchReservationItems());
     dispatch(fetchCustomers());
-  }, [dispatch]);
+    console.log(groupItem);
+  }, [dispatch, groupItem]);
 
   useEffect(() => {
     setGroupData(fetchReservationGroupData);

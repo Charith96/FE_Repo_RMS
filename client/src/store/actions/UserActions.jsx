@@ -5,8 +5,7 @@ import {
   USER_URL,
 } from "../../utils/Constants";
 import ActionTypes from "../../data/ReduxActionTypes";
-//export const BASE_URL = process.env.REACT_APP_BASE_URL;
-const BASE_URL = "http://localhost:3005";
+export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchUserData = (id) => async (dispatch) => {
   try {
