@@ -1,7 +1,8 @@
 import axios from "axios";
 import ActionTypes from "../../data/ReduxActionTypes";
-import { RESERVATION_URL } from "../../utils/Constants";
+import { RESERVATIONBYITEM_URL, RESERVATION_URL } from "../../utils/Constants";
 import { toastFunction } from "../../components/ToastComponent";
+import { toast } from "react-toastify";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchReservations = () => async (dispatch) => {
@@ -29,6 +30,7 @@ export const createReservation = (reservationData) => async (dispatch) => {
       type: ActionTypes.CREATE_RESERVATION_SUCCESS,
       payload: response.data,
     });
+    toast.success("Reservation Created Successfully!");
   } catch (error) {
     dispatch({
       type: ActionTypes.CREATE_RESERVATION_FAIL,
@@ -70,7 +72,7 @@ export const deleteReservation = (id) => async (dispatch) => {
 export const fetchReservationByItemId = (id) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}${RESERVATION_URL}?itemID=${id}`,
+      `${BASE_URL}${RESERVATIONBYITEM_URL}/${id}`,
       {
         headers: { "Content-Type": "application/json" },
       }

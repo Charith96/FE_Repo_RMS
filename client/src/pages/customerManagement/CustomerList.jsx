@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [refreshKey, setRefreshKey] = useState(0);
   const fetchCustomerData = useSelector(
     (state) => state.getCustomer.fetchCustomer
   );
@@ -56,10 +56,7 @@ const CustomerList = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
-    if (deleteCustomerData) {
-      dispatch(fetchCustomers());
-    }
-  }, [dispatch, deleteCustomerData]);
+  }, [dispatch]);
 
   useEffect(() => {
     // Fetch customers and update data when customers or pagination settings change
@@ -95,7 +92,7 @@ const CustomerList = () => {
     },
     {
       name: "Customer Id",
-      selector: (row) => row.id,
+      selector: (row) => row.customerID,
       sortable: true,
       grow: 2,
     },
@@ -144,7 +141,7 @@ const CustomerList = () => {
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       // Navigate to edit page if only one row is selected
-      let data = { id: contextMenuRow.id }; // Copy the row data
+      let data = { customerCode: contextMenuRow.customerCode }; // Copy the row data
       let dataString = JSON.stringify(data); // Convert data to string
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -158,7 +155,7 @@ const CustomerList = () => {
   //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { id: contextMenuRow.id };
+      let data = { customerCode: contextMenuRow.customerCode };
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -190,7 +187,10 @@ const CustomerList = () => {
       setFilteredData(fetchCustomerData);
     } else {
       const filtered = fetchCustomerData.filter((item) =>
-        item.id?.toString().toLowerCase().includes(searchTerm?.toLowerCase())
+        item.customerID
+          ?.toString()
+          .toLowerCase()
+          .includes(searchTerm?.toLowerCase())
       );
 
       setIsFiltered(true);
@@ -200,19 +200,31 @@ const CustomerList = () => {
   };
 
   // Function to confirm deletion of selected row
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCustomer(selectedRows[0]?.id));
+        setFilteredData((prevData) =>
+          prevData.filter(
+            (item) => item.customerCode !== selectedRows[0].customerCode
+          )
+        );
+
+        await dispatch(deleteCustomer(selectedRows[0]?.customerCode));
         toast.success("Record Successfully deleted!");
+
+        // Force re-fetch and re-render
+        dispatch(fetchCustomers());
+        setRefreshKey((prevKey) => prevKey + 1);
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
+
+        dispatch(fetchCustomers());
       } finally {
         setShowConfirmation(false);
+        setSelectedRows([]);
       }
     }
   };
-
   // Function to handle create action(Plus icon)
   const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
@@ -298,6 +310,7 @@ const CustomerList = () => {
 
       {/* Reservation group table */}
       <ReservationGroupTable
+        key={refreshKey}
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}

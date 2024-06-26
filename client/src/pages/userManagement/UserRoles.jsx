@@ -78,13 +78,13 @@ const OverviewTable = ({ value }) => {
     },
     {
       name: "Role ID",
-      selector: (row) => row.id,
+      selector: (row) => row.roleID,
       sortable: true,
       grow: 2,
     },
     {
       name: "Role Name",
-      selector: (row) => row.rolename,
+      selector: (row) => row.roleName,
       sortable: true,
       grow: 2,
     },
@@ -92,9 +92,11 @@ const OverviewTable = ({ value }) => {
       name: "Status",
       cell: (row) => {
         const defaultStatus =
-          userData.primaryRole === row.rolename ? "default" : " ";
+          userData.primaryRole === row.roleName ? "default" : " ";
         const status =
-          Array.isArray(userData.roles) && userData.roles.includes(row.rolename)
+          Array.isArray(userData.roles) &&
+          userData.roles.includes(row.roleName) &&
+          userData.primaryRole !== row.roleName
             ? "granted"
             : defaultStatus;
         return status;
@@ -136,14 +138,27 @@ const OverviewTable = ({ value }) => {
   const confirmDelete = () => {};
   const handleSave = async () => {
     if (selectedRows.length === 1) {
-      const roleName = selectedRows[0].rolename;
+      const roleName = selectedRows[0].roleName;
       if (roleName === userData.primaryRole) {
-        return;
+        return "default";
       }
 
       if (!userData.roles.includes(roleName)) {
         const updatedRoles = [...userData.roles, roleName];
-        const updatedUserData = { ...userData, roles: updatedRoles };
+        const updatedUserData = {
+          userid: userData.id,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          defaultCompany: userData.defaultCompany,
+          designation: userData.designation,
+          primaryRole: userData.primaryRole,
+          email: userData.email,
+          password: userData.password,
+          validFrom: userData.validFrom,
+          validTill: userData.validTill,
+          companies: userData.companies,
+          roles: updatedRoles,
+        };
         await dispatch(updateUserData(value, updatedUserData));
         dispatch(fetchUserData(value));
       } else {
@@ -153,13 +168,26 @@ const OverviewTable = ({ value }) => {
 
   const handleDelete = async () => {
     if (selectedRows.length === 1) {
-      const roleName = selectedRows[0].rolename;
+      const roleName = selectedRows[0].roleName;
       if (roleName === userData.primaryRole) {
         return;
       }
       if (userData.roles.includes(roleName)) {
         const updatedRoles = userData.roles.filter((role) => role !== roleName);
-        const updatedUserData = { ...userData, roles: updatedRoles };
+        const updatedUserData = {
+          userid: userData.id,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          defaultCompany: userData.defaultCompany,
+          designation: userData.designation,
+          primaryRole: userData.primaryRole,
+          email: userData.email,
+          password: userData.password,
+          validFrom: userData.validFrom,
+          validTill: userData.validTill,
+          companies: userData.companies,
+          roles: updatedRoles,
+        };
         await dispatch(updateUserData(value, updatedUserData));
         dispatch(fetchUserData(value));
       } else {

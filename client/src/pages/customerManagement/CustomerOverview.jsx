@@ -15,7 +15,7 @@ const CustomerOverview = () => {
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
   // Pass customer id instead of email to CustomerCurrentReservations component
-  const customerId = paramData ? paramData.id : null;
+  const customerId = paramData ? paramData.customerCode : null;
 
   // Define tabs with their respective content
   const tabs = [
@@ -44,8 +44,8 @@ const CustomerOverview = () => {
       content: customerId ? (
         <CustomerReservationHistory customerId={customerId} />
       ) : (
-          <p>No reservations found for this customer.</p> // Render a message if no reservations found for this customer
-        ),
+        <p>No reservations found for this customer.</p> // Render a message if no reservations found for this customer
+      ),
     },
   ];
 

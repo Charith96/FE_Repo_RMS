@@ -1,22 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchReservations,
-  deleteReservation,
-} from "../../store/actions/ReservationAction";
+import { fetchReservations } from "../../store/actions/ReservationAction";
 import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
-import { useNavigate } from "react-router-dom";
 
 const CustomerReservationHistory = ({ customerId }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const reservations = useSelector((state) => state.reservations.reservations);
   const [paginatedData, setPaginatedData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [menuVisible, setMenuVisible] = useState(true);
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(5);
   const toggledClearRows = useRef(false);
@@ -24,31 +18,45 @@ const CustomerReservationHistory = ({ customerId }) => {
   useEffect(() => {
     // Fetch reservations on component mount
     dispatch(fetchReservations());
-    if (deleteReservation) {
-      // Fetch reservations again if deleteReservation action is dispatched
-      dispatch(fetchReservations());
-    }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     // Update filtered data when reservations or pagination settings change
-    dispatch(fetchReservations()).then(() => {
-      if (reservations && reservations.length > 0 && customerId) {
-        const filtered = reservations.filter(
-          (reservations) => reservations.customerID === customerId
-        );
-        setFilteredData(filtered);
+    if (reservations && reservations.length > 0 && customerId) {
+      const filtered = reservations.filter(
+        (reservation) =>
+          reservation.customerID === customerId &&
+          new Date(reservation.date) < new Date()
+      );
+      setFilteredData(filtered);
 
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = reservations?.slice(start, end);
-        setPaginatedData(slicedData);
+      const start = currentPage * perPage;
+      const end = start + perPage;
+      const slicedData = filtered.slice(start, end);
+      setPaginatedData(slicedData);
+    }
+  }, [reservations, currentPage, perPage, selectedRows, customerId]);
 
-      }
-    });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered, customerId]);
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      date
+    );
+    const [dayMonthYear, time] = formattedDate.split(", ");
+    return `${dayMonthYear} - ${time}`;
+  };
 
-  // Table columns definition
+  const formatTimeSlot = (time1, time2) => {
+    return `From ${formatDateTime(time1)} To ${formatDateTime(time2)}`;
+  };
+
   const columns = [
     {
       name: "Reservation ID",
@@ -64,19 +72,13 @@ const CustomerReservationHistory = ({ customerId }) => {
     },
     {
       name: "Time Slot",
-      selector: (row) => `${row.time1} - ${row.time2}`,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
+      selector: (row) => formatTimeSlot(row.time1, row.time2),
       sortable: true,
       grow: 2,
     },
     {
       name: "Item ID",
-      selector: (row) => row.itemID,
+      selector: (row) => row.itemId,
       sortable: true,
       grow: 2,
     },
@@ -88,9 +90,6 @@ const CustomerReservationHistory = ({ customerId }) => {
     },
   ];
 
-  // Check if single record is selected
-  const isSingleRecordSelected = selectedRows.length === 1 && false;
-
   return (
     <div className="mb-5 mx-2">
       {/* Title and action bar */}
@@ -100,23 +99,25 @@ const CustomerReservationHistory = ({ customerId }) => {
         saveDisabled={true}
         deleteDisabled={true}
       />
+
       <div className="table-responsive">
         {/* Reservation table component */}
         <ReservationGroupTable
-          reservations={reservations}
+          reservations={paginatedData}
+          selectableRows={true}
+          selectableRowsSingle={true}
           setPerPage={setPerPage}
           setCurrentPage={setCurrentPage}
           setSelectedRows={setSelectedRows}
           setMenuVisible={setMenuVisible}
           paginatedData={paginatedData}
           filteredData={filteredData}
-          totalItems={reservations.length}
+          totalItems={filteredData.length}
           currentPage={currentPage}
           perPage={perPage}
           columns={columns}
           menuVisible={menuVisible}
           toggledClearRows={toggledClearRows}
-          isSingleRecordSelected={isSingleRecordSelected}
         />
       </div>
     </div>

@@ -9,9 +9,8 @@ import {
 import TextField from "../../components/TextField";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Form, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { Form } from "react-bootstrap";
 
 const CustomerOverviewGeneral = () => {
   const dispatch = useDispatch();
@@ -21,10 +20,9 @@ const CustomerOverviewGeneral = () => {
   const fetchCustomerData = useSelector(
     (state) => state.getCustomerById.fetchCustomerId
   );
-  const dataForSearch = useSelector((state) => state.getCustomer.fetchCustomer);
-  const [recordId, setRecordId] = useState("");
 
-  const [id, setId] = useState("");
+  const [recordId, setRecordId] = useState("");
+  const [customerID, setId] = useState("");
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [address, setAddress] = useState("");
@@ -37,56 +35,54 @@ const CustomerOverviewGeneral = () => {
   const [isSaveDisable, setIsSaveDisable] = useState(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const searchParams = new URLSearchParams(useLocation().search);
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
   const mode = state ? state.mode : null;
 
   useEffect(() => {
-    if (paramData && recordId) {
-      dispatch(fetchCustomersById(recordId));
+    if (paramData && paramData.customerCode && paramData.customerCode !== "") {
+      setRecordId(paramData.customerCode);
+      dispatch(fetchCustomersById(paramData.customerCode));
     }
-  }, [dispatch, recordId]);
-
-  const fetchData = () => {
-    if (fetchCustomerData) {
-      let filterData = fetchCustomerData;
-      if (filterData) {
-        if (count === 0) {
-          setId(filterData?.id ?? "");
-          setFullName(filterData?.fullName ?? "");
-          setIdentifier(filterData?.identifier ?? "");
-          setAddress(filterData?.address ?? "");
-          setEmail(filterData?.email ?? "");
-          setContactNo(filterData?.contactNo ?? "");
-          if (mode) {
-            if (mode === "edit") {
-              setIsViewMode(false);
-              setIsEditDisable(true);
-              setIsSaveDisable(false);
-            } else if (mode === "view") {
-              setIsViewMode(true);
-              setIsEditDisable(false);
-              setIsSaveDisable(true);
-            }
-          }
-        }
-      } else {
-        handleNavigate();
-      }
-      setCount(1);
-    }
-  };
+  }, [dispatch, paramData]);
 
   useEffect(() => {
-    if (paramData && paramData.id && paramData.id !== "") {
-      setRecordId(paramData.id);
+    if (fetchCustomerData) {
+      setCustomerData(fetchCustomerData);
     }
-    if (recordId) {
-      setTimeout(() => fetchData(), 100);
+  }, [fetchCustomerData]);
+
+  const setCustomerData = (data) => {
+    setIsLoading(true);
+    setError(null);
+    if (data) {
+      setId(data?.customerID ?? "");
+      setFullName(data?.fullName ?? "");
+      setIdentifier(data?.identifier ?? "");
+      setAddress(data?.address ?? "");
+      setEmail(data?.email ?? "");
+      setContactNo(data?.contactNo ?? "");
+      if (mode) {
+        if (mode === "edit") {
+          setIsViewMode(false);
+          setIsEditDisable(true);
+          setIsSaveDisable(false);
+        } else if (mode === "view") {
+          setIsViewMode(true);
+          setIsEditDisable(false);
+          setIsSaveDisable(true);
+        }
+      }
+    } else {
+      setError("No customer data found");
+      handleNavigate();
     }
-  }, [isSaveDisable, recordId, fetchData]);
+    setIsLoading(false);
+  };
 
   const handleEdit = () => {
     setIsAddDisable(true);
@@ -100,31 +96,54 @@ const CustomerOverviewGeneral = () => {
     try {
       if (paramData && recordId) {
         const formData = {
-          id: recordId,
-          id: id,
+          customerCode: recordId,
+          customerID: customerID,
           fullName: fullName,
           identifier: identifier,
           address: address,
           email: email,
           contactNo: contactNo,
         };
-        dispatch(editCustomer(recordId, formData));
-        handleNavigate();
-        toast.success("Data saved successfully");
+        const result = await dispatch(editCustomer(recordId, formData));
+        if (result.type.includes("_SUCCESS")) {
+          toast.success("Data saved successfully");
+          handleNavigate();
+        } else {
+          toast.error("Failed to save changes. Please try again.");
+        }
       } else {
-        // Handle the case where saving failed
-        toast.error("Failed to save changes. Please try again.");
+        toast.error("Invalid customer data or ID.");
       }
     } catch (error) {
       toast.error("Error saving data. Please try again.");
     }
   };
 
+  const confirmDelete = async () => {
+    try {
+      if (paramData && paramData.customerCode) {
+        await dispatch(deleteCustomer(paramData.customerCode));
+        toast.success("Customer successfully deleted");
+        handleNavigate();
+      } else {
+        toast.error("Cannot delete. Customer Code is undefined.");
+      }
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+      toast.error("Failed to delete customer. Please try again.");
+    } finally {
+      setShowConfirmation(false);
+    }
+  };
+
+  const handleDelete = () => {
+    setShowConfirmation(true);
+  };
+
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
 
-  // Function to handle creating a new customer(Plus icon)
   const navigateToCreate = () => {
     navigate("/customerManagement/CustomerCreation");
   };
@@ -133,23 +152,26 @@ const CustomerOverviewGeneral = () => {
     navigate("/customerManagement/Customerlist");
   };
 
-  // Function to handle deleting a customer
-  const handleDelete = () => {
-    setShowConfirmation(true);
-  };
+  if (isLoading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
-  // Function to confirm and delete a customer
-  const confirmDelete = () => {
-    try {
-      dispatch(deleteCustomer(id));
-      toast.success("Record Successfully deleted!");
-    } catch (error) {
-      toast.error("Error deleting row. Please try again.");
-    } finally {
-      setShowConfirmation(false);
-      navigate("/customerManagement/Customerlist");
-    }
-  };
+  if (error) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -165,30 +187,23 @@ const CustomerOverviewGeneral = () => {
           className="body-content px-5 pt-4 pb-4 mb-5"
         >
           <TitleActionBar
+            Title={"Customer Overview"}
             plustDisabled={isAddDisable}
             editDisabled={isEditDisable}
             saveDisabled={isSaveDisable}
             deleteDisabled={isDeleteDisable}
-            PlusAction={() => {
-              navigateToCreate();
-            }}
-            EditAction={() => {
-              handleEdit();
-            }}
-            SaveAction={() => {
-              handleSave();
-            }}
-            DeleteAction={() => {
-              handleDelete();
-            }}
+            PlusAction={navigateToCreate}
+            EditAction={handleEdit}
+            SaveAction={handleSave}
+            DeleteAction={handleDelete}
           />
+
           <div>
             <Form>
               <TextField
-                label="Customer ID :"
+                label="Customer ID"
                 disabled={true}
-                value={id}
-                
+                value={customerID}
               />
               <TextField
                 label="Full Name"
@@ -231,9 +246,7 @@ const CustomerOverviewGeneral = () => {
               "The selected Customer will be deleted. Do you wish to continue?"
             }
             type={"Yes"}
-            action={() => {
-              confirmDelete();
-            }}
+            action={confirmDelete}
           />
         </Col>
         <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
@@ -241,4 +254,5 @@ const CustomerOverviewGeneral = () => {
     </>
   );
 };
+
 export default CustomerOverviewGeneral;

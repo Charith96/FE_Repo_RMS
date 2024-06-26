@@ -1,5 +1,9 @@
 import axios from "axios";
-import { USER_URL } from "../../utils/Constants";
+import {
+  USERCOMPANIES_URL,
+  USERROLES_URL,
+  USER_URL,
+} from "../../utils/Constants";
 import ActionTypes from "../../data/ReduxActionTypes";
 //export const BASE_URL = process.env.REACT_APP_BASE_URL;
 const BASE_URL = "http://localhost:3005";
@@ -60,5 +64,137 @@ export const deleteUser = (id) => async (dispatch) => {
     dispatch(fetchData());
   } catch (error) {
     dispatch({ type: ActionTypes.DELETE_USER_FAIL, payload: error });
+  }
+};
+export const fetchUserRoleData = (id) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${BASE_URL}${USERROLES_URL}/${id}`, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    dispatch({
+      type: ActionTypes.GET_USERROLES_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ActionTypes.GET_USERROLES_FAIL,
+      payload: error.message || "An error occurred",
+    });
+  }
+};
+
+// Fetch All Roles
+export const fetchUserRoles = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${BASE_URL}${USERROLES_URL}`);
+
+    dispatch({
+      type: ActionTypes.GET_USERROLES_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({ type: ActionTypes.GET_USERROLES_FAIL, payload: error });
+  }
+};
+
+// Create Role
+export const createUserRole = (roleData) => async (dispatch) => {
+  try {
+    const response = await axios.post(`${BASE_URL}${USERROLES_URL}`, roleData);
+    dispatch({
+      type: ActionTypes.CREATE_USERROLE_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({ type: ActionTypes.CREATE_USERROLE_FAIL, payload: error });
+  }
+};
+
+// Update Role
+export const updateUserRoleData = (id, updatedRoleData) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}${USERROLES_URL}/${id}`,
+      updatedRoleData
+    );
+
+    dispatch({
+      type: ActionTypes.UPDATE_USERROLE_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({ type: ActionTypes.UPDATE_USERROLE_FAIL, payload: error });
+  }
+};
+
+// Delete Role
+export const deleteUserRole = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`${BASE_URL}${USERROLES_URL}/${id}`);
+    dispatch(fetchUserRoles());
+  } catch (error) {
+    dispatch({ type: ActionTypes.DELETE_USERROLE_FAIL, payload: error });
+  }
+};
+
+// Fetch All Companies
+export const fetchUserCompanies = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${BASE_URL}${USERCOMPANIES_URL}`);
+
+    dispatch({
+      type: ActionTypes.GET_USERCOMPANIES_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({ type: ActionTypes.GET_USERCOMPANIES_FAIL, payload: error });
+  }
+};
+
+// Create Company
+export const createUserCompany = (companyData) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}${USERCOMPANIES_URL}`,
+      companyData
+    );
+    dispatch({
+      type: ActionTypes.CREATE_USERCOMPANY_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({ type: ActionTypes.CREATE_USERCOMPANY_FAIL, payload: error });
+  }
+};
+
+// Update Company
+export const updateUserCompanyData =
+  (id, updatedCompanyData) => async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}${USERCOMPANIES_URL}/${id}`,
+        updatedCompanyData
+      );
+
+      dispatch({
+        type: ActionTypes.UPDATE_USERCOMPANY_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ActionTypes.UPDATE_USERCOMPANY_FAIL,
+        payload: error,
+      });
+    }
+  };
+
+// Delete Company
+export const deleteUserCompany = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`${BASE_URL}${USERCOMPANIES_URL}/${id}`);
+    dispatch(fetchUserCompanies());
+  } catch (error) {
+    dispatch({ type: ActionTypes.DELETE_USERCOMPANY_FAIL, payload: error });
   }
 };

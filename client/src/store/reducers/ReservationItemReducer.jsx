@@ -19,6 +19,7 @@ const initialState = {
   deleteTimeSlotsError: null,
   timeSlotsEdited: [],
   editTimeSlotsError: null,
+  timeSlots: [],
 };
 
 export const createReservationItemReducer = (
@@ -303,6 +304,24 @@ export const editTimeSlotsByItemIdReducer = (
         ...state,
         loading: false,
         editTimeSlotsError: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const timeSlotsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionTypes.GET_RESERVATION_TIMESLOT_SUCCESS:
+      return {
+        ...state,
+        timeSlots: action.payload,
+        error: null,
+      };
+    case ActionTypes.GET_RESERVATION_TIMESLOT_FAIL:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

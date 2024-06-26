@@ -678,6 +678,9 @@
       "groupName": "group 1"
     }
   ],
+
+  "userCompaines":[],"userRoles":[],
+
   "admincreation": [
     {
       "id": "7840",
@@ -712,4 +715,5 @@
       "privilegeName": "deleteAccess"
     }
   ]
+
 }

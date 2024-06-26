@@ -14,30 +14,23 @@ const initialState = {
   loading: false,
 };
 
-export const getCustomerReducer = (
-  state = {
-    loading: initialState.loading,
-    fetchCustomer: initialState.fetchCustomer,
-    getError: initialState.getError,
-  },
-  action
-)=>{
-  switch (action.type){
+export const getCustomerReducer = (state = initialState, action) => {
+  switch (action.type) {
     case ActionTypes.FETCH_CUSTOMER_REQUEST:
-      return{
-        ...state,
-        loading: !initialState.loading,
-      };
-      case ActionTypes.FETCH_CUSTOMER_SUCCESS:
       return {
         ...state,
-        loading: initialState.loading,
+        loading: true,
+      };
+    case ActionTypes.FETCH_CUSTOMER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
         fetchCustomer: action.payload,
       };
     case ActionTypes.FETCH_CUSTOMER_FAILURE:
       return {
         ...state,
-        loading: initialState.loading,
+        loading: false,
         getError: action.payload,
       };
     default:
