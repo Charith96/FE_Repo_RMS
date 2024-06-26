@@ -76,12 +76,7 @@ import {
   getUserByIdReducer,
 } from "./reducers/UserReducers";
 
-import {
-  fetchRolesReducer,
-  createRoleReducer,
-  updateRoleReducer,
-  deleteRoleReducer,
-} from "./reducers/RolesReducer";
+
 
 import { createAdminReducer, getAdminsReducer } from "./reducers/AdminReducer";
 
@@ -156,11 +151,6 @@ const rootReducer = combineReducers({
   editTimeSlotsByItem: editTimeSlotsByItemIdReducer,
   getTimeSlotsReducer: timeSlotsReducer,
 
-  //roles
-  fetchRoles: fetchRolesReducer,
-  createRole: createRoleReducer,
-  updateRole: updateRoleReducer,
-  deleteRole: deleteRoleReducer,
 
   //admin
   createAdmin: createAdminReducer,
