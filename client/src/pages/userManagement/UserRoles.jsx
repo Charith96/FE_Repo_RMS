@@ -78,7 +78,7 @@ const OverviewTable = ({ value }) => {
     },
     {
       name: "Role ID",
-      selector: (row) => row.id,
+      selector: (row) => row.roleID,
       sortable: true,
       grow: 2,
     },
@@ -94,7 +94,9 @@ const OverviewTable = ({ value }) => {
         const defaultStatus =
           userData.primaryRole === row.roleName ? "default" : " ";
         const status =
-          Array.isArray(userData.roles) && userData.roles.includes(row.roleName)
+          Array.isArray(userData.roles) &&
+          userData.roles.includes(row.roleName) &&
+          userData.primaryRole !== row.roleName
             ? "granted"
             : defaultStatus;
         return status;
@@ -138,7 +140,7 @@ const OverviewTable = ({ value }) => {
     if (selectedRows.length === 1) {
       const roleName = selectedRows[0].roleName;
       if (roleName === userData.primaryRole) {
-        return;
+        return "default";
       }
 
       if (!userData.roles.includes(roleName)) {

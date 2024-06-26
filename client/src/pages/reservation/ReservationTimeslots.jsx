@@ -31,7 +31,12 @@ const ReservationGroupList = () => {
   const [capacity, setCapacity] = useState(false);
   const [dateSelected, setDateSelected] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
+  const [reservation, setReservation] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
+  const refreshComponent = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
   const fetchItem = useSelector(
     (state) => state.getReservationItemById.fetchReservationItemId
   );
@@ -57,8 +62,8 @@ const ReservationGroupList = () => {
       setFormData({
         reservationID: reservationID,
         customerID: customer,
-        group: group,
-        itemID: item,
+        groupId: group,
+        itemId: item,
       });
     }
     if (formData.noOfPeople && formData.time1 && formData.time2) {
@@ -77,11 +82,26 @@ const ReservationGroupList = () => {
 
     try {
       dispatch(createReservation(formData));
-      toast.success("Reservation Created Successfully!");
+
       setBtnDisable(true);
     } catch (error) {
       toast.error("Error Creating Reservation. Please Try Again.");
     }
+  };
+  const TimeConverter = (Time) => {
+    if (!Time || typeof Time !== "string") {
+      return "";
+    }
+
+    const TimeStamps2 = Time.split(":");
+    if (TimeStamps2.length < 2) {
+      return "";
+    }
+
+    const hour = TimeStamps2[0].split("T")[1];
+    const minute = TimeStamps2[1];
+    const ConvertedTime = `${hour}:${minute}`;
+    return ConvertedTime;
   };
 
   const handleInputChange = (e) => {
@@ -89,6 +109,7 @@ const ReservationGroupList = () => {
     const { id, value } = e.target;
 
     if (id === "date") {
+      refreshComponent();
       try {
         setFormData({
           ...formData,
@@ -105,7 +126,10 @@ const ReservationGroupList = () => {
         });
         return false;
       }
-      const [startTime, endTime] = value.split("-");
+      const timestamps = value.split("-");
+      const startTime = TimeConverter(timestamps[2]);
+
+      const endTime = TimeConverter(timestamps[5]);
       const startDate = new Date(formData.date);
       let endDate = new Date(formData.date);
       const [endHour, endMinute] = endTime.split(":");
@@ -119,7 +143,7 @@ const ReservationGroupList = () => {
 
       setFormData({
         ...formData,
-        time1: `${formData.date}T${startTime.trim()}`,
+        time1: `${startDate.toISOString().split("T")[0]}T${startTime.trim()}`,
         time2: `${endDate.toISOString().split("T")[0]}T${endTime.trim()}`,
       });
     } else if (id === "noOfPeople") {
@@ -144,56 +168,29 @@ const ReservationGroupList = () => {
       });
     }
   };
-  //calculating available reservations according to the date and time range
 
   //calculating available Capacity according to the date and time range
   const calculateAvailableCapacity = () => {
-    if (slotType !== "Flexible") {
-      const time1 = formData.time1;
-      const time2 = formData.time2;
+    const time1 = formData.time1;
+    const time2 = formData.time2;
 
-      const reservationsWithinTimeRangeFle = reservationByItem.filter(
-        (reservation) => {
-          return (
-            (reservation.time1 <= time2 && reservation.time2 >= time1) ||
-            (reservation.time1 <= time1 && reservation.time2 >= time2)
-          );
-        }
+    const reservationsWithinRange = reservationByItem.filter((reservation) => {
+      return (
+        (reservation.time1 <= time2 && reservation.time2 >= time1) ||
+        (reservation.time1 <= time1 && reservation.time2 >= time2)
       );
-      const totalPeopleWithinRangeFlexible =
-        reservationsWithinTimeRangeFle.reduce((total, reservation) => {
-          return total + reservation.noOfPeople;
-        }, 0);
+    });
 
-      const availableResFlexible =
-        fetchItem.capacity - totalPeopleWithinRangeFlexible;
-      return availableResFlexible > 0
-        ? availableResFlexible
-        : "Capacity Reached.";
-    } else {
-      const time1 = formData.time1;
-      const time2 = formData.time2;
+    const totalPeopleWithinRange = reservationsWithinRange.reduce(
+      (total, reservation) => {
+        return total + reservation.noOfPeople;
+      },
+      0
+    );
 
-      const reservationsWithinRange = reservationByItem.filter(
-        (reservation) => {
-          return (
-            (reservation.time1 <= time2 && reservation.time2 >= time1) ||
-            (reservation.time1 <= time1 && reservation.time2 >= time2)
-          );
-        }
-      );
+    const availableCapacity = fetchItem.capacity - totalPeopleWithinRange;
 
-      const totalPeopleWithinRange = reservationsWithinRange.reduce(
-        (total, reservation) => {
-          return total + reservation.noOfPeople;
-        },
-        0
-      );
-
-      const availableCapacity = fetchItem.capacity - totalPeopleWithinRange;
-
-      return availableCapacity > 0 ? availableCapacity : "Capacity Reached.";
-    }
+    return availableCapacity > 0 ? availableCapacity : "Capacity Reached.";
   };
 
   //calling avialable capacity function
@@ -211,6 +208,46 @@ const ReservationGroupList = () => {
     }
     return availableCapacity;
   };
+  //  calculating available reservations according to the date and time range
+  const calculateAvailableReservations = () => {
+    const time1 = formData.time1;
+    const time2 = formData.time2;
+
+    const reservationsWithinTimeRange = reservationByItem.filter(
+      (reservation) => {
+        return (
+          (reservation.time1 <= time2 && reservation.time2 >= time1) ||
+          (reservation.time1 <= time1 && reservation.time2 >= time2)
+        );
+      }
+    );
+
+    const totalreservationsWithinTimeRange = reservationsWithinTimeRange.length;
+
+    const availableReservation =
+      fetchItem.noOfReservations - totalreservationsWithinTimeRange;
+
+    return availableReservation > 0
+      ? availableReservation
+      : "Reservations filled.";
+  };
+
+  //calling avialable reservation function
+  const callcalculateAvailableReservations = () => {
+    const availableReservations = calculateAvailableReservations();
+
+    if (availableReservations === "Reservations filled.") {
+      if (!reservation) {
+        setReservation(true);
+      }
+    } else {
+      if (reservation) {
+        setReservation(false);
+      }
+    }
+    return availableReservations;
+  };
+
   //calling avialable reservation function
 
   const handleDiscard = () => {
@@ -245,7 +282,7 @@ const ReservationGroupList = () => {
                         onChange={handleInputChange}
                       />
                       {dateSelected === true && (
-                        <Form.Group as={Row} className="mb-3">
+                        <Form.Group as={Row} className="mb-3" key={refreshKey}>
                           <Form.Label column md={3}>
                             Time Slot
                           </Form.Label>
@@ -257,7 +294,8 @@ const ReservationGroupList = () => {
                                   key={item.id}
                                   value={`${item.startTime}-${item.endTime}`}
                                 >
-                                  {item.startTime} - {item.endTime}
+                                  {TimeConverter(item.startTime)} -{" "}
+                                  {TimeConverter(item.endTime)}
                                 </option>
                               ))}
                             </Form.Select>
@@ -276,7 +314,16 @@ const ReservationGroupList = () => {
                   disabled={true}
                   onChange={handleInputChange}
                 />
-
+                {slotType !== "Flexible" && (
+                  <TextField
+                    id="flexibleReservations"
+                    label="Available Reservations :"
+                    type="text"
+                    value={callcalculateAvailableReservations()}
+                    disabled={true}
+                    onChange={handleInputChange}
+                  />
+                )}
                 <TextField
                   id="noOfPeople"
                   label="No of People :"

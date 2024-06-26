@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchReservations,
@@ -8,7 +8,6 @@ import { Row, Button, Form, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUpRightFromSquare,
-  faEdit,
   faEllipsisH,
   faMagnifyingGlass,
   faXmark,
@@ -29,10 +28,6 @@ const ReservationList = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [isAddDisable, setIsAddDisable] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [isSaveDisable, setIsSaveDisable] = useState(true);
-  const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
@@ -42,44 +37,46 @@ const ReservationList = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
-  const totalItems = filteredData.length;
   const toggledClearRows = useRef(false);
 
-  // Fetch reservations on component mount
+  const totalItems = useMemo(() => filteredData.length, [filteredData]);
+
   useEffect(() => {
-    dispatch(fetchReservations());
-    if (deleteReservation) {
-      dispatch(fetchReservations());
+    if (!reservations || reservations.length === 0) {
+      dispatch(fetchReservations())
+        .then(() => setLoading(false))
+        .catch((error) => {
+          console.error("Error fetching reservations: ", error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
     }
-  }, []);
+  }, [dispatch, reservations]);
 
-  // Filter reservations and update data when reservations or pagination settings change
   useEffect(() => {
-    dispatch(fetchReservations()).then(() => {
-      if (reservations && reservations.length > 0 && !isFiltered) {
-        setFilteredData(reservations);
+    if (reservations) {
+      const filtered = searchTerm
+        ? reservations.filter((res) =>
+            Object.values(res).some((val) =>
+              String(val).toLowerCase().includes(searchTerm.toLowerCase())
+            )
+          )
+        : reservations;
 
-        const start = currentPage * perPage;
-        const end = start + perPage;
-        const slicedData = reservations?.slice(start, end);
-        setPaginatedData(slicedData);
+      setFilteredData(filtered);
 
-        if (selectedRows.length === 1) {
-          setIsDeleteDisable(false);
-        } else {
-          setIsDeleteDisable(true);
-        }
-      }
-    });
-  }, [reservations, currentPage, perPage, selectedRows, isFiltered]);
+      const start = currentPage * perPage;
+      const end = start + perPage;
+      setPaginatedData(filtered.slice(start, end));
+    }
+  }, [reservations, searchTerm, currentPage, perPage]);
 
-  // Handler for search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     setIsFiltered(e.target.value !== "");
   };
 
-  // Handler for clearing search filter
   const clearFilter = () => {
     setSearchTerm("");
     setIsFiltered(false);
@@ -94,16 +91,15 @@ const ReservationList = () => {
     setShowConfirmation(true);
   };
 
-  // Handler for canceling delete action
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
 
-  // Handler for confirming delete action
   const confirmDelete = () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteReservation(selectedRows[0]?.id));
+        dispatch(deleteReservation(selectedRows[0]?.reservationCode));
+        window.location.reload();
         toast.success("Record Successfully deleted!");
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
@@ -113,12 +109,9 @@ const ReservationList = () => {
     }
   };
 
-  // Handler for viewing reservation details
   const handleDetails = () => {
-    // Check if a single row is selected
     if (selectedRows.length === 1) {
-      // Prepare data for viewing
-      let data = {
+      const data = {
         reservationID: contextMenuRow.reservationID,
         customerID: contextMenuRow.customerID,
         date: contextMenuRow.date,
@@ -126,7 +119,7 @@ const ReservationList = () => {
         noOfPeople: contextMenuRow.noOfPeople,
         time1_time2: `${contextMenuRow.time1} - ${contextMenuRow.time2}`,
       };
-      let dataString = JSON.stringify(data);
+      const dataString = JSON.stringify(data);
       navigate(
         `/reservations/ReservationOverview?data=${encodeURIComponent(
           dataString
@@ -136,47 +129,55 @@ const ReservationList = () => {
     }
   };
 
-  const columns = [
-    {
-      name: "",
-      cell: (row) => (
-        <div className="cell-actions">
-          <span
-            className="ellipsis tree-dots"
-            onClick={(e) => handleCellClick(e, row)}
-          >
-            <FontAwesomeIcon icon={faEllipsisH} />
-          </span>
-        </div>
-      ),
-    },
-    {
-      name: "Reservation ID",
-      selector: (row) => row.reservationID,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Customer ID",
-      selector: (row) => row.customerID,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Time Slot",
-      selector: (row) => `${row.time1} - ${row.time2}`,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-      sortable: true,
-      grow: 2,
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        name: "",
+        cell: (row) => (
+          <div className="cell-actions">
+            <span
+              className="ellipsis tree-dots"
+              onClick={(e) => handleCellClick(e, row)}
+            >
+              <FontAwesomeIcon icon={faEllipsisH} />
+            </span>
+          </div>
+        ),
+      },
+      {
+        name: "Reservation ID",
+        selector: (row) => row.reservationID,
+        sortable: true,
+        grow: 2,
+      },
+      {
+        name: "Customer ID",
+        selector: (row) => row.customerID,
+        sortable: true,
+        grow: 2,
+      },
+      {
+        name: "Start Date and Time",
+        selector: (row) => row.time1,
+        sortable: true,
+        grow: 2,
+      },
+      {
+        name: "End Date and Time",
+        selector: (row) => row.time2,
+        sortable: true,
+        grow: 2,
+      },
+      {
+        name: "No of People",
+        selector: (row) => row.noOfPeople,
+        sortable: true,
+        grow: 2,
+      },
+    ],
+    []
+  );
 
-  // Handler for handling cell click events (for context menu)
   const handleCellClick = (e, row) => {
     e.preventDefault();
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
@@ -184,36 +185,31 @@ const ReservationList = () => {
     setContextMenuRow(row);
   };
 
-  // Render custom context menu
   const customContextMenu = menuVisible && (
     <div
       className="styled-menu"
       style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
     >
-      <div className="menu-item" onClick={() => handleDetails()}>
+      <div className="menu-item" onClick={handleDetails}>
         <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> More info
       </div>
     </div>
   );
 
-  const isSingleRecordSelected = selectedRows.length === 1 && false;
+  const isSingleRecordSelected = selectedRows.length === 1;
 
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
         Title={"Reservations List"}
-        plustDisabled={isAddDisable}
-        editDisabled={isEditDisable}
-        saveDisabled={isSaveDisable}
-        deleteDisabled={isDeleteDisable}
-        PlusAction={() => {
-          handleCreate();
-        }}
+        plustDisabled={false}
+        editDisabled={true}
+        saveDisabled={true}
+        deleteDisabled={selectedRows.length !== 1}
+        PlusAction={handleCreate}
         EditAction={() => {}}
         SaveAction={() => {}}
-        DeleteAction={() => {
-          handleDelete();
-        }}
+        DeleteAction={handleDelete}
       />
 
       <Row>
@@ -235,7 +231,7 @@ const ReservationList = () => {
                 <FontAwesomeIcon icon={faXmark} />
               </Button>
             ) : (
-              <Button variant="primary" className="form-btn" onClick={() => {}}>
+              <Button variant="primary" className="form-btn">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </Button>
             )}
@@ -277,9 +273,7 @@ const ReservationList = () => {
           "The selected Reservation will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
+        action={confirmDelete}
       />
     </div>
   );

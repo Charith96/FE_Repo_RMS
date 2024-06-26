@@ -137,7 +137,6 @@ const UserDetailsPage = ({ value, mode }) => {
           ...filteredUserData,
         };
         await dispatch(updateUserData(id, updatedUserData));
-        console.log(updatedUserData);
         dispatch(fetchUserData(id));
         setIsViewMode(true);
 

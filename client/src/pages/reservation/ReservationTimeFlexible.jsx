@@ -33,10 +33,6 @@ const ReservationGroupList = () => {
     (state) => state.getReservationItemById.fetchReservationItemId
   );
 
-  const fetchReservationById = useSelector(
-    (state) => state.reservationById.reservationsById
-  );
-
   const reservationByItem = useSelector(
     (state) => state.reservationByItem.reservationsByItem
   );
@@ -192,21 +188,6 @@ const ReservationGroupList = () => {
     }
     return availableCapacity;
   };
-  //calling avialable reservation function
-  const callcalculateAvailableReservations = () => {
-    const availableReservations = calculateAvailableReservations();
-
-    if (availableReservations === "Reservations filled.") {
-      if (!reservation) {
-        setReservation(true);
-      }
-    } else {
-      if (reservation) {
-        setReservation(false);
-      }
-    }
-    return availableReservations;
-  };
 
   const handleDiscard = () => {
     navigate(`/reservations/createReservation`);
@@ -258,16 +239,7 @@ const ReservationGroupList = () => {
                 disabled={true}
                 onChange={handleInputChange}
               />
-              {slotType !== "Flexible" && (
-                <TextField
-                  id="flexibleReservations"
-                  label="Available Reservations :"
-                  type="text"
-                  value={callcalculateAvailableReservations()}
-                  disabled={true}
-                  onChange={handleInputChange}
-                />
-              )}
+
               {slotType === "Flexible" && (
                 <TextField
                   id="limitedReservations"

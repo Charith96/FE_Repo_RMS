@@ -77,7 +77,7 @@ const OverviewTable = ({ value }) => {
     },
     {
       name: "Company ID",
-      selector: (row) => row.companyID,
+      selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,
     },
@@ -94,7 +94,8 @@ const OverviewTable = ({ value }) => {
           userData.defaultCompany === row.companyName ? "default" : " ";
         const status =
           Array.isArray(userData.companies) &&
-          userData.companies.includes(row.companyName)
+          userData.companies.includes(row.companyName) &&
+          userData.defaultCompany !== row.companyName
             ? "granted"
             : defaultStatus;
         return status;
@@ -152,7 +153,7 @@ const OverviewTable = ({ value }) => {
   const handleSave = async () => {
     if (selectedRows.length === 1) {
       const companyName = selectedRows[0].companyName;
-      console.log(companyName);
+
       if (companyName === userData.defaultCompany) {
         return;
       }
@@ -174,7 +175,7 @@ const OverviewTable = ({ value }) => {
           roles: userData.roles,
           companies: updatedCompanies,
         };
-        console.log(updateUserData);
+
         await dispatch(updateUserData(value, updatedUserData));
         dispatch(fetchUserData(value));
       } else {

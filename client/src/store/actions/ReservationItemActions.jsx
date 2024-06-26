@@ -1,8 +1,7 @@
 import axios from "axios";
 import { RESERVATION_ITEM, TIME_SLOT } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
-//const BASE_URL = process.env.REACT_APP_BASE_URL;
-const BASE_URL = "https://localhost:7219/api";
+export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const createReservationItem = (data) => async (dispatch) => {
   try {
