@@ -15,7 +15,7 @@ const CustomerOverview = () => {
   const data = searchParams.get("data");
   const paramData = JSON.parse(data);
   // Pass customer id instead of email to CustomerCurrentReservations component
-  const customerId = paramData ? paramData.customerID : null;
+  const customerId = paramData ? paramData.customerCode : null;
 
   // Define tabs with their respective content
   const tabs = [

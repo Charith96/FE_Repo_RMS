@@ -42,6 +42,7 @@ import {
   editCompanyFlagReducer,
   countriesReducer,
   currenciesReducer,
+  companiesReducer,
 } from "./reducers/CompanyReducer";
 
 import {
@@ -68,10 +69,7 @@ import {
   deleteRoleReducer,
 } from "./reducers/RolesReducer";
 
-import {
-  createAdminReducer,
-  getAdminsReducer,
-} from "./reducers/AdminReducer";
+import { createAdminReducer, getAdminsReducer } from "./reducers/AdminReducer";
 
 const middleware = [thunk];
 
@@ -85,6 +83,7 @@ const rootReducer = combineReducers({
   editCompanyFlag: editCompanyFlagReducer,
   countries: countriesReducer,
   currencies: currenciesReducer,
+  companies: companiesReducer,
 
   //customer
   createCustomer: createCustomerReducer,

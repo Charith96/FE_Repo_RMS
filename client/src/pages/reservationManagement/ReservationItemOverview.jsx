@@ -68,7 +68,7 @@ const ManageReservationItems = ({
                     if (inputValue === "*" || inputValue === "") {
                       setNoOfReservations(inputValue);
                     } else if (!isNaN(inputValue)) {
-                      setNoOfReservations(parseInt(inputValue, 10));
+                      setNoOfReservations(inputValue);
                     } else {
                       setNoOfReservations("");
                     }
@@ -92,7 +92,7 @@ const ManageReservationItems = ({
                     if (inputValue === "-" || inputValue === "") {
                       setCapacity(inputValue);
                     } else {
-                      setCapacity(parseInt(inputValue, 10));
+                      setCapacity(inputValue);
                     }
                   } else {
                     setCapacity("");

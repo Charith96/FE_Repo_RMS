@@ -23,7 +23,6 @@ export const fetchCustomers = () => async (dispatch) => {
     });
   }
 };
-
 export const fetchCustomersById = (customerId) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_CUSTOMER_REQUEST_BY_ID });

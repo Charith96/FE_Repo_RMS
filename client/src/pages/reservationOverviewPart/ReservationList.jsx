@@ -38,7 +38,7 @@ const ReservationList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [perPage, setPerPage] = useState(5);
   const toggledClearRows = useRef(false);
-
+  const [refreshKey, setRefreshKey] = useState(0);
   const totalItems = useMemo(() => filteredData.length, [filteredData]);
 
   useEffect(() => {
@@ -95,16 +95,28 @@ const ReservationList = () => {
     setShowConfirmation(false);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteReservation(selectedRows[0]?.reservationCode));
-        window.location.reload();
+        setFilteredData((prevData) =>
+          prevData.filter(
+            (item) => item.reservationCode !== selectedRows[0].reservationCode
+          )
+        );
+
+        await dispatch(deleteReservation(selectedRows[0]?.reservationCode));
         toast.success("Record Successfully deleted!");
+
+        // Force re-fetch and re-render
+        dispatch(fetchReservations());
+        setRefreshKey((prevKey) => prevKey + 1);
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
+
+        dispatch(fetchReservations());
       } finally {
         setShowConfirmation(false);
+        setSelectedRows([]);
       }
     }
   };
@@ -115,7 +127,7 @@ const ReservationList = () => {
         reservationID: contextMenuRow.reservationID,
         customerID: contextMenuRow.customerID,
         date: contextMenuRow.date,
-        itemID: contextMenuRow.itemID,
+        itemId: contextMenuRow.itemId,
         noOfPeople: contextMenuRow.noOfPeople,
         time1_time2: `${contextMenuRow.time1} - ${contextMenuRow.time2}`,
       };
@@ -127,6 +139,22 @@ const ReservationList = () => {
         { state: { mode: "view" } }
       );
     }
+  };
+
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      date
+    );
+    const [dayMonthYear, time] = formattedDate.split(", ");
+    return `${dayMonthYear} - ${time}`;
   };
 
   const columns = useMemo(
@@ -158,13 +186,13 @@ const ReservationList = () => {
       },
       {
         name: "Start Date and Time",
-        selector: (row) => row.time1,
+        selector: (row) => formatDateTime(row.time1),
         sortable: true,
         grow: 2,
       },
       {
         name: "End Date and Time",
-        selector: (row) => row.time2,
+        selector: (row) => formatDateTime(row.time2),
         sortable: true,
         grow: 2,
       },
@@ -241,6 +269,7 @@ const ReservationList = () => {
 
       <div className="table-responsive">
         <ReservationGroupTable
+          key={refreshKey}
           reservations={reservations}
           selectableRows={true}
           selectableRowsSingle={true}

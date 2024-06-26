@@ -24,7 +24,7 @@ import { toast } from "react-toastify";
 const CustomerList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [refreshKey, setRefreshKey] = useState(0);
   const fetchCustomerData = useSelector(
     (state) => state.getCustomer.fetchCustomer
   );
@@ -56,10 +56,7 @@ const CustomerList = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
-    if (deleteCustomerData) {
-      dispatch(fetchCustomers());
-    }
-  }, [dispatch, deleteCustomerData]);
+  }, [dispatch]);
 
   useEffect(() => {
     // Fetch customers and update data when customers or pagination settings change
@@ -203,19 +200,31 @@ const CustomerList = () => {
   };
 
   // Function to confirm deletion of selected row
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (selectedRows.length === 1) {
       try {
-        dispatch(deleteCustomer(selectedRows[0]?.customerCode));
+        setFilteredData((prevData) =>
+          prevData.filter(
+            (item) => item.customerCode !== selectedRows[0].customerCode
+          )
+        );
+
+        await dispatch(deleteCustomer(selectedRows[0]?.customerCode));
         toast.success("Record Successfully deleted!");
+
+        // Force re-fetch and re-render
+        dispatch(fetchCustomers());
+        setRefreshKey((prevKey) => prevKey + 1);
       } catch (error) {
         toast.error("Error deleting row. Please try again.");
+
+        dispatch(fetchCustomers());
       } finally {
         setShowConfirmation(false);
+        setSelectedRows([]);
       }
     }
   };
-
   // Function to handle create action(Plus icon)
   const handleCreate = () => {
     navigate("/customerManagement/CustomerCreation");
@@ -301,6 +310,7 @@ const CustomerList = () => {
 
       {/* Reservation group table */}
       <ReservationGroupTable
+        key={refreshKey}
         selectableRows={true}
         selectableRowsSingle={true}
         setPerPage={setPerPage}

@@ -241,7 +241,7 @@ const CompanyOverview = () => {
           <div>
             <Form>
               <TextField
-                label="Company Code"
+                label="Company ID"
                 className={`${!companyCode ? "is-invalid" : ""}`}
                 disabled={true}
                 value={companyCode}
@@ -337,3 +337,5 @@ const CompanyOverview = () => {
 };
 
 export default CompanyOverview;
+
+

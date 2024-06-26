@@ -37,7 +37,7 @@ export const createTimeSlots = (data) => async (dispatch) => {
       },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       dispatch({
         type: ActionTypes.CREATE_TIME_SLOT_SUCCESS,
         payload: response.data,

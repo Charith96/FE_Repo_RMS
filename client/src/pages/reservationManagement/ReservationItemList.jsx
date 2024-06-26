@@ -67,10 +67,10 @@ const ReservationItemList = () => {
 
   useEffect(() => {
     dispatch(fetchReservationItems());
-    dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
+    //dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
     if (deleteReservationItemData) {
       dispatch(fetchReservationItems());
-      dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
+      //dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
     }
   }, [dispatch, deleteReservationItemData]);
 

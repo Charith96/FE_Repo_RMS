@@ -28,7 +28,7 @@ export const createCompany = (data) => async (dispatch) => {
       };
     }
   } catch (error) {
-    console.error("Error creating company:", error);
+    //  console.error("Error creating company:", error);
     dispatch({
       type: ActionTypes.CREATE_COMPANY_FAIL,
       payload: error.message,
@@ -55,7 +55,7 @@ export const editCompany = (id, data) => async (dispatch) => {
       return { type: ActionTypes.EDIT_COMPANY_SUCCESS, payload: response.data };
     }
   } catch (error) {
-    console.error("Error editing company:", error);
+    //console.error("Error editing company:", error);
     dispatch({ type: ActionTypes.EDIT_COMPANY_FAIL, payload: error.message });
     return { type: ActionTypes.EDIT_COMPANY_FAIL, payload: error.message };
   }

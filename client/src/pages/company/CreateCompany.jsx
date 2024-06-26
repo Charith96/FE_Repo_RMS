@@ -4,14 +4,14 @@ import {
   resetManageCompanyState,
   fetchCountries,
   fetchCurrencies,
+  fetchCompanies, // Import the action to fetch companies
 } from "../../store/actions/CompanyActions";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
 import TextField from "../../components/TextField";
 import { useNavigate } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { Form } from "react-bootstrap";
 import CheckboxField from "../../components/CheckboxField";
 import DropdownField from "../../components/DropdownField";
 
@@ -20,9 +20,10 @@ const CreateCompany = () => {
   const navigate = useNavigate();
 
   // Retrieve data from the Redux store
-  const companyData = useSelector((state) => state.createCompany);
+  const companyData = useSelector((state) => state.createCompany); 
   const countries = useSelector((state) => state.countries.countries);
   const currencies = useSelector((state) => state.currencies.currencies);
+  const companies = useSelector((state) => state.companies.fetchCompany); // Fetch the list of companies
 
   // State variables for form fields
   const [companyCode, setCompanyCode] = useState("");
@@ -33,6 +34,7 @@ const CreateCompany = () => {
   const [address01, setAddress01] = useState("");
   const [address02, setAddress02] = useState("");
   const [defaultCompany, setDefaultCompany] = useState(false);
+  const [companyCodeError, setCompanyCodeError] = useState(""); // State for Company ID error
   const buttonFlag = useState(false)?.current;
   const isValueMounted = useRef(false);
 
@@ -54,31 +56,11 @@ const CreateCompany = () => {
       }
   }, [dispatch, navigate, companyData, isValueMounted]);
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (companyCode && companyName && countryId && currencyId && address01) {
-      const data = {
-        companyCode: companyCode.toString(),
-        companyName: companyName,
-        description: description,
-        countryID: countryId,
-        currencyID: currencyId,
-        address01: address01,
-        address02: address02,
-        defaultCompany: defaultCompany,
-      };
-      dispatch(createCompany(data));
-    } else {
-      toast.error("Please fill out all required fields.");
-    }
-  };
-
-  // Fetch countries and currencies when the component mounts
+  // Fetch countries, currencies, and existing companies when the component mounts
   useEffect(() => {
     dispatch(fetchCountries());
     dispatch(fetchCurrencies());
+    dispatch(fetchCompanies()); // Fetch the list of companies
   }, [dispatch]);
 
   // Clear text fields
@@ -91,6 +73,37 @@ const CreateCompany = () => {
     setAddress01("");
     setAddress02("");
     setDefaultCompany(false);
+    setCompanyCodeError(""); // Clear the Company ID error
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (companyCode && companyName && countryId && currencyId && address01) {
+      if (isCompanyCodeUnique(companyCode)) {
+        const data = {
+          companyCode: companyCode.toString(),
+          companyName: companyName,
+          description: description,
+          countryID: countryId,
+          currencyID: currencyId,
+          address01: address01,
+          address02: address02,
+          defaultCompany: defaultCompany,
+        };
+        dispatch(createCompany(data));
+      } else {
+        setCompanyCodeError("This Company ID already exists");
+      }
+    } else {
+      toast.error("Please fill out all required fields.");
+    }
+  };
+
+  // Check if the Company ID is unique
+  const isCompanyCodeUnique = (code) => {
+    return !companies.some((company) => company.companyCode === code);
   };
 
   return (
@@ -112,14 +125,17 @@ const CreateCompany = () => {
             <Form onSubmit={handleSubmit}>
               {/* TextField component for Company Code */}
               <TextField
-                label="Company Code"
-                // className={`${companyCode ? "is-invalid" : "bg-white"}`}
+                label="Company ID"
                 value={companyCode}
                 onChange={(e) => {
                   setCompanyCode(e.target.value);
+                  setCompanyCodeError(""); // Clear error when typing
                 }}
                 maxLength={8}
               />
+              {companyCodeError && (
+                <div className="text-danger">{companyCodeError}</div>
+              )}
               {/* TextField component for Company Name */}
               <TextField
                 value={companyName}
@@ -227,3 +243,4 @@ const CreateCompany = () => {
 };
 
 export default CreateCompany;
+

@@ -112,7 +112,7 @@ const Companies = () => {
       ),
     },
     {
-      name: "Company Code",
+      name: "Company ID",
       selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,
@@ -192,7 +192,7 @@ const Companies = () => {
         setFilteredData(fetchCompanyData);
       } else {
         const filtered = fetchCompanyData.filter((item) =>
-          item.companyID
+          item.companyCode
             ?.toString()
             .toLowerCase()
             .includes(searchTerm?.toLowerCase())

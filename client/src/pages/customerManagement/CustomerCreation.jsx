@@ -54,6 +54,7 @@ const CustomerCreation = () => {
     // Check whether all mandatory fields are filled and email is valid
     const mandatoryFieldsFilled =
       Customerid.trim() !== "" &&
+      Customerid.trim() !== "" &&
       fullName.trim() !== "" &&
       identifier.trim() !== "" &&
       address.trim() !== "" &&
