@@ -1,5 +1,5 @@
-export const CUSTOMER_URL = '/customers';
-export const RESERVATION_URL='/reservations';
+export const CUSTOMER_URL = '/Customer';
+export const RESERVATION_URL='/Reservation';
 export const RESERVATION_GROUP='/ReservationGroup';
 export const RESERVATION_ITEM='/ReservationItem';
 export const TIME_SLOT='/TimeSlot';

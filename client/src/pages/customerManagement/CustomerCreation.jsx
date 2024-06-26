@@ -15,7 +15,7 @@ const CustomerCreation = () => {
   const navigate = useNavigate();
 
   const customerData = useSelector((state) => state.createCustomer);
-  const [id, setId] = useState("");
+  const [Customerid, setId] = useState("");
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [address, setAddress] = useState("");
@@ -53,7 +53,7 @@ const CustomerCreation = () => {
 
     // Check whether all mandatory fields are filled and email is valid
     const mandatoryFieldsFilled =
-      id.trim() !== "" &&
+    Customerid.trim() !== "" &&
       fullName.trim() !== "" &&
       identifier.trim() !== "" &&
       address.trim() !== "" &&
@@ -61,16 +61,16 @@ const CustomerCreation = () => {
 
     // Set form validity based on mandatory fields and email validation
     setFormValid(mandatoryFieldsFilled && isValidEmail(email));
-  }, [id, fullName, identifier, address, email, contactNo]); // Re-run effect when form fields change
+  }, [Customerid, fullName, identifier, address, email, contactNo]); // Re-run effect when form fields change
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     //newCustomer-> contains the data of the customer to be created
-    if (id && fullName && identifier && address && contactNo) {
+    if (Customerid && fullName && identifier && address && contactNo) {
       const newCustomer = {
-        id: id,
+        Customerid: Customerid,
         fullName: fullName,
         identifier: identifier,
         address: address,
@@ -112,7 +112,7 @@ const CustomerCreation = () => {
 
               <TextField
                 label="Customer ID"
-                value={id}
+                value={Customerid}
                 onChange={(e) => setId(e.target.value)}
                 maxLength={8}
               />
