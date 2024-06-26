@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchReservationGroups } from "../../store/actions/ReservationGroupActions";
 import { createReservationItem } from "../../store/actions/ReservationItemActions";
 import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
@@ -50,7 +50,6 @@ const CreateReservationItem = ({
       try {
         dispatch(fetchReservationGroups());
         dispatch(fetchReservationItems());
-
       } catch (error) {
         toast.error("Error fetching data:", error);
       }
@@ -65,8 +64,6 @@ const CreateReservationItem = ({
         ...value,
         itemId: itemIdForTheTimeSlots,
       }));
-
-      
 
       data.forEach((value) => {
         // Assuming value.startTime and value.endTime are in "HH:MM" format
@@ -145,7 +142,7 @@ const CreateReservationItem = ({
       timeSlotType: timeSlotType,
       slotDurationType: slotDurationType,
       durationPerSlot: duration,
-      noOfSlots :parseInt(noOfSlots, 10) || 0,
+      noOfSlots: parseInt(noOfSlots, 10) || 0,
       noOfReservations: noOfReservations,
       capacity: capacity,
     };
@@ -172,9 +169,9 @@ const CreateReservationItem = ({
       ) {
         if (isFlexible) {
           dispatch(createReservationItem(data));
-          //setTimeout(() => {
-          //handleNavigate();
-          //}, 200);
+          setTimeout(() => {
+            handleNavigate();
+          }, 200);
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else if (
@@ -185,7 +182,9 @@ const CreateReservationItem = ({
           !isValuesEqual
         ) {
           dispatch(createReservationItem(data));
-          //handleNavigate();
+          setTimeout(() => {
+            handleNavigate();
+          }, 200);
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else if (
@@ -195,7 +194,9 @@ const CreateReservationItem = ({
           !isValuesEqual
         ) {
           dispatch(createReservationItem(data));
-          //handleNavigate();
+          setTimeout(() => {
+            handleNavigate();
+          }, 200);
           toast.success("Reservation Item created successfully");
           setToInitialState();
         } else {
