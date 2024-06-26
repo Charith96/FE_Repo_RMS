@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import { fetchAdmins } from "../../store/actions/AdminActions";
 import { fetchData } from "../../store/actions/UserActions";
+import { useNavigate } from "react-router-dom";
 
 const regex =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -23,7 +24,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const adminData = useSelector((state) => state.getAdmins.fetchAdmin);
   const userData = useSelector((state) => state.users.users);
-  
+  const Navigate = useNavigate();
 
   useEffect(() => {
     if (adminData) {
@@ -34,14 +35,16 @@ const Login = () => {
         if (admin.password === password) {
           // Handle successful login
           console.log("Login successful");
-          
+          localStorage.setItem("email", JSON.stringify(emailAddress));
+          localStorage.setItem("password", JSON.stringify(password));
+          Navigate("/");
         } else {
           // Password does not match
           setTriggerMessage({ ...triggerMessage, passwordIncorrect: true });
         }
       } else {
         // Email does not exist
-        
+
         dispatch(fetchData());
       }
     }
@@ -56,7 +59,9 @@ const Login = () => {
         if (user.password === password) {
           // Handle successful login
           console.log("Login successful");
-          
+          localStorage.setItem("email", JSON.stringify(emailAddress));
+          localStorage.setItem("password", JSON.stringify(password));
+          Navigate("/");
         } else {
           // Password does not match
           setTriggerMessage({ ...triggerMessage, passwordIncorrect: true });

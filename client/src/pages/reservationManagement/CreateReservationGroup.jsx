@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   createReservationGroup,
   resetManageReservationGroupState,
+  fetchReservationGroups,
 } from "../../store/actions/ReservationGroupActions";
 import { checkForDuplicate } from "../../store/actions/ReservationGroupActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,24 +16,24 @@ import { Form } from "react-bootstrap";
 const CreateReservationGroup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isDuplicated = useSelector(
-    (state) => state.checkForDuplicates.checkDuplicate
-  );
+  const isDuplicated = useRef(false);
+
   const reservationGroupData = useSelector(
     (state) => state.createReservationGroup
   );
+
+  const fetchReservationGroupData = useSelector(
+    (state) => state.getReservationGroup.fetchReservationGroup
+  );
+
   const [groupName, setGroupName] = useState("");
   const [groupId, setGroupId] = useState("");
   const [buttonFlag, setButtonFlag] = useState(false);
   const isValueMounted = useRef(false);
 
   useEffect(() => {
-    if (isDuplicated) {
-      setButtonFlag(false);
-    } else {
-      setButtonFlag(false);
-    }
-  }, [isDuplicated]);
+    dispatch(fetchReservationGroups());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isValueMounted.current)
@@ -45,7 +46,9 @@ const CreateReservationGroup = () => {
         toast.success("Reservation group created successfully");
         setTimeout(() => {
           dispatch(resetManageReservationGroupState());
-          navigate("/reservationManagement/reservation/reservationGroup/reservationGroups");
+          navigate(
+            "/reservationManagement/reservation/reservationGroup/reservationGroups"
+          );
         }, 200);
         clearTextFields();
       }
@@ -54,6 +57,16 @@ const CreateReservationGroup = () => {
   //to handle submit button functionality
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (fetchReservationGroupData) {
+      const isDuplicate = fetchReservationGroupData.some(
+        (group) => group.groupId === groupId
+      );
+      if (isDuplicate) {
+        toast.error("Group ID already exists");
+        isDuplicated.current = true;
+        return;
+      }
+    }
 
     if (groupId && groupName) {
       const data = {
@@ -89,9 +102,6 @@ const CreateReservationGroup = () => {
             <Form onSubmit={handleSubmit}>
               <TextField
                 label="Group ID"
-                className={`${
-                  groupId && isDuplicated ? "is-invalid" : "bg-white"
-                }`}
                 value={groupId}
                 onChange={(e) => {
                   setGroupId(e.target.value);

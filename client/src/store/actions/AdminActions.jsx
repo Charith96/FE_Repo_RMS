@@ -1,7 +1,8 @@
 import axios from "axios";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 import { ADMIN_URL } from "../../utils/Constants.jsx";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+//const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "http://localhost:3005";
 
 export const createAdmin = (data) => async (dispatch) => {
     try {

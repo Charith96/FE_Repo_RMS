@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { fetchReservationGroups } from "../../store/actions/ReservationGroupActions";
 import { createReservationItem } from "../../store/actions/ReservationItemActions";
+import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
 import { createTimeSlots } from "../../store/actions/ReservationItemActions";
 import { useDispatch, useSelector } from "react-redux";
 import FormButton from "../../components/FormButton";
@@ -26,6 +27,9 @@ const CreateReservationItem = ({
   const itemIdForTheTimeSlots = useSelector(
     (state) => state.createReservationItem.createReservationItem.id
   );
+  const fetchReservationItemData = useSelector(
+    (state) => state.getReservationItem.fetchReservationItem
+  );
   const [itemName, setItemName] = useState("");
   const [itemId, setItemId] = useState("");
   const [timeSlotType, setTimeSlotType] = useState("");
@@ -37,6 +41,7 @@ const CreateReservationItem = ({
   const [reservationGroup, setReservationGroup] = useState("");
   const [isFlexible, setIsFlexible] = useState(true);
   const [IsNoOfSlots, setIsNoOfSlots] = useState(true);
+  const isDuplicated = useRef(false);
 
   const [isDurationPerSlot, setIsDurationPerSlot] = useState(true);
 
@@ -44,6 +49,8 @@ const CreateReservationItem = ({
     const fetchData = async () => {
       try {
         dispatch(fetchReservationGroups());
+        dispatch(fetchReservationItems());
+
       } catch (error) {
         toast.error("Error fetching data:", error);
       }
@@ -120,6 +127,16 @@ const CreateReservationItem = ({
   //to handle the submit click
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (fetchReservationItemData) {
+      const isDuplicate = fetchReservationItemData.some(
+        (item) => item.itemId === itemId
+      );
+      if (isDuplicate) {
+        toast.error("Item ID already exists");
+        isDuplicated.current = true;
+        return;
+      }
+    }
 
     const data = {
       itemId: itemId.toString(),
