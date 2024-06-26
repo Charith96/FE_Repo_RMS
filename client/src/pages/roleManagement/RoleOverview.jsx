@@ -1,37 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import TitleActionBar from '../../components/TitleActionsBar';
 import { fetchRoles, updateRole } from '../../store/actions/RolesAction';
+import { fetchPrivileges, fetchRolePrivileges, createRolePrivilege, deleteRolePrivilege,updateRolePrivilege } from '../../store/actions/PrivilegeActions';
 import { toast } from 'react-toastify';
 
-function RoleOverview({ loading, error, fetchRoles, updateRole }) {
+function RoleOverview({ privileges, loading, error }) {
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+    const rolePrivileges = useSelector((state) => state.rolePrivileges.rolePrivileges);
     const roleData = location.state && location.state.roleData;
+    const [isDeleteDisable, setIsDeleteDisable] = useState(true);
 
-    // Fetch roles when component mounts
     useEffect(() => {
-        fetchRoles(); 
-    }, [fetchRoles]);
+        dispatch(fetchRoles());
+        dispatch(fetchPrivileges());
+    }, [dispatch]);
 
-    // State for editing privileges, role name, and edit mode
+    useEffect(() => {
+        console.log(rolePrivileges)
+    }, [rolePrivileges]);
+
     const [editingPrivileges, setEditingPrivileges] = useState([]);
-    const [roleName, setRoleName] = useState('');
+    const [rolename, setRolename] = useState('');
     const [isEditing, setIsEditing] = useState(false);
 
-    // Set editing privileges, role name, and exit edit mode when roleData changes
     useEffect(() => {
         if (roleData) {
-            setEditingPrivileges([...roleData.privileges || []]);
-            setRoleName(roleData.rolename);
+            dispatch(fetchRolePrivileges(roleData.roleCode));
+            setRolename(roleData.roleName);
             setIsEditing(false);
+            console.log("privileges",roleData)
         }
-    }, [roleData]);
 
-    // Handle checkbox change event
+    }, [roleData, dispatch]);
+
+    useEffect(() => {
+        if (rolePrivileges) {
+            const privilegeIds = rolePrivileges.map(privilege => privilege.privilegeCode);
+            setEditingPrivileges([...privilegeIds]);
+        }
+    }, [rolePrivileges]);
+
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setEditingPrivileges((prevPrivileges) =>
@@ -41,35 +55,58 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
         );
     };
 
-    // Handle role name change event
     const handleRoleNameChange = (e) => {
-        setRoleName(e.target.value);
+        setRolename(e.target.value);
     };
 
-    // Handle edit button click
     const handleEdit = () => {
         setIsEditing(true);
     };
 
-    // Handle save button click
-    const handleSave = async () => {
-        const updatedRoleData = { ...roleData, rolename: roleName, privileges: editingPrivileges }; // Update role data with edited privileges and name
-        const roleId = roleData.id;
-        try {
-            // Dispatch updateRole action to update role in Redux store
-            await updateRole(roleId, updatedRoleData);  
-            setIsEditing(false);
-            toast.success('Role Saved successfully');
-        } catch (error) {
-            toast.error('Error updating role:', error.message);
-        }
+    const handleSave = () => {
+        const updatedRoleData = { ...roleData, roleName: rolename };
+        const roleId = roleData.roleCode;
+
+        dispatch(updateRole(roleId, updatedRoleData))
+            .then(() => {
+                const currentPrivileges = rolePrivileges.map(privilege => privilege.privilegeCode);
+                const newPrivileges = editingPrivileges.filter(privilegeCode => !currentPrivileges.includes(privilegeCode));
+                const removedPrivileges = currentPrivileges.filter(privilegeCode => !editingPrivileges.includes(privilegeCode));
+
+                // Add new privileges
+                newPrivileges.forEach(privilegeCode => {
+                    const data = {
+                        roleCode:roleData.roleCode,
+                        privilegeCode:privilegeCode
+                    }
+                    console.log(data)
+                    dispatch(createRolePrivilege(data));
+                });
+
+                // Remove old privileges
+                removedPrivileges.forEach(privilegeCode => {
+                    const rolePrivilege = rolePrivileges.find(privilege => privilege.privilegeCode === privilegeCode);
+                    if (rolePrivilege) {
+                        dispatch(deleteRolePrivilege(rolePrivilege.rolePrivilegeCode));
+                    }
+                });
+
+                setIsEditing(false);
+                toast.success('Role saved successfully');
+                 navigate("/rolesManagement/RoleList");
+            })
+            .catch(error => {
+                toast.error('Error updating role: ' + error.message);
+            });
     };
 
-    if (loading) return <div>Loading...</div>;   // If loading, display loading message
-    if (error) return <div>Error: {error.message}</div>;    // If error, display error message
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
 
-    // Define all access types
-    const accessTypes = ['createAccess', 'updateAccess', 'viewAccess', 'deleteAccess'];
+    const accessTypes = privileges.map(privilege => ({
+        id: privilege.privilegeCode,
+        name: privilege.privilegeName
+    }));
 
     return (
         <>
@@ -77,7 +114,7 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
                 Title={"Roles Overview"}
                 EditDisabled={false}
                 SaveDisabled={!isEditing}
-                DeleteDisabled={true}
+                deleteDisabled={isDeleteDisable}
                 PlusAction={() => navigate("/rolesManagement/CreateRole")}
                 EditAction={handleEdit}
                 SaveAction={handleSave}
@@ -96,12 +133,12 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
                 >
                     <TextField
                         label="Role Code:"
-                        value={roleData.rolecode}
-                        disabled={!isEditing}
+                        value={roleData?.roleID || ''}
+                        disabled={true}
                     />
                     <TextField
                         label="Role Name:"
-                        value={roleName}
+                        value={rolename}
                         onChange={handleRoleNameChange}
                         disabled={!isEditing}
                     />
@@ -115,14 +152,14 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
                             </thead>
                             <tbody>
                                 {accessTypes.map(access => (
-                                    <tr key={access}>
-                                        <td>{`${access.charAt(0).toUpperCase() + access.slice(1)}`}</td>
+                                    <tr key={access.id}>
+                                        <td>{access.name}</td>
                                         <td>
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                name={access}
-                                                checked={editingPrivileges.includes(access)}
+                                                name={access.id}
+                                                checked={editingPrivileges.includes(access.id)}
                                                 onChange={handleCheckboxChange}
                                                 style={{ width: '20px', height: '20px', border: '2px solid black' }}
                                                 disabled={!isEditing}
@@ -140,14 +177,9 @@ function RoleOverview({ loading, error, fetchRoles, updateRole }) {
 }
 
 const mapStateToProps = (state) => ({
-    roles: state.roles,
+    privileges: state.privileges.privileges,
     loading: state.loading,
     error: state.error
 });
 
-const mapDispatchToProps = {
-    fetchRoles,
-    updateRole
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoleOverview);
+export default connect(mapStateToProps)(RoleOverview);

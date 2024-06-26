@@ -9,6 +9,20 @@ import {
   getCustomerReducer,
   editCustomerFlagReducer,
 } from "./reducers/CustomerReducer";
+
+
+import {
+  fetchRolesReducer,
+  createRoleReducer,
+  updateRoleReducer,
+  deleteRoleReducer,
+} from "./reducers/RolesReducer";
+
+import {
+  privilegeReducer,
+  rolePrivilegeReducer
+} from "./reducers/PrivilegeReducer";
+
 import {
   createReservationGroupReducer,
   editReservationGroupReducer,
@@ -92,6 +106,16 @@ const rootReducer = combineReducers({
   getCustomer: getCustomerReducer,
   getCustomerById: getCustomerByIdReducer,
   editCustomerFlag: editCustomerFlagReducer,
+
+  //roles
+  fetchRoles: fetchRolesReducer,
+  createRole: createRoleReducer,
+  updateRole: updateRoleReducer,
+  deleteRole: deleteRoleReducer,
+
+  //rolesprivileges
+  privileges: privilegeReducer,
+  rolePrivileges: rolePrivilegeReducer,
 
   // reservation group
   createReservationGroup: createReservationGroupReducer,

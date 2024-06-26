@@ -1,51 +1,76 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
 import { createRole } from "../../store/actions/RolesAction";
+import {
+  fetchPrivileges,
+  createRolePrivilege,
+} from "../../store/actions/PrivilegeActions";
 
 function CreateRole() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Initializing state variables using useState hook
-  const [rolecode, setRoleCode] = useState("");
-  const [rolename, setRoleName] = useState("");
-  const [privileges, setPrivileges] = useState([]);
+  useEffect(() => {
+    dispatch(fetchPrivileges());
+  }, [dispatch]);
 
-  // Event handler for role code change
+  const privileges = useSelector((state) => state.privileges.privileges);
+  const roledata = useSelector((state) => state.createRole.roles);
+
+  const [roleID, setRoleID] = useState("");
+  const [roleName, setRoleName] = useState("");
+  const [selectedPrivileges, setSelectedPrivileges] = useState([]);
+  const [formValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    setFormValid(roleID !== "" && roleName !== "" && selectedPrivileges.length > 0);
+  }, [roleID, roleName, selectedPrivileges]);
+
+  useEffect(() => {
+    console.log(roledata)
+    if (roledata !== "") {
+      selectedPrivileges.forEach((element) => {
+        const data = {
+          roleCode: roledata[0]?.roleCode,
+          privilegeCode: element,
+        };
+        dispatch(createRolePrivilege(data));
+      });
+    }
+  }, [roledata]);
+
   const handleRoleCodeChange = (e) => {
-    setRoleCode(e.target.value);
+    setRoleID(e.target.value);
   };
 
-  // Event handler for role name change
   const handleRoleNameChange = (e) => {
     setRoleName(e.target.value);
   };
 
-  // Event handler for checkbox change
   const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setPrivileges(
-      (prevPrivileges) =>
-        checked
-          ? [...prevPrivileges, name]
-          : prevPrivileges.filter((item) => item !== name)
+    const { id, checked } = e.target;
+    setSelectedPrivileges((prevPrivileges) =>
+      checked
+        ? [...prevPrivileges, id]
+        : prevPrivileges.filter((item) => item !== id)
     );
   };
 
-  // Event handler for form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      // Dispatching createRole action with rolecode, rolename, and privileges
-      await dispatch(createRole(rolecode, rolename, privileges));
-      toast.success("Role created successfully");
-      navigate("/rolesManagement/RoleList", { state: { roleName: rolename } });
+      dispatch(createRole(roleID, roleName));
+      toast.success("Role Successfully created!");
+      setTimeout(() => {
+        navigate("/rolesManagement/RoleList", {
+          state: { rolename: roleName },
+        });
+      }, 200);
     } catch (error) {
       toast.error("Error creating role");
     }
@@ -64,26 +89,22 @@ function CreateRole() {
         xxl={10}
         className="body-content px-5 pt-4 pb-4 mb-5"
       >
-        {/* Form for creating role */}
         <Form onSubmit={handleSubmit}>
-          {/* Text field for role code */}
           <TextField
             label="Role Code"
             type="text"
-            value={rolecode}
+            value={roleID}
             onChange={handleRoleCodeChange}
             maxLength={8}
           />
-          {/* Text field for role name */}
           <TextField
             label="Role Name"
             type="text"
-            value={rolename}
+            value={roleName}
             onChange={handleRoleNameChange}
             maxLength={20}
           />
           <div className="mb-3">
-            {/* Table for displaying privileges */}
             <table className="table">
               <thead>
                 <tr>
@@ -92,25 +113,21 @@ function CreateRole() {
                 </tr>
               </thead>
               <tbody>
-                {/* Mapping through privileges and rendering checkboxes */}
-                {[
-                  "createAccess",
-                  "updateAccess",
-                  "viewAccess",
-                  "deleteAccess",
-                ].map((privilege) => (
-                  <tr key={privilege}>
-                    <td>{`${
-                      privilege.charAt(0).toUpperCase() + privilege.slice(1)
-                    }`}</td>
+                {privileges.map((privilege) => (
+                  <tr key={privilege.privilegeCode}>
+                    <td>{privilege.privilegeName}</td>
                     <td>
-                      {/* Checkbox for each privilege */}
                       <input
                         className="form-check-input"
                         type="checkbox"
-                        name={privilege}
-                        checked={privileges.includes(privilege)}
+                        id={privilege.privilegeCode}
+                        checked={selectedPrivileges.includes(privilege.privilegeCode)}
                         onChange={handleCheckboxChange}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          border: "2px solid black",
+                        }}
                       />
                     </td>
                   </tr>
@@ -118,11 +135,14 @@ function CreateRole() {
               </tbody>
             </table>
           </div>
-          {/* Form group for submit button */}
           <Form.Group as={Row} className="mb-3">
             <Col className="d-flex justify-content-end">
-              {/* Button for submitting form */}
-              <FormButton type="submit" text="Create" className="form-btn" />
+              <FormButton
+                type="submit"
+                text="Create"
+                className="form-btn"
+                disabled={!formValid}
+              />
             </Col>
           </Form.Group>
         </Form>

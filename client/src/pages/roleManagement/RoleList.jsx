@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'; 
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, InputGroup, Row } from "react-bootstrap";
 import { faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -9,10 +9,10 @@ import TitleActionBar from "../../components/TitleActionsBar";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { fetchRoles, deleteRole } from '../../store/actions/RolesAction';
+import { fetchRolePrivileges, deleteRolePrivilege } from '../../store/actions/PrivilegeActions';
 
 function RoleList() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     let { value } = useParams();
     const [paginatedData, setPaginatedData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -33,14 +33,18 @@ function RoleList() {
 
     // Redux state
     const roles = useSelector(state => state.fetchRoles); // Accessing the fetchRoles state from the Redux store
+    const rolePrivileges = useSelector(state => state.rolePrivileges); // Accessing the rolePrivileges state from the Redux store
+    const navigate = useNavigate();
     const { roles: data, loading } = roles;
+    const { rolePrivileges: privilegesData } = rolePrivileges;
 
-    // fetch role data and update the redux store with the fetched data
+    // Fetch role data and role privileges data
     useEffect(() => {
         dispatch(fetchRoles());
+        dispatch(fetchRolePrivileges());
     }, [dispatch]);
 
-    //fetch roles and update data when roles or paggination settimg change 
+    // Update data when roles or pagination settings change
     useEffect(() => {
         if (data && data.length > 0 && !isFiltered) {
             setFilteredData(data);
@@ -50,15 +54,11 @@ function RoleList() {
             const slicedData = data.slice(start, end);
             setPaginatedData(slicedData);
 
-            if (selectedRows.length === 1) {
-                setIsDeleteDisable(false);
-            } else {
-                setIsDeleteDisable(true);
-            }
+            setIsDeleteDisable(selectedRows.length !== 1);
         }
     }, [data, currentPage, perPage, selectedRows, isFiltered]);
 
-    //table columns
+    // Table columns
     const columns = [
         {
             name: "",
@@ -72,13 +72,13 @@ function RoleList() {
         },
         {
             name: "Role Code",
-            selector: (row) => row.rolecode,
+            selector: (row) => row.roleID,
             sortable: true,
             grow: 2,
         },
         {
             name: "Role Name",
-            selector: (row) => row.rolename,
+            selector: (row) => row.roleName,
             sortable: true,
             grow: 2,
         },
@@ -87,7 +87,13 @@ function RoleList() {
     const confirmDelete = () => {
         if (selectedRows.length === 1) {
             try {
-                dispatch(deleteRole(selectedRows[0]?.id));
+                const roleId = selectedRows[0]?.roleCode;
+                dispatch(deleteRole(roleId));
+                // Delete role privileges associated with the role
+                const rolePrivilegesToDelete = privilegesData.filter(privilege => privilege.roleCode === roleId);
+                rolePrivilegesToDelete.forEach(privilege => {
+                    dispatch(deleteRolePrivilege(privilege.privilegeCode));
+                });
                 toast.success("Record Successfully deleted!");
             } catch (error) {
                 toast.error("Error deleting row. Please try again.");
@@ -97,10 +103,8 @@ function RoleList() {
         }
     };
 
-    //Plus icon functionality
-    const handleCreate = () => {
-        navigate("/rolesManagement/CreateRole");
-    };
+    // Plus icon functionality
+  
 
     const handleDelete = () => {
         setShowConfirmation(true);
@@ -110,14 +114,13 @@ function RoleList() {
         setShowConfirmation(false);
     };
 
-
     const handleSearchChange = (e) => {
         const inputValue = e.target.value.toLowerCase();
         setSearchTerm(inputValue);
         setIsFiltered(inputValue !== "");
 
         const filteredRoles = data.filter(role =>
-            role.rolename.toLowerCase().includes(inputValue)
+            role.roleName.toLowerCase().includes(inputValue)
         );
         setFilteredData(filteredRoles);
 
@@ -141,8 +144,15 @@ function RoleList() {
     };
 
     const handleCellClick = (e, item) => {
-        navigate("/rolesManagement/RoleOverview", { state: { roleData: item } });
-    };
+        if (Array.isArray(privilegesData)) {
+          const rolePrivilegesForRole = privilegesData.filter(privilege => privilege.roleCode === item.roleCode);
+          navigate("/rolesManagement/RoleOverview", { state: { roleData: item, rolePrivileges: rolePrivilegesForRole } });
+        } else {
+          console.error('privilegesData is not an array:', privilegesData);
+          // Handle the error appropriately, maybe navigate without the filtered data
+          navigate("/rolesManagement/RoleOverview", { state: { roleData: item, rolePrivileges: [] } });
+        }
+      };
 
     const isSingleRecordSelected = selectedRows.length === 1 && false;
 
@@ -155,9 +165,8 @@ function RoleList() {
                 editDisabled={isEditDisable}
                 saveDisabled={isSaveDisable}
                 deleteDisabled={isDeleteDisable}
-                PlusAction={handleCreate}
+                PlusAction={() => navigate("/rolesManagement/CreateRole")}
                 DeleteAction={handleDelete}
-
             />
 
             <Row>
