@@ -141,7 +141,7 @@ const CustomerList = () => {
   const handleEditNavigation = () => {
     if (selectedRows.length === 1) {
       // Navigate to edit page if only one row is selected
-      let data = { customerCode: contextMenuRow.customerCode }; // Copy the row data
+      let data = { customerCode: contextMenuRow.customerCode, customerID: contextMenuRow.customerID }; // Copy the row data
       let dataString = JSON.stringify(data); // Convert data to string
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -155,7 +155,10 @@ const CustomerList = () => {
   //Details option's functionality
   const handleDetailedNavigation = () => {
     if (selectedRows.length === 1) {
-      let data = { customerCode: contextMenuRow.customerCode };
+      let data = {
+        customerCode: contextMenuRow.customerCode,
+        customerID: contextMenuRow.customerID
+      };
       let dataString = JSON.stringify(data);
       navigate(
         `/customerManagement/CustomerOverview?data=${encodeURIComponent(
@@ -267,8 +270,8 @@ const CustomerList = () => {
         PlusAction={() => {
           handleCreate();
         }}
-        EditAction={() => {}}
-        SaveAction={() => {}}
+        EditAction={() => { }}
+        SaveAction={() => { }}
         DeleteAction={() => {
           handleDelete();
         }}
