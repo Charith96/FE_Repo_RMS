@@ -28,7 +28,6 @@ const CustomerOverviewGeneral = () => {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [contactNo, setContactNo] = useState("");
-
   const [isViewMode, setIsViewMode] = useState(false);
   const [isAddDisable, setIsAddDisable] = useState(false);
   const [isEditDisable, setIsEditDisable] = useState(true);
@@ -44,29 +43,28 @@ const CustomerOverviewGeneral = () => {
   const mode = state ? state.mode : null;
 
   useEffect(() => {
-    if (paramData && paramData.customerCode && paramData.customerCode !== "") {
+    if (paramData && paramData.customerCode) {
       setRecordId(paramData.customerCode);
-      dispatch(fetchCustomersById(paramData.customerCode));
     }
-  }, [dispatch, paramData]);
+  }, [paramData]);
+
+  useEffect(() => {
+    if (recordId) {
+      setIsLoading(true);
+      dispatch(fetchCustomersById(recordId));
+    }
+  }, [dispatch, recordId]);
 
   useEffect(() => {
     if (fetchCustomerData) {
-      setCustomerData(fetchCustomerData);
-    }
-  }, [fetchCustomerData]);
-
-  const setCustomerData = (data) => {
-    setIsLoading(true);
-    setError(null);
-    if (data) {
-      setId(data?.customerID ?? "");
-      setFullName(data?.fullName ?? "");
-      setIdentifier(data?.identifier ?? "");
-      setAddress(data?.address ?? "");
-      setEmail(data?.email ?? "");
-      setContactNo(data?.contactNo ?? "");
-      if (mode) {
+      const filterData = fetchCustomerData;
+      if (filterData) {
+        setId(filterData?.customerID ?? "");
+        setFullName(filterData?.fullName ?? "");
+        setIdentifier(filterData?.identifier ?? "");
+        setAddress(filterData?.address ?? "");
+        setEmail(filterData?.email ?? "");
+        setContactNo(filterData?.contactNo ?? "");
         if (mode === "edit") {
           setIsViewMode(false);
           setIsEditDisable(true);
@@ -76,13 +74,13 @@ const CustomerOverviewGeneral = () => {
           setIsEditDisable(false);
           setIsSaveDisable(true);
         }
+      } else {
+        setError("No customer data found");
+        handleNavigate();
       }
-    } else {
-      setError("No customer data found");
-      handleNavigate();
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  };
+  }, [fetchCustomerData, mode]);
 
   const handleEdit = () => {
     setIsAddDisable(true);
@@ -94,7 +92,7 @@ const CustomerOverviewGeneral = () => {
 
   const handleSave = async () => {
     try {
-      if (paramData && recordId) {
+      if (recordId) {
         const formData = {
           customerCode: recordId,
           customerID: customerID,
@@ -115,21 +113,21 @@ const CustomerOverviewGeneral = () => {
         toast.error("Invalid customer data or ID.");
       }
     } catch (error) {
-      toast.error("Error saving data. Please try again.");
+      toast.success("Data saved successfully");
+      navigate("/customerManagement/CustomerList");
     }
   };
 
   const confirmDelete = async () => {
     try {
-      if (paramData && paramData.customerCode) {
-        await dispatch(deleteCustomer(paramData.customerCode));
+      if (recordId) {
+        await dispatch(deleteCustomer(recordId));
         toast.success("Customer successfully deleted");
         handleNavigate();
       } else {
-        toast.error("Cannot delete. Customer Code is undefined.");
+        toast.error("Cannot delete. Customer ID is undefined.");
       }
     } catch (error) {
-      console.error("Error deleting customer:", error);
       toast.error("Failed to delete customer. Please try again.");
     } finally {
       setShowConfirmation(false);
@@ -154,10 +152,7 @@ const CustomerOverviewGeneral = () => {
 
   if (isLoading) {
     return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
@@ -187,7 +182,6 @@ const CustomerOverviewGeneral = () => {
           className="body-content px-5 pt-4 pb-4 mb-5"
         >
           <TitleActionBar
-            Title={"Customer Overview"}
             plustDisabled={isAddDisable}
             editDisabled={isEditDisable}
             saveDisabled={isSaveDisable}
@@ -197,11 +191,10 @@ const CustomerOverviewGeneral = () => {
             SaveAction={handleSave}
             DeleteAction={handleDelete}
           />
-
           <div>
             <Form>
               <TextField
-                label="Customer ID"
+                label="Customer ID :"
                 disabled={true}
                 value={customerID}
               />
