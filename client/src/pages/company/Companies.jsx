@@ -228,6 +228,37 @@ const Companies = () => {
     }
   };
 
+
+  // const confirmDelete = async () => {
+  //   if (selectedRows.length === 1) {
+  //     try {
+  //       const response = await dispatch(deleteCompany(selectedRows[0]?.companyID));
+        
+  //       if (response.status === 200) {
+  //         // Successful deletion
+  //         toast.success("Company successfully deleted!");
+  //         dispatch(fetchCompanies());
+  //         setRefreshKey(prevKey => prevKey + 1);
+  //       } else {
+  //         // Handle other successful responses if needed
+  //         toast.info(response.data);
+  //       }
+  //     } catch (error) {
+  //       if (error.response && error.response.status === 400) {
+  //         // Company can't be deleted due to associated items
+  //         toast.error("Cannot delete company with associated items.");
+  //       } else {
+  //         // Other errors
+  //         toast.error("Error deleting company. Please try again.");
+  //       }
+  //     } finally {
+  //       setShowConfirmation(false);
+  //       setSelectedRows([]);
+  //     }
+  //   }
+  // };
+
+
   // Handle create button click
   const handleCreate = () => {
     navigate("/company/createCompany");
