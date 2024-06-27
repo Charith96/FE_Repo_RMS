@@ -15,12 +15,13 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
 
   useEffect(() => {
     fetchReservationData();
+
     // Load editedData from localStorage if available
-    const storedData = localStorage.getItem("editedReservation");
+    const storedData = localStorage.getItem(`editedReservation-${reservationID}`);
     if (storedData) {
       setEditedData(JSON.parse(storedData));
     }
-  }, []);
+  }, [reservationID]);
 
   const fetchReservationData = async () => {
     try {
@@ -46,8 +47,8 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
       setIsEditing(false);
       setDisableEdit(true);
 
-      // Save editedData to localStorage
-      localStorage.setItem("editedReservation", JSON.stringify(editedData));
+
+      localStorage.setItem(`editedReservation-${reservationID}`, JSON.stringify(editedData));
     } catch (error) {
       toast.error("Error saving changes. Please try again.");
     }
@@ -56,6 +57,25 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedData({ ...editedData, [name]: value });
+  };
+
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
+    const [dayMonthYear, time] = formattedDate.split(", ");
+    return `${dayMonthYear} - ${time}`;
+  };
+
+  const formatTimeSlot = (timeSlot) => {
+    const [time1, time2] = timeSlot.split(" - ");
+    return `From ${formatDateTime(time1)} To ${formatDateTime(time2)}`;
   };
 
   if (!reservationData) {
@@ -74,7 +94,7 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
             PlusAction={handleCreate}
             EditAction={handleEdit}
             SaveAction={handleSave}
-            DeleteAction={() => {}}
+            DeleteAction={() => { }}
           />
           <div style={{ margin: 10, padding: 20 }}>
             <Table striped bordered hover>
@@ -93,11 +113,11 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
                       <Form.Control
                         type="text"
                         name="itemID"
-                        value={editedData.itemID}
+                        value={editedData.itemId}
                         onChange={handleChange}
                       />
                     ) : (
-                      editedData.itemID
+                      editedData.itemId
                     )}
                   </td>
                   <td>
@@ -133,7 +153,7 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
                         onChange={handleChange}
                       />
                     ) : (
-                      editedData.time1_time2
+                      formatTimeSlot(editedData.time1_time2)
                     )}
                   </td>
                 </tr>

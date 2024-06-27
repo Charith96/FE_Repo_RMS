@@ -77,7 +77,7 @@ const OverviewTable = ({ value }) => {
     },
     {
       name: "Company ID",
-      selector: (row) => row.id,
+      selector: (row) => row.companyCode,
       sortable: true,
       grow: 2,
     },
@@ -94,7 +94,8 @@ const OverviewTable = ({ value }) => {
           userData.defaultCompany === row.companyName ? "default" : " ";
         const status =
           Array.isArray(userData.companies) &&
-          userData.companies.includes(row.companyName)
+          userData.companies.includes(row.companyName) &&
+          userData.defaultCompany !== row.companyName
             ? "granted"
             : defaultStatus;
         return status;
@@ -128,7 +129,18 @@ const OverviewTable = ({ value }) => {
           (company) => company !== companyName
         );
         const updatedUserData = {
-          ...userData,
+          userid: userData.id,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          defaultCompany: userData.defaultCompany,
+          designation: userData.designation,
+          primaryRole: userData.primaryRole,
+          email: userData.email,
+          password: userData.password,
+          validFrom: userData.validFrom,
+          validTill: userData.validTill,
+          roles: userData.roles,
+
           companies: updatedCompanies,
         };
         await dispatch(updateUserData(value, updatedUserData));
@@ -141,16 +153,29 @@ const OverviewTable = ({ value }) => {
   const handleSave = async () => {
     if (selectedRows.length === 1) {
       const companyName = selectedRows[0].companyName;
+
       if (companyName === userData.defaultCompany) {
         return;
       }
-
+      console.log(userData);
       if (!userData.companies.includes(companyName)) {
         const updatedCompanies = [...userData.companies, companyName];
+        console.log(updatedCompanies);
         const updatedUserData = {
-          ...userData,
+          userid: userData.id,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          defaultCompany: userData.defaultCompany,
+          designation: userData.designation,
+          primaryRole: userData.primaryRole,
+          email: userData.email,
+          password: userData.password,
+          validFrom: userData.validFrom,
+          validTill: userData.validTill,
+          roles: userData.roles,
           companies: updatedCompanies,
         };
+
         await dispatch(updateUserData(value, updatedUserData));
         dispatch(fetchUserData(value));
       } else {

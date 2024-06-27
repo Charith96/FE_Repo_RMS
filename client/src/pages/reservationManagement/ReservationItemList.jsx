@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { deleteReservationItem } from "../../store/actions/ReservationItemActions";
 import { deleteTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
-import { fetchReservationGroupsById } from "../../store/actions/ReservationGroupActions";
+import { fetchReservationGroups } from "../../store/actions/ReservationGroupActions";
 import { fetchTimeSlotsByItemId } from "../../store/actions/ReservationItemActions";
 import ReservationItemTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
@@ -33,7 +33,7 @@ const ReservationItemList = () => {
   );
 
   const fetchReservationGroupData = useSelector(
-    (state) => state.getReservationGroupById.fetchReservationGroupId
+    (state) => state.getReservationGroup.fetchReservationGroup || {}
   );
 
   const deleteReservationItemData = useSelector(
@@ -67,10 +67,10 @@ const ReservationItemList = () => {
 
   useEffect(() => {
     dispatch(fetchReservationItems());
-    //dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
+    dispatch(fetchReservationGroups());
     if (deleteReservationItemData) {
       dispatch(fetchReservationItems());
-      //dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
+      dispatch(fetchReservationGroups());
     }
   }, [dispatch, deleteReservationItemData]);
 
@@ -113,8 +113,13 @@ const ReservationItemList = () => {
       ),
     },
     {
-      name: "Group",
-      selector: (row) => (row.groupId),
+      name: "Group ID",
+      selector: (row) => {
+        const group = fetchReservationGroupData.find(
+          (group) => group.id === row.groupId
+        );
+        return group ? group.groupId : "Loading...";
+      },
       sortable: true,
       grow: 2,
     },
@@ -174,7 +179,11 @@ const ReservationItemList = () => {
         `/reservationManagement/reservation/reservationItem/reservationItems/reservationItemOverview?data=${encodeURIComponent(
           dataString
         )}`,
-        { state: { mode: "view" } }
+        {
+          state: {
+            mode: "view",
+          },
+        }
       );
     }
   };

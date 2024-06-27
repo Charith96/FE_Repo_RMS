@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { editReservationItem } from "../../store/actions/ReservationItemActions";
 import { deleteReservationItem } from "../../store/actions/ReservationItemActions";
 import { fetchReservationItemsById } from "../../store/actions/ReservationItemActions";
+import { fetchReservationGroupsById } from "../../store/actions/ReservationGroupActions";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import TitleActionBar from "../../components/TitleActionsBar";
 import { useLocation } from "react-router-dom";
@@ -24,6 +25,9 @@ const ReservationItemTimeSlotManagement = () => {
   );
   const fetchTimeSlotsByItemIdData = useSelector(
     (state) => state.getTimeSlotsByItem.timeSlotsByItemId
+  );
+  const fetchReservationGroupData = useSelector(
+    (state) => state.getReservationGroupById.fetchReservationGroupId
   );
   const [recordId, setRecordId] = useState("");
   const [isViewMode, setIsViewMode] = useState(false);
@@ -61,10 +65,16 @@ const ReservationItemTimeSlotManagement = () => {
   }, [noOfSlots]);
 
   useEffect(() => {
+    if (fetchReservationItemData) {
+      dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
+    }
+  }, [fetchReservationItemData]);
+  useEffect(() => {
     if (paramData && recordId) {
       dispatch(fetchReservationItemsById(recordId));
       dispatch(fetchTimeSlotsByItemId(recordId));
-      
+      dispatch(fetchReservationGroupsById(fetchReservationItemData.groupId));
+
       if (fetchReservationItemData.slotDurationType === "Customized") {
         setIsCustomized(true);
       } else {
@@ -96,10 +106,11 @@ const ReservationItemTimeSlotManagement = () => {
   const fetchData = () => {
     if (fetchReservationItemData) {
       let filterData = fetchReservationItemData;
+      let filterGroupData = fetchReservationGroupData;
       if (filterData) {
         if (count === 0) {
           setItemId(filterData?.itemId ?? "");
-          setGroupName(filterData?.groupId ?? "");
+          setGroupName(filterGroupData?.groupId ?? "");
           setItemName(filterData?.itemName ?? "");
           setNoOfSlots(filterData?.noOfSlots ?? "");
           setNoOfReservations(filterData?.noOfReservations ?? "");
@@ -109,18 +120,17 @@ const ReservationItemTimeSlotManagement = () => {
           const trimmedTimeSlots = fetchTimeSlotsByItemIdData.map((slot) => ({
             ...slot,
             startTime: new Date(slot.startTime).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-              hourCycle: 'h23'
+              hour: "2-digit",
+              minute: "2-digit",
+              hourCycle: "h23",
             }),
             endTime: new Date(slot.endTime).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-              hourCycle: 'h23'
+              hour: "2-digit",
+              minute: "2-digit",
+              hourCycle: "h23",
             }),
           }));
-          
-          console.log(fetchReservationItemData);
+
           setInputValues(trimmedTimeSlots);
           if (mode) {
             if (mode === "edit") {
@@ -165,7 +175,7 @@ const ReservationItemTimeSlotManagement = () => {
           noOfReservations: noOfReservations,
           capacity: capacity,
         };
-  
+
         if (inputValues.length > 0) {
           inputValues.forEach((value) => {
             if (
@@ -177,7 +187,7 @@ const ReservationItemTimeSlotManagement = () => {
               flagOld = false;
             }
           });
-  
+
           if (newlyAddedSlots.length > 0) {
             newlyAddedSlots.forEach((value) => {
               if (
@@ -191,7 +201,7 @@ const ReservationItemTimeSlotManagement = () => {
             });
           }
         }
-  
+
         if (
           itemName &&
           noOfReservations &&
@@ -203,29 +213,29 @@ const ReservationItemTimeSlotManagement = () => {
         ) {
           const today = new Date();
           const dateString = today.toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
-  
+
           const data = inputValues.map((value) => ({
             ...value,
             startTime: `${dateString}T${value.startTime}:00.000Z`,
             endTime: `${dateString}T${value.endTime}:00.000Z`,
           }));
-  
+
           const dataNew = newlyAddedSlots.map((value) => ({
             ...value,
             startTime: `${dateString}T${value.startTime}:00.000Z`,
             endTime: `${dateString}T${value.endTime}:00.000Z`,
           }));
-  
+
           dispatch(editReservationItem(formData));
-  
+
           data.forEach((value) => {
             dispatch(editTimeSlotsByItemId(value));
           });
-  
+
           dataNew.forEach((value) => {
             dispatch(createTimeSlots(value));
           });
-  
+
           handleNavigate();
           toast.success("Data saved successfully");
         } else {
@@ -246,7 +256,7 @@ const ReservationItemTimeSlotManagement = () => {
       dispatch(fetchTimeSlotsByItemId(recordId));
     }
   };
-  
+
   const handleEdit = () => {
     setIsAddDisable(true);
     setIsEditDisable(true);

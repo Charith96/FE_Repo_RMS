@@ -43,7 +43,7 @@ const UserDetailsPage = ({ value, mode }) => {
   useEffect(() => {
     if (userDataById) {
       setFilteredUserData({
-        userID: userDataById.email,
+        userID: userDataById.id,
         firstName: userDataById.firstName,
         lastName: userDataById.lastName,
         defaultCompany: userDataById.defaultCompany,
@@ -133,7 +133,7 @@ const UserDetailsPage = ({ value, mode }) => {
     if (isValid) {
       try {
         const updatedUserData = {
-          id: id,
+          [id]: id,
           ...filteredUserData,
         };
         await dispatch(updateUserData(id, updatedUserData));
@@ -206,8 +206,8 @@ const UserForm = ({
       {!Validate && (
         <>
           <span id="message">
-            Validation Error: Verify that all mandatory fields are filled and
-            both the default company and primary role are selected.
+            Verify that all mandatory fields are filled and ValidTill Date is
+            later than validFrom date
           </span>
           <br></br>
         </>
@@ -282,8 +282,8 @@ const UserForm = ({
               >
                 <option value="label">Select Roles</option>
                 {roles.map((role) => (
-                  <option key={role.id} value={role.rolename}>
-                    {role.rolename}
+                  <option key={role.id} value={role.roleName}>
+                    {role.roleName}
                   </option>
                 ))}
               </Form.Select>

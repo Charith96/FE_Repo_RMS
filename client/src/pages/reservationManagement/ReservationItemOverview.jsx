@@ -32,7 +32,7 @@ const ManageReservationItems = ({
           <div>
             <Form>
               <TextField
-                label="Group Name"
+                label="Group ID"
                 className={`${!groupName ? "is-invalid" : ""}`}
                 disabled
                 value={groupName}

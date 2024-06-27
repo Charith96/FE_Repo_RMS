@@ -65,7 +65,8 @@ const Main = () => {
     dispatch(fetchCompanies());
     dispatch(fetchRoles());
     dispatch(fetchData());
-  }, [dispatch]);
+    console.log(fetchCompanyData);
+  }, [dispatch, fetchCompanyData]);
   const validateForm = () => {
     const { password, validFrom, validTill, email } = formData;
 
@@ -256,8 +257,8 @@ const Main = () => {
                   >
                     <option value="label">Select Roles</option>
                     {roles.map((role) => (
-                      <option key={role.id} value={role.rolename}>
-                        {role.rolename}
+                      <option key={role.id} value={role.roleName}>
+                        {role.roleName}
                       </option>
                     ))}
                   </Form.Select>

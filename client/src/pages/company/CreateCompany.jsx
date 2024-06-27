@@ -94,7 +94,8 @@ const CreateCompany = () => {
         };
         dispatch(createCompany(data));
       } else {
-        setCompanyCodeError("This Company ID already exists");
+        //setCompanyCodeError("This Company ID already exists");
+        toast.error("This Company ID already exists");
       }
     } else {
       toast.error("Please fill out all required fields.");

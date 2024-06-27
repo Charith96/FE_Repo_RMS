@@ -1,14 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchReservations,
-  deleteReservation,
-} from "../../store/actions/ReservationAction";
+import { fetchReservations } from "../../store/actions/ReservationAction";
 import TitleActionBar from "../../components/TitleActionsBar";
 import ReservationGroupTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const CustomerCurrentReservations = ({ customerId }) => {
   const dispatch = useDispatch();
@@ -42,13 +38,15 @@ const CustomerCurrentReservations = ({ customerId }) => {
     // Update filtered data when reservations or pagination settings change
     if (reservations && reservations.length > 0 && customerId) {
       const filtered = reservations.filter(
-        (reservations) => reservations.customerID === customerId
+        (reservation) =>
+          reservation.customerID === customerId &&
+          new Date(reservation.date) >= new Date()
       );
       setFilteredData(filtered);
 
       const start = currentPage * perPage;
       const end = start + perPage;
-      const slicedData = reservations?.slice(start, end);
+      const slicedData = filtered.slice(start, end);
       setPaginatedData(slicedData);
 
       if (selectedRows.length === 1) {
@@ -60,28 +58,27 @@ const CustomerCurrentReservations = ({ customerId }) => {
   }, [reservations, currentPage, perPage, selectedRows, customerId]);
 
   const handleCreate = () => {
-    // navigate("/reservationOverviewPart/CreateReservations");
+    navigate("/Reservations/CreateReservation");
   };
 
-  const handleDelete = () => {
-    setShowConfirmation(true);
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      date
+    );
+    const [dayMonthYear, time] = formattedDate.split(", ");
+    return `${dayMonthYear} - ${time}`;
   };
 
-  const cancelDelete = () => {
-    setShowConfirmation(false);
-  };
-
-  const confirmDelete = () => {
-    if (selectedRows.length === 1) {
-      try {
-        dispatch(deleteReservation(selectedRows[0]?.id));
-        toast.success("Record Successfully deleted!");
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-      } finally {
-        setShowConfirmation(false);
-      }
-    }
+  const formatTimeSlot = (time1, time2) => {
+    return `From ${formatDateTime(time1)} To ${formatDateTime(time2)}`;
   };
 
   const columns = [
@@ -99,22 +96,11 @@ const CustomerCurrentReservations = ({ customerId }) => {
     },
     {
       name: "Time Slot",
-      selector: (row) => `${row.time1} - ${row.time2}`,
+      selector: (row) => formatTimeSlot(row.time1, row.time2),
       sortable: true,
       grow: 2,
     },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-      sortable: true,
-      grow: 2,
-    },
-    {
-      name: "Item ID",
-      selector: (row) => row.itemID,
-      sortable: true,
-      grow: 2,
-    },
+
     {
       name: "No of People",
       selector: (row) => row.noOfPeople,
@@ -153,17 +139,12 @@ const CustomerCurrentReservations = ({ customerId }) => {
         PlusAction={() => {
           handleCreate();
         }}
-        EditAction={() => {}}
-        SaveAction={() => {}}
-        DeleteAction={() => {
-          handleDelete();
-        }}
       />
 
       <div className="table-responsive">
         {/* Reservation table component */}
         <ReservationGroupTable
-          reservations={reservations}
+          reservations={paginatedData}
           selectableRows={true}
           selectableRowsSingle={true}
           setPerPage={setPerPage}
@@ -172,7 +153,7 @@ const CustomerCurrentReservations = ({ customerId }) => {
           setMenuVisible={setMenuVisible}
           paginatedData={paginatedData}
           filteredData={filteredData}
-          totalItems={reservations.length}
+          totalItems={filteredData.length}
           currentPage={currentPage}
           perPage={perPage}
           columns={columns}
@@ -186,18 +167,6 @@ const CustomerCurrentReservations = ({ customerId }) => {
 
       {/* Popup menu */}
       <div>{customContextMenu}</div>
-
-      {/* Delete confirmation modal */}
-      <DeleteConfirmModel
-        show={showConfirmation}
-        close={cancelDelete}
-        title={"Warning"}
-        message={
-          "The selected Reservation will be deleted. Do you wish to continue?"
-        }
-        type={"Yes"}
-        action={confirmDelete}
-      />
     </div>
   );
 };

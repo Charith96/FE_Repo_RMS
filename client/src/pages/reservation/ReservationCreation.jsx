@@ -4,7 +4,6 @@ import { Row, Form, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastFunction } from "../../components/ToastComponent";
-import { createReservation } from "../../store/actions/ReservationAction";
 import { fetchReservationItems } from "../../store/actions/ReservationItemActions";
 import { fetchCustomers } from "../../store/actions/CustomerActions";
 import FormButton from "../../components/FormButton";
@@ -42,12 +41,13 @@ const ReservationGroupList = () => {
     dispatch(fetchReservationGroups());
     dispatch(fetchReservationItems());
     dispatch(fetchCustomers());
-  }, [formData.defaultCompany, dispatch, formData, navigate]);
+    console.log(groupItem);
+  }, [dispatch, groupItem]);
 
   useEffect(() => {
     setGroupData(fetchReservationGroupData);
     setGroupItem(fetchItem);
-  }, [fetchReservationGroupData, groupData, fetchItem, customers, groupItem]);
+  }, [fetchReservationGroupData, fetchItem, customers, groupItem]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -56,12 +56,10 @@ const ReservationGroupList = () => {
       if (value === "label") {
         return false;
       } else {
-        const selectedGroup = groupData.find(
-          (group) => group.groupName === value
-        );
-
+        const selectedGroup = groupData.find((group) => group.id === value);
+        console.log(selectedGroup);
         const selectItems = groupItem.filter(
-          (item) => item.reservationGroup === selectedGroup.id
+          (item) => item.groupId === selectedGroup.id
         );
         setSelectedItems(selectItems);
         setFormData((prevState) => ({
@@ -110,9 +108,13 @@ const ReservationGroupList = () => {
     e.preventDefault();
 
     try {
-      dispatch(createReservation(formData));
       navigate(`/reservations/timeSlots?data=${formData.reservationID}`, {
-        state: { reservationID: formData.reservationID, item: formData.itemID },
+        state: {
+          reservationID: formData.reservationID,
+          item: formData.itemID,
+          customerid: formData.customerID,
+          group: formData.group,
+        },
       });
     } catch (error) {
       toastFunction("Something went wrong!", true);
@@ -142,8 +144,11 @@ const ReservationGroupList = () => {
                   <Form.Select id="customerID" onChange={handleInputChange}>
                     <option value="label">Select Customer ID</option>
                     {customers.map((customer) => (
-                      <option key={customer.id} value={customer.id}>
-                        {customer.id}
+                      <option
+                        key={customer.customerID}
+                        value={customer.customerID}
+                      >
+                        {customer.customerID}
                       </option>
                     ))}
                   </Form.Select>
@@ -163,7 +168,7 @@ const ReservationGroupList = () => {
                   >
                     <option value="label">Select Resevation Group</option>
                     {groupData.map((group) => (
-                      <option key={group.id} value={group.groupName}>
+                      <option key={group.id} value={group.id}>
                         {group.groupName}
                       </option>
                     ))}
