@@ -18,6 +18,7 @@ import {
   resetCompanyState,
   fetchCountries,
   fetchCurrencies,
+ // fetchUserByCompanyId,
 } from "../../store/actions/CompanyActions";
 import CompanyTable from "../../components/table/DataTableComponent";
 import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
@@ -43,7 +44,10 @@ const Companies = () => {
   const isEditDisable = useRef(true);
   const isSaveDisable = useRef(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
-  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    x: 0,
+    y: 0
+  });
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -52,6 +56,7 @@ const Companies = () => {
   const [countries, setCountries] = useState({});
   const [currencies, setCurrencies] = useState({});
   const [refreshKey, setRefreshKey] = useState(0);
+  const toggledClearRows = useRef(false);
 
   // Fetch companies, countries, and currencies on component mount
   useEffect(() => {
@@ -59,6 +64,13 @@ const Companies = () => {
     dispatch(fetchCountries());
     dispatch(fetchCurrencies());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCompanies());
+    if (deleteCompanyData) {
+      dispatch(fetchCompanies());
+    }
+  }, [dispatch, deleteCompanyData]);
 
   // Create a mapping of country IDs to country names
   useEffect(() => {
@@ -93,8 +105,14 @@ const Companies = () => {
     const slicedData = filteredData?.slice(start, end);
     setPaginatedData(slicedData);
 
-    setIsDeleteDisable(selectedRows.length !== 1);
-  }, [fetchCompanyData, currentPage, perPage, filteredData, selectedRows]);
+    setIsDeleteDisable(selectedRows.length != 1);
+  }, [
+    fetchCompanyData,
+    currentPage,
+    perPage,
+    filteredData,
+    selectedRows,
+  ]);
 
   // Table column definitions
   const columns = [
@@ -205,58 +223,31 @@ const Companies = () => {
   };
 
   // Confirm delete action
-  const confirmDelete = async () => {
-    if (selectedRows.length === 1) {
-      try {
-        // Optimistic update
-        setFilteredData(prevData => prevData.filter(item => item.companyID !== selectedRows[0].companyID));
-        
-        await dispatch(deleteCompany(selectedRows[0]?.companyID));
-        toast.success("Record Successfully deleted!");
-        
-        // Force re-fetch and re-render
-        dispatch(fetchCompanies());
-        setRefreshKey(prevKey => prevKey + 1);
-      } catch (error) {
-        toast.error("Error deleting row. Please try again.");
-        // Revert optimistic update if delete fails
-        dispatch(fetchCompanies());
-      } finally {
-        setShowConfirmation(false);
-        setSelectedRows([]);
+const confirmDelete = async () => {
+  if (selectedRows.length === 1) {
+    try {
+      // Attempt to delete the company
+      await dispatch(deleteCompany(selectedRows[0]?.companyID));
+      
+      // If we reach here, it means the deletion was successful
+      toast.success("Record successfully deleted!");
+      dispatch(fetchCompanies());
+      setRefreshKey(prevKey => prevKey + 1);
+    } catch (error) {
+      // Check if the error is due to associated users
+      if (error.response && error.response.data === "Cannot delete company with associated users.") {
+        toast.error("Cannot delete Company with associated users.");
+      } else {
+        // For other errors, show a generic error message
+        toast.error("Error deleting company. Please try again.");
       }
+    } finally {
+      // Reset the confirmation dialog and selected rows
+      setShowConfirmation(false);
+      setSelectedRows([]);
     }
-  };
-
-
-  // const confirmDelete = async () => {
-  //   if (selectedRows.length === 1) {
-  //     try {
-  //       const response = await dispatch(deleteCompany(selectedRows[0]?.companyID));
-        
-  //       if (response.status === 200) {
-  //         // Successful deletion
-  //         toast.success("Company successfully deleted!");
-  //         dispatch(fetchCompanies());
-  //         setRefreshKey(prevKey => prevKey + 1);
-  //       } else {
-  //         // Handle other successful responses if needed
-  //         toast.info(response.data);
-  //       }
-  //     } catch (error) {
-  //       if (error.response && error.response.status === 400) {
-  //         // Company can't be deleted due to associated items
-  //         toast.error("Cannot delete company with associated items.");
-  //       } else {
-  //         // Other errors
-  //         toast.error("Error deleting company. Please try again.");
-  //       }
-  //     } finally {
-  //       setShowConfirmation(false);
-  //       setSelectedRows([]);
-  //     }
-  //   }
-  // };
+  }
+};
 
 
   // Handle create button click
@@ -288,9 +279,11 @@ const Companies = () => {
   };
 
   // Handle row selection
-  const handleRowSelected = (state) => {
-    setSelectedRows(state.selectedRows);
-  };
+  // const handleRowSelected = (state) => {
+  //   setSelectedRows(state.selectedRows);
+  // };
+
+  const isSingleRecordSelected = selectedRows.length === 1 && false;
 
   return (
     <div className="mb-5 mx-2">
@@ -355,7 +348,9 @@ const Companies = () => {
         columns={columns}
         menuVisible={menuVisible}
         contextMenuPosition={contextMenuPosition}
-        onSelectedRowsChange={handleRowSelected}
+      //  onSelectedRowsChange={handleRowSelected}
+        toggledClearRows={toggledClearRows}
+        isSingleRecordSelected={isSingleRecordSelected}
       />
 
       <div>{customContextMenu}</div>

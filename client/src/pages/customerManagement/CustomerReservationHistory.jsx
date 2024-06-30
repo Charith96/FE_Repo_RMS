@@ -23,10 +23,12 @@ const CustomerReservationHistory = ({ customerId }) => {
   useEffect(() => {
     // Update filtered data when reservations or pagination settings change
     if (reservations && reservations.length > 0 && customerId) {
+      const today = new Date();
       const filtered = reservations.filter(
         (reservation) =>
           reservation.customerID === customerId &&
-          new Date(reservation.date) < new Date()
+          new Date(reservation.time1) < today &&
+          new Date(reservation.time2) < today
       );
       setFilteredData(filtered);
 
@@ -35,7 +37,7 @@ const CustomerReservationHistory = ({ customerId }) => {
       const slicedData = filtered.slice(start, end);
       setPaginatedData(slicedData);
     }
-  }, [reservations, currentPage, perPage, selectedRows, customerId]);
+  }, [reservations, currentPage, perPage, customerId]);
 
   const formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
@@ -46,9 +48,7 @@ const CustomerReservationHistory = ({ customerId }) => {
       hour: "2-digit",
       minute: "2-digit",
     };
-    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
-      date
-    );
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
     const [dayMonthYear, time] = formattedDate.split(", ");
     return `${dayMonthYear} - ${time}`;
   };

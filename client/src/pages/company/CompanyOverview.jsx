@@ -159,18 +159,29 @@ const CompanyOverview = () => {
 
   // Confirm delete action
   const confirmDelete = async () => {
-    try {
-      if (paramData && paramData.companyID) {
+    if (paramData && paramData.companyID) {
+      try {
+        // Attempt to delete the company
         await dispatch(deleteCompany(paramData.companyID));
+        
+        // If we reach here, it means the deletion was successful
         toast.success("Company successfully deleted");
         handleNavigate();
-      } else {
-        toast.error("Cannot delete. Company ID is undefined.");
+      } catch (error) {
+        // Check if the error is due to associated users
+        if (error.response && error.response.data === "Cannot delete company with associated users.") {
+          toast.error("Cannot delete company with associated users.");
+        } else {
+          // For other errors, show a generic error message
+          toast.error("Error deleting company. Please try again.");
+        }
+        console.error("Delete error:", error);
+      } finally {
+        // Close the confirmation dialog
+        setShowConfirmation(false);
       }
-    } catch (error) {
-      console.error("Error deleting company:", error);
-      toast.error("Failed to delete company. Please try again.");
-    } finally {
+    } else {
+      toast.error("Cannot delete. Company ID is undefined.");
       setShowConfirmation(false);
     }
   };
