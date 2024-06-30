@@ -157,10 +157,10 @@ const OverviewTable = ({ value }) => {
       if (companyName === userData.defaultCompany) {
         return;
       }
-      console.log(userData);
+    
       if (!userData.companies.includes(companyName)) {
         const updatedCompanies = [...userData.companies, companyName];
-        console.log(updatedCompanies);
+ 
         const updatedUserData = {
           userid: userData.id,
           firstName: userData.firstName,
