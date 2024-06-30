@@ -24,6 +24,7 @@ const ReservationGroupList = () => {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
   const [showMessage, setShowMessage] = useState(false);
+  const [showMessageTime, setShowMessageTime] = useState(false);
   const [btndisable, setBtnDisable] = useState(false);
   const [capacity, setCapacity] = useState(false);
   const [reservation, setReservation] = useState(false);
@@ -76,7 +77,32 @@ const ReservationGroupList = () => {
   const handleInputChange = (e) => {
     setEditMode(true);
     const { id, value } = e.target;
-
+    if (id === "time2") {
+      if (formData.time1 >= value) {
+        setShowMessageTime(true);
+        setBtnDisable(false);
+      } else {
+        setBtnDisable(false);
+        setShowMessageTime(false);
+      }
+      setFormData({
+        ...formData,
+        [id]: value,
+      });
+    }
+    if (id === "time1") {
+      if (formData.time2 < value) {
+        setShowMessageTime(true);
+        setBtnDisable(false);
+      } else {
+        setBtnDisable(false);
+        setShowMessageTime(false);
+      }
+      setFormData({
+        ...formData,
+        [id]: value,
+      });
+    }
     if (id === "noOfPeople") {
       const numericValue = parseInt(value);
 
@@ -98,29 +124,6 @@ const ReservationGroupList = () => {
         [id]: value,
       });
     }
-  };
-  //  calculating available reservations according to the date and time range
-  const calculateAvailableReservations = () => {
-    const time1 = formData.time1;
-    const time2 = formData.time2;
-
-    const reservationsWithinTimeRange = reservationByItem.filter(
-      (reservation) => {
-        return (
-          (reservation.time1 <= time2 && reservation.time2 >= time1) ||
-          (reservation.time1 <= time1 && reservation.time2 >= time2)
-        );
-      }
-    );
-
-    const totalreservationsWithinTimeRange = reservationsWithinTimeRange.length;
-
-    const availableReservation =
-      fetchItem.noOfReservations - totalreservationsWithinTimeRange;
-
-    return availableReservation > 0
-      ? availableReservation
-      : "Reservations filled.";
   };
 
   // calculating available Capacity according to the date and time range
@@ -260,6 +263,14 @@ const ReservationGroupList = () => {
               {showMessage && (
                 <>
                   <span id="message">More than available Capacity</span>
+                  <br></br>
+                </>
+              )}
+              {showMessageTime && (
+                <>
+                  <span id="message">
+                    End date must be later than the start date.
+                  </span>
                   <br></br>
                 </>
               )}
