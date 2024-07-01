@@ -4,8 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import TextField from '../../components/TextField';
 import TitleActionBar from '../../components/TitleActionsBar';
-import { fetchRoles, updateRole } from '../../store/actions/RolesAction';
-import { fetchPrivileges, fetchRolePrivileges, createRolePrivilege, deleteRolePrivilege,updateRolePrivilege } from '../../store/actions/PrivilegeActions';
+import { DeleteConfirmModel } from "../../components/DeleteConfirmModel";
+import { fetchRoles, updateRole, deleteRole } from '../../store/actions/RolesAction';
+import { fetchPrivileges, fetchRolePrivileges, createRolePrivilege, deleteRolePrivilege } from '../../store/actions/PrivilegeActions';
 import { toast } from 'react-toastify';
 
 function RoleOverview({ privileges, loading, error }) {
@@ -13,8 +14,12 @@ function RoleOverview({ privileges, loading, error }) {
     const location = useLocation();
     const dispatch = useDispatch();
     const rolePrivileges = useSelector((state) => state.rolePrivileges.rolePrivileges);
-    const roleData = location.state && location.state.roleData;
+    const { roleData, mode, isEditing: initialEditingState } = location.state || {};
     const [isDeleteDisable, setIsDeleteDisable] = useState(true);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [editingPrivileges, setEditingPrivileges] = useState([]);
+    const [rolename, setRolename] = useState('');
+    const [isEditing, setIsEditing] = useState(initialEditingState || false);
 
     useEffect(() => {
         dispatch(fetchRoles());
@@ -22,21 +27,10 @@ function RoleOverview({ privileges, loading, error }) {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log(rolePrivileges)
-    }, [rolePrivileges]);
-
-    const [editingPrivileges, setEditingPrivileges] = useState([]);
-    const [rolename, setRolename] = useState('');
-    const [isEditing, setIsEditing] = useState(false);
-
-    useEffect(() => {
         if (roleData) {
             dispatch(fetchRolePrivileges(roleData.roleCode));
             setRolename(roleData.roleName);
-            setIsEditing(false);
-            console.log("privileges",roleData)
         }
-
     }, [roleData, dispatch]);
 
     useEffect(() => {
@@ -47,6 +41,7 @@ function RoleOverview({ privileges, loading, error }) {
     }, [rolePrivileges]);
 
     const handleCheckboxChange = (e) => {
+        if (!isEditing) return;
         const { name, checked } = e.target;
         setEditingPrivileges((prevPrivileges) =>
             checked
@@ -56,11 +51,40 @@ function RoleOverview({ privileges, loading, error }) {
     };
 
     const handleRoleNameChange = (e) => {
-        setRolename(e.target.value);
+        if (isEditing) {
+            setRolename(e.target.value);
+        }
     };
 
     const handleEdit = () => {
         setIsEditing(true);
+    };
+
+    const handleDelete = () => {
+        setShowConfirmation(true);
+    };
+
+    const confirmDelete = () => {
+        if (roleData) {
+            dispatch(deleteRole(roleData.roleCode))
+                .then(() => {
+                    rolePrivileges.forEach(privilege => {
+                        dispatch(deleteRolePrivilege(privilege.privilegeCode));
+                    });
+                    toast.success('Role deleted successfully');
+                    navigate("/rolesManagement/RoleList");
+                })
+                .catch(error => {
+                    toast.error('Error deleting role: ' + error.message);
+                })
+                .finally(() => {
+                    setShowConfirmation(false);
+                });
+        }
+    };
+
+    const cancelDelete = () => {
+        setShowConfirmation(false);
     };
 
     const handleSave = () => {
@@ -73,17 +97,14 @@ function RoleOverview({ privileges, loading, error }) {
                 const newPrivileges = editingPrivileges.filter(privilegeCode => !currentPrivileges.includes(privilegeCode));
                 const removedPrivileges = currentPrivileges.filter(privilegeCode => !editingPrivileges.includes(privilegeCode));
 
-                // Add new privileges
                 newPrivileges.forEach(privilegeCode => {
                     const data = {
-                        roleCode:roleData.roleCode,
-                        privilegeCode:privilegeCode
+                        roleCode: roleData.roleCode,
+                        privilegeCode: privilegeCode
                     }
-                    console.log(data)
                     dispatch(createRolePrivilege(data));
                 });
 
-                // Remove old privileges
                 removedPrivileges.forEach(privilegeCode => {
                     const rolePrivilege = rolePrivileges.find(privilege => privilege.privilegeCode === privilegeCode);
                     if (rolePrivilege) {
@@ -93,7 +114,7 @@ function RoleOverview({ privileges, loading, error }) {
 
                 setIsEditing(false);
                 toast.success('Role saved successfully');
-                 navigate("/rolesManagement/RoleList");
+                navigate("/rolesManagement/RoleList");
             })
             .catch(error => {
                 toast.error('Error updating role: ' + error.message);
@@ -112,13 +133,13 @@ function RoleOverview({ privileges, loading, error }) {
         <>
             <TitleActionBar
                 Title={"Roles Overview"}
-                EditDisabled={false}
+                EditDisabled={mode === "view" || isEditing}
                 SaveDisabled={!isEditing}
-                deleteDisabled={isDeleteDisable}
+                deleteDisabled={false}
                 PlusAction={() => navigate("/rolesManagement/CreateRole")}
                 EditAction={handleEdit}
                 SaveAction={handleSave}
-                DeleteAction={() => { }}
+                DeleteAction={handleDelete}
             />
             <Row>
                 <Col xs={0} sm={0} md={2} lg={2} xl={2} xxl={1} />
@@ -172,6 +193,14 @@ function RoleOverview({ privileges, loading, error }) {
                     </div>
                 </Col>
             </Row>
+            <DeleteConfirmModel
+                show={showConfirmation}
+                close={cancelDelete}
+                title={"Warning"}
+                message={"The selected Role will be deleted. Do you wish to continue?"}
+                type={"Yes"}
+                action={confirmDelete}
+            />
         </>
     );
 }

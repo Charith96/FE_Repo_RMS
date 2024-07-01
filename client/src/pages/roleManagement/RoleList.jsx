@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, InputGroup, Row } from "react-bootstrap";
-import { faEllipsisH, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisH, faMagnifyingGlass, faXmark, faEdit, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
 import TitleActionBar from "../../components/TitleActionsBar";
@@ -20,6 +20,7 @@ function RoleList() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [menuVisible, setMenuVisible] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+    const [contextMenuRow, setContextMenuRow] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
     const [perPage, setPerPage] = useState(5);
@@ -30,10 +31,11 @@ function RoleList() {
     const [isFiltered, setIsFiltered] = useState(false);
     const [isDeleteDisable, setIsDeleteDisable] = useState(true);
     const toggledClearRows = useRef(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     // Redux state
-    const roles = useSelector(state => state.fetchRoles); // Accessing the fetchRoles state from the Redux store
-    const rolePrivileges = useSelector(state => state.rolePrivileges); // Accessing the rolePrivileges state from the Redux store
+    const roles = useSelector(state => state.fetchRoles);
+    const rolePrivileges = useSelector(state => state.rolePrivileges);
     const navigate = useNavigate();
     const { roles: data, loading } = roles;
     const { rolePrivileges: privilegesData } = rolePrivileges;
@@ -42,21 +44,29 @@ function RoleList() {
     useEffect(() => {
         dispatch(fetchRoles());
         dispatch(fetchRolePrivileges());
-    }, [dispatch]);
+    }, [dispatch, refreshKey]);
 
     // Update data when roles or pagination settings change
-    useEffect(() => {
-        if (data && data.length > 0 && !isFiltered) {
-            setFilteredData(data);
+   useEffect(() => {
+    if (data && data.length > 0) {
+        setFilteredData(data);
+        
+        // Pagination logic
+        const start = currentPage * perPage;
+        const end = start + perPage;
+        const slicedData = data.slice(start, end);
+        setPaginatedData(slicedData);
 
-            const start = currentPage * perPage;
-            const end = start + perPage;
-            const slicedData = data.slice(start, end);
-            setPaginatedData(slicedData);
+        // Check selected rows to enable/disable delete
+        setIsDeleteDisable(selectedRows.length !== 1);
+    } else {
+        // Handle no data case
+        setFilteredData([]);
+        setPaginatedData([]);
+        setIsDeleteDisable(true); // Assuming no deletion when there's no data
+    }
+}, [data, currentPage, perPage, selectedRows]);
 
-            setIsDeleteDisable(selectedRows.length !== 1);
-        }
-    }, [data, currentPage, perPage, selectedRows, isFiltered]);
 
     // Table columns
     const columns = [
@@ -84,17 +94,18 @@ function RoleList() {
         },
     ];
 
-    const confirmDelete = () => {
+    const confirmDelete = async () => {
         if (selectedRows.length === 1) {
             try {
                 const roleId = selectedRows[0]?.roleCode;
-                dispatch(deleteRole(roleId));
+                await dispatch(deleteRole(roleId));
                 // Delete role privileges associated with the role
                 const rolePrivilegesToDelete = privilegesData.filter(privilege => privilege.roleCode === roleId);
-                rolePrivilegesToDelete.forEach(privilege => {
-                    dispatch(deleteRolePrivilege(privilege.privilegeCode));
+                rolePrivilegesToDelete.forEach(async privilege => {
+                    await dispatch(deleteRolePrivilege(privilege.privilegeCode));
                 });
                 toast.success("Record Successfully deleted!");
+                setRefreshKey(prevKey => prevKey + 1);
             } catch (error) {
                 toast.error("Error deleting row. Please try again.");
             } finally {
@@ -102,9 +113,6 @@ function RoleList() {
             }
         }
     };
-
-    // Plus icon functionality
-  
 
     const handleDelete = () => {
         setShowConfirmation(true);
@@ -124,7 +132,6 @@ function RoleList() {
         );
         setFilteredData(filteredRoles);
 
-        // Update paginated data based on the filtered results
         const start = currentPage * perPage;
         const end = start + perPage;
         const slicedData = filteredRoles.slice(start, end);
@@ -136,29 +143,60 @@ function RoleList() {
         setIsFiltered(false);
         setFilteredData(data);
 
-        // Reset paginated data to initial state
         const start = currentPage * perPage;
         const end = start + perPage;
         const slicedData = data.slice(start, end);
         setPaginatedData(slicedData);
     };
 
-    const handleCellClick = (e, item) => {
-        if (Array.isArray(privilegesData)) {
-          const rolePrivilegesForRole = privilegesData.filter(privilege => privilege.roleCode === item.roleCode);
-          navigate("/rolesManagement/RoleOverview", { state: { roleData: item, rolePrivileges: rolePrivilegesForRole } });
-        } else {
-          console.error('privilegesData is not an array:', privilegesData);
-          // Handle the error appropriately, maybe navigate without the filtered data
-          navigate("/rolesManagement/RoleOverview", { state: { roleData: item, rolePrivileges: [] } });
+    const handleCellClick = (e, row) => {
+        e.preventDefault();
+        setContextMenuPosition({ x: e.clientX, y: e.clientY });
+        setMenuVisible(true);
+        setContextMenuRow(row);
+    };
+    
+    const handleEditNavigation = () => {
+        if (selectedRows.length === 1) {
+            navigate("/rolesManagement/RoleOverview", {
+                state: { 
+                    roleData: contextMenuRow,
+                    mode: "edit",
+                    isEditing: true
+                }
+            });
         }
-      };
-
+    };
+    
+    const handleDetailedNavigation = () => {
+        if (selectedRows.length === 1) {
+            navigate("/rolesManagement/RoleOverview", {
+                state: { 
+                    roleData: contextMenuRow,
+                    mode: "view",
+                    isEditing: false
+                }
+            });
+        }
+    };
+    
+    const roleContextMenu = menuVisible && (
+        <div
+            className="styled-menu"
+            style={{ top: contextMenuPosition.y, left: contextMenuPosition.x }}
+        >
+            <div className="menu-item" onClick={handleEditNavigation}>
+                <FontAwesomeIcon icon={faEdit} /> Edit
+            </div>
+            <div className="menu-item" onClick={handleDetailedNavigation}>
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> View
+            </div>
+        </div>
+    );
     const isSingleRecordSelected = selectedRows.length === 1 && false;
 
     return (
         <div className="mb-5 mx-2">
-            {/* Title action bar */}
             <TitleActionBar
                 Title={"Role List"}
                 plustDisabled={isAddDisable}
@@ -170,7 +208,6 @@ function RoleList() {
             />
 
             <Row>
-                {/* Filter box */}
                 <div className="filter-box mb-5">
                     <InputGroup className="w-25">
                         <Form.Control
@@ -193,7 +230,6 @@ function RoleList() {
                 </div>
             </Row>
 
-            {/* Reservation group table */}
             <ReservationGroupTable
                 selectableRows={true}
                 selectableRowsSingle={true}
@@ -213,7 +249,8 @@ function RoleList() {
                 isSingleRecordSelected={isSingleRecordSelected}
             />
 
-            {/* Delete confirmation modal */}
+            {roleContextMenu}
+
             <DeleteConfirmModel
                 show={showConfirmation}
                 close={cancelDelete}
