@@ -168,7 +168,7 @@ export const resetManageReservationItemState = () => (dispatch) => {
 export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.GET_TIME_SLOTS_BY_ITEM_ID_START });
-    const response = await axios.get(`${BASE_URL}${TIME_SLOT}/${id}`, {
+    const response = await axios.get(`${BASE_URL}${TIME_SLOT}?itemId=${id}`, {
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
