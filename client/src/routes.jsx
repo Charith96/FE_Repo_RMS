@@ -1,7 +1,15 @@
+import { element } from "prop-types";
 import React from "react";
 
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+
+const Register = React.lazy(() => import("./pages/auth/Register"));
+
+const Login = React.lazy(() => import("./pages/auth/Login"));
+
+const LogoutPage = React.lazy(() => import("./pages/auth/LogoutPage"));
+
 // reservation group
 const ReservationGroupList = React.lazy(
   () => import("./pages/reservationManagement/ReservationGroupList")
@@ -91,6 +99,24 @@ const routes = [
     path: "/",
     name: "Dashboard",
     element: Dashboard,
+  },
+
+  {
+    path: "/register",
+    name: "Register",
+    element: Register,
+  },
+
+  {
+    path: "/login",
+    name: "Login",
+    element: Login,
+  },
+
+  {
+    path: "/logout",
+    name: "Logout",
+    element: LogoutPage,
   },
 
   // company

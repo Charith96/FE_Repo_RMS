@@ -37,6 +37,7 @@ const Login = () => {
     if (currentToken && currentToken !== prevToken) {
       console.log("Login Data: ", loginData);
 
+     //localStorage.setItem("authToken", currentToken);
       localStorage.setItem("token", currentToken);
       localStorage.setItem("firstName", loginData.user.firstName);
       localStorage.setItem("lastName", loginData.user.lastName);
@@ -49,7 +50,8 @@ const Login = () => {
         localStorage.setItem("update", privileges.includes("Update") ? "true" : "false");
       }
 
-      Navigate("/");
+      Navigate("/", { state: { loginSuccess: true } });
+     //Navigate("/");
 
       // Update the previous token reference
       prevTokenRef.current = currentToken;
