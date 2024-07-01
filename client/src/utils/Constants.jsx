@@ -20,3 +20,4 @@ export const CURRENCY_URL = "/Currency";
 /* Company */
 
 export const ADMIN_URL = "/admincreation";
+export const LOGIN_URL = "/Login";

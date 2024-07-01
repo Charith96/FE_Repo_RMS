@@ -268,6 +268,12 @@ const ActionTypes = {
   GET_ADMIN_START: "GET_ADMIN_START",
   GET_ADMIN_SUCCESS: "GET_ADMIN_SUCCESS",
   GET_ADMIN_FAIL: "GET_ADMIN_FAIL",
+
+  //------------ LOGIN ------------//
+  LOGIN_START: "LOGIN_START",
+  LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGIN_FAIL: "LOGIN_FAIL",
+  RESET_LOGIN: "RESET_LOGIN",
 };
 
 export default ActionTypes;

@@ -3,6 +3,9 @@ import { CUSTOMER_URL } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 export const fetchCustomers = () => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_CUSTOMER_REQUEST });
@@ -71,6 +74,7 @@ export const editCustomer = (customerId, customer) => async (dispatch) => {
     const response = await axios.put(url, customer, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 200) {
@@ -89,7 +93,12 @@ export const deleteCustomer = (customerId) => async (dispatch) => {
     dispatch({ type: ActionTypes.DELETE_CUSTOMER_REQUEST });
 
     const response = await axios.delete(
-      `${BASE_URL}${CUSTOMER_URL}/${customerId}`
+      `${BASE_URL}${CUSTOMER_URL}/${customerId}`,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
     if (response.status === 200) {
       dispatch({
@@ -109,6 +118,7 @@ export const createCustomer = (customer) => async (dispatch) => {
     const response = await axios.post(`${BASE_URL}${CUSTOMER_URL}`, customer, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 201) {

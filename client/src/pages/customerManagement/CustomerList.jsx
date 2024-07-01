@@ -38,9 +38,9 @@ const CustomerList = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const isAddDisable = useRef(false)?.current;
-  const isEditDisable = useRef(true)?.current;
-  const isSaveDisable = useRef(true)?.current;
+  const isAddDisable = useRef(true);
+  const isEditDisable = useRef(true);
+  const isSaveDisable = useRef(true);
   const [isDeleteDisable, setIsDeleteDisable] = useState(true);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -56,6 +56,8 @@ const CustomerList = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
+    isAddDisable.current = localStorage.getItem("add") === "false";
+    isEditDisable.current = localStorage.getItem("update") === "false";
   }, [dispatch]);
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const CustomerList = () => {
     const slicedData = filteredData?.slice(start, end);
     setPaginatedData(slicedData);
 
-    if (selectedRows.length === 1) {
+    if (selectedRows.length === 1 && localStorage.getItem("delete") === "true") {
       setIsDeleteDisable(false);
     } else {
       setIsDeleteDisable(true);
@@ -263,7 +265,7 @@ const CustomerList = () => {
       {/* Title and action bar */}
       <TitleActionBar
         Title={"Customer List"}
-        plustDisabled={isAddDisable}
+        plusDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}
         deleteDisabled={isDeleteDisable}

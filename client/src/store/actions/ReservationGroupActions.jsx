@@ -3,6 +3,9 @@ import { RESERVATION_GROUP, RESERVATION_ITEM } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 export const createReservationGroup = (data) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.CREATE_RESERVATION_GROUP_START });
@@ -10,6 +13,7 @@ export const createReservationGroup = (data) => async (dispatch) => {
     const response = await axios.post(`${BASE_URL}${RESERVATION_GROUP}`, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
 
@@ -35,6 +39,7 @@ export const editReservationGroup = (id, data) => async (dispatch) => {
     const response = await axios.put(url, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 200) {
@@ -52,7 +57,12 @@ export const deleteReservationGroup = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_RESERVATION_GROUP_START });
     const response = await axios.delete(
-      `${BASE_URL}${RESERVATION_GROUP}/${id}`
+      `${BASE_URL}${RESERVATION_GROUP}/${id}`,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
     if (response.status === 200) {
       dispatch({
@@ -111,7 +121,12 @@ export const fetchReservationGroupsById = (id) => async (dispatch) => {
 export const checkForDuplicate = (id) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}${RESERVATION_GROUP}?groupId=${id}`
+      `${BASE_URL}${RESERVATION_GROUP}?groupId=${id}`,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
     if (response.status === 200) {
       dispatch({

@@ -32,6 +32,10 @@ const ReservationList = () => {
     x: 0,
     y: 0,
   });
+  const isAddDisable = useRef(true);
+  const isEditDisable = useRef(true);
+  const isSaveDisable = useRef(true);
+  const isDeleteDisable = useRef(true);
   const [contextMenuRow, setContextMenuRow] = useState(null);
   const [isFiltered, setIsFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -52,6 +56,9 @@ const ReservationList = () => {
     } else {
       setLoading(false);
     }
+    isAddDisable.current = localStorage.getItem("add") === "false";
+    isEditDisable.current = localStorage.getItem("update") === "false";
+    isDeleteDisable.current = localStorage.getItem("delete") === "false";
   }, [dispatch, reservations]);
 
   useEffect(() => {
@@ -233,7 +240,7 @@ const ReservationList = () => {
         plustDisabled={false}
         editDisabled={true}
         saveDisabled={true}
-        deleteDisabled={selectedRows.length !== 1}
+        deleteDisabled={selectedRows.length !== 1 || isDeleteDisable}
         PlusAction={handleCreate}
         EditAction={() => {}}
         SaveAction={() => {}}

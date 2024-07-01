@@ -26,6 +26,7 @@ const Register = () => {
         lastName: name.lastName,
         email: emailAddress,
         password: password,
+        role: "Admin",
       };
       setTimeout(() => {
         dispatch(createAdmin(data));

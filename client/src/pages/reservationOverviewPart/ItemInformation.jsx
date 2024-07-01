@@ -12,6 +12,11 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState(reservationData);
+  const [isViewMode, setIsViewMode] = useState(false);
+  const [isAddDisable, setIsAddDisable] = useState(false);
+  const [isEditDisable, setIsEditDisable] = useState(true);
+  const [isSaveDisable, setIsSaveDisable] = useState(true);
+  const [isDeleteDisable, setIsDeleteDisable] = useState(false);
 
   useEffect(() => {
     fetchReservationData();
@@ -21,6 +26,9 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
     if (storedData) {
       setEditedData(JSON.parse(storedData));
     }
+    setIsAddDisable(localStorage.getItem("add") === "false");
+    setIsEditDisable(localStorage.getItem("update") === "false");
+    setIsDeleteDisable(localStorage.getItem("delete") === "false");
   }, [reservationID]);
 
   const fetchReservationData = async () => {
@@ -87,10 +95,10 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
       <Row>
         <Col>
           <TitleActionBar
-            plustDisabled={false}
-            editDisabled={false}
+            plusDisabled={isAddDisable}
+            editDisabled={isEditDisable}
             saveDisabled={false}
-            deleteDisabled={true}
+            deleteDisabled={isDeleteDisable}
             PlusAction={handleCreate}
             EditAction={handleEdit}
             SaveAction={handleSave}

@@ -52,6 +52,9 @@ const CustomerOverviewGeneral = () => {
     if (recordId) {
       setIsLoading(true);
       dispatch(fetchCustomersById(recordId));
+      setIsAddDisable(localStorage.getItem("add") === "false");
+      setIsEditDisable(localStorage.getItem("update") === "false");
+      setIsDeleteDisable(localStorage.getItem("delete") === "false");
     }
   }, [dispatch, recordId]);
 
@@ -65,13 +68,13 @@ const CustomerOverviewGeneral = () => {
         setAddress(filterData?.address ?? "");
         setEmail(filterData?.email ?? "");
         setContactNo(filterData?.contactNo ?? "");
-        if (mode === "edit") {
+        if (mode === "edit" && !isEditDisable) {
           setIsViewMode(false);
           setIsEditDisable(true);
           setIsSaveDisable(false);
-        } else if (mode === "view") {
+        } else {
           setIsViewMode(true);
-          setIsEditDisable(false);
+
           setIsSaveDisable(true);
         }
       } else {
@@ -152,7 +155,10 @@ const CustomerOverviewGeneral = () => {
 
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>

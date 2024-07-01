@@ -4,6 +4,9 @@ import { ADMIN_URL } from "../../utils/Constants.jsx";
 //const BASE_URL = process.env.REACT_APP_BASE_URL;
 const BASE_URL = "http://localhost:3005";
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 export const createAdmin = (data) => async (dispatch) => {
     try {
       dispatch({ type: ActionTypes.CREATE_ADMIN_START });
@@ -11,6 +14,7 @@ export const createAdmin = (data) => async (dispatch) => {
       const response = await axios.post(`${BASE_URL}${ADMIN_URL}`, data, {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
       });
   
@@ -32,7 +36,10 @@ export const createAdmin = (data) => async (dispatch) => {
     try {
       dispatch({ type: ActionTypes.GET_ADMIN_START });
       const response = await axios.get(`${BASE_URL}${ADMIN_URL}`, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
       });
       if (response.status === 200) {
         dispatch({

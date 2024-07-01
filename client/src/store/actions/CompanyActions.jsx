@@ -8,6 +8,9 @@ import ActionTypes from "../../data/ReduxActionTypes.jsx";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 // Action creator for creating a new company
 export const createCompany = (data) => async (dispatch) => {
   try {
@@ -15,6 +18,7 @@ export const createCompany = (data) => async (dispatch) => {
     const response = await axios.post(`${BASE_URL}${COMPANY_DETAILS}`, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 201) {
@@ -45,6 +49,7 @@ export const editCompany = (id, data) => async (dispatch) => {
     const response = await axios.put(url, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 200) {
@@ -65,7 +70,12 @@ export const editCompany = (id, data) => async (dispatch) => {
 export const deleteCompany = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_COMPANY_START });
-    const response = await axios.delete(`${BASE_URL}${COMPANY_DETAILS}/${id}`);
+    const response = await axios.delete(`${BASE_URL}${COMPANY_DETAILS}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (response.status === 200) {
       dispatch({
         type: ActionTypes.DELETE_COMPANY_SUCCESS,
@@ -157,8 +167,10 @@ export const fetchCountries = () => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_COUNTRIES_START });
     const response = await axios.get(`${BASE_URL}${COUNTRY_URL}`, {
-      headers: { "Content-Type": "application/json" },
-    });
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      }});
     if (response.status === 200) {
       dispatch({
         type: ActionTypes.FETCH_COUNTRIES_SUCCESS,
@@ -184,7 +196,10 @@ export const fetchCurrencies = () => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_CURRENCIES_START });
     const response = await axios.get(`${BASE_URL}${CURRENCY_URL}`, {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      }
     });
     if (response.status === 200) {
       dispatch({
