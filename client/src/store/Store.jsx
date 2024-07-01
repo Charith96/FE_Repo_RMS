@@ -76,6 +76,8 @@ import {
   getUserByIdReducer,
 } from "./reducers/UserReducers";
 
+import { loginReducer } from "./reducers/LoginReducer";
+
 
 
 import { createAdminReducer, getAdminsReducer } from "./reducers/AdminReducer";
@@ -155,6 +157,9 @@ const rootReducer = combineReducers({
   //admin
   createAdmin: createAdminReducer,
   getAdmins: getAdminsReducer,
+
+  //login
+  login: loginReducer,
 });
 
 export const store = createStore(

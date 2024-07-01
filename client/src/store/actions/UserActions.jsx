@@ -7,6 +7,9 @@ import {
 import ActionTypes from "../../data/ReduxActionTypes";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 export const fetchUserData = (id) => async (dispatch) => {
   try {
     const response = await axios.get(`${BASE_URL}${USER_URL}/${id}`, {
@@ -37,7 +40,12 @@ export const fetchData = () => async (dispatch) => {
 
 export const createUser = (userData) => async (dispatch) => {
   try {
-    const response = await axios.post(`${BASE_URL}${USER_URL}`, userData);
+    const response = await axios.post(`${BASE_URL}${USER_URL}`, userData,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({ type: ActionTypes.CREATE_USER_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: ActionTypes.CREATE_USER_FAIL, payload: error });
@@ -48,7 +56,12 @@ export const updateUserData = (id, updatedUserData) => async (dispatch) => {
   try {
     const response = await axios.put(
       `${BASE_URL}${USER_URL}/${id}`,
-      updatedUserData
+      updatedUserData,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
 
     dispatch({ type: ActionTypes.UPDATE_USER_SUCCESS, payload: response.data });
@@ -59,7 +72,12 @@ export const updateUserData = (id, updatedUserData) => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${BASE_URL}${USER_URL}/${id}`);
+    await axios.delete(`${BASE_URL}${USER_URL}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch(fetchData());
   } catch (error) {
     dispatch({ type: ActionTypes.DELETE_USER_FAIL, payload: error });
@@ -100,7 +118,12 @@ export const fetchUserRoles = () => async (dispatch) => {
 // Create Role
 export const createUserRole = (roleData) => async (dispatch) => {
   try {
-    const response = await axios.post(`${BASE_URL}${USERROLES_URL}`, roleData);
+    const response = await axios.post(`${BASE_URL}${USERROLES_URL}`, roleData,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: ActionTypes.CREATE_USERROLE_SUCCESS,
       payload: response.data,
@@ -115,7 +138,12 @@ export const updateUserRoleData = (id, updatedRoleData) => async (dispatch) => {
   try {
     const response = await axios.put(
       `${BASE_URL}${USERROLES_URL}/${id}`,
-      updatedRoleData
+      updatedRoleData,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
 
     dispatch({
@@ -130,7 +158,12 @@ export const updateUserRoleData = (id, updatedRoleData) => async (dispatch) => {
 // Delete Role
 export const deleteUserRole = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${BASE_URL}${USERROLES_URL}/${id}`);
+    await axios.delete(`${BASE_URL}${USERROLES_URL}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch(fetchUserRoles());
   } catch (error) {
     dispatch({ type: ActionTypes.DELETE_USERROLE_FAIL, payload: error });
@@ -156,7 +189,12 @@ export const createUserCompany = (companyData) => async (dispatch) => {
   try {
     const response = await axios.post(
       `${BASE_URL}${USERCOMPANIES_URL}`,
-      companyData
+      companyData,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
     dispatch({
       type: ActionTypes.CREATE_USERCOMPANY_SUCCESS,
@@ -173,7 +211,12 @@ export const updateUserCompanyData =
     try {
       const response = await axios.put(
         `${BASE_URL}${USERCOMPANIES_URL}/${id}`,
-        updatedCompanyData
+        updatedCompanyData,{
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
       );
 
       dispatch({
@@ -191,7 +234,12 @@ export const updateUserCompanyData =
 // Delete Company
 export const deleteUserCompany = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${BASE_URL}${USERCOMPANIES_URL}/${id}`);
+    await axios.delete(`${BASE_URL}${USERCOMPANIES_URL}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch(fetchUserCompanies());
   } catch (error) {
     dispatch({ type: ActionTypes.DELETE_USERCOMPANY_FAIL, payload: error });

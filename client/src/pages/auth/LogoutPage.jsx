@@ -2,16 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { SessionModel } from 'src/components/modals/SessionModel';
 import { useNavigate } from 'react-router-dom';
+import { resetLogin } from 'src/store/actions/LoginActions';
+import { useDispatch } from 'react-redux';
 
 const LogoutPage = () => {
 
   let navigate = useNavigate();
   const [showSessionClosed, setShowSessionClosed] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
+    
       // setShowSessionClosed(true);
-    }, 500)
+      localStorage.clear();
+      dispatch(resetLogin());
+    
   }, []);
 
   // handle session model

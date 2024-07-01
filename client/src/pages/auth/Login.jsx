@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, CardGroup, Col, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import Form from "react-bootstrap/Form";
-import { fetchAdmins } from "../../store/actions/AdminActions";
+import { login } from "../../store/actions/LoginActions";
 import { fetchData } from "../../store/actions/UserActions";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const regex =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -21,58 +22,50 @@ const Login = () => {
     isEmailEmpty: false,
     isPasswordEmpty: false,
   });
+  //const [token, setToken] = useState("");
+  //const [decodedToken, setDecodedToken] = useState(null);
   const dispatch = useDispatch();
-  const adminData = useSelector((state) => state.getAdmins.fetchAdmin);
-  const userData = useSelector((state) => state.users.users);
+  const loginData = useSelector((state) => state.login.loginData);
+  //const userData = useSelector((state) => state.users.users);
   const Navigate = useNavigate();
+  const prevTokenRef = useRef();
 
   useEffect(() => {
-    if (adminData) {
-      const admin = adminData.find((user) => user.email === emailAddress);
+    const currentToken = loginData?.token;
+    const prevToken = prevTokenRef.current;
 
-      if (admin) {
-        // Check if the password matches
-        if (admin.password === password) {
-          // Handle successful login
-          console.log("Login successful");
-          localStorage.setItem("email", JSON.stringify(emailAddress));
-          localStorage.setItem("password", JSON.stringify(password));
-          Navigate("/");
-        } else {
-          // Password does not match
-          setTriggerMessage({ ...triggerMessage, passwordIncorrect: true });
-        }
-      } else {
-        // Email does not exist
+    if (currentToken && currentToken !== prevToken) {
+      console.log("Login Data: ", loginData);
 
-        dispatch(fetchData());
+      localStorage.setItem("token", currentToken);
+      localStorage.setItem("firstName", loginData.user.firstName);
+      localStorage.setItem("lastName", loginData.user.lastName);
+
+      const token = handleDecode(currentToken);
+      if (token.Privileges) {
+        const privileges = token.Privileges;
+        localStorage.setItem("add", privileges.includes("Create") ? "true" : "false");
+        localStorage.setItem("delete", privileges.includes("Delete") ? "true" : "false");
+        localStorage.setItem("update", privileges.includes("Update") ? "true" : "false");
       }
+
+      Navigate("/");
+
+      // Update the previous token reference
+      prevTokenRef.current = currentToken;
     }
-  }, [adminData]);
+  }, [loginData]);
 
-  useEffect(() => {
-    if (userData) {
-      const user = userData.find((user) => user.email === emailAddress);
+  
 
-      if (user) {
-        // Check if the password matches
-        if (user.password === password) {
-          // Handle successful login
-          console.log("Login successful");
-          localStorage.setItem("email", JSON.stringify(emailAddress));
-          localStorage.setItem("password", JSON.stringify(password));
-          Navigate("/");
-        } else {
-          // Password does not match
-          setTriggerMessage({ ...triggerMessage, passwordIncorrect: true });
-        }
-      } else {
-        // Email does not exist
-        setTriggerMessage({ ...triggerMessage, emailNotFound: true });
-      }
+  const handleDecode = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      return decoded;
+    } catch (error) {
+      return error;
     }
-  }, [userData]);
-
+  };
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,7 +81,11 @@ const Login = () => {
     } else if (!validate.password) {
       setTriggerMessage({ ...triggerMessage, isPasswordEmpty: true });
     } else {
-      dispatch(fetchAdmins()); // This action should fetch the admin data from the mock JSON server
+      const data = {
+        email: emailAddress,
+        password: password,
+      };
+      dispatch(login(data)); // This action should fetch the admin data from the mock JSON server
       //dispatch(fetchData()); // This action should fetch the user data from the mock JSON server
       // Check if the email exists in the admin data
     }

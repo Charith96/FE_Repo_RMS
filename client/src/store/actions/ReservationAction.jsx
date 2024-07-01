@@ -5,6 +5,9 @@ import { toastFunction } from "../../components/ToastComponent";
 import { toast } from "react-toastify";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 export const fetchReservations = () => async (dispatch) => {
   try {
     const response = await axios.get(`${BASE_URL}${RESERVATION_URL}`);
@@ -24,7 +27,12 @@ export const createReservation = (reservationData) => async (dispatch) => {
   try {
     const response = await axios.post(
       `${BASE_URL}${RESERVATION_URL}`,
-      reservationData
+      reservationData,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
     dispatch({
       type: ActionTypes.CREATE_RESERVATION_SUCCESS,
@@ -43,7 +51,12 @@ export const updateReservation = (id, updatedData) => async (dispatch) => {
   try {
     const response = await axios.put(
       `${BASE_URL}${RESERVATION_URL}/${id}`,
-      updatedData
+      updatedData,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
     );
     dispatch({
       type: ActionTypes.UPDATE_RESERVATION_SUCCESS,
@@ -59,7 +72,12 @@ export const updateReservation = (id, updatedData) => async (dispatch) => {
 
 export const deleteReservation = (id) => async (dispatch) => {
   try {
-    await axios.delete(`${BASE_URL}${RESERVATION_URL}/${id}`);
+    await axios.delete(`${BASE_URL}${RESERVATION_URL}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({ type: ActionTypes.DELETE_RESERVATION_SUCCESS, payload: id });
   } catch (error) {
     dispatch({
@@ -114,7 +132,12 @@ export const updateReservationById =
     try {
       const response = await axios.put(
         `${BASE_URL}${RESERVATION_URL}/${id}`,
-        updatedReservations
+        updatedReservations,{
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
       );
 
       dispatch({

@@ -9,6 +9,9 @@ import {
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 // Privilege Actions
 export const fetchPrivileges = () => async (dispatch) => {
   try {
@@ -29,7 +32,12 @@ export const fetchPrivileges = () => async (dispatch) => {
 export const createPrivilege = (privilege) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.CREATE_PRIVILEGE_START });
-    const response = await axios.post(`${BASE_URL}${PRIVILEGE_URL}`, privilege);
+    const response = await axios.post(`${BASE_URL}${PRIVILEGE_URL}`, privilege,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: ActionTypes.CREATE_PRIVILEGE_SUCCESS,
       payload: response.data,
@@ -45,7 +53,12 @@ export const createPrivilege = (privilege) => async (dispatch) => {
 export const deletePrivilege = (privilegeId) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_PRIVILEGE_START });
-    await axios.delete(`${BASE_URL}${PRIVILEGE_URL}/${privilegeId}`);
+    await axios.delete(`${BASE_URL}${PRIVILEGE_URL}/${privilegeId}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: ActionTypes.DELETE_PRIVILEGE_SUCCESS,
       payload: privilegeId,
@@ -84,7 +97,10 @@ export const createRolePrivilege = (data) => async (dispatch) => {
       `${BASE_URL}${ROLE_PRIVILEGE_URL}`,
       data,
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
       }
     );
     dispatch({
@@ -102,7 +118,12 @@ export const createRolePrivilege = (data) => async (dispatch) => {
 export const deleteRolePrivilege = (rolePrivilegeId) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_ROLE_PRIVILEGE_START });
-    await axios.delete(`${BASE_URL}${DELETE_ROLE_PRIVILEGE_URL}/${rolePrivilegeId}`);
+    await axios.delete(`${BASE_URL}${DELETE_ROLE_PRIVILEGE_URL}/${rolePrivilegeId}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: ActionTypes.DELETE_ROLE_PRIVILEGE_SUCCESS,
       payload: rolePrivilegeId,
@@ -121,7 +142,10 @@ export const updateRolePrivilege = (rolePrivilege) => async (dispatch) => {
       `${BASE_URL}${ROLE_PRIVILEGE_URL}`,
       rolePrivilege,
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
       }
     );
     dispatch({

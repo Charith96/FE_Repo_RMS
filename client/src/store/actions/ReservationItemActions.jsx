@@ -3,6 +3,9 @@ import { RESERVATION_ITEM, TIME_SLOT } from "../../utils/Constants.jsx";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+const getToken = () => localStorage.getItem('token');
+const token = getToken();
+
 export const createReservationItem = (data) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.CREATE_RESERVATION_ITEM_START });
@@ -10,6 +13,7 @@ export const createReservationItem = (data) => async (dispatch) => {
     const response = await axios.post(`${BASE_URL}${RESERVATION_ITEM}`, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
 
@@ -34,6 +38,7 @@ export const createTimeSlots = (data) => async (dispatch) => {
     const response = await axios.post(`${BASE_URL}${TIME_SLOT}`, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
 
@@ -59,6 +64,7 @@ export const editReservationItem = (data) => async (dispatch) => {
     const response = await axios.put(url, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 200) {
@@ -75,7 +81,12 @@ export const editReservationItem = (data) => async (dispatch) => {
 export const deleteReservationItem = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_RESERVATION_ITEM_START });
-    const response = await axios.delete(`${BASE_URL}${RESERVATION_ITEM}/${id}`);
+    const response = await axios.delete(`${BASE_URL}${RESERVATION_ITEM}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (response.status === 200) {
       dispatch({
         type: ActionTypes.DELETE_RESERVATION_ITEM_SUCCESS,
@@ -168,7 +179,7 @@ export const resetManageReservationItemState = () => (dispatch) => {
 export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.GET_TIME_SLOTS_BY_ITEM_ID_START });
-    const response = await axios.get(`${BASE_URL}${TIME_SLOT}/${id}`, {
+    const response = await axios.get(`${BASE_URL}${TIME_SLOT}?itemId=${id}`, {
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
@@ -188,7 +199,12 @@ export const fetchTimeSlotsByItemId = (id) => async (dispatch) => {
 export const deleteTimeSlotsByItemId = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_TIME_SLOTS_BY_ITEM_ID_START });
-    const response = await axios.delete(`${BASE_URL}${TIME_SLOT}/${id}`);
+    const response = await axios.delete(`${BASE_URL}${TIME_SLOT}/${id}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (response.status === 200) {
       dispatch({
         type: ActionTypes.DELETE_TIME_SLOTS_BY_ITEM_ID_SUCCESS,
@@ -211,6 +227,7 @@ export const editTimeSlotsByItemId = (data) => async (dispatch) => {
     const response = await axios.put(url, data, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
     if (response.status === 200) {
