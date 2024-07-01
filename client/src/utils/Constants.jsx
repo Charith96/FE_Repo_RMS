@@ -19,5 +19,5 @@ export const COUNTRY_URL = "/Country";
 export const CURRENCY_URL = "/Currency";
 /* Company */
 
-export const ADMIN_URL = "/admincreation";
+export const ADMIN_URL = "/Admin";
 export const LOGIN_URL = "/Login";

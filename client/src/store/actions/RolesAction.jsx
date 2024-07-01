@@ -31,7 +31,12 @@ export const createRole = (roleID, roleName) => async (dispatch) => {
 export const fetchRoles = () => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_ROLES_START });
-    const response = await axios.get(`${BASE_URL}${ROLE_URL}`);
+    const response = await axios.get(`${BASE_URL}${ROLE_URL}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({ type: ActionTypes.FETCH_ROLES_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({

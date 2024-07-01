@@ -212,7 +212,7 @@ const _nav = [
           {
             component: CNavGroup,
             name: "Reservation",
-            to: "/reservations/",
+            to: "/reservations",
             quicknavicon: (
               <FontAwesomeIcon
                 icon={faCalendarDays}

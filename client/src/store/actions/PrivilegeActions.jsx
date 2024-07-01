@@ -16,7 +16,12 @@ const token = getToken();
 export const fetchPrivileges = () => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_PRIVILEGES_START });
-    const response = await axios.get(`${BASE_URL}${PRIVILEGE_URL}`);
+    const response = await axios.get(`${BASE_URL}${PRIVILEGE_URL}`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     dispatch({
       type: ActionTypes.FETCH_PRIVILEGES_SUCCESS,
       payload: response.data,
@@ -76,8 +81,12 @@ export const fetchRolePrivileges = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.FETCH_ROLE_PRIVILEGES_START });
     const response = await axios.get(
-      `${BASE_URL}${GET_ROLE_PRIVILEGE_URL}?roleCode=${id}`
-    );
+      `${BASE_URL}${GET_ROLE_PRIVILEGE_URL}?roleCode=${id}`,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      });
     dispatch({
       type: ActionTypes.FETCH_ROLE_PRIVILEGES_SUCCESS,
       payload: response.data,

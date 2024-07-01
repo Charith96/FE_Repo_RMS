@@ -2,7 +2,7 @@ import axios from "axios";
 import ActionTypes from "../../data/ReduxActionTypes.jsx";
 import { ADMIN_URL } from "../../utils/Constants.jsx";
 //const BASE_URL = process.env.REACT_APP_BASE_URL;
-const BASE_URL = "http://localhost:3005";
+const BASE_URL = "https://localhost:7219/api";
 
 const getToken = () => localStorage.getItem('token');
 const token = getToken();
@@ -14,7 +14,7 @@ export const createAdmin = (data) => async (dispatch) => {
       const response = await axios.post(`${BASE_URL}${ADMIN_URL}`, data, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+         // "Authorization": `Bearer ${token}`,
         },
       });
   
