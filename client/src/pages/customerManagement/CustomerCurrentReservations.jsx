@@ -32,15 +32,17 @@ const CustomerCurrentReservations = ({ customerId }) => {
   useEffect(() => {
     // Fetch reservations on component mount
     dispatch(fetchReservations());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     // Update filtered data when reservations or pagination settings change
     if (reservations && reservations.length > 0 && customerId) {
+      const today = new Date();
       const filtered = reservations.filter(
         (reservation) =>
           reservation.customerID === customerId &&
-          new Date(reservation.date) >= new Date()
+          new Date(reservation.time1) >= today &&
+          new Date(reservation.time2) >= today
       );
       setFilteredData(filtered);
 
@@ -70,9 +72,7 @@ const CustomerCurrentReservations = ({ customerId }) => {
       hour: "2-digit",
       minute: "2-digit",
     };
-    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
-      date
-    );
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
     const [dayMonthYear, time] = formattedDate.split(", ");
     return `${dayMonthYear} - ${time}`;
   };
@@ -100,7 +100,6 @@ const CustomerCurrentReservations = ({ customerId }) => {
       sortable: true,
       grow: 2,
     },
-
     {
       name: "No of People",
       selector: (row) => row.noOfPeople,

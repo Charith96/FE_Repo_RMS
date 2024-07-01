@@ -65,10 +65,48 @@ const UserDetailsPage = ({ value, mode }) => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFilteredUserData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+    if (id === "defaultCompany") {
+      if (value === "label") {
+        return false;
+      } else {
+        if (filteredUserData.companies.includes(value)) {
+          setFilteredUserData((prevData) => ({
+            ...prevData,
+            [id]: value,
+          }));
+        } else {
+          const updatedCompanies = [...filteredUserData.companies, value];
+          setFilteredUserData((prevState) => ({
+            ...prevState,
+            [id]: value,
+            companies: updatedCompanies,
+          }));
+        }
+      }
+    } else if (id === "primaryRole") {
+      if (value === "label") {
+        return false;
+      } else {
+        if (filteredUserData.roles.includes(value)) {
+          setFilteredUserData((prevData) => ({
+            ...prevData,
+            [id]: value,
+          }));
+        } else {
+          const updatedRoles = [...filteredUserData.roles, value];
+          setFilteredUserData((prevState) => ({
+            ...prevState,
+            [id]: value,
+            roles: updatedRoles,
+          }));
+        }
+      }
+    } else {
+      setFilteredUserData((prevData) => ({
+        ...prevData,
+        [id]: value,
+      }));
+    }
   };
 
   const handleCreate = () => {
@@ -207,7 +245,7 @@ const UserForm = ({
         <>
           <span id="message">
             Verify that all mandatory fields are filled and ValidTill Date is
-            later than validFrom date
+            later than ValidFrom date
           </span>
           <br></br>
         </>

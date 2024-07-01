@@ -28,11 +28,13 @@ function CreateRole() {
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
-    setFormValid(roleID !== "" && roleName !== "" && selectedPrivileges.length > 0);
+    setFormValid(
+      roleID !== "" && roleName !== "" && selectedPrivileges.length > 0
+    );
   }, [roleID, roleName, selectedPrivileges]);
 
   useEffect(() => {
-    console.log(roledata)
+    console.log(roledata);
     if (roledata !== "") {
       selectedPrivileges.forEach((element) => {
         const data = {
@@ -121,7 +123,9 @@ function CreateRole() {
                         className="form-check-input"
                         type="checkbox"
                         id={privilege.privilegeCode}
-                        checked={selectedPrivileges.includes(privilege.privilegeCode)}
+                        checked={selectedPrivileges.includes(
+                          privilege.privilegeCode
+                        )}
                         onChange={handleCheckboxChange}
                         style={{
                           width: "20px",

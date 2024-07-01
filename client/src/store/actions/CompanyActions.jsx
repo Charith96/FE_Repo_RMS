@@ -66,7 +66,7 @@ export const editCompany = (id, data) => async (dispatch) => {
   }
 };
 
-// Action creator for deleting a company
+//Action creator for deleting a company
 export const deleteCompany = (id) => async (dispatch) => {
   try {
     dispatch({ type: ActionTypes.DELETE_COMPANY_START });
@@ -81,19 +81,17 @@ export const deleteCompany = (id) => async (dispatch) => {
         type: ActionTypes.DELETE_COMPANY_SUCCESS,
         payload: response.data,
       });
-      return {
-        type: ActionTypes.DELETE_COMPANY_SUCCESS,
-        payload: response.data,
-      };
+      return response.data;
     }
   } catch (error) {
     dispatch({
       type: ActionTypes.DELETE_COMPANY_FAIL,
-      payload: error.message,
+      payload: error.response?.data || error.message,
     });
-    return { type: ActionTypes.DELETE_COMPANY_FAIL, payload: error.message };
+    throw error; // This is important to propagate the error
   }
 };
+
 
 // Action creator for fetching all companies
 export const fetchCompanies = () => async (dispatch) => {
@@ -222,3 +220,8 @@ export const fetchCurrencies = () => async (dispatch) => {
     return { type: ActionTypes.FETCH_CURRENCIES_FAIL, payload: error.message };
   }
 };
+
+
+
+
+

@@ -313,9 +313,7 @@ const ReservationGroupList = () => {
           "The selected Reservation Group will be deleted. Do you wish to continue?"
         }
         type={"Yes"}
-        action={() => {
-          confirmDelete();
-        }}
+        action={confirmDelete}
       />
     </div>
   );

@@ -6,7 +6,7 @@ import {
 } from "../../store/actions/ReservationAction";
 import {
   fetchReservationItemsById,
-  fetchTimeSlots,
+  fetchTimeSlotsByItemId,
 } from "../../store/actions/ReservationItemActions";
 import { useLocation } from "react-router-dom";
 import TextField from "../../components/TextField";
@@ -41,7 +41,9 @@ const ReservationGroupList = () => {
     (state) => state.getReservationItemById.fetchReservationItemId
   );
 
-  const timeSlots = useSelector((state) => state.getTimeSlotsReducer.timeSlots);
+  const timeSlots = useSelector(
+    (state) => state.getTimeSlotsByItem.timeSlotsByItemId
+  );
   const reservationByItem = useSelector(
     (state) => state.reservationByItem.reservationsByItem
   );
@@ -49,7 +51,7 @@ const ReservationGroupList = () => {
     try {
       dispatch(fetchReservationItemsById(item));
       dispatch(fetchReservationByItemId(item));
-      dispatch(fetchTimeSlots());
+      dispatch(fetchTimeSlotsByItemId(item));
     } catch (error) {}
   }, [dispatch, item]);
 

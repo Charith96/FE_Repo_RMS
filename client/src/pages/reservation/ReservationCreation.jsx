@@ -41,7 +41,6 @@ const ReservationGroupList = () => {
     dispatch(fetchReservationGroups());
     dispatch(fetchReservationItems());
     dispatch(fetchCustomers());
-    console.log(groupItem);
   }, [dispatch, groupItem]);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ const ReservationGroupList = () => {
         return false;
       } else {
         const selectedGroup = groupData.find((group) => group.id === value);
-        console.log(selectedGroup);
+
         const selectItems = groupItem.filter(
           (item) => item.groupId === selectedGroup.id
         );

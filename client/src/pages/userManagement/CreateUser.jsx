@@ -65,15 +65,14 @@ const Main = () => {
     dispatch(fetchCompanies());
     dispatch(fetchRoles());
     dispatch(fetchData());
-    console.log(fetchCompanyData);
   }, [dispatch, fetchCompanyData]);
   const validateForm = () => {
     const { password, validFrom, validTill, email } = formData;
 
     // Password validation
- const passwordRegex =
+    const passwordRegex =
       /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/;
-  
+
     if (!passwordRegex.test(password)) {
       toastFunction(
         "Password must be at least 8 characters long and contain at least one number, and one special character",
