@@ -29,6 +29,7 @@ const ReservationGroupList = () => {
   const [capacity, setCapacity] = useState(false);
   const [reservation, setReservation] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
+  const [loading, setLoading] = useState(true); // Loading state
 
   const fetchItem = useSelector(
     (state) => state.getReservationItemById.fetchReservationItemId
@@ -39,8 +40,12 @@ const ReservationGroupList = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchReservationItemsById(item));
-    dispatch(fetchReservationByItemId(item));
+    dispatch(fetchReservationItemsById(item))
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+    dispatch(fetchReservationByItemId(item))
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
   }, [dispatch, item]);
 
   useEffect(() => {
@@ -57,7 +62,7 @@ const ReservationGroupList = () => {
     } else {
       setViewBtn(false);
     }
-  }, [editMode, dispatch, formData, reservationID, group, customer, item]);
+  }, [editMode, formData, reservationID, group, customer, item]);
 
   useEffect(() => {
     setSlotType(fetchItem.timeSlotType);
@@ -77,52 +82,32 @@ const ReservationGroupList = () => {
   const handleInputChange = (e) => {
     setEditMode(true);
     const { id, value } = e.target;
-    if (id === "time2") {
-      if (formData.time1 >= value) {
-        setShowMessageTime(true);
-        setBtnDisable(false);
-      } else {
-        setBtnDisable(false);
-        setShowMessageTime(false);
-      }
-      setFormData({
-        ...formData,
-        [id]: value,
-      });
-    }
-    if (id === "time1") {
-      if (formData.time2 < value) {
-        setShowMessageTime(true);
-        setBtnDisable(false);
-      } else {
-        setBtnDisable(false);
-        setShowMessageTime(false);
-      }
-      setFormData({
-        ...formData,
-        [id]: value,
-      });
-    }
+
     if (id === "noOfPeople") {
       const numericValue = parseInt(value);
 
       if (numericValue <= calculateAvailableCapacity()) {
         setBtnDisable(false);
         setShowMessage(false);
-
-        setFormData({
-          ...formData,
-          [id]: numericValue,
-        });
       } else {
         setBtnDisable(true);
         setShowMessage(true);
       }
-    } else {
-      setFormData({
-        ...formData,
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: numericValue,
+      }));
+    } else if (id === "time1" || id === "time2") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         [id]: value,
-      });
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [id]: value,
+      }));
     }
   };
 
@@ -195,6 +180,10 @@ const ReservationGroupList = () => {
   const handleDiscard = () => {
     navigate(`/reservations/createReservation`);
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
