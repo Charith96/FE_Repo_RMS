@@ -4,11 +4,14 @@ import React from "react";
 // dashboard
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 
+// register
 const Register = React.lazy(() => import("./pages/auth/Register"));
 
+//login
 const Login = React.lazy(() => import("./pages/auth/Login"));
 
-const LogoutPage = React.lazy(() => import("./pages/auth/LogoutPage"));
+//logout
+//const LogoutPage = React.lazy(() => import("./pages/auth/LogoutPage"));
 
 // reservation group
 const ReservationGroupList = React.lazy(
@@ -101,23 +104,27 @@ const routes = [
     element: Dashboard,
   },
 
+
+  // register
   {
     path: "/register",
     name: "Register",
     element: Register,
   },
 
+  // login
   {
     path: "/login",
     name: "Login",
     element: Login,
   },
 
-  {
-    path: "/logout",
-    name: "Logout",
-    element: LogoutPage,
-  },
+  //logout
+  // {
+  //   path: "/logout",
+  //   name: "Logout",
+  //   element: LogoutPage,
+  // },
 
   // company
   {
