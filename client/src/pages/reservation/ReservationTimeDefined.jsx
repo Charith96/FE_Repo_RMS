@@ -136,19 +136,20 @@ const ReservationGroupList = () => {
         return;
       }
 
-      let endDate = new Date(formData.date);
-      const [endHour, endMinute] = endTime.split(":");
-      if (parseInt(endHour) < parseInt(startTime.split(":")[0])) {
-        endDate.setDate(startDate.getDate() + 1);
-      }
+      let timepart1 = startTime.split("T")[1];
+      let timepart2 = endTime.split("T")[1];
 
-      endDate.setHours(parseInt(endHour));
-      endDate.setMinutes(parseInt(endMinute));
+      const formattedTime1 = `${
+        startDate.toISOString().split("T")[0]
+      }T${timepart1}`;
+      const formattedTime2 = `${
+        startDate.toISOString().split("T")[0]
+      }T${timepart2}`;
 
       setFormData((prevFormData) => ({
         ...prevFormData,
-        time1: `${startDate.toISOString().split("T")[0]}T${startTime.trim()}`,
-        time2: `${endDate.toISOString().split("T")[0]}T${endTime.trim()}`,
+        time1: formattedTime1,
+        time2: formattedTime2,
       }));
     } else if (id === "noOfPeople") {
       const numericValue = parseInt(value);
@@ -369,3 +370,4 @@ const ReservationGroupList = () => {
 };
 
 export default ReservationGroupList;
+
