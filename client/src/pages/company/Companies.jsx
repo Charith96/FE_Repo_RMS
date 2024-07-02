@@ -288,7 +288,7 @@ const confirmDelete = async () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Company List"}
+        Title={"Companies"}
         plustDisabled={isAddDisable.current}
         editDisabled={true}
         saveDisabled={true}

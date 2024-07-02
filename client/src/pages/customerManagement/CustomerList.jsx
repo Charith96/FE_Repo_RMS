@@ -93,13 +93,13 @@ const CustomerList = () => {
       ),
     },
     {
-      name: "Customer Id",
+      name: "Customer ID",
       selector: (row) => row.customerID,
       sortable: true,
       grow: 2,
     },
     {
-      name: "Customer Name",
+      name: "Full Name",
       selector: (row) => row.fullName,
       sortable: true,
       grow: 2,
@@ -264,7 +264,7 @@ const CustomerList = () => {
     <div className="mb-5 mx-2">
       {/* Title and action bar */}
       <TitleActionBar
-        Title={"Customer List"}
+        Title={"Customers"}
         plusDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}

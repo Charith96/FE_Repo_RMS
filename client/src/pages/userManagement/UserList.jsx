@@ -233,7 +233,7 @@ const UserList = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"User List"}
+        Title={"Users"}
         plustDisabled={isAddDisable}
         editDisabled={isEditDisable}
         saveDisabled={isSaveDisable}

@@ -236,7 +236,7 @@ const ReservationList = () => {
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
-        Title={"Reservations List"}
+        Title={"Reservations"}
         plustDisabled={false}
         editDisabled={true}
         saveDisabled={true}

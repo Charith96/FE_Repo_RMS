@@ -198,7 +198,7 @@ function RoleList() {
     return (
         <div className="mb-5 mx-2">
             <TitleActionBar
-                Title={"Role List"}
+                Title={"Roles"}
                 plustDisabled={isAddDisable}
                 editDisabled={isEditDisable}
                 saveDisabled={isSaveDisable}
