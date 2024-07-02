@@ -4,13 +4,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { faTasks } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAddressBook } from "@fortawesome/free-regular-svg-icons";
+import {
+  faBuilding,
+  faUserShield,
+  faUtensils,
+  faBook,
+  faCoffee,
+} from "@fortawesome/free-solid-svg-icons";
 const _nav = [
   {
     component: CNavGroup,
     name: "Company Management",
     navPath: "/company",
-    icon: <FontAwesomeIcon icon={faCalendarDays} className="nav-icon" />,
+    icon: <FontAwesomeIcon icon={faBuilding} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
@@ -18,7 +27,7 @@ const _nav = [
         to: "/company/",
         quicknavicon: (
           <FontAwesomeIcon
-            icon={faCalendarDays}
+            icon={faBuilding}
             size="2x"
             className="nav-icon pb-0 pt-3"
           />
@@ -31,7 +40,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faCalendarDays}
+                icon={faBuilding}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -44,7 +53,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faCalendarDays}
+                icon={faBook}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -60,7 +69,7 @@ const _nav = [
     component: CNavGroup,
     name: "Customer Management",
     navPath: "/customerManagement",
-    icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
+    icon: <FontAwesomeIcon icon={faUsers} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
@@ -68,7 +77,7 @@ const _nav = [
         to: "/customerManagement/",
         quicknavicon: (
           <FontAwesomeIcon
-            icon={faUser}
+            icon={faUsers}
             size="2x"
             className="nav-icon pb-0 pt-3"
           />
@@ -81,7 +90,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faUserPlus}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -94,7 +103,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faAddressBook}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -132,7 +141,7 @@ const _nav = [
 
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faCalendarDays}
+                icon={faUtensils}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -145,7 +154,7 @@ const _nav = [
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
-                    icon={faCalendarDays}
+                    icon={faUtensils}
                     size="2x"
                     className="nav-icon pb-0 pt-3"
                   />
@@ -158,7 +167,7 @@ const _nav = [
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
-                    icon={faCalendarDays}
+                    icon={faBook}
                     size="2x"
                     className="nav-icon pb-0 pt-3"
                   />
@@ -174,7 +183,7 @@ const _nav = [
 
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faCalendarDays}
+                icon={faCoffee}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -187,7 +196,7 @@ const _nav = [
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
-                    icon={faCalendarDays}
+                    icon={faCoffee}
                     size="2x"
                     className="nav-icon pb-0 pt-3"
                   />
@@ -200,7 +209,7 @@ const _nav = [
                 icon: <i className="ps-2" />,
                 quicknavicon: (
                   <FontAwesomeIcon
-                    icon={faCalendarDays}
+                    icon={faBook}
                     size="2x"
                     className="nav-icon pb-0 pt-3"
                   />
@@ -281,7 +290,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faUserPlus}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -294,7 +303,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faAddressBook}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -309,7 +318,7 @@ const _nav = [
     component: CNavGroup,
     name: "Roles Management",
     navPath: "/rolesManagement",
-    icon: <FontAwesomeIcon icon={faUser} className="nav-icon" />,
+    icon: <FontAwesomeIcon icon={faUserShield} className="nav-icon" />,
     items: [
       {
         component: CNavGroup,
@@ -317,7 +326,7 @@ const _nav = [
         to: "/rolesManagement/",
         quicknavicon: (
           <FontAwesomeIcon
-            icon={faUser}
+            icon={faUserShield}
             size="2x"
             className="nav-icon pb-0 pt-3"
           />
@@ -330,7 +339,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faUserShield}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
@@ -343,7 +352,7 @@ const _nav = [
             icon: <i className="ps-2" />,
             quicknavicon: (
               <FontAwesomeIcon
-                icon={faUser}
+                icon={faBook}
                 size="2x"
                 className="nav-icon pb-0 pt-3"
               />
