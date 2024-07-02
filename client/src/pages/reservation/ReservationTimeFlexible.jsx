@@ -111,6 +111,21 @@ const ReservationGroupList = () => {
     }
   };
 
+  const calculateAvailableReservations = () => {
+    const { time1, time2 } = formData;
+    if (!time1 || !time2) return fetchItem.noOfReservations;
+
+    const reservationsWithinTimeRange = reservationByItem.filter(
+      (reservation) =>
+        (reservation.time1 <= time2 && reservation.time2 >= time1) ||
+        (reservation.time1 <= time1 && reservation.time2 >= time2)
+    );
+
+    const availableReservation =
+      fetchItem.noOfReservations - reservationsWithinTimeRange.length;
+    return availableReservation > 0 ? availableReservation : 0;
+  };
+
   // calculating available Capacity according to the date and time range
   const calculateAvailableCapacity = () => {
     if (slotType !== "Flexible") {
@@ -222,7 +237,6 @@ const ReservationGroupList = () => {
                   </Col>
                 </Row>
               )}
-
               <TextField
                 id="capacity"
                 label="Available Capacity :"
@@ -231,18 +245,24 @@ const ReservationGroupList = () => {
                 disabled={true}
                 onChange={handleInputChange}
               />
-
-              {slotType === "Flexible" && (
+              {fetchItem.noOfReservations === "*" && (
                 <TextField
-                  id="limitedReservations"
-                  label="Available Reservations :"
+                  id="flexibleReservations"
+                  label="Available Reservations:"
                   type="text"
                   value={"No Limit"}
                   disabled={true}
-                  onChange={handleInputChange}
                 />
               )}
-
+              {fetchItem.noOfReservations !== "*" && (
+                <TextField
+                  id="flexibleReservations"
+                  label="Available Reservations:"
+                  type="text"
+                  value={calculateAvailableReservations()}
+                  disabled={true}
+                />
+              )}
               <TextField
                 id="noOfPeople"
                 label="No of People :"
@@ -263,7 +283,6 @@ const ReservationGroupList = () => {
                   <br></br>
                 </>
               )}
-
               {
                 <Form.Group as={Row} className="mb-3">
                   <div className="d-flex justify-content-end">
@@ -295,3 +314,4 @@ const ReservationGroupList = () => {
 };
 
 export default ReservationGroupList;
+
