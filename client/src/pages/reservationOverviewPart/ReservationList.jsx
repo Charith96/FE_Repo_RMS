@@ -95,7 +95,11 @@ const ReservationList = () => {
   };
 
   const handleDelete = () => {
-    setShowConfirmation(true);
+    if (selectedRows.length === 1) {
+      setShowConfirmation(true);
+    } else {
+      toast.warn("Please select a reservation to delete.");
+    }
   };
 
   const cancelDelete = () => {
@@ -105,25 +109,17 @@ const ReservationList = () => {
   const confirmDelete = async () => {
     if (selectedRows.length === 1) {
       try {
-        setFilteredData((prevData) =>
-          prevData.filter(
-            (item) => item.reservationCode !== selectedRows[0].reservationCode
-          )
-        );
-
-        await dispatch(deleteReservation(selectedRows[0]?.reservationCode));
+        const reservationID = selectedRows[0]?.reservationCode;
+        await dispatch(deleteReservation(reservationID));
         toast.success("Record Successfully deleted!");
-
-        // Force re-fetch and re-render
         dispatch(fetchReservations());
-        setRefreshKey((prevKey) => prevKey + 1);
+        setSelectedRows([]);
       } catch (error) {
+        console.error("Error deleting reservation:", error);
         toast.error("Error deleting row. Please try again.");
-
-        dispatch(fetchReservations());
       } finally {
         setShowConfirmation(false);
-        setSelectedRows([]);
+        setRefreshKey((prevKey) => prevKey + 1);
       }
     }
   };
@@ -231,8 +227,6 @@ const ReservationList = () => {
     </div>
   );
 
-  const isSingleRecordSelected = selectedRows.length === 1;
-
   return (
     <div className="mb-5 mx-2">
       <TitleActionBar
@@ -240,7 +234,7 @@ const ReservationList = () => {
         plustDisabled={false}
         editDisabled={true}
         saveDisabled={true}
-        deleteDisabled={selectedRows.length !== 1 || isDeleteDisable}
+        deleteDisabled={selectedRows.length !== 1 || isDeleteDisable.current}
         PlusAction={handleCreate}
         EditAction={() => {}}
         SaveAction={() => {}}
@@ -282,7 +276,7 @@ const ReservationList = () => {
           selectableRowsSingle={true}
           setPerPage={setPerPage}
           setCurrentPage={setCurrentPage}
-          setSelectedRows={setSelectedRows}
+          setSelectedRows={(rows) => setSelectedRows(rows)}
           setMenuVisible={setMenuVisible}
           paginatedData={paginatedData}
           filteredData={filteredData}
@@ -293,7 +287,6 @@ const ReservationList = () => {
           menuVisible={menuVisible}
           contextMenuPosition={contextMenuPosition}
           toggledClearRows={toggledClearRows}
-          isSingleRecordSelected={isSingleRecordSelected}
         />
       </div>
 
