@@ -122,7 +122,7 @@ const ItemInformation = ({ reservationData, setDisableEdit }) => {
                         type="text"
                         name="itemID"
                         value={editedData.itemId}
-                        onChange={handleChange}
+                        
                       />
                     ) : (
                       editedData.itemId
