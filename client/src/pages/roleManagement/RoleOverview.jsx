@@ -162,6 +162,7 @@ function RoleOverview({ privileges, loading, error }) {
                         value={rolename}
                         onChange={handleRoleNameChange}
                         disabled={!isEditing}
+                        maxLength={20}
                     />
                     <div className="mb-3">
                         <table className="table">

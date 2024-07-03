@@ -203,24 +203,28 @@ const CustomerOverviewGeneral = () => {
                 label="Customer ID :"
                 disabled={true}
                 value={customerID}
+                maxLength={8}
               />
               <TextField
                 label="Full Name"
                 value={fullName}
                 disabled={isViewMode}
                 onChange={(e) => setFullName(e.target.value)}
+                maxLength={50}
               />
               <TextField
                 label="Identifier"
                 value={identifier}
                 disabled={isViewMode}
                 onChange={(e) => setIdentifier(e.target.value)}
+                maxLength={20}
               />
               <TextField
                 label="Address"
                 value={address}
                 disabled={isViewMode}
                 onChange={(e) => setAddress(e.target.value)}
+                maxLength={50}
               />
               <TextField
                 label="Email"
@@ -233,6 +237,7 @@ const CustomerOverviewGeneral = () => {
                 value={contactNo}
                 disabled={isViewMode}
                 onChange={(e) => setContactNo(e.target.value)}
+                maxLength={15}
               />
             </Form>
           </div>
