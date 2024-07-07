@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  createCustomer,
-  resetManageCustomerState,
-} from "../../store/actions/CustomerActions";
+import { createCustomer, resetManageCustomerState, fetchCustomers } from "../../store/actions/CustomerActions";
 import { useDispatch, useSelector } from "react-redux";
 import TextField from "../../components/TextField";
 import FormButton from "../../components/FormButton";
@@ -15,6 +12,8 @@ const CustomerCreation = () => {
   const navigate = useNavigate();
 
   const customerData = useSelector((state) => state.createCustomer);
+  const fetchedCustomers = useSelector((state) => state.getCustomer.fetchCustomer);
+  
   const [Customerid, setId] = useState("");
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
@@ -25,35 +24,30 @@ const CustomerCreation = () => {
   const [formValid, setFormValid] = useState(false); // Indicates if the form is valid or not
 
   useEffect(() => {
-    if (!isValueMounted.current)
-      if (
-        customerData &&
-        customerData.createCustomer !== null &&
-        customerData.createError === null
-      ) {
-        isValueMounted.current = true;
-        toast.success("Customer created successfully");
-        setTimeout(() => {
-          dispatch(resetManageCustomerState());
-          navigate("/customerManagement/CustomerList");
-        }, 200);
-        clearTextFields();
-      }
-  }, [dispatch, navigate, customerData, isValueMounted]);
+    dispatch(fetchCustomers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!isValueMounted.current && customerData.createCustomer !== null && customerData.createError === null) {
+      isValueMounted.current = true;
+      toast.success("Customer created successfully");
+      setTimeout(() => {
+        dispatch(resetManageCustomerState());
+        navigate("/customerManagement/CustomerList");
+      }, 200);
+      clearTextFields();
+    }
+  }, [dispatch, navigate, customerData]);
 
   useEffect(() => {
     // Function to validate email format
     const isValidEmail = (value) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return !value || emailRegex.test(value);
-      {
-        /* Returns true if the email is valid or empty*/
-      }
+      return !value || emailRegex.test(value); // Returns true if the email is valid or empty
     };
 
     // Check whether all mandatory fields are filled and email is valid
     const mandatoryFieldsFilled =
-      Customerid.trim() !== "" &&
       Customerid.trim() !== "" &&
       fullName.trim() !== "" &&
       identifier.trim() !== "" &&
@@ -68,15 +62,26 @@ const CustomerCreation = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //newCustomer-> contains the data of the customer to be created
+    if (!fetchedCustomers || fetchedCustomers.length === 0) {
+      toast.error("Unable to fetch existing customers. Please try again.");
+      return;
+    }
+
+    const existingCustomer = fetchedCustomers.find((customer) => customer.customerID === Customerid);
+    if (existingCustomer) {
+      toast.error("Customer ID already exists. Please use a different Customer ID.");
+      return;
+    }
+
+    // newCustomer contains the data of the customer to be created
     if (Customerid && fullName && identifier && address && contactNo) {
       const newCustomer = {
-        Customerid: Customerid,
-        fullName: fullName,
-        identifier: identifier,
-        address: address,
-        email: email,
-        contactNo: contactNo,
+        Customerid,
+        fullName,
+        identifier,
+        address,
+        email,
+        contactNo,
       };
       dispatch(createCustomer(newCustomer));
     } else {
@@ -110,7 +115,6 @@ const CustomerCreation = () => {
             <h3 className="mb-5">Create Customer</h3>
             <Form onSubmit={handleSubmit}>
               {/* Form fields */}
-
               <TextField
                 label="Customer ID"
                 value={Customerid}
