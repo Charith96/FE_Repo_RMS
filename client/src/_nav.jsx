@@ -244,6 +244,19 @@ const _nav = [
                 ),
                 to: "/reservations/createReservation",
               },
+              {
+                component: CNavItem,
+                name: "Calendar View",
+                icon: <i className="ps-2" />,
+                quicknavicon: (
+                  <FontAwesomeIcon
+                    icon={faTasks}
+                    size="2x"
+                    className="nav-icon pb-0 pt-3"
+                  />
+                ),
+                to: "/reservations/CalendarView",
+              },
 
               {
                 component: CNavItem,
