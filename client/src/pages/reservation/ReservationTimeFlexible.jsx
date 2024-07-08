@@ -30,6 +30,7 @@ const ReservationGroupList = () => {
   const [reservation, setReservation] = useState(false);
   const [viewBtn, setViewBtn] = useState(false);
   const [loading, setLoading] = useState(true); // Loading state
+  const [availableReservations, setAvailableReservations] = useState(null); // Track availability status
 
   const fetchItem = useSelector(
     (state) => state.getReservationItemById.fetchReservationItemId
@@ -58,7 +59,11 @@ const ReservationGroupList = () => {
       });
     }
     if (fetchItem.capacity === "-") {
-      if (formData.time1 && formData.time2) {
+      if (
+        formData.time1 &&
+        formData.time2 &&
+        calculateAvailableReservations() !== "reservations filled"
+      ) {
         setViewBtn(true);
       } else {
         setViewBtn(false);
@@ -83,6 +88,10 @@ const ReservationGroupList = () => {
   useEffect(() => {
     setSlotType(fetchItem.timeSlotType);
   }, [fetchItem]);
+
+  useEffect(() => {
+    setAvailableReservations(calculateAvailableReservations());
+  }, [formData, reservationByItem, fetchItem]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -159,7 +168,9 @@ const ReservationGroupList = () => {
 
     const availableReservation =
       fetchItem.noOfReservations - reservationsWithinTimeRange.length;
-    return availableReservation > 0 ? availableReservation : 0;
+    return availableReservation > 0
+      ? availableReservation
+      : "reservations filled";
   };
 
   // calculating available Capacity according to the date and time range
@@ -212,7 +223,7 @@ const ReservationGroupList = () => {
     }
   };
 
-  // calling avialable capacity function
+  // calling available capacity function
   const callCalculateAvailableCapacity = () => {
     const availableCapacity = calculateAvailableCapacity();
 
@@ -305,7 +316,7 @@ const ReservationGroupList = () => {
                   id="flexibleReservations"
                   label="Available Reservations:"
                   type="text"
-                  value={calculateAvailableReservations()}
+                  value={availableReservations}
                   disabled={true}
                 />
               )}
@@ -346,7 +357,11 @@ const ReservationGroupList = () => {
                       text="Create"
                       className="form-btn"
                       disabled={
-                        btndisable || capacity || reservation || !viewBtn
+                        btndisable ||
+                        capacity ||
+                        reservation ||
+                        !viewBtn ||
+                        availableReservations === "reservations filled"
                       }
                     />
                   </div>

@@ -7,8 +7,8 @@ import {
   cilUserFollow,
 } from "@coreui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import defaultProfileImage from "../../assets/images/default_profile.png";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { tempProfileImg } from "../../assets/images";
 import { Dropdown, Image } from "react-bootstrap";
 import CIcon from "@coreui/icons-react";
 import { Link } from "react-router-dom";
@@ -111,10 +111,11 @@ const AppHeaderDropdown = () => {
             >
               {UserID === "undefined" ||
               userDataById.imageData === "default_image" ? (
-                <CIcon
-                  icon={cilUser}
-                  size="lg"
-                  className="profile-image text-white p-2"
+                <Image
+                  src={defaultProfileImage}
+                  className="profile-image"
+                  alt="profile"
+                  draggable="false"
                 />
               ) : (
                 <Image

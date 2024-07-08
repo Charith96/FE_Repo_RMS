@@ -114,7 +114,7 @@ const UserProfilePage = ({ value, mode }) => {
         localStorage.setItem("lastName", filteredUserData.lastName);
         localStorage.setItem("imageData", filteredUserData.imageData);
         setShowMessage("success");
-        toastFunction("Profile updated SUccessfully", false);
+        toastFunction("Profile updated Successfully", false);
         setIsViewMode(true);
       } catch (error) {
         console.error("Error updating user:", error);
