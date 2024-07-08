@@ -179,9 +179,9 @@ const Main = () => {
   };
 
   const sendEmail = () => {
-    const serviceId = "service_ea53tz6";
-    const templateId = "template_3kc2v0n";
-    const userId = "moUAPyo6SNIt47Lqx"; // Replace with your EmailJS user ID
+    const serviceId = "";
+    const templateId = "";
+    const userId = ""; // Replace with your EmailJS user ID
 
     const templateParams = {
       to_name: formData.firstName,
