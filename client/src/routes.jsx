@@ -86,9 +86,6 @@ const ReservationOverview = React.lazy(
 const ReservationList = React.lazy(
   () => import("./pages/reservationOverviewPart/ReservationList")
 );
-const CalendarView = React.lazy(
-  () => import("./pages/reservationOverviewPart/CalendarView")
-);
 
 //roles
 const CreateRole = React.lazy(
@@ -205,11 +202,6 @@ const routes = [
     path: "/reservations/ReservationList",
     name: "ReservationList",
     element: ReservationList,
-  },
-  {
-    path: "/reservations/CalendarView",
-    name: "CalendarView",
-    element: CalendarView,
   },
 
   // reservation item
