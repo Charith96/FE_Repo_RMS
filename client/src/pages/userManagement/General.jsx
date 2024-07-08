@@ -55,6 +55,7 @@ const UserDetailsPage = ({ value, mode }) => {
         validTill: userDataById.validTill,
         companies: userDataById.companies,
         roles: userDataById.roles,
+        imageData: userDataById.imageData,
       });
 
       if (modea) {

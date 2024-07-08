@@ -8,3 +8,61 @@
 #reservationBtn {
   margin: 1150px; 
 }
+
+/* UserProfilePage.css */
+
+.UserProfileDiv{
+  text-align: center;
+  padding: auto;
+}
+
+.body-content {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 5px;
+}
+
+.profile-image {
+  width: 140px;
+  height: 140px;
+  margin-bottom: 10px;
+}
+
+.image-edit-icon {
+  position: relative;
+  margin-bottom: -40px;
+  margin-left: -40px;
+  transform: translate(50%, 50%);
+  font-size: 2rem;
+  color: black;
+}
+.subsection-heading {
+  font-size: 0.9rem; 
+  text-align: left; 
+  margin-bottom: 2rem;
+}
+.image-upload {
+  display: none;
+}
+
+.profile-Information {
+  margin-left: 8px;
+  margin-top: -10px;
+  margin-bottom: 50px;
+  white-space: normal;
+  max-width: 100%;   
+}
+
+.form-group-custom .form-label {
+  margin-bottom: 0; /* Remove margin below label */
+}
+
+.form-group-custom .form-control {
+  margin-top: -5px; /* Reduce margin above the input field */
+}
+
+.form-btn {
+  margin-left: 10px;
+}

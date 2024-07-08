@@ -1,30 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { cilUser, cilAccountLogout, cilReload } from "@coreui/icons";
+import {
+  cilUser,
+  cilAccountLogout,
+  cilReload,
+  cilUserFollow,
+} from "@coreui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { tempProfileImg } from "../../assets/images";
 import { Dropdown, Image } from "react-bootstrap";
 import CIcon from "@coreui/icons-react";
 import { Link } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData, updateUserData } from "../../store/actions/UserActions";
 const AppHeaderDropdown = () => {
   const [selectedUser, setSelectedUser] = useState("Rixano Silva");
   const [selectedCompany, setSelectedCompany] = useState("Default Company");
+  const [profileImage, setProfileimage] = useState("Default_image");
+  const [defaultCompany, setdefaultCompany] = useState("");
+  const [UserID, setUserId] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const userDataById = useSelector((state) => state.userById.userById);
   useEffect(() => {
-    // api dispatch
-    const firstName = localStorage.getItem("firstName");
-    const lastName = localStorage.getItem("lastName");
-    setSelectedUser(`${firstName} ${lastName}`);
-    if(!firstName && !lastName) {
-      setSelectedUser(" ")
-    }
-  }, []);
+    const initializeUserData = () => {
+      const firstName = localStorage.getItem("firstName") || "";
+      const lastName = localStorage.getItem("lastName") || "";
+      const profilePic = localStorage.getItem("imageData") || "";
+      const userId = localStorage.getItem("Userid") || "";
+      const defaultCompany = localStorage.getItem("defaultCompany") || "";
 
-  useEffect(() => {
-    // message handling
+      setdefaultCompany(defaultCompany);
+      setUserId(userId);
+      setProfileimage(profilePic);
+      setSelectedUser(`${firstName} ${lastName}`);
+      if (!firstName && !lastName) {
+        setSelectedUser(" ");
+      }
+      dispatch(fetchUserData(userId));
+    };
+
+    // Initialize data when component mounts
+    initializeUserData();
+
+    // Event listener to update data when localStorage changes
+    const handleStorageChange = () => {
+      initializeUserData();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    // Cleanup: remove event listener when component unmounts
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const handleActiveCompany = (value) => {
@@ -55,7 +85,7 @@ const AppHeaderDropdown = () => {
                       onClick={() => handleActiveCompany("companyid")}
                     >
                       <span className="d-flex align-items-center">
-                        <small>{selectedCompany}</small>&ensp;
+                        <small>{defaultCompany}</small>&ensp;
                         <div className="d-flex align-item-center active-company">
                           <FontAwesomeIcon
                             icon={faCheck}
@@ -79,7 +109,8 @@ const AppHeaderDropdown = () => {
               placement="bottom-end"
               className="ms-2 me-2 rounded-circle custom-dropdown-toggle p-0"
             >
-              {!tempProfileImg ? (
+              {UserID === "undefined" ||
+              userDataById.imageData === "default_image" ? (
                 <CIcon
                   icon={cilUser}
                   size="lg"
@@ -87,7 +118,7 @@ const AppHeaderDropdown = () => {
                 />
               ) : (
                 <Image
-                  src={tempProfileImg}
+                  src={userDataById.imageData}
                   className="profile-image"
                   alt="profile"
                   draggable="false"
@@ -109,6 +140,18 @@ const AppHeaderDropdown = () => {
                 <CIcon icon={cilAccountLogout} />
                 &emsp;Logout
               </Dropdown.Item>
+              {UserID !== "undefined" ? (
+                <Dropdown.Item
+                  as={Link}
+                  to={{
+                    pathname: "/UserProfile",
+                  }}
+                >
+                  <CIcon icon={cilUserFollow} />
+                  &emsp;User Profile
+                </Dropdown.Item>
+              ) : null}
+
               <Dropdown.Item as={Link} to={`/reset-password`}>
                 <CIcon icon={cilReload} />
                 &emsp;Reset Password

@@ -14,86 +14,84 @@ const Login = React.lazy(() => import("./pages/auth/Login"));
 //const LogoutPage = React.lazy(() => import("./pages/auth/LogoutPage"));
 
 // reservation group
-const ReservationGroupList = React.lazy(
-  () => import("./pages/reservationManagement/ReservationGroupList")
+const ReservationGroupList = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationGroupList")
 );
-const CreateReservationGroup = React.lazy(
-  () => import("./pages/reservationManagement/CreateReservationGroup")
+const CreateReservationGroup = React.lazy(() =>
+  import("./pages/reservationManagement/CreateReservationGroup")
 );
-const ReservationGroupOverview = React.lazy(
-  () => import("./pages/reservationManagement/ReservationGroupOverview")
+const ReservationGroupOverview = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationGroupOverview")
 );
 
 //company
-const Companies = React.lazy(
-  () => import("./pages/company/Companies")
-);
-const CreateCompany = React.lazy(
-  () => import("./pages/company/CreateCompany")
-);
-const CompanyOverview = React.lazy(
-  () => import("./pages/company/CompanyOverview")
+const Companies = React.lazy(() => import("./pages/company/Companies"));
+const CreateCompany = React.lazy(() => import("./pages/company/CreateCompany"));
+const CompanyOverview = React.lazy(() =>
+  import("./pages/company/CompanyOverview")
 );
 
 //users
-const CreateUsers = React.lazy(
-  () => import("./pages/userManagement/CreateUser")
+const CreateUsers = React.lazy(() =>
+  import("./pages/userManagement/CreateUser")
 );
 const UserList = React.lazy(() => import("./pages/userManagement/UserList"));
-const UserOverview = React.lazy(
-  () => import("./pages/userManagement/UserOverview")
+const UserOverview = React.lazy(() =>
+  import("./pages/userManagement/UserOverview")
+);
+const UserProfile = React.lazy(() =>
+  import("./pages/userManagement/UserProfile")
 );
 //reservation
-const ReservationCreation = React.lazy(
-  () => import("./pages/reservation/ReservationCreation")
+const ReservationCreation = React.lazy(() =>
+  import("./pages/reservation/ReservationCreation")
 );
 
-const ResevationTImeSlots = React.lazy(
-  () => import("./pages/reservation/ReservationTimeslots")
+const ResevationTImeSlots = React.lazy(() =>
+  import("./pages/reservation/ReservationTimeslots")
 );
 // reservation item
-const ReservationItemTabView = React.lazy(
-  () => import("./pages/reservationManagement/ReservationItemManagement")
+const ReservationItemTabView = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationItemManagement")
 );
-const ReservationItemOverview = React.lazy(
-  () =>
-    import("./pages/reservationManagement/ReservationItemTimeSlotManagement")
+const ReservationItemOverview = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationItemTimeSlotManagement")
 );
-const ReservationItemList = React.lazy(
-  () => import("./pages/reservationManagement/ReservationItemList")
+const ReservationItemList = React.lazy(() =>
+  import("./pages/reservationManagement/ReservationItemList")
 );
 
 // card layout
-const QuickNavigation = React.lazy(
-  () => import("./components/QuickNavigation")
+const QuickNavigation = React.lazy(() =>
+  import("./components/QuickNavigation")
 );
 
 //customers
-const CustomerCreation = React.lazy(
-  () => import("./pages/customerManagement/CustomerCreation")
+const CustomerCreation = React.lazy(() =>
+  import("./pages/customerManagement/CustomerCreation")
 );
-const CustomerList = React.lazy(
-  () => import("./pages/customerManagement/CustomerList")
+const CustomerList = React.lazy(() =>
+  import("./pages/customerManagement/CustomerList")
 );
-const CustomerOverview = React.lazy(
-  () => import("./pages/customerManagement/CustomerOverview")
+const CustomerOverview = React.lazy(() =>
+  import("./pages/customerManagement/CustomerOverview")
 );
 
 //Resevation Overview
-const ReservationOverview = React.lazy(
-  () => import("./pages/reservationOverviewPart/ReservationOverview")
+const ReservationOverview = React.lazy(() =>
+  import("./pages/reservationOverviewPart/ReservationOverview")
 );
-const ReservationList = React.lazy(
-  () => import("./pages/reservationOverviewPart/ReservationList")
+const ReservationList = React.lazy(() =>
+  import("./pages/reservationOverviewPart/ReservationList")
 );
 
 //roles
-const CreateRole = React.lazy(
-  () => import("./pages/roleManagement/CreateRole")
+const CreateRole = React.lazy(() =>
+  import("./pages/roleManagement/CreateRole")
 );
 const RoleList = React.lazy(() => import("./pages/roleManagement/RoleList"));
-const RoleOverview = React.lazy(
-  () => import("./pages/roleManagement/RoleOverview")
+const RoleOverview = React.lazy(() =>
+  import("./pages/roleManagement/RoleOverview")
 );
 
 const routes = [
@@ -103,7 +101,6 @@ const routes = [
     name: "Dashboard",
     element: Dashboard,
   },
-
 
   // register
   {
@@ -175,6 +172,11 @@ const routes = [
     path: "/userManagement/UserOverview",
     name: "UserOverview",
     element: UserOverview,
+  },
+  {
+    path: "/UserProfile",
+    name: "UserOverview",
+    element: UserProfile,
   },
 
   //reservation

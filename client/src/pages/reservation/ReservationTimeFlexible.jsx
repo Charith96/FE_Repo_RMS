@@ -57,12 +57,28 @@ const ReservationGroupList = () => {
         itemId: item,
       });
     }
-    if (formData.noOfPeople && formData.time1 && formData.time2) {
-      setViewBtn(true);
+    if (fetchItem.capacity === "-") {
+      if (formData.time1 && formData.time2) {
+        setViewBtn(true);
+      } else {
+        setViewBtn(false);
+      }
     } else {
-      setViewBtn(false);
+      if (formData.noOfPeople && formData.time1 && formData.time2) {
+        setViewBtn(true);
+      } else {
+        setViewBtn(false);
+      }
     }
-  }, [editMode, formData, reservationID, group, customer, item]);
+  }, [
+    editMode,
+    formData,
+    reservationID,
+    group,
+    customer,
+    item,
+    fetchItem.capacity,
+  ]);
 
   useEffect(() => {
     setSlotType(fetchItem.timeSlotType);
@@ -70,6 +86,20 @@ const ReservationGroupList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const now = new Date();
+    const time1 = new Date(formData.time1);
+    const time2 = new Date(formData.time2);
+
+    if (time1 <= now || time2 <= now) {
+      toast.error("Reservations can only be made for future dates.");
+      return;
+    }
+
+    if (time1 >= time2) {
+      toast.error("End time must be later than start time.");
+      return;
+    }
 
     try {
       dispatch(createReservation(formData));
@@ -103,6 +133,12 @@ const ReservationGroupList = () => {
         ...prevFormData,
         [id]: value,
       }));
+      if (fetchItem.capacity === "-") {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          noOfPeople: 1,
+        }));
+      }
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -237,14 +273,24 @@ const ReservationGroupList = () => {
                   </Col>
                 </Row>
               )}
-              <TextField
-                id="capacity"
-                label="Available Capacity :"
-                type="text"
-                value={callCalculateAvailableCapacity()}
-                disabled={true}
-                onChange={handleInputChange}
-              />
+              {fetchItem.capacity !== "-" ? (
+                <TextField
+                  id="capacity"
+                  label="Available Capacity:"
+                  type="text"
+                  value={callCalculateAvailableCapacity()}
+                  disabled
+                />
+              ) : (
+                <TextField
+                  id="capacity"
+                  label="Available Capacity:"
+                  type="text"
+                  value="No specific Capacity"
+                  disabled
+                />
+              )}
+
               {fetchItem.noOfReservations === "*" && (
                 <TextField
                   id="flexibleReservations"
@@ -263,12 +309,14 @@ const ReservationGroupList = () => {
                   disabled={true}
                 />
               )}
-              <TextField
-                id="noOfPeople"
-                label="No of People :"
-                type="text"
-                onChange={handleInputChange}
-              />
+              {fetchItem.capacity !== "-" && (
+                <TextField
+                  id="noOfPeople"
+                  label="No of People :"
+                  type="text"
+                  onChange={handleInputChange}
+                />
+              )}
               {showMessage && (
                 <>
                   <span id="message">More than available Capacity</span>
@@ -314,4 +362,3 @@ const ReservationGroupList = () => {
 };
 
 export default ReservationGroupList;
-

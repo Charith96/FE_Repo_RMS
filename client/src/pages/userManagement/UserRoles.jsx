@@ -158,6 +158,7 @@ const OverviewTable = ({ value }) => {
           validTill: userData.validTill,
           companies: userData.companies,
           roles: updatedRoles,
+          imageData: userData.imageData,
         };
         await dispatch(updateUserData(value, updatedUserData));
         dispatch(fetchUserData(value));
@@ -187,6 +188,7 @@ const OverviewTable = ({ value }) => {
           validTill: userData.validTill,
           companies: userData.companies,
           roles: updatedRoles,
+          imageData: userData.imageData,
         };
         await dispatch(updateUserData(value, updatedUserData));
         dispatch(fetchUserData(value));

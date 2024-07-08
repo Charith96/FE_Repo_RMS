@@ -140,7 +140,7 @@ const OverviewTable = ({ value }) => {
           validFrom: userData.validFrom,
           validTill: userData.validTill,
           roles: userData.roles,
-
+          imageData: userData.imageData,
           companies: updatedCompanies,
         };
         await dispatch(updateUserData(value, updatedUserData));
@@ -157,10 +157,10 @@ const OverviewTable = ({ value }) => {
       if (companyName === userData.defaultCompany) {
         return;
       }
-    
+
       if (!userData.companies.includes(companyName)) {
         const updatedCompanies = [...userData.companies, companyName];
- 
+
         const updatedUserData = {
           userid: userData.id,
           firstName: userData.firstName,
@@ -174,6 +174,7 @@ const OverviewTable = ({ value }) => {
           validTill: userData.validTill,
           roles: userData.roles,
           companies: updatedCompanies,
+          imageData: userData.imageData,
         };
 
         await dispatch(updateUserData(value, updatedUserData));

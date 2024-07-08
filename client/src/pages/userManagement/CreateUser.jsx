@@ -8,6 +8,7 @@ import { Form } from "react-bootstrap";
 import { createUser, fetchData } from "../../store/actions/UserActions";
 import { fetchCompanies } from "../../store/actions/CompanyActions";
 import { fetchRoles } from "../../store/actions/RolesAction";
+import emailjs from "emailjs-com";
 const Main = () => {
   const dispatch = useDispatch();
 
@@ -170,10 +171,32 @@ const Main = () => {
     try {
       dispatch(createUser(formData));
       setViewBtn(false);
+      sendEmail();
       toastFunction("Create user Succesfully", false);
     } catch (error) {
       toastFunction("Something went wrong!", true);
     }
+  };
+
+  const sendEmail = () => {
+    const serviceId = "service_ea53tz6";
+    const templateId = "template_3kc2v0n";
+    const userId = "moUAPyo6SNIt47Lqx"; // Replace with your EmailJS user ID
+
+    const templateParams = {
+      to_name: formData.firstName,
+      user_email: formData.email,
+      user_password: formData.password,
+    };
+
+    emailjs.send(serviceId, templateId, templateParams, userId).then(
+      (response) => {
+        console.log("Email sent successfully:", response.status, response.text);
+      },
+      (error) => {
+        console.error("Failed to send email:", error);
+      }
+    );
   };
 
   return (

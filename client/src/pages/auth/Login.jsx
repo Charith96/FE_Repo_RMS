@@ -37,28 +37,38 @@ const Login = () => {
     if (currentToken && currentToken !== prevToken) {
       console.log("Login Data: ", loginData);
 
-     //localStorage.setItem("authToken", currentToken);
+      //localStorage.setItem("authToken", currentToken);
       localStorage.setItem("token", currentToken);
       localStorage.setItem("firstName", loginData.user.firstName);
       localStorage.setItem("lastName", loginData.user.lastName);
+      localStorage.setItem("defaultCompany", loginData.user.defaultCompany);
+      localStorage.setItem("imageData", loginData.user.imageData);
+      localStorage.setItem("Userid", loginData.user.userid);
 
       const token = handleDecode(currentToken);
       if (token.Privileges) {
         const privileges = token.Privileges;
-        localStorage.setItem("add", privileges.includes("Create") ? "true" : "false");
-        localStorage.setItem("delete", privileges.includes("Delete") ? "true" : "false");
-        localStorage.setItem("update", privileges.includes("Update") ? "true" : "false");
+        localStorage.setItem(
+          "add",
+          privileges.includes("Create") ? "true" : "false"
+        );
+        localStorage.setItem(
+          "delete",
+          privileges.includes("Delete") ? "true" : "false"
+        );
+        localStorage.setItem(
+          "update",
+          privileges.includes("Update") ? "true" : "false"
+        );
       }
 
       Navigate("/", { state: { loginSuccess: true } });
-     //Navigate("/");
+      //Navigate("/");
 
       // Update the previous token reference
       prevTokenRef.current = currentToken;
     }
   }, [loginData]);
-
-  
 
   const handleDecode = (token) => {
     try {
